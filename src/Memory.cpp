@@ -7,7 +7,7 @@
 //
 
 #include <stdafx.h>
-#include <Config.h>
+#include <Memory.h>
 #include <Debug.h>
 #define NOT(x) (!(x))
 
@@ -19,7 +19,9 @@
     #include <mm_malloc.h>
 #endif
 
-#if defined(D_OVERRIDE_NEW_DEL)
+#if defined(DOVERRIDE_NEW_DEL)
+
+using namespace Easy3D;
 
 //==================================================================
 void *operator new( size_t size )

@@ -9,6 +9,8 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+#include <Config.h>
+
 #if defined(DOVERRIDE_NEW_DEL)
 
 void *operator new( size_t size );
