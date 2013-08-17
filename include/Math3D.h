@@ -509,15 +509,15 @@ namespace Easy3D{
         
     public:
         //box structure
-        Vec3 corner;
-        float x,y,z;
+        Vec3 min;
+        Vec3 max;
         //costructor
-        AABox( Vec3 &corner, float x, float y, float z);
+        AABox(const Vec3& center,const Vec3& size);
         AABox();
         //destructor
         ~AABox();
         //setting
-        void setBox( Vec3 &corner, float x, float y, float z);
+        void setBox(const Vec3& center,const Vec3& size);
         // for use in frustum computations
         Vec3 getVertexP(const Vec3 &normal) const ;
         Vec3 getVertexN(const Vec3 &normal) const ;
@@ -530,7 +530,7 @@ namespace Easy3D{
 		float w,x,y,z;
 
 		Quaternion();
-		Quaternion(float w,float x,float y,float z);
+		Quaternion(float x,float y,float z,float w);
 
 		///identity
 		void identity();
@@ -545,52 +545,49 @@ namespace Easy3D{
 		Quaternion mul(const Quaternion &qt) const;
 		///Quaternion*vector
 		Quaternion mulVec(const Vector3D &v) const;
+        
+		///return matrix from quaternion
+		Matrix4x4 getMatrix() const;
+        void setMatrix(const Mat4& mat);
+        static Quaternion fromMatrix(const Mat4& mat);
+        
 		///set pitch, yaw and roll
-		void setFromEulero(float pitch, float yaw, float roll);
+		static  Quaternion fromEulero(const Vec3& pwr);
+        void setFromEulero(float pitch, float yaw, float roll);
 		void setFromEulero(const Vec3& pyr){
 			setFromEulero(pyr.x,pyr.y,pyr.z);
 		}
 		void setLookRotation(const Vector3D &lookAt,Vector3D up);
+        
 		///return pitch, yaw and roll
-		void getEulero(float &pitch, float &yaw, float &roll) const;
-		void getEulero(Vec3& pyr) const{
-			getEulero(pyr.x,pyr.y,pyr.z);
-		}
+		void getEulero(Vec3& euler) const ;
+		void getEulero(float &pitch, float &yaw, float &roll) const{
+            
+            Vec3 euler;
+            getEulero(euler);
+            
+            pitch=euler.x;
+            yaw=euler.y;
+            roll=euler.z;
+        }
+        
 		///set quaternion from axis angle
+		static Quaternion fromAxisAngle(Vector3D &vt,float angle);
 		void setFromAxisAngle(Vector3D &vt,float angle);
+        
 		///return axis angle from quaternion
 		void getAxisAngle(Vector3D &vt,float &angle) const;
+        
 		///return rotate point
 		Vector3D getRotatePoint(Vector3D & v) const;
-		///linear quaternion interpolation
-		Quaternion lerp(const Quaternion &q, float t) {
-			return ((*this)*(1.0f-t) + q*t).getNormalize();
-		}
-		Quaternion slerp(const Quaternion &q, float t){
-			Quaternion q3;
-			float dot = this->dot(q);
-
-			/*	dot = cos(theta)
-				if (dot < 0), q1 and q2 are more than 90 degrees apart,
-				so we can invert one to reduce spinning	*/
-			if (dot < 0){
-				dot = -dot;
-				q3 = -q;
-			}
-			else
-				q3 = q;
-			if (dot < 0.95f){
-				float angle = acosf(dot);
-				return ((*this)*sinf(angle*(1-t)) + q3*sinf(angle*t))/sinf(angle);
-			} else // if the angle is small, use linear interpolation
-				return this->lerp(q3,t);
-		}
+        
+        //slerp
+		Quaternion slerp(const Quaternion &q, float t);
+        
 		//standard op
 		float length() const;
 		float dot(const Quaternion& vec) const;
 		Quaternion getNormalize() const;
-		///return matrix from quaternion
-		Matrix4x4 getMatrix() const;
 		//overload op
 		DFORCEINLINE const Quaternion operator *(float f) const{
 			return Quaternion(x*f, y*f, z*f,w*f);
@@ -629,10 +626,10 @@ namespace Easy3D{
             float entries[16];
             
             struct {
-                float m11, m12, m13, m14;
-                float m21, m22, m23, m24;
-                float m31, m32, m33, m34;
-                float m41, m42, m43, m44;
+                float m00, m01, m02, m03;
+                float m10, m11, m12, m13;
+                float m20, m21, m22, m23;
+                float m30, m31, m32, m33;
             };
             
 		}
@@ -642,10 +639,10 @@ namespace Easy3D{
             
             float entries[16];
             struct {
-                float m11, m12, m13, m14;
-                float m21, m22, m23, m24;
-                float m31, m32, m33, m34;
-                float m41, m42, m43, m44;
+                float m00, m01, m02, m03;
+                float m10, m11, m12, m13;
+                float m20, m21, m22, m23;
+                float m30, m31, m32, m33;
             };
             
 		};

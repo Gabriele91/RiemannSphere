@@ -39,13 +39,15 @@ namespace Easy3D {
 		//update camera
 		void update();
 		//return matrix
-		DFORCEINLINE const Mat4& getProjectionMatrix(){
+		DFORCEINLINE const Mat4& getProjectionMatrix() const {
 			return mProjMatrix;
 		}
-		DFORCEINLINE const Mat4& getViewProjMatrix(){
+		DFORCEINLINE const Mat4& getViewProjMatrix() const {
 			return mViewProjMatrix;
 		}
 		Vec2 getPointIn3DSpace(const Vec3& point);
+        //get view
+        Mat4 getGlobalView();
 	};
 
 };

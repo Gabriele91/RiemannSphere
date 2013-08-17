@@ -49,8 +49,12 @@ namespace Easy3D{
 		//data
 		void *data;
 
+    protected:
+        
+        Mat4 __getGlobalView();
+        
 	private:
-		
+        
 		struct Transform3D{
 			//
 			Transform3D():scale(1.0f,1.0f,1.0f){}

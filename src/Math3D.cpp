@@ -163,10 +163,18 @@ Vector4D operator/(float v,const Vector4D& vt){
 }
 /* QUATERNION */
 Quaternion::Quaternion(){ identity(); };
-Quaternion::Quaternion(float w,float x,float y,float z):w(w),x(x),y(y),z(z){}
+Quaternion::Quaternion(float x,float y,float z,float w):w(w),x(x),y(y),z(z){}
 void Quaternion::identity(){ w=1; x=y=z=0; }
-void Quaternion::computeW()
-{
+
+float  Quaternion::length() const{
+	return sqrt(w * w + x * x + y * y + z * z);
+}
+float Quaternion::dot(const Quaternion& vec) const{
+	return x*vec.x+y*vec.y+z*vec.z+w*vec.w;
+}
+
+void Quaternion::computeW(){
+    
 	float t = 1.0f - (x * x) - (y * y) - (z * z);
 
 	if (t < 0.0f)
@@ -191,101 +199,154 @@ void Quaternion::normalise(){
 	y *= mag;
 	z *= mag;
 }
-Quaternion Quaternion::mul(const Quaternion &qt) const{
-	return Quaternion(  w * qt.x + x * qt.w + y * qt.z - z * qt.y,
-						w * qt.y + y * qt.w + z * qt.x - x * qt.z,
-						w * qt.z + z * qt.w + x * qt.y - y * qt.x,
-						w * qt.w - x * qt.x - y * qt.y - z * qt.z);
+Quaternion Quaternion::getNormalize() const{
+	float d=sqrt(x*x+y*y+z*z+w*w);
+	return Quaternion(x/d,y/d,z/d,w/d);
+}
+
+Quaternion Quaternion::mul(const Quaternion &other) const{
+    Quaternion tmp;
+    
+	tmp.w = (other.w * w) - (other.x * x) - (other.y * y) - (other.z * z);
+	tmp.x = (other.w * x) + (other.x * w) + (other.y * z) - (other.z * y);
+	tmp.y = (other.w * y) + (other.y * w) + (other.z * x) - (other.x * z);
+	tmp.z = (other.w * z) + (other.z * w) + (other.x * y) - (other.y * x);
+    
+	return tmp;
 }
 Quaternion Quaternion::mulVec(const Vector3D &v) const{
 
 return  Quaternion(- (x * v.x) - (y * v.y) - (z * v.z),
 					 (w * v.x) + (y * v.z) - (z * v.y),
 					 (w * v.y) + (z * v.x) - (x * v.z),
-					 (w * v.z) + (x * v.y) - (y * v.x)
-);
+					 (w * v.z) + (x * v.y) - (y * v.x));
 
-	}
+}
 Quaternion Quaternion::getInverse() const{
-	return Quaternion(w,-x,-y,-z);
+	return Quaternion(-x,-y,-z,w);
+}
+
+Quaternion Quaternion::fromEulero(const Vec3& euler){
+	Quaternion out;
+    out.setFromEulero(euler);
+    return out;
 }
 void Quaternion::setFromEulero(float pitch, float yaw, float roll){
+    
+    float angle;
+    
+	angle = pitch * 0.5;
+	const float sr = std::sin(angle);
+	const float cr = std::cos(angle);
+    
+	angle = yaw * 0.5;
+	const float sp = std::sin(angle);
+	const float cp = std::cos(angle);
+    
+	angle = roll * 0.5;
+	const float sy = std::sin(angle);
+	const float cy = std::cos(angle);
+    
+	const float cpcy = cp * cy;
+	const float spcy = sp * cy;
+	const float cpsy = cp * sy;
+	const float spsy = sp * sy;
+    
+	x = (float)(sr * cpcy - cr * spsy);
+	y = (float)(cr * spcy + sr * cpsy);
+	z = (float)(cr * cpsy - sr * spcy);
+	w = (float)(cr * cpcy + sr * spsy);
+    
+    normalise();
 
-	Vector3D c(cos(pitch*0.5f),cos(yaw*0.5f),cos(roll*0.5f));
-	Vector3D s(sin(pitch*0.5f),sin(yaw*0.5f),sin(roll*0.5f));
+/*
+	Vector3D c(std::cos(pitch*0.5f),std::cos(yaw*0.5f),std::cos(roll*0.5f));
+	Vector3D s(std::sin(pitch*0.5f),std::sin(yaw*0.5f),std::sin(roll*0.5f));
 	this->w = c.x * c.y * c.z + s.x * s.y * s.z;
 	this->x = s.x * c.y * c.z - c.x * s.y * s.z;
 	this->y = c.x * s.y * c.z + s.x * c.y * s.z;
 	this->z = c.x * c.y * s.z - s.x * s.y * c.z;
-
+  */  
 }
-void Quaternion::getEulero(float &pitch, float &yaw, float &roll) const {
-	/*
-	const double w2 = w*w;
-	const double x2 = x*x;
-	const double y2 = y*y;
-	const double z2 = z*z;
-	const double unitLength = w2 + x2 + y2 + z2;    // Normalised == 1, otherwise correction divisor.
-	const double abcd = w*x + y*z;
-	const double eps = 1e-7;    // TODO: pick from your math lib instead of hardcoding.
-
-	if (abcd > (0.5-eps)*unitLength){
-		roll = 2 * atan2(y, w);
-		pitch = Math::PI;
-		yaw = 0;
-	}
-	else if (abcd < (-0.5+eps)*unitLength){
-		roll = -2 * atan2(y, w);
-		pitch = -Math::PI;
-		yaw = 0;
-	}
-	else{
-		const double adbc = w*z - x*y;
-		const double acbd = w*y - x*z;
-		roll = static_cast<float>( atan2(2*adbc, 1 - 2*(z2+x2)) );
-		pitch =static_cast<float>( asin(2*abcd/unitLength)      );
-		yaw =  static_cast<float>( atan2(2*acbd, 1 - 2*(y2+x2)) );
-	}*/
-	float sqw = w*w;
+void Quaternion::getEulero(Vec3& euler) const {
+    
+    float sqw = w*w;
 	float sqx = x*x;
 	float sqy = y*y;
 	float sqz = z*z;
 	/**
-	* OPENGL (h-left) (homogeneee)
-	* http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
-	*/
+     * OPENGL (h-left) (homogeneee)
+     * http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
+     */
 	float unit = sqx + sqy + sqz + sqw;
     float test = x * y + z * w;
-
+    
     if (test > 0.4999f * unit)                              // 0.4999f OR 0.5f - EPSILON
     {
         // Singularity at north pole                        // directx
-        yaw = 2.f * (float)atan2(x, w);                     // Yaw
-        roll = Math::PI * 0.5f;                             // Pitch
-        pitch = 0.f;                                        // Roll
+        euler.y = 2.f * (float)std::atan2(x, w);                     // Yaw
+        euler.z = Math::PI * 0.5f;                             // Pitch
+        euler.x = 0.f;                                        // Roll
     }
     else if (test < -0.4999f * unit)                        // -0.4999f OR -0.5f + EPSILON
     {
         // Singularity at south pole                        // directx
-        yaw = -2.f * (float)atan2(x, w);				    // Yaw
-        roll = -Math::PI * 0.5f;                            // Pitch
-        pitch = 0.f;                                        // Roll
+        euler.y = -2.f * (float)std::atan2(x, w);				    // Yaw
+        euler.z = -Math::PI * 0.5f;                            // Pitch
+        euler.x = 0.f;                                        // Roll
     }
     else
     {                                                                                 // directx
-        yaw = (float)atan2f(2.f * y * w - 2.f * x * z, sqx - sqy - sqz + sqw);        // Yaw
-        roll = (float)asinf(2.f * test / unit);                                       // Pitch
-        pitch = (float)atan2f(2.f * x * w - 2.f * y * z, -sqx + sqy - sqz + sqw);     // Roll
+        euler.y = (float)std::atan2(2.f * y * w - 2.f * x * z, sqx - sqy - sqz + sqw);        // Yaw
+        euler.z = (float)std::asin(2.f * test / unit);                                       // Pitch
+        euler.x = (float)std::atan2(2.f * x * w - 2.f * y * z, -sqx + sqy - sqz + sqw);     // Roll
     }
 
-
+    
+    /*
+	const float sqw = w*w;
+	const float sqx = x*x;
+	const float sqy = y*y;
+	const float sqz = z*z;
+	const float test = 2.0 * (y*w - x*z);
+    
+    #define fequals(a,b,e) (std::abs((a) - (b)) < (e))
+    
+	if (fequals(test, 1.0, 0.000001))
+	{
+		// heading = rotation about z-axis
+		euler.z = (float) (-2.0*std::atan2(x, w));
+		// bank = rotation about x-axis
+		euler.x = 0;
+		// attitude = rotation about y-axis
+		euler.y = (float) (Math::PI/2.0);
+	}
+	else if (fequals(test, -1.0, 0.000001))
+	{
+		// heading = rotation about z-axis
+		euler.z = (float) (2.0*std::atan2(x, w));
+		// bank = rotation about x-axis
+		euler.x = 0;
+		// attitude = rotation about y-axis
+		euler.y = (float) (Math::PI/-2.0);
+	}
+	else
+	{
+		// heading = rotation about z-axis
+		euler.z = (float) std::atan2(2.0 * (x*y +z*w),(sqx - sqy - sqz + sqw));
+		// bank = rotation about x-axis
+		euler.x = (float) std::atan2(2.0 * (y*z +x*w),(-sqx - sqy + sqz + sqw));
+		// attitude = rotation about y-axis
+		euler.y = (float) std::asin( Math::clamp(test, -1.0f, 1.0f) );
+	}*/
 }
-void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
 
+void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
+    
 	Vec3 forward = lookAt; Vec3 up = upDirection;
 	forward.orthoNormalize(up);
 	Vec3 right = up.cross(forward);
-
+    
 #define m00 right.x
 #define m01 up.x
 #define m02 forward.x
@@ -295,13 +356,13 @@ void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
 #define m20 right.z
 #define m21 up.z
 #define m22 forward.z
-
+    
 	w = std::sqrt(1.0f + m00 + m11 + m22) * 0.5f;
 	float w4_recip = 1.0f / (4.0f * w);
 	x = (m21 - m12) * w4_recip;
 	y = (m02 - m20) * w4_recip;
 	z = (m10 - m01) * w4_recip;
-
+    
 #undef m00
 #undef m01
 #undef m02
@@ -311,52 +372,69 @@ void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
 #undef m20
 #undef m21
 #undef m22
+    
+}
 
+Quaternion Quaternion::fromAxisAngle(Vector3D &vt,float angle){
+	
+    float sinAngle;
+	angle *= 0.5f;
+	Vector3D vn(vt);
+	vn.normalize();
+    
+	sinAngle = std::sin(angle);
+    
+    return Quaternion(vn.x*sinAngle,
+                      vn.y*sinAngle,
+                      vn.z*sinAngle,
+                      std::cos(angle));
 }
 void Quaternion::setFromAxisAngle(Vector3D &vt,float angle){
 	float sinAngle;
 	angle *= 0.5f;
 	Vector3D vn(vt);
 	vn.normalize();
-
+    
 	sinAngle = std::sin(angle);
-
+    
 	x = (vn.x * sinAngle);
 	y = (vn.y * sinAngle);
 	z = (vn.z * sinAngle);
 	w = std::cos(angle);
 }
 void Quaternion::getAxisAngle(Vector3D &vt,float &angle) const {
-
-float scale = sqrt(x * x + y * y + z * z);
+    
+    float scale = sqrt(x * x + y * y + z * z);
 	vt.x = x / scale;
 	vt.y = y / scale;
 	vt.z = z / scale;
 	angle = std::acos(w) * 2.0f;
 }
+
 Vector3D Quaternion::getRotatePoint(Vector3D & v) const{
-
+    
 	Quaternion tmp, final;
-
+    
 	Quaternion inv = this->getInverse();
 	//inv.normalize();
-
+    
 	//Quat_multVec (q, in, tmp);
 	//printf("QUATERNION rotatePoint is BUGGED BITCH !!\n");
 	tmp = this->mulVec(v);
-
+    
 	//Quat_multQuat (tmp, inv, final);
 	final = tmp.mul(inv);
-
+    
 	//Converting Quaternion to float3
 	Vector3D out;
-
+    
 	out.x = final.x;
 	out.y = final.y;
 	out.z = final.z;
-
+    
 	return out;
 }
+
 Matrix4x4 Quaternion::getMatrix() const{
 	float x2 = x * x;
 	float y2 = y * y;
@@ -367,27 +445,104 @@ Matrix4x4 Quaternion::getMatrix() const{
 	float wx = w * x;
 	float wy = w * y;
 	float wz = w * z;
-
+    
 	// This calculation would be a lot more complicated for non-unit length quaternions
 	// Note: The constructor of Matrix4x4 expects the Matrix in column-major format like expected by
 	//   OpenGL
 	return Matrix4x4( 1.0f - 2.0f * (y2 + z2),        2.0f * (xy - wz),        2.0f * (xz + wy), 0.0f,
-				      2.0f * (xy + wz),        1.0f - 2.0f * (x2 + z2),        2.0f * (yz - wx), 0.0f,
-				      2.0f * (xz - wy),               2.0f * (yz + wx), 1.0f - 2.0f * (x2 + y2), 0.0f,
-				      0.0f,                           0.0f,                    0.0f, 1.0f);
+                     2.0f * (xy + wz),        1.0f - 2.0f * (x2 + z2),        2.0f * (yz - wx), 0.0f,
+                     2.0f * (xz - wy),               2.0f * (yz + wx), 1.0f - 2.0f * (x2 + y2), 0.0f,
+                     0.0f,                           0.0f,                    0.0f, 1.0f);
 }
+void Quaternion::setMatrix(const Mat4 &m){
+	const float diag = m[0] + m[5] + m[10] + 1;
+    
+	if( diag > 0.0f )
+	{
+		const float scale = sqrtf(diag) * 2.0f; // get scale from diagonal
+        
+		// TODO: speed this up
+		x = (m[6] - m[9]) / scale;
+		y = (m[8] - m[2]) / scale;
+		z = (m[1] - m[4]) / scale;
+		w = 0.25f * scale;
+	}
+	else
+	{
+		if (m[0]>m[5] && m[0]>m[10])
+		{
+			// 1st element of diag is greatest value
+			// find scale according to 1st element, and double it
+			const float scale = sqrtf(1.0f + m[0] - m[5] - m[10]) * 2.0f;
+            
+			// TODO: speed this up
+			x = 0.25f * scale;
+			y = (m[4] + m[1]) / scale;
+			z = (m[2] + m[8]) / scale;
+			w = (m[6] - m[9]) / scale;
+		}
+		else if (m[5]>m[10])
+		{
+			// 2nd element of diag is greatest value
+			// find scale according to 2nd element, and double it
+			const float scale = sqrtf(1.0f + m[5] - m[0] - m[10]) * 2.0f;
+            
+			// TODO: speed this up
+			x = (m[4] + m[1]) / scale;
+			y = 0.25f * scale;
+			z = (m[9] + m[6]) / scale;
+			w = (m[8] - m[2]) / scale;
+		}
+		else
+		{
+			// 3rd element of diag is greatest value
+			// find scale according to 3rd element, and double it
+			const float scale = sqrtf(1.0f + m[10] - m[0] - m[5]) * 2.0f;
+            
+			// TODO: speed this up
+			x = (m[8] + m[2]) / scale;
+			y = (m[9] + m[6]) / scale;
+			z = 0.25f * scale;
+			w = (m[1] - m[4]) / scale;
+		}
+	}
+    
+}
+Quaternion Quaternion::fromMatrix(const Mat4& mat){
+    Quaternion q;
+    q.setMatrix(mat);
+    return q;
+}
+
+Quaternion Quaternion::slerp(const Quaternion &q2, float time){
+    
+    Quaternion q1=*this;
+    const float threshold=0.05;
+    
+    float angle = q1.dot(q2);
+    
+	// make sure we use the short rotation
+	if (angle < 0.0f)
+	{
+		q1 = Quaternion(-q1.x,-q1.y,-q1.z,-q1.w);
+		angle *= -1.0f;
+	}
+    
+	if (angle <= (1-threshold)) // spherical interpolation
+	{
+		const float theta = std::acosf(angle);
+		const float invsintheta = 1.0f/(std::sin(theta));
+		const float scale = std::sin(theta * (1.0f-time)) * invsintheta;
+		const float invscale = std::sin(theta * time) * invsintheta;
+		return (q1*scale) + (q2*invscale);
+	}
+	else // linear interploation
+		return Math::lerp(q1,q2,time);
+ 
+}
+
 String Quaternion::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+sep+String::toString(z)+sep+String::toString(w)+end;
-}
-float  Quaternion::length() const{
-	return sqrt(w * w + x * x + y * y + z * z);
-}
-float Quaternion::dot(const Quaternion& vec) const{
-	return x*vec.x+y*vec.y+z*vec.z+w*vec.w;
-}
-Quaternion Quaternion::getNormalize() const{
-	float d=sqrt(x*x+y*y+z*z+w*w);
-	return Quaternion(x/d,y/d,z/d,w/d);
 }
 /* PLANE */
 Plane::Plane():d(0.0f){}
@@ -460,64 +615,45 @@ String	Plane::toString(const String& start,
 }
 /* AABBox */
 
-AABox::AABox( Vec3 &corner,  float x, float y, float z) {
-    setBox(corner,x,y,z);
+AABox::AABox(const Vec3& center,const Vec3& size) {
+    setBox(center,size);
 }
-AABox::AABox():x(1.0f)
-              ,y(1.0f)
-              ,z(1.0f){}
+AABox::AABox(){}
 AABox::~AABox() {}
-void AABox::setBox( Vec3 &corner,  float x, float y, float z) {
+
+void AABox::setBox(const Vec3& center,const Vec3& size) {
     
-    
-	this->corner=corner;
-    
-	if (x < 0.0) {
-		x = -x;
-		this->corner.x -= x;
-	}
-	if (y < 0.0) {
-		y = -y;
-		this->corner.y -= y;
-	}
-	if (z < 0.0) {
-		z = -z;
-		this->corner.z -= z;
-	}
-	this->x = x;
-	this->y = y;
-	this->z = z;
-    
-    
+    min=center-size*0.5;
+    max=center+size*0.5;
 }
 
 Vec3 AABox::getVertexP(const Vec3 &normal) const {
     
-	Vec3 res = corner;
+	Vec3 res = min;
     
 	if (normal.x > 0)
-		res.x += x;
+		res.x = max.x;
     
 	if (normal.y > 0)
-		res.y += y;
+		res.y = max.y;
     
 	if (normal.z > 0)
-		res.z += z;
+		res.z = max.z;
     
 	return(res);
 }
 Vec3 AABox::getVertexN(const Vec3 &normal) const {
     
-	Vec3 res = corner;
+	Vec3 res = max;
     
 	if (normal.x < 0)
-		res.x += x;
+		res.x = min.x;
     
 	if (normal.y < 0)
-		res.y += y;
+		res.y = min.y;
     
 	if (normal.z < 0)
-		res.z += z;
+		res.z = min.z;
     
 	return(res);
 }
@@ -575,7 +711,7 @@ Matrix4x4 Matrix4x4::mul(const Matrix4x4 &m4x4) const {
         return out_m4x4;
 #elif defined( SIMD_SSE2 )
 	 Matrix4x4 out_m4x4;
-		SSE2_Matrix4Mul(out_m4x4,*this,m4x4);
+		SSE2_Matrix4Mul(out_m4x4,m4x4,*this);
 	 return out_m4x4;
 #else
 	return Matrix4x4(entries[0]*m4x4.entries[0]+entries[4]*m4x4.entries[1]+entries[8]*m4x4.entries[2]+entries[12]*m4x4.entries[3],
@@ -610,8 +746,8 @@ Matrix4x4 Matrix4x4::mul2D(const Matrix4x4 &m4x4) const {
         #endif
         return out_m4x4;
 #elif defined( SIMD_SSE2 )
-	 Matrix4x4 out_m4x4;
-	 SSE2_Matrix4Mul(out_m4x4,*this,m4x4);
+     Matrix4x4 out_m4x4;
+      SSE2_Matrix4Mul(out_m4x4,m4x4,*this);
 	 return out_m4x4;
 #else
 	/*

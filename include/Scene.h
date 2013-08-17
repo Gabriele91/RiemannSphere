@@ -5,6 +5,7 @@
 #include <State.h>
 #include <EStack.h>
 #include <Debug.h>
+#include <Render.h>
 
 namespace Easy3D {
 
@@ -13,7 +14,7 @@ namespace Easy3D {
 	class Input;
     class Game;
     
-	class Scene : public StateManager {
+	class Scene : public StateManager,public Render {
         
         struct SubScene{
             Scene *child;
@@ -80,6 +81,7 @@ namespace Easy3D {
         
         //application methos
         virtual void start(){
+            __renderInit();
             _onStartResume();
         }
         virtual void run(float dt){

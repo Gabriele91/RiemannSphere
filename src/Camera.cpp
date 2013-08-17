@@ -64,7 +64,7 @@ int Camera::pointInFrustum(const Vec3 &point) const{
 //set camera
 void Camera::update(){
 	//compute fastrum
-	mViewProjMatrix=mProjMatrix.mul(getGlobalMatrix());
+	mViewProjMatrix=mProjMatrix.mul(getGlobalView());
 	//left
 	planes[LEFT].normal.x = mViewProjMatrix[ 3] + mViewProjMatrix[ 0];
 	planes[LEFT].normal.y = mViewProjMatrix[ 7] + mViewProjMatrix[ 4];
@@ -125,4 +125,9 @@ Vec2 Camera::getPointIn3DSpace(const Vec3& point){
     vpp.z = vpp.z * 0.5 + 0.5;    
 
 	return vpp.xy();
+}
+Mat4 Camera::getGlobalView(){
+    
+    return __getGlobalView();
+
 }
