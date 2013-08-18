@@ -54,88 +54,119 @@ extern void SSE2_Matrix4Mul(Matrix4x4 &out,
     out.row2 = out2x;
     out.row3 = out3x;
 }
-
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FROM BULLET
+#define _mm_ror_ps(vec,i)	\
+(((i)%4) ? \
+(_mm_shuffle_ps(vec,vec, _MM_SHUFFLE((unsigned char)(i+3)%4,(unsigned char)(i+2)%4,(unsigned char)(i+1)%4,(unsigned char)(i+0)%4))) : (vec))
+    
+static VSALIGNED(16) const unsigned int _vmathPNPN[4] GCCALIGNED(16) = {0x00000000, 0x80000000, 0x00000000, 0x80000000};
+static VSALIGNED(16) const unsigned int _vmathNPNP[4] GCCALIGNED(16) = {0x80000000, 0x00000000, 0x80000000, 0x00000000};
+static VSALIGNED(16) const float _vmathZERONE[4]      GCCALIGNED(16) = {1.0f, 0.0f, 0.0f, 1.0f};
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
 extern void SSE2_Matrix4Inv(Matrix4x4& self){
     
-__m128 self_row0 = _mm_load_ps(self.entries);
-__m128 self_row1 = _mm_load_ps(self.entries+4);
-__m128 self_row2 = _mm_load_ps(self.entries+8);
-__m128 self_row3 = _mm_load_ps(self.entries+12);
- __m128 minor0, minor1, minor2, minor3;
- __m128 det, tmp1;
-// -----------------------------------------------
- tmp1 = _mm_mul_ps(self_row2, self_row3);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0xB1);
- minor0 = _mm_mul_ps(self_row1, tmp1);
- minor1 = _mm_mul_ps(self_row0, tmp1);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0x4E);
- minor0 = _mm_sub_ps(_mm_mul_ps(self_row1, tmp1), minor0);
- minor1 = _mm_sub_ps(_mm_mul_ps(self_row0, tmp1), minor1);
- minor1 = _mm_shuffle_ps(minor1, minor1, 0x4E);
-// -----------------------------------------------
- tmp1 = _mm_mul_ps(self_row1, self_row2);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0xB1);
- minor0 = _mm_add_ps(_mm_mul_ps(self_row3, tmp1), minor0);
- minor3 = _mm_mul_ps(self_row0, tmp1);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0x4E);
- minor0 = _mm_sub_ps(minor0, _mm_mul_ps(self_row3, tmp1));
- minor3 = _mm_sub_ps(_mm_mul_ps(self_row0, tmp1), minor3);
- minor3 = _mm_shuffle_ps(minor3, minor3, 0x4E);
-// -----------------------------------------------
- tmp1 = _mm_mul_ps(_mm_shuffle_ps(self_row1, self_row1, 0x4E), self_row3);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0xB1);
- self_row2 = _mm_shuffle_ps(self_row2, self_row2, 0x4E);
- minor0 = _mm_add_ps(_mm_mul_ps(self_row2, tmp1), minor0);
- minor2 = _mm_mul_ps(self_row0, tmp1);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0x4E);
- minor0 = _mm_sub_ps(minor0, _mm_mul_ps(self_row2, tmp1));
- minor2 = _mm_sub_ps(_mm_mul_ps(self_row0, tmp1), minor2);
- minor2 = _mm_shuffle_ps(minor2, minor2, 0x4E);
-// -----------------------------------------------
- tmp1 = _mm_mul_ps(self_row0, self_row1);//Streaming SIMD Extensions - Inverse of 4x4 Matrix
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0xB1);
- minor2 = _mm_add_ps(_mm_mul_ps(self_row3, tmp1), minor2);
- minor3 = _mm_sub_ps(_mm_mul_ps(self_row2, tmp1), minor3);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0x4E);
- minor2 = _mm_sub_ps(_mm_mul_ps(self_row3, tmp1), minor2);
- minor3 = _mm_sub_ps(minor3, _mm_mul_ps(self_row2, tmp1));
-// -----------------------------------------------
- tmp1 = _mm_mul_ps(self_row0, self_row3);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0xB1);
- minor1 = _mm_sub_ps(minor1, _mm_mul_ps(self_row2, tmp1));
- minor2 = _mm_add_ps(_mm_mul_ps(self_row1, tmp1), minor2);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0x4E);
- minor1 = _mm_add_ps(_mm_mul_ps(self_row2, tmp1), minor1);
- minor2 = _mm_sub_ps(minor2, _mm_mul_ps(self_row1, tmp1));
-// -----------------------------------------------
- tmp1 = _mm_mul_ps(self_row0, self_row2);
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0xB1);
- minor1 = _mm_add_ps(_mm_mul_ps(self_row3, tmp1), minor1);
- minor3 = _mm_sub_ps(minor3, _mm_mul_ps(self_row1, tmp1));
- tmp1 = _mm_shuffle_ps(tmp1, tmp1, 0x4E);
- minor1 = _mm_sub_ps(minor1, _mm_mul_ps(self_row3, tmp1));
- minor3 = _mm_add_ps(_mm_mul_ps(self_row1, tmp1), minor3);
-// -----------------------------------------------
- det = _mm_mul_ps(self_row0, minor0);
- det = _mm_add_ps(_mm_shuffle_ps(det, det, 0x4E), det);
- det = _mm_add_ss(_mm_shuffle_ps(det, det, 0xB1), det);
- tmp1 = _mm_rcp_ss(det);
- det = _mm_sub_ss(_mm_add_ss(tmp1, tmp1), _mm_mul_ss(det, _mm_mul_ss(tmp1, tmp1)));
- det = _mm_shuffle_ps(det, det, 0x00);
- //
- minor0 = _mm_mul_ps(det, minor0);
- _mm_storel_pi((__m64*)(self.entries), minor0);
- _mm_storeh_pi((__m64*)(self.entries+2), minor0);
- minor1 = _mm_mul_ps(det, minor1);
- _mm_storel_pi((__m64*)(self.entries+4), minor1);
- _mm_storeh_pi((__m64*)(self.entries+6), minor1);
- minor2 = _mm_mul_ps(det, minor2);
- _mm_storel_pi((__m64*)(self.entries+ 8), minor2);
- _mm_storeh_pi((__m64*)(self.entries+10), minor2);
- minor3 = _mm_mul_ps(det, minor3);
- _mm_storel_pi((__m64*)(self.entries+12), minor3);
- _mm_storeh_pi((__m64*)(self.entries+14), minor3);
+        __m128 Va,Vb,Vc;
+        __m128 r1,r2,r3,tt,tt2;
+        __m128 sum,Det,RDet;
+        __m128 trns0,trns1,trns2,trns3;
+        
+        __m128 _L1 = self.row0;
+        __m128 _L2 = self.row1;
+        __m128 _L3 = self.row2;
+        __m128 _L4 = self.row3;
+        // Calculating the minterms for the first line.
+        
+        // _mm_ror_ps is just a macro using _mm_shuffle_ps().
+        tt = _L4; tt2 = _mm_ror_ps(_L3,1);
+        Vc = _mm_mul_ps(tt2,_mm_ror_ps(tt,0));					// V3'dot V4
+        Va = _mm_mul_ps(tt2,_mm_ror_ps(tt,2));					// V3'dot V4"
+        Vb = _mm_mul_ps(tt2,_mm_ror_ps(tt,3));					// V3' dot V4^
+        
+        r1 = _mm_sub_ps(_mm_ror_ps(Va,1),_mm_ror_ps(Vc,2));		// V3" dot V4^ - V3^ dot V4"
+        r2 = _mm_sub_ps(_mm_ror_ps(Vb,2),_mm_ror_ps(Vb,0));		// V3^ dot V4' - V3' dot V4^
+        r3 = _mm_sub_ps(_mm_ror_ps(Va,0),_mm_ror_ps(Vc,1));		// V3' dot V4" - V3" dot V4'
+        
+        tt = _L2;
+        Va = _mm_ror_ps(tt,1);		sum = _mm_mul_ps(Va,r1);
+        Vb = _mm_ror_ps(tt,2);		sum = _mm_add_ps(sum,_mm_mul_ps(Vb,r2));
+        Vc = _mm_ror_ps(tt,3);		sum = _mm_add_ps(sum,_mm_mul_ps(Vc,r3));
+        
+        // Calculating the determinant.
+        Det = _mm_mul_ps(sum,_L1);
+        Det = _mm_add_ps(Det,_mm_movehl_ps(Det,Det));
+        
+        const __m128 Sign_PNPN = _mm_load_ps((float *)_vmathPNPN);
+        const __m128 Sign_NPNP = _mm_load_ps((float *)_vmathNPNP);
+        
+        __m128 mtL1 = _mm_xor_ps(sum,Sign_PNPN);
+        
+        // Calculating the minterms of the second line (using previous results).
+        tt = _mm_ror_ps(_L1,1);		sum = _mm_mul_ps(tt,r1);
+        tt = _mm_ror_ps(tt,1);		sum = _mm_add_ps(sum,_mm_mul_ps(tt,r2));
+        tt = _mm_ror_ps(tt,1);		sum = _mm_add_ps(sum,_mm_mul_ps(tt,r3));
+        __m128 mtL2 = _mm_xor_ps(sum,Sign_NPNP);
+        
+        // Testing the determinant.
+        Det = _mm_sub_ss(Det,_mm_shuffle_ps(Det,Det,1));
+        
+        // Calculating the minterms of the third line.
+        tt = _mm_ror_ps(_L1,1);
+        Va = _mm_mul_ps(tt,Vb);									// V1' dot V2"
+        Vb = _mm_mul_ps(tt,Vc);									// V1' dot V2^
+        Vc = _mm_mul_ps(tt,_L2);								// V1' dot V2
+        
+        r1 = _mm_sub_ps(_mm_ror_ps(Va,1),_mm_ror_ps(Vc,2));		// V1" dot V2^ - V1^ dot V2"
+        r2 = _mm_sub_ps(_mm_ror_ps(Vb,2),_mm_ror_ps(Vb,0));		// V1^ dot V2' - V1' dot V2^
+        r3 = _mm_sub_ps(_mm_ror_ps(Va,0),_mm_ror_ps(Vc,1));		// V1' dot V2" - V1" dot V2'
+        
+        tt = _mm_ror_ps(_L4,1);		sum = _mm_mul_ps(tt,r1);
+        tt = _mm_ror_ps(tt,1);		sum = _mm_add_ps(sum,_mm_mul_ps(tt,r2));
+        tt = _mm_ror_ps(tt,1);		sum = _mm_add_ps(sum,_mm_mul_ps(tt,r3));
+        __m128 mtL3 = _mm_xor_ps(sum,Sign_PNPN);
+        
+        // Dividing is FASTER than rcp_nr! (Because rcp_nr causes many register-memory RWs).
+        RDet = _mm_div_ss(_mm_load_ss((float *)&_vmathZERONE), Det); // TODO: just 1.0f?
+        RDet = _mm_shuffle_ps(RDet,RDet,0x00);
+        
+        // Devide the first 12 minterms with the determinant.
+        mtL1 = _mm_mul_ps(mtL1, RDet);
+        mtL2 = _mm_mul_ps(mtL2, RDet);
+        mtL3 = _mm_mul_ps(mtL3, RDet);
+        
+        // Calculate the minterms of the forth line and devide by the determinant.
+        tt = _mm_ror_ps(_L3,1);		sum = _mm_mul_ps(tt,r1);
+        tt = _mm_ror_ps(tt,1);		sum = _mm_add_ps(sum,_mm_mul_ps(tt,r2));
+        tt = _mm_ror_ps(tt,1);		sum = _mm_add_ps(sum,_mm_mul_ps(tt,r3));
+        __m128 mtL4 = _mm_xor_ps(sum,Sign_NPNP);
+        mtL4 = _mm_mul_ps(mtL4, RDet);
+        
+        // Now we just have to transpose the minterms matrix.
+        trns0 = _mm_unpacklo_ps(mtL1,mtL2);
+        trns1 = _mm_unpacklo_ps(mtL3,mtL4);
+        trns2 = _mm_unpackhi_ps(mtL1,mtL2);
+        trns3 = _mm_unpackhi_ps(mtL3,mtL4);
+    
+        self.row0 = _mm_movelh_ps(trns0,trns1);
+        self.row1 = _mm_movehl_ps(trns1,trns0);
+        self.row2 = _mm_movelh_ps(trns2,trns3);
+        self.row3 = _mm_movehl_ps(trns3,trns2);
+}
 
+extern void SSE2_Matrix4Transpose(Matrix4x4& self){
+    
+    __m128 T0 = _mm_unpacklo_ps(self.row0, self.row1);
+    __m128 T1 = _mm_unpacklo_ps(self.row2, self.row3);
+    __m128 T2 = _mm_unpacklo_ps(self.row0, self.row1);
+    __m128 T3 = _mm_unpacklo_ps(self.row2, self.row3);
+    
+    self.row0 = _mm_unpacklo_epi64(T0, T1);
+    self.row1 = _mm_unpacklo_epi64(T0, T1);
+    self.row2 = _mm_unpacklo_epi64(T2, T3);
+    self.row3 = _mm_unpacklo_epi64(T2, T3);
+    
 }
 
 };

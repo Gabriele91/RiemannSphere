@@ -665,12 +665,6 @@ static float Matrix4x4Identity[]={
 	0.0,0.0,1.0,0.0,
 	0.0,0.0,0.0,1.0
 };
-static float Matrix4x4Zero[]={
-	0.0,0.0,0.0,0.0,
-	0.0,0.0,0.0,0.0,
-	0.0,0.0,0.0,0.0,
-	0.0,0.0,0.0,0.0
-};
 
 Matrix4x4::Matrix4x4(){ 
 	identity();
@@ -979,10 +973,17 @@ Matrix4x4 Matrix4x4::getInverse2D() const{
 }
 Matrix4x4 Matrix4x4::getTranspose() const{
 
-	Matrix4x4 matrix(*this);
+#if defined( SIMD_SSE2 )
+    
+	Matrix4x4 newMat(*this);
+    SSE2_Matrix4Transpose(newMat);
+    return newMat;
+    
+#else
+	Matrix4x4 newMat(*this);
 	float tmp;
 
-	#define _xy_m4x4_(x,y) matrix.entries[(y*4)+x]
+	#define _xy_m4x4_(x,y) newMat.entries[(y*4)+x]
 
 	tmp = _xy_m4x4_(1,0);
 	_xy_m4x4_(1,0) = _xy_m4x4_(0,1);
@@ -1010,7 +1011,8 @@ Matrix4x4 Matrix4x4::getTranspose() const{
 
 	#undef _xy_m4x4_
 
-	return matrix;
+	return newMat;
+#endif
 }
 
 void Matrix4x4::setScale(const Vector3D &v3){

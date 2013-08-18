@@ -41,7 +41,7 @@ void Object::setRotation(const Quaternion& rotation,bool global){
 	if(!global||!parent)
 		transform.rotation=rotation;
 	else{
-		transform.rotation=rotation-Quaternion::fromMatrix(getGlobalMatrix());
+		transform.rotation=rotation.getInverse().mul(Quaternion::fromMatrix(getGlobalMatrix()));
 	}
 	change();
 }
@@ -80,13 +80,7 @@ Quaternion Object::getRotation(bool global){
 	if(!global||!parent)
 		return transform.rotation;
 	else{
-		//TO DO: better method....
-		Quaternion out;
-		const Matrix4x4& global=getGlobalMatrix();
-		out.setFromEulero(global.getRotX(),
-						  global.getRotY(),
-						  global.getRotZ());
-		return out;
+		return Quaternion::fromMatrix(getGlobalMatrix());
 	}
 }
 Object::ParentMode Object::getParentMode() const{
@@ -110,6 +104,7 @@ void Object::addChild(Object *child,ParentMode type,bool hard){
 	child->parent=this;
 	child->parentMode=type;
 	child->deleteHard=hard;
+    child->change();
 	this->childs.push_back(child);
 
 }
@@ -118,6 +113,7 @@ void Object::erseChild(Object *child){
 		childs.remove(child);
 		child->parent=NULL;
 		child->deleteHard=false;
+        child->change();
 	}
 }
 //
@@ -186,55 +182,8 @@ return globalMat;
 
 
 Mat4 Object::__getGlobalView(){
-
-    getGlobalMatrix();
-    //
-	Mat4 globalViewMat;
-    Mat4 tmpScale;
-    //
-    if(parent){
-        //
-        const Vec3& globalScale=getGlobalParentScale();
-        //
-        if(parentMode & (ENABLE_PARENT)){
-            
-            //global posiction and rotation
-            Matrix4x4 mtmp=parent->getGlobalMatrix();
-            tmpScale.setScale(Vec3(1.0/globalScale.x,  1.0/globalScale.y, 1.0/globalScale.z));
-            mtmp=mtmp.mul(tmpScale);
-            //////////////////////////////////////////////
-            //position local
-            globalViewMat[12]=transform.position.x;
-            globalViewMat[13]=transform.position.y;
-            globalViewMat[14]=transform.position.z;
-            //rotarion local
-            globalViewMat=transform.rotation.getMatrix().mul(globalViewMat);
-            //////////////////////////////////////////////
-            //local*global
-            globalViewMat=globalViewMat.mul(mtmp);
-            //////////////////////////////////////////////
-        }
-        
-        if(parentMode & ENABLE_SCALE)
-            globalViewMat.addScale(getGlobalParentScale()*transform.scale);
-        else
-            globalViewMat.addScale(transform.scale);
-        
-        
-    }
-    else{
-        //position
-        globalViewMat.entries[12]=transform.position.x;
-        globalViewMat.entries[13]=transform.position.y;
-        globalViewMat.entries[14]=transform.position.z;
-        //rotarion
-        globalViewMat=transform.rotation.getMatrix().mul(globalViewMat);
-        //scale
-        tmpScale.setScale(transform.scale);
-        globalMat=globalMat.mul(tmpScale);
-    }
     
-    return globalViewMat;
+    return getGlobalMatrix().getInverse();
 }
 
 Vector3D  Object::getGlobalParentScale(){

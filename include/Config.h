@@ -180,6 +180,7 @@
 #if defined( SIMD_SSE2 ) || defined( SIMD_SSE )
     #include <emmintrin.h>
     #include <xmmintrin.h>
+    #include <mmintrin.h>
     #define DOVERRIDE_NEW_DEL
     #include <Memory.h>
 #endif

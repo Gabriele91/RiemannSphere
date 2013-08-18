@@ -13,8 +13,8 @@ CameraManager::CameraManager(Easy3D::Camera *camera,const Easy3D::Vec3& toPoint)
     addState(ON_DISABLE);
     setNextState(ON_ENABLE);
     //set point to point
+    cameraPointer.setPosition(toPoint,true);
     cameraPointer.addChild(camera,Object::ParentMode::ENABLE_PARENT,false);
-    cameraPointer.setPosition(toPoint);
     //default
     velocity=Vec3::ONE;
     angle=Math::torad(45.0f);
@@ -61,14 +61,6 @@ void CameraManager::onStateRun(float dt){
     
     //update projection
     camera->setPerspective(angle,n, f);
-    /*
-    float aspect=(float)Application::instance()->getScreen()->getWidth()/
-                 (float)Application::instance()->getScreen()->getHeight();
-    float top=n/(cos(angle*0.5)/sin(angle*0.5));
-    float bottom=-top;
-    float right_=top*aspect;
-    float left_=-right_;
-    camera->setPerspective(left_,right_,bottom,top, n,f);*/
     camera->update();
     
     

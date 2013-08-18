@@ -12,6 +12,7 @@ namespace Easy3D {
                                 const Easy3D::Matrix4x4 &A,
                                 const Easy3D::Matrix4x4 &B);
     extern void SSE2_Matrix4Inv(Matrix4x4& self);
+    extern void SSE2_Matrix4Transpose(Matrix4x4& self);
 }
 #endif
 
