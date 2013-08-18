@@ -1395,25 +1395,54 @@ void Matrix4x4::setOrtho(float left, float right, float bottom,float top, float 
 void Matrix4x4::setPerspective(float l, float r,
 							   float b,float t,
 							   float n, float f){
-	identity();
-	entries[0]  = 2 * n / (r - l);
+    
+    //http://www.manpagez.com/man/3/glFrustum/
+    identity();
+	//row1
+    entries[0]  = 2 * n / (r - l);
     entries[2]  = (r + l) / (r - l);
+    //row2
     entries[5]  = 2 * n / (t - b);
     entries[6]  = (t + b) / (t - b);
+    //row3
     entries[10] = -(f + n) / (f - n);
     entries[11] = -(2 * f * n) / (f - n);
+    //row4
     entries[14] = -1;
     entries[15] =  0;
+     
 }
-void Matrix4x4::setPerspective(float fov, float aspect, float front, float back){
-
-	float tangent = tanf(fov/2 * Math::PIOVER180); // tangent of half fovY
-    float height = front * tangent;                // half height of near plane
-    float width = height * aspect;                 // half width of near plane
-
-    // params: left, right, bottom, top, near, far
-    setPerspective(-width, width, -height, height, front, back);
+void Matrix4x4::setPerspective(float fov, float fRealAspect, float fNear, float fFar){
+    
+    //from:https://code.google.com/p/oolongengine/source/browse/trunk/Oolong%20Engine2/Math/Matrix.cpp
+    float f, n;
+    
+    f = 1.0f / (float)std::tan(fov * 0.5f);
+    n = 1.0f / (fNear - fFar);
+    
+    entries[ 0] = f / fRealAspect;
+    entries[ 1] = 0;
+    entries[ 2] = 0;
+    entries[ 3] = 0;
+    
+    entries[ 4] = 0;
+    entries[ 5] = f;
+    entries[ 6] = 0;
+    entries[ 7] = 0;
+    
+    entries[ 8] = 0;
+    entries[ 9] = 0;
+    entries[10] = (fFar + fNear) * n;
+    entries[11] = -1;
+    
+    entries[12] = 0;
+    entries[13] = 0;
+    entries[14] = (2 * fFar * fNear) * n;
+    entries[15] = 0;
+    
+        
 }
+
 String Matrix4x4::toString(const String& start,const String& sep,const String& sepline,const String& end) const{
 	return 	start+String::toString(entries[0])+sep +String::toString(entries[1]) +sep+String::toString(entries[2]) +sep+String::toString(entries[3]) +sepline
 		         +String::toString(entries[4])+sep +String::toString(entries[5]) +sep+String::toString(entries[6]) +sep+String::toString(entries[7]) +sepline

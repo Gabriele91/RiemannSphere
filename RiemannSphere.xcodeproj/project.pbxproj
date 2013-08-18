@@ -33,6 +33,8 @@
 		E04F702417BC346400041D45 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04F702317BC346400041D45 /* Camera.cpp */; };
 		E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3817BD4A0D00EB25FD /* Game.cpp */; };
 		E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3D17BD4EA100EB25FD /* Render.cpp */; };
+		E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */; };
+		E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -101,6 +103,11 @@
 		E08B1A3817BD4A0D00EB25FD /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		E08B1A3C17BD4E8100EB25FD /* Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Render.h; sourceTree = "<group>"; };
 		E08B1A3D17BD4EA100EB25FD /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
+		E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannScene.cpp; sourceTree = "<group>"; };
+		E0DCC1FE17BF9D8D0060E4CD /* RiemannScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannScene.h; sourceTree = "<group>"; };
+		E0DCC20017BF9DD10060E4CD /* Easy3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Easy3D.h; sourceTree = "<group>"; };
+		E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraManager.cpp; sourceTree = "<group>"; };
+		E0DCC20217BFAC9B0060E4CD /* CameraManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +128,8 @@
 		E04F6F8C17BBBF8700041D45 = {
 			isa = PBXGroup;
 			children = (
+				E0DCC20017BF9DD10060E4CD /* Easy3D.h */,
+				E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */,
 				E04F701A17BBD07700041D45 /* main.cpp */,
 				E04F701817BBCA5400041D45 /* libbz2.dylib */,
 				E04F701617BBCA4C00041D45 /* libz.dylib */,
@@ -217,6 +226,17 @@
 			path = cocoa;
 			sourceTree = "<group>";
 		};
+		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
+			isa = PBXGroup;
+			children = (
+				E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */,
+				E0DCC20217BFAC9B0060E4CD /* CameraManager.h */,
+				E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */,
+				E0DCC1FE17BF9D8D0060E4CD /* RiemannScene.h */,
+			);
+			path = RiemannSphere;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -290,6 +310,8 @@
 				E04F702417BC346400041D45 /* Camera.cpp in Sources */,
 				E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */,
 				E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */,
+				E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */,
+				E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +350,7 @@
 					./,
 					include/,
 					include/cocoa/,
+					RiemannSphere/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
@@ -367,6 +390,7 @@
 					./,
 					include/,
 					include/cocoa/,
+					RiemannSphere/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (

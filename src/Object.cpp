@@ -211,7 +211,7 @@ Mat4 Object::__getGlobalView(){
             globalViewMat=transform.rotation.getMatrix().mul(globalViewMat);
             //////////////////////////////////////////////
             //local*global
-            globalViewMat=mtmp.mul(globalMat);
+            globalViewMat=globalViewMat.mul(mtmp);
             //////////////////////////////////////////////
         }
         

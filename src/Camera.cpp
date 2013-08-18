@@ -9,8 +9,8 @@ void Camera::setPerspective(float angle,float n,float f){
 	//set Perspective
 	mProjMatrix.setPerspective(
 		angle,
-		Application::instance()->getScreen()->getWidth()/
-		Application::instance()->getScreen()->getHeight(),
+		(float)Application::instance()->getScreen()->getWidth()/
+		(float)Application::instance()->getScreen()->getHeight(),
 		n,
 		f);
 }
