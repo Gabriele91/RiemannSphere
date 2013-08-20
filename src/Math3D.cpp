@@ -53,18 +53,6 @@ Vector2D Vector2D::projected(const Vector2D& axis) const{
 String Vector2D::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+end;
 }
-Vector2D operator+(float v,const Vector2D& vt){
-	return Vector2D(v+vt.x,v+vt.y);
-}
-Vector2D operator-(float v,const Vector2D& vt){
-	return Vector2D(v-vt.x,v-vt.y);
-}
-Vector2D operator*(float v,const Vector2D& vt){
-	return Vector2D(v*vt.x,v*vt.y);
-}
-Vector2D operator/(float v,const Vector2D& vt){
-	return Vector2D(v/vt.x,v/vt.y);
-}
 /* VECTOR3D */
 Vector3D Vector3D::ZERO;
 Vector3D Vector3D::ONE(1,1,1);
@@ -103,18 +91,7 @@ Vector3D Vector3D::getNormalize() const{
 String Vector3D::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+sep+String::toString(z)+end;
 }
-Vector3D operator+(float v,const Vector3D& vt){
-	return Vector3D(v+vt.x,v+vt.y,v+vt.z);
-}
-Vector3D operator-(float v,const Vector3D& vt){
-	return Vector3D(v-vt.x,v-vt.y,v-vt.z);
-}
-Vector3D operator*(float v,const Vector3D& vt){
-	return Vector3D(v*vt.x,v*vt.y,v*vt.z);
-}
-Vector3D operator/(float v,const Vector3D& vt){
-	return Vector3D(v/vt.x,v/vt.y,v/vt.z);
-}
+
 /* VECTOR4D */
 Vector4D Vector4D::ZERO;
 Vector4D Vector4D::ONE(1,1,1,1);
@@ -149,18 +126,7 @@ Vector4D Vector4D::getNormalize() const{
 String Vector4D::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+sep+String::toString(z)+sep+String::toString(w)+end;
 }
-Vector4D operator+(float v,const Vector4D& vt){
-	return Vector4D(v+vt.x,v+vt.y,v-vt.z,v+vt.w);
-}
-Vector4D operator-(float v,const Vector4D& vt){
-	return Vector4D(v-vt.x,v-vt.y,v-vt.z,v-vt.w);
-}
-Vector4D operator*(float v,const Vector4D& vt){
-	return Vector4D(v*vt.x,v*vt.y,v*vt.z,v*vt.w);
-}
-Vector4D operator/(float v,const Vector4D& vt){
-	return Vector4D(v/vt.x,v/vt.y,v/vt.z,v/vt.w);
-}
+
 /* QUATERNION */
 Quaternion::Quaternion(){ identity(); };
 Quaternion::Quaternion(float x,float y,float z,float w):w(w),x(x),y(y),z(z){}
@@ -506,6 +472,70 @@ void Quaternion::setMatrix(const Mat4 &m){
 			w = (m[1] - m[4]) / scale;
 		}
 	}
+    //from GLM
+    /*
+    float fourXSquaredMinus1 = m.m00 - m.m11 - m.m22;
+    float fourYSquaredMinus1 = m.m11 - m.m00 - m.m22;
+    float fourZSquaredMinus1 = m.m22 - m.m00 - m.m11;
+    float fourWSquaredMinus1 = m.m00 + m.m11 +m.m22;
+    
+    int biggestIndex = 0;
+    float fourBiggestSquaredMinus1 = fourWSquaredMinus1;
+    
+    if(fourXSquaredMinus1 > fourBiggestSquaredMinus1)
+    {
+        fourBiggestSquaredMinus1 = fourXSquaredMinus1;
+        biggestIndex = 1;
+    }
+    if(fourYSquaredMinus1 > fourBiggestSquaredMinus1)
+    {
+        fourBiggestSquaredMinus1 = fourYSquaredMinus1;
+        biggestIndex = 2;
+    }
+    if(fourZSquaredMinus1 > fourBiggestSquaredMinus1)
+    {
+        fourBiggestSquaredMinus1 = fourZSquaredMinus1;
+        biggestIndex = 3;
+    }
+    
+    float biggestVal = std::sqrt(fourBiggestSquaredMinus1 + 1.0f) * (0.5f);
+    float mult = (0.25f) / biggestVal;
+    
+    Quaternion Result;
+    switch(biggestIndex)
+    {
+        case 0:
+            Result.w = biggestVal;
+            Result.x = (m.m12 - m.m21) * mult;
+            Result.y = (m.m20 - m.m02) * mult;
+            Result.z = (m.m01 - m.m10) * mult;
+            break;
+        case 1:
+            Result.w = (m.m12 - m.m21) * mult;
+            Result.x = biggestVal;
+            Result.y = (m.m01 + m.m10) * mult;
+            Result.z = (m.m20 + m.m02) * mult;
+            break;
+        case 2:
+            Result.w = (m.m20 - m.m02) * mult;
+            Result.x = (m.m01 + m.m10) * mult;
+            Result.y = biggestVal;
+            Result.z = (m.m12 + m.m21) * mult;
+            break;
+        case 3:
+            Result.w = (m.m01 - m.m10) * mult;
+            Result.x = (m.m20 + m.m02) * mult;
+            Result.y = (m.m12 + m.m21) * mult;
+            Result.z = biggestVal;
+            break;
+            
+        default:
+            // Silence a -Wswitch-default warning in GCC. Should never actually get here. Assert is just for sanity.
+            assert(false);
+            break;
+    }
+    return Result;
+     */
     
 }
 Quaternion Quaternion::fromMatrix(const Mat4& mat){
@@ -544,6 +574,7 @@ Quaternion Quaternion::slerp(const Quaternion &q2, float time){
 String Quaternion::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+sep+String::toString(z)+sep+String::toString(w)+end;
 }
+
 /* PLANE */
 Plane::Plane():d(0.0f){}
 Plane::Plane(const Vector3D& normal,const Vector3D& origin){
@@ -615,14 +646,14 @@ String	Plane::toString(const String& start,
 }
 /* AABBox */
 
-AABox::AABox(const Vec3& center,const Vec3& size) {
+AABox::AABox(const Vec3& center,Vec3 size) {
     setBox(center,size);
 }
 AABox::AABox(){}
 AABox::~AABox() {}
 
-void AABox::setBox(const Vec3& center,const Vec3& size) {
-    
+void AABox::setBox(const Vec3& center,Vec3 size) {
+    size.abs();
     min=center-size*0.5;
     max=center+size*0.5;
 }
@@ -670,8 +701,8 @@ Matrix4x4::Matrix4x4(){
 	identity();
 };
 
-Matrix4x4::Matrix4x4(const Matrix4x4 &m4x4){ 
-	(*this)=m4x4; 
+Matrix4x4::Matrix4x4(const Matrix4x4 &m4x4){
+	(*this)=m4x4;
 }
 Matrix4x4::Matrix4x4(float* m4x4){
 	memcpy(entries, m4x4, 16*sizeof(float));
@@ -1078,6 +1109,25 @@ Vector2D Matrix4x4::getTranslation2D() const{
 	return Vector2D( entries[12], entries[13]);
 }
 
+///set concatenate trasformation:
+void Matrix4x4::addTranslationOnX( float distance ){
+    entries[0] = entries[0] + distance * entries[3];
+    entries[4] = entries[4] + distance * entries[7];
+    entries[8] = entries[8] + distance * entries[11];
+    entries[12] = entries[12] + distance * entries[15];
+}
+void Matrix4x4::addTranslationOnY( float distance ){
+    entries[1] = entries[1] + distance * entries[3];
+    entries[5] = entries[5] + distance * entries[7];
+    entries[9] = entries[9] + distance * entries[11];
+    entries[13] = entries[13] + distance * entries[15];
+}
+void Matrix4x4::addTranslationOnZ( float distance ){
+    entries[2] = entries[2] + distance * entries[3];
+    entries[6] = entries[6] + distance * entries[7];
+    entries[10] = entries[10] + distance * entries[11];
+    entries[14] = entries[14] + distance * entries[15];
+}
 ///add a euler rotarion
 void Matrix4x4::addEulerRotation(const Vec3& euler){
 	//var dec
@@ -1240,147 +1290,10 @@ void Matrix4x4::setFastTransform2DS(float* list){
 	// scale.z //
 	entries[10]=1.0f;
 }
-void Matrix4x4::setQuaternion(Quaternion &qt){
+void Matrix4x4::setQuaternion(const Quaternion &qt){
 	identity();
-	memcpy(entries, qt.getMatrix().entries, 16*sizeof(float));
+    (*this)=qt.getMatrix();
 }
-///get quaternion transformation
-Quaternion Matrix4x4::getQuaternionFast(){
-		//from GLM
-		#define m00 entries[0]
-		#define m11 entries[5]
-		#define m22 entries[10]
-
-		float fourXSquaredMinus1 = m00 - m11 - m22;
-		float fourYSquaredMinus1 = m11 - m00 - m22;
-		float fourZSquaredMinus1 = m22 - m00 - m11;
-		float fourWSquaredMinus1 = m00 + m11 + m22;
-
-		int biggestIndex = 0;
-		float fourBiggestSquaredMinus1 = fourWSquaredMinus1;
-
-		if(fourXSquaredMinus1 > fourBiggestSquaredMinus1)
-		{
-			fourBiggestSquaredMinus1 = fourXSquaredMinus1;
-			biggestIndex = 1;
-		}
-		if(fourYSquaredMinus1 > fourBiggestSquaredMinus1)
-		{
-			fourBiggestSquaredMinus1 = fourYSquaredMinus1;
-			biggestIndex = 2;
-		}
-		if(fourZSquaredMinus1 > fourBiggestSquaredMinus1)
-		{
-			fourBiggestSquaredMinus1 = fourZSquaredMinus1;
-			biggestIndex = 3;
-		}
-
-		float biggestVal = std::sqrt(fourBiggestSquaredMinus1 + 1.0f) * (0.5f);
-		float mult = (0.25f) / biggestVal;
-
-		#define m01 entries[4]
-		#define m02 entries[8]
-
-		#define m10 entries[1]
-		#define m12 entries[9]
-
-		#define m20 entries[2]
-		#define m21 entries[9]
-
-		Quaternion Result;
-		switch(biggestIndex)
-		{
-		case 0:
-			Result.w = biggestVal;
-			Result.x = (m12 - m21) * mult;
-			Result.y = (m20 - m02) * mult;
-			Result.z = (m01 - m10) * mult;
-			break;
-		case 1:
-			Result.w = (m12 - m21) * mult;
-			Result.x = biggestVal;
-			Result.y = (m01 + m10) * mult;
-			Result.z = (m20 + m02) * mult;
-			break;
-		case 2:
-			Result.w = (m20 - m02) * mult;
-			Result.x = (m01 + m10) * mult;
-			Result.y = biggestVal;
-			Result.z = (m12 + m21) * mult;
-			break;
-		case 3:
-			Result.w = (m01 - m10) * mult;
-			Result.x = (m20 + m02) * mult;
-			Result.y = (m12 + m21) * mult;
-			Result.z = biggestVal;
-			break;
-
-        default:
-			// Silence a -Wswitch-default warning in GCC. Should never actually get here. Assert is just for sanity.
-            assert(false);
-            break;
-		}
-		return Result;
-
-		#undef m00
-		#undef m01
-		#undef m02
-
-		#undef m10
-		#undef m11
-		#undef m12
-
-		#undef m20
-		#undef m21
-		#undef m22
-}
-Quaternion Matrix4x4::getQuaternion(){
-	Quaternion quaternion,Q;
-
-	#define m00 entries[0]
-	#define m01 entries[4]
-	#define m02 entries[8]
-
-	#define m10 entries[1]
-	#define m11 entries[5]
-	#define m12 entries[9]
-
-	#define m20 entries[2]
-	#define m22 entries[10]
-	#define m21 entries[9]
-
-	quaternion.w = std::sqrt( Math::max( 0.0f, 1 + m00 + m11 + m22 ) ) / 2;
-	quaternion.x = std::sqrt( Math::max( 0.0f, 1 + m00 - m11 - m22 ) ) / 2;
-	quaternion.y = std::sqrt( Math::max( 0.0f, 1 - m00 + m11 - m22 ) ) / 2;
-	quaternion.z = std::sqrt( Math::max( 0.0f, 1 - m00 - m11 + m22 ) ) / 2;
-
-	#ifdef PLATFORM_UNIX
-        #define COPYSIGN copysign
-	#else
-        #define COPYSIGN _copysign
-	#endif
-
-	Q.x = COPYSIGN( Q.x, m21 - m12 );
-	Q.y = COPYSIGN( Q.y, m02 - m20 );
-	Q.z = COPYSIGN( Q.z, m10 - m01 );
-
-	return Q;
-
-	#undef COPYSIGN
-
-	#undef m00
-	#undef m01
-	#undef m02
-
-	#undef m10
-	#undef m11
-	#undef m12
-
-	#undef m20
-	#undef m21
-	#undef m22
-}
-
 void Matrix4x4::setOrtho(float left, float right, float bottom,float top, float n, float f){
 	identity();
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E00EF2C817C153280032B058 /* SphereMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00EF2C617C153270032B058 /* SphereMesh.cpp */; };
+		E00EF2CB17C153650032B058 /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00EF2C917C153650032B058 /* Sphere.cpp */; };
 		E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FC817BBBFB100041D45 /* Application.cpp */; };
 		E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FCA17BBBFB100041D45 /* CocoaApp.mm */; };
 		E04F6FE817BBBFB100041D45 /* CocoaInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FCB17BBBFB100041D45 /* CocoaInput.mm */; };
@@ -50,6 +52,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E00EF2C617C153270032B058 /* SphereMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SphereMesh.cpp; sourceTree = "<group>"; };
+		E00EF2C717C153280032B058 /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SphereMesh.h; sourceTree = "<group>"; };
+		E00EF2C917C153650032B058 /* Sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sphere.cpp; sourceTree = "<group>"; };
+		E00EF2CA17C153650032B058 /* Sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sphere.h; sourceTree = "<group>"; };
 		E04F6F9517BBBF8700041D45 /* RiemannSphere */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RiemannSphere; sourceTree = BUILT_PRODUCTS_DIR; };
 		E04F6FA817BBBFB100041D45 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		E04F6FA917BBBFB100041D45 /* Blend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blend.h; sourceTree = "<group>"; };
@@ -229,6 +235,10 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E00EF2C917C153650032B058 /* Sphere.cpp */,
+				E00EF2CA17C153650032B058 /* Sphere.h */,
+				E00EF2C617C153270032B058 /* SphereMesh.cpp */,
+				E00EF2C717C153280032B058 /* SphereMesh.h */,
 				E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */,
 				E0DCC20217BFAC9B0060E4CD /* CameraManager.h */,
 				E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */,
@@ -312,6 +322,8 @@
 				E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */,
 				E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */,
 				E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */,
+				E00EF2C817C153280032B058 /* SphereMesh.cpp in Sources */,
+				E00EF2CB17C153650032B058 /* Sphere.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

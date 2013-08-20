@@ -10,6 +10,7 @@ using namespace Easy3D;
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
+    ,sphere(60,60,0.5f)
 {
 }
 
@@ -17,17 +18,16 @@ void RiemannScene::onStart(){
     //set clear color
     setClearColorState({25,128,255,255});
     //set projection and modelview
-    setCullFaceState(CullFaceState(CullFace::FRONT));
-    //add camera manager
-    obj.setPosition(Vec3(0,0,10));
-    addChild(cameraManager=new CameraManager(&camera,obj.getPosition()));
+    setCullFaceState(CullFaceState(CullFace::BACK));
+    //add camera manage
+    addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO));
     cameraManager->setVelocity(Vec3(10,10,5));
-    cameraManager->setProjectionInfo(Math::torad(45.0f), .1, 100.0);
-    
-    camera.setPosition(Vec3::ZERO,true);
-    camera.setRotation(Quaternion::fromEulero(Vec3(0,Math::PI,0)),true);
-    
+    cameraManager->setProjectionInfo(Math::torad(45.0f), 1.0, 9.99);
+    camera.setPosition(Vec3(0,0,10),true);
     setMatrixsState(MatrixsState(camera));
+    //sphere
+    sphereMeshs.push_back(sphere.genMesh(15, 5,
+                                         20, 10));
     //init
     onResume();
 }
@@ -37,41 +37,34 @@ void RiemannScene::onResume(){
     getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
     getInput()->addHandler((Easy3D::Input::MouseHandler*)this);
     //set state
-    //cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
+    cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
     //save info
     sceneInfo=ON_RESUME;
 }
 
 void RiemannScene::onRun(float dt){
-    
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     doClear();
     camera.update();
     setMatrixsState(MatrixsState(camera));
     
-
+    setModelView(camera, obj);
+    sphereMeshs[0]->draw();
     
-    if(camera.sphereInFrustum(obj.getPosition(), 0.5))
+
+    if(camera.boxInFrustum(sphereMeshs[0]->getAABox()))
         setClearColorState({25,128,255,255});
     else
         setClearColorState({255,0,0,255});
     
-    obj.setTurn(Quaternion::fromEulero(Vec3(0,Math::PI*0.25*dt,0)));
-    obj.setScale(Vec3::ONE);
-    setModelView(camera, obj);
-    drawColorSphere({0,0,0,255},5,10);
     
-    Object obj2;
-    obj.addChild(&obj2,Object::ParentMode::ENABLE_PARENT,false);
+    Object aabobj;
+    aabobj.setPosition(sphereMeshs[0]->getAABox().getCenter());
+    aabobj.setScale(sphereMeshs[0]->getAABox().getSize());
+    setModelView(camera, aabobj);
+    if(getInput()->getKeyDown(Key::X))
+        drawCube();
     
-    obj2.setScale(Vec3(0.5,2.0,0.5));
-    obj2.setPosition(Vec3(2,0,0));
-    
-    setModelView(camera, obj2);
-    drawColorSphere({0,128,0,255},5,10);
-    
-
-    
-    obj.erseChild(&obj2);
     
 }
 
@@ -80,7 +73,7 @@ void RiemannScene::onPause(){
     getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)this);
     getInput()->removeHandler((Easy3D::Input::MouseHandler*)this);
     //set state
-    //cameraManager->setCurrentState(CameraManager::EVENTS::ON_DISABLE);
+    cameraManager->setCurrentState(CameraManager::EVENTS::ON_DISABLE);
     //save info
     sceneInfo=ON_PAUSE;
 }

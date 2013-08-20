@@ -45,6 +45,7 @@ class RiemannApp : public Game {
 };
 
 int main(int argc,const char *args[]){
+    
     Application::create();
     Application::instance()->exec(new RiemannApp());
     delete Application::instance()->getGame();

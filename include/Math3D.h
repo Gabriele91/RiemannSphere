@@ -73,7 +73,7 @@ namespace Easy3D{
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float squaredLength(){ return x*x+y*y; };
 		DFORCEINLINE void abs(){ x=fabs(x); y=fabs(y); }
-		DFORCEINLINE Vector2D getAbs(){ return Vector2D(fabs(x),fabs(y)); }
+		DFORCEINLINE Vector2D getAbs() const { return Vector2D(fabs(x),fabs(y)); }
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float& operator [] (unsigned int i) { return (i%2 == 0) ? x: y; }
 		DFORCEINLINE bool operator==(const Vector2D &v) const { return (x==v.x && y==v.y);	}
@@ -127,11 +127,26 @@ namespace Easy3D{
 		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
 	};
-	Vector2D operator+(float v,const Vector2D& vt);
-	Vector2D operator-(float v,const Vector2D& vt);
-	Vector2D operator*(float v,const Vector2D& vt);
-	Vector2D operator/(float v,const Vector2D& vt);
+    
+    template <typename T>
+    DFORCEINLINE Vector2D operator+(T v,const Vector2D& vt){
+        return Vector2D(v+vt.x,v+vt.y);
+    }
+    template <typename T>
+    DFORCEINLINE Vector2D operator-(T v,const Vector2D& vt){
+        return Vector2D(v-vt.x,v-vt.y);
+    }
+    template <typename T>
+    DFORCEINLINE Vector2D operator*(T v,const Vector2D& vt){
+        return Vector2D(v*vt.x,v*vt.y);
+    }
+    template <typename T>
+    DFORCEINLINE Vector2D operator/(T v,const Vector2D& vt){
+        return Vector2D(v/vt.x,v/vt.y);
+    }
 	///////////////////////////////////////////////////////////////////////////////
+    
+    
 	///////////////////////////////////////////////////////////////////////////////
 	class Vector3D{
 
@@ -207,7 +222,7 @@ namespace Easy3D{
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float squaredLength(){ return x*x+y*y+z*z; };
 		DFORCEINLINE void abs(){ x=fabs(x); y=fabs(y); z=fabs(z); }
-		DFORCEINLINE Vector3D getAbs(){ return Vector3D(fabs(x),fabs(y), fabs(z)); }
+		DFORCEINLINE Vector3D getAbs() const { return Vector3D(fabs(x),fabs(y), fabs(z)); }
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float& operator [] (unsigned int i) { return i==0 ? x: i==1 ? y : z; }
 		DFORCEINLINE bool operator==(const Vector3D &v) const { return (x==v.x && y==v.y && z==v.z);	}
@@ -284,10 +299,23 @@ namespace Easy3D{
 		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
 	};
-	Vector3D operator+(float v,const Vector3D& vt);
-	Vector3D operator-(float v,const Vector3D& vt);
-	Vector3D operator*(float v,const Vector3D& vt);
-	Vector3D operator/(float v,const Vector3D& vt);
+    
+    template <typename T>
+    DFORCEINLINE Vector3D operator+(T v,const Vector3D& vt){
+        return Vector3D(v+vt.x,v+vt.y,v+vt.z);
+    }
+    template <typename T>
+    DFORCEINLINE Vector3D operator-(T v,const Vector3D& vt){
+        return Vector3D(v-vt.x,v-vt.y,v-vt.z);
+    }
+    template <typename T>
+    DFORCEINLINE Vector3D operator*(T v,const Vector3D& vt){
+        return Vector3D(v*vt.x,v*vt.y,v*vt.z);
+    }
+    template <typename T>
+    DFORCEINLINE Vector3D operator/(T v,const Vector3D& vt){
+        return Vector3D(v/vt.x,v/vt.y,v/vt.z);
+    }
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	class Vector4D{
@@ -311,6 +339,11 @@ namespace Easy3D{
             __m128 row;
 		}
         GCCALIGNED(16) ;
+        
+        DFORCEINLINE Vector4D& operator = (const Vector4D& v){
+            row=v.row;
+            return *this;
+        }
 #else
 		union
 		{
@@ -382,7 +415,7 @@ namespace Easy3D{
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float squaredLength(){ return x*x+y*y+z*z+w*w; };
 		DFORCEINLINE void abs(){ x=fabs(x); y=fabs(y); z=fabs(z); w=fabs(w); }
-		DFORCEINLINE Vector4D getAbs(){ return Vector4D(fabs(x),fabs(y), fabs(z), fabs(w)); }
+		DFORCEINLINE Vector4D getAbs()const{ return Vector4D(fabs(x),fabs(y), fabs(z), fabs(w)); }
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float& operator [] (unsigned int i) { return i==0 ? x: i==1 ? y : i==2 ? z : w; }
 		DFORCEINLINE bool operator==(const Vector4D &v) const { return (x==v.x && y==v.y && z==v.z && w==v.w);	}
@@ -467,10 +500,25 @@ namespace Easy3D{
 		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
 	};
-	Vector4D operator+(float v,const Vector4D& vt);
-	Vector4D operator-(float v,const Vector4D& vt);
-	Vector4D operator*(float v,const Vector4D& vt);
-	Vector4D operator/(float v,const Vector4D& vt);
+    
+    template <typename T>
+    DFORCEINLINE Vector4D operator+(T v,const Vector4D& vt){
+        return Vector4D(v+vt.x,v+vt.y,v+vt.z,v+vt.w);
+    }
+    template <typename T>
+    DFORCEINLINE Vector4D operator-(T v,const Vector4D& vt){
+        return Vector4D(v-vt.x,v-vt.y,v-vt.z,v-vt.w);
+    }
+    template <typename T>
+    DFORCEINLINE Vector4D operator*(T v,const Vector4D& vt){
+        return Vector4D(v*vt.x,v*vt.y,v*vt.z,v*vt.w);
+    }
+    template <typename T>
+    DFORCEINLINE Vector4D operator/(T v,const Vector4D& vt){
+        return Vector4D(v/vt.x,v/vt.y,v/vt.z,v/vt.w);
+    }
+	///////////////////////////////////////////////////////////////////////////
+    
 	///////////////////////////////////////////////////////////////////////////
 	//plane  ORIGIN + NORMAL(direction)
 	class Plane{
@@ -512,17 +560,22 @@ namespace Easy3D{
         Vec3 min;
         Vec3 max;
         //costructor
-        AABox(const Vec3& center,const Vec3& size);
+        AABox(const Vec3& center, Vec3 size);
         AABox();
         //destructor
         ~AABox();
         //setting
-        void setBox(const Vec3& center,const Vec3& size);
+        void setBox(const Vec3& center, Vec3 size);
+        //getter
+        Vec3 getCenter() const{
+            return (min+max)*0.5;
+        }
+        Vec3 getSize() const{
+            return (max-getCenter());
+        }
         // for use in frustum computations
         Vec3 getVertexP(const Vec3 &normal) const ;
         Vec3 getVertexN(const Vec3 &normal) const ;
-        
-        
     };
 	///////////////////////////////////////////////////////////////////////////
 	class Quaternion{
@@ -634,6 +687,13 @@ namespace Easy3D{
             
 		}
         GCCALIGNED(16) ;
+        DFORCEINLINE Matrix4x4& operator = (const Matrix4x4& m){
+            row0=m.row0;
+            row1=m.row1,
+            row2=m.row2;
+            row3=m.row3;
+            return *this;
+        }
 #else
 		union {
             
@@ -701,24 +761,9 @@ namespace Easy3D{
 		///set translation
 		void setTranslation(const Vector2D &v2);
 		///set concatenate trasformation:
-		void concatenateXTranslation( float distance ){
-			entries[0] = entries[0] + distance * entries[3];
-			entries[4] = entries[4] + distance * entries[7];
-			entries[8] = entries[8] + distance * entries[11];
-			entries[12] = entries[12] + distance * entries[15];
-		}
-		void concatenateYTranslation( float distance ){
-			entries[1] = entries[1] + distance * entries[3];
-			entries[5] = entries[5] + distance * entries[7];
-			entries[9] = entries[9] + distance * entries[11];
-			entries[13] = entries[13] + distance * entries[15];
-		}
-		void concatenateZTranslation( float distance ){
-			entries[2] = entries[2] + distance * entries[3];
-			entries[6] = entries[6] + distance * entries[7];
-			entries[10] = entries[10] + distance * entries[11];
-			entries[14] = entries[14] + distance * entries[15];
-		}
+		void addTranslationOnX( float distance );
+		void addTranslationOnY( float distance );
+		void addTranslationOnZ( float distance );
 		///return translation
 		Vector3D getTranslation3D() const;
 		///return translation
@@ -744,10 +789,7 @@ namespace Easy3D{
 		///fast setting:  sx,sy
 		void setFastTransform2DS(float* list);
 		///set quaternion transformation
-		void setQuaternion(Quaternion &qt);
-		///get quaternion transformation
-		Quaternion getQuaternion();
-		Quaternion getQuaternionFast();
+		void setQuaternion(const Quaternion &qt);
 		///set orthogonal transformation (projection matrix)
 		void setOrtho(float left, float right, float bottom,float top, float n, float f);
 		///set projection transformation (projection matrix)
@@ -794,6 +836,10 @@ namespace Easy3D{
 			 y = std::move(temp);
 		}
 		//min
+		template<typename T,typename ...A>
+		static DFORCEINLINE T min(T x,A... a){
+			return min(x,min(a...));
+		}
 		template<typename T>
 		static DFORCEINLINE T min(T x,T y){
 			return x>y?y:x;
@@ -811,6 +857,10 @@ namespace Easy3D{
 			return Vector3D(min(v1.x,v2.x),min(v1.y,v2.y),min(v1.z,v2.z));
 		}
 		//max
+		template<typename T,typename ...A>
+		static DFORCEINLINE T max(T x,A... a){
+			return max(x,max(a...));
+		}
 		template<class T>
 		static DFORCEINLINE T max(T x,T y){
 			return x>y?x:y;

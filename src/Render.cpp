@@ -19,6 +19,8 @@ void Render::__renderInit(){
 	//view port
 	glViewport(0, 0, Application::instance()->getScreen()->getWidth(),
                      Application::instance()->getScreen()->getHeight());
+    //set color
+    setColorState({255,255,255,255});
 	//enable culling
     setCullFaceState(CullFaceState(CullFace::BACK));
 	//enable z buffer
@@ -207,6 +209,8 @@ void Render::drawCube(){
                             16,17,18, 18,19,16,      // bottom
                             20,21,22, 22,23,20       // back
     };
+    //unbind VBO
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
     //pointer to vertexs
     glVertexPointer(3, GL_FLOAT, 0, vertices);
     // deactivate vertex arrays after drawing
@@ -260,6 +264,8 @@ void Render::drawSphere(int ring,int settor){
         }
     }
     
+    //unbind VBO
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
     //pointer to vertexs
     glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
     // deactivate vertex arrays after drawing
