@@ -101,11 +101,7 @@ void Camera::update(){
 	planes[FRONT].normal.z = mViewProjMatrix[11] - mViewProjMatrix[10];
 	planes[FRONT].d        = mViewProjMatrix[15] - mViewProjMatrix[14];
 	planes[FRONT].normalize();
-	//set matrix
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(mProjMatrix);
-	//now change only MODELVIEW
-	glMatrixMode(GL_MODELVIEW);
+    //
 }
 //get a projectate point
 Vec2 Camera::getPointIn3DSpace(const Vec3& point){

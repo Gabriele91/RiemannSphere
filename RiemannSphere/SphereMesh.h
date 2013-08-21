@@ -2,35 +2,48 @@
 #define SPHEREMESH_H
 
 #include <Easy3D.h>
+#include <Sphere.h>
 
 namespace RiemannSphere {
+    
     /////////////////
-    class Sphere;
+    class SpheresManager;
+    
     /////////////////
 	class SphereMesh {
         
-        friend class Sphere;
+        //friends
+        friend class SpheresManager;
+        
+        //boxs
         Easy3D::AABox box;
+        
+        //sub part
+        Sphere sphere;
+        SubSphere sub;
+        
+        //sphere 
+        //ids
         GLuint vertexBuffer;
         size_t vertexBufferSize;
         
-        void buildMesh(const Sphere& sphere,
-                       int rStart,
-                       int sStart,
-                       int rEnd,
-                       int sEnd);
+        //build mesh
+        void setMeshInfo(const Sphere& sphere,
+                         const SubSphere& sub);
+        void buildMesh();
         
-		SphereMesh(const Sphere& sphere);
-		SphereMesh(const Sphere& sphere,
-                   int rStart,
-                   int sStart,
-                   int rEnd,
-                   int sEnd
-                   );
-
+        //draw
+        void draw() const;
+        
+        //info
+        DFORCEINLINE bool isBuild() const {
+            return vertexBuffer!=0;
+        }
+        
 	public:
         
-        void draw();
+        //spheres
+		SphereMesh();
         
         DFORCEINLINE const Easy3D::AABox& getAABox() const{
             return box;

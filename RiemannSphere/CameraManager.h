@@ -15,8 +15,9 @@ namespace RiemannSphere {
         float angle,n,f;
                                   
 	public:
-                                  
-                                  
+        
+        DFORCEINLINE float getAngle(){return angle;}
+        
         enum EVENTS{
           ON_ENABLE=1,
           ON_DISABLE=2

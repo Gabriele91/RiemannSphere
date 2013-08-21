@@ -1,0 +1,158 @@
+#include <stdafx.h>
+#include <SpheresManager.h>
+
+///////////////////////
+using namespace Easy3D;
+using namespace RiemannSphere;
+///////////////////////
+
+SpheresManager::SpheresManager(int rings,int sgments,int livels, float radius){
+    buildLivels(rings,sgments,livels,radius);
+}
+
+void SpheresManager::subMeshDiv8(SphereMesh* meshs,const Sphere& sphere,const SubSphere& sub){
+    //calc division rigns
+    const int
+        up=sub.rStart,
+        middle=sub.rStart+(sub.rEnd-sub.rStart)/2.0f,
+        down=sub.rEnd;
+    //calc division sections
+    const int hlpart=(sub.sEnd-sub.sStart)/4.0f;
+    const int
+    part1=sub.sStart,
+    part2=sub.sStart+hlpart,
+    part3=sub.sStart+hlpart*2,
+    part4=sub.sStart+hlpart*3,
+    part5=sub.sEnd;
+    //build parts
+    //up
+    meshs[0].setMeshInfo(sphere,{up,middle,part1,part2});
+    meshs[1].setMeshInfo(sphere,{up,middle,part2,part3});
+    meshs[2].setMeshInfo(sphere,{up,middle,part3,part4});
+    meshs[3].setMeshInfo(sphere,{up,middle,part4,part5});
+    //down
+    meshs[4].setMeshInfo(sphere,{middle,down,part1,part2});
+    meshs[5].setMeshInfo(sphere,{middle,down,part2,part3});
+    meshs[6].setMeshInfo(sphere,{middle,down,part3,part4});
+    meshs[7].setMeshInfo(sphere,{middle,down,part4,part5});
+}
+void SpheresManager::subDiv8(int liv,int mid,const Sphere& sphere,const SubSphere& sub){
+    //gen mesh
+    if(liv<=0){
+        subMeshDiv8(&meshs[getChilds(mid)],sphere,sub);
+        return;
+    }
+    //sub mesh
+    //calc division rigns
+    const int
+    up=sub.rStart,
+    middle=sub.rStart+(sub.rEnd-sub.rStart)/2.0f,
+    down=sub.rEnd;
+    //calc division sections
+    const int hlpart=(sub.sEnd-sub.sStart)/4.0f;
+    const int
+    part1=sub.sStart,
+    part2=sub.sStart+hlpart,
+    part3=sub.sStart+hlpart*2,
+    part4=sub.sStart+hlpart*3,
+    part5=sub.sEnd;
+    //build parts
+    //up
+    subDiv8(liv-1,getChilds(mid),sphere,{up,middle,part1,part2});
+    subDiv8(liv-1,getChilds(mid)+1,sphere,{up,middle,part2,part3});
+    subDiv8(liv-1,getChilds(mid)+2,sphere,{up,middle,part3,part4});
+    subDiv8(liv-1,getChilds(mid)+3,sphere,{up,middle,part4,part5});
+    //down
+    subDiv8(liv-1,getChilds(mid)+4,sphere,{middle,down,part1,part2});
+    subDiv8(liv-1,getChilds(mid)+5,sphere,{middle,down,part2,part3});
+    subDiv8(liv-1,getChilds(mid)+6,sphere,{middle,down,part3,part4});
+    subDiv8(liv-1,getChilds(mid)+7,sphere,{middle,down,part4,part5});
+}
+
+void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius){
+    
+    DEBUG_ASSERT(livels>0);
+    //savelivels
+    this->livels=livels;
+    //calc factor
+    float ringsFactor=(float)rings / livels;
+    float sgmentsFactor=(float)sgments / livels;
+    //set tree size
+    setTreeSize(livels);
+    //gen meshs
+    for (int l=0; l<livels; ++l) {
+        //sphere
+        Sphere sphere(
+            ringsFactor*(l+1),
+            sgmentsFactor*(l+1),
+            radius
+        );
+        //divs
+        subDiv8(l,
+                0,
+                sphere,
+               {
+                0,
+                sphere.rings,
+                0,
+                sphere.sectors
+               }
+            );
+        
+    }
+    
+}
+
+
+
+void SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
+    
+    if(countlivel==0){
+        for(int c=0;c<8;++c)
+            if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
+                //to do: separate thread
+                if(!meshs[getChilds(node)+c].isBuild())
+                    meshs[getChilds(node)+c].buildMesh();
+                //
+                meshs[getChilds(node)+c].draw();
+            }
+    }
+    else{
+        for(int c=0;c<8;++c)
+            if(camera.boxInFrustum( meshs[getChilds(node)+c].box ))
+                drawSub(camera,countlivel-1,getChilds(node)+c);
+    }
+    
+}
+void SpheresManager::draw(Easy3D::Camera &camera,int livel){
+    drawSub(camera,livel,0);
+}
+
+/*
+TODO
+void SpheresManager::drawSubCube(Easy3D::Camera &camera,int countlivel,int node){
+    
+    if(countlivel==0){
+        for(int c=0;c<8;++c)
+            if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
+                //to do: separate thread
+                if(!meshs[getChilds(node)+c].isBuild())
+                    meshs[getChilds(node)+c].buildMesh();
+                //
+                meshs[getChilds(node)+c].draw();
+            }
+    }
+    else{
+        for(int c=0;c<8;++c)
+            if(camera.boxInFrustum( meshs[getChilds(node)+c].box ))
+                drawSub(camera,countlivel-1,getChilds(node)+c);
+    }
+    
+}
+void SpheresManager::drawCube(Easy3D::Camera &camera,int livel){
+    drawSub(camera,livel,0);
+}*/
+
+
+
+

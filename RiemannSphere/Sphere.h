@@ -4,29 +4,37 @@
 #include <Easy3D.h>
 
 namespace RiemannSphere {
-    //////////////
-    class SphereMesh;
-    //////////////
-	class Sphere {
+    
+    
+    struct SubSphere {
+        
+        int rStart;
+        int rEnd;
+        int sStart;
+        int sEnd;
+        
+        SubSphere();
+        SubSphere(int rStart,
+                  int rEnd,
+                  int sStart,
+                  int sEnd);
+        
+    };
+    
+	struct Sphere {
         
         int rings;
         int sectors;
         float radius;
-
-	public:
-
-		Sphere(int rings,int sectors,float radius);
         
-        DFORCEINLINE int getRings() const { return rings; }
-        DFORCEINLINE int getSectors() const { return sectors; }
-        DFORCEINLINE float getRadius() const { return radius; }
+        Sphere();
+        Sphere(int rings,
+               int sectors,
+               float radius);
         
-        SphereMesh *genMesh(float rStart,float sStart,float rEnd,float sEnd);
-        Easy3D::AABox genAABox(float rStart,float sStart,float rEnd,float sEnd) const;
+        Easy3D::AABox genAABox(const SubSphere& sub) const;
         Easy3D::Vec3 getPoint(int pRings,int pSectors) const;
-
 	};
-
 };
 
 #endif

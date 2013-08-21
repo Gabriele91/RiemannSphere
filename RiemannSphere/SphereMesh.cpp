@@ -7,65 +7,52 @@ using namespace RiemannSphere;
 using namespace Easy3D;
 ///////////////////////
 
-SphereMesh::SphereMesh(const Sphere& sphere)
+
+SphereMesh::SphereMesh()
 :vertexBuffer(0)
 ,vertexBufferSize(0)
 {
-    buildMesh(sphere,
-              0,
-              0,
-              sphere.getRings(),
-              sphere.getSectors());
-}
-
-SphereMesh::SphereMesh(const Sphere& sphere,
-                       int rStart,
-                       int sStart,
-                       int rEnd,
-                       int sEnd)
-:vertexBuffer(0)
-,vertexBufferSize(0)
-{
-    buildMesh(sphere, rStart, sStart, rEnd, sEnd);
 }
 
 
+void SphereMesh::setMeshInfo(const Sphere& _sphere,
+                             const SubSphere& _sub){
+    sub=_sub;
+    sphere=_sphere;
+    box=sphere.genAABox(sub);
+}
 
-void SphereMesh::buildMesh(const Sphere& sphere,
-               int rStart,
-               int sStart,
-               int rEnd,
-               int sEnd){
+void SphereMesh::buildMesh(){
 
     
-    const int nring=rEnd-rStart;
-    const int nsettors=sEnd-sStart;
+    const int nring=sub.rEnd-sub.rStart;
+    const int nsettors=sub.sEnd-sub.sStart;
     
     std::vector<GLfloat> vertices(nring*nsettors*3*6);
     int count=0;
     
     #define push(x,y,z)\
-    vertices[count++]=(x)*sphere.getRadius();\
-    vertices[count++]=(y)*sphere.getRadius();\
-    vertices[count++]=(z)*sphere.getRadius();
+    vertices[count++]=(x)*sphere.radius;\
+    vertices[count++]=(y)*sphere.radius;\
+    vertices[count++]=(z)*sphere.radius;
     
     //center
-    for(int i = rStart; i<rEnd; ++i){
+    for(int i = sub.rStart; i<sub.rEnd; ++i){
         
-        double lat0 = Math::PI * (-0.5 + (double) i / sphere.getRings());
+        double lat0 = Math::PI * (-0.5 + (double) i / sphere.rings);
         double z0  =  std::sin(lat0);
         double zr0 =  std::cos(lat0);
         
-        double lat1 = Math::PI * (-0.5 + (double) (i+1) / sphere.getRings());
+        double lat1 = Math::PI * (-0.5 + (double) (i+1) / sphere.rings);
         double z1 =   std::sin(lat1);
         double zr1 =  std::cos(lat1);
         
-        for(int j = sStart; j < sEnd; ++j) {
-            double lng = 2 * Math::PI * (double) j / sphere.getSectors();
+        for(int j = sub.sStart; j < sub.sEnd; ++j) {
+            double lng = 2 * Math::PI * (double) j / sphere.sectors;
             double x = std::cos(lng);
             double z = std::sin(lng);
             
-            double lng2 = 2 * Math::PI * (double) (j+1) / sphere.getSectors();
+            double lng2 = 2 * Math::PI * (double) (j+1) / sphere.sectors;
             double x2 = std::cos(lng2);
             double z2 = std::sin(lng2);
             
@@ -87,7 +74,7 @@ void SphereMesh::buildMesh(const Sphere& sphere,
 }
 
 
-void SphereMesh::draw(){
+void SphereMesh::draw() const{
     //bind VBO
 	glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
 	//set vertex

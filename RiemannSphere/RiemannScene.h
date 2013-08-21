@@ -3,8 +3,7 @@
 
 #include <Easy3D.h>
 #include <CameraManager.h>
-#include <Sphere.h>
-#include <SphereMesh.h>
+#include <SpheresManager.h>
 
 namespace RiemannSphere {
 
@@ -16,9 +15,7 @@ namespace RiemannSphere {
         Easy3D::Camera camera;
         Easy3D::Object obj;
         CameraManager  *cameraManager;
-        
-        Sphere          sphere;
-        std::vector<SphereMesh*> sphereMeshs;
+        SpheresManager sphere;
         
         enum SceneInfo{
             ON_RESUME,

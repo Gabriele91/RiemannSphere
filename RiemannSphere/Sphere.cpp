@@ -8,18 +8,31 @@ using namespace Easy3D;
 ///////////////////////
 //http://acko.net/blog/making-worlds-1-of-spheres-and-cubes/
 
-Sphere::Sphere(int rings,int sectors,float radius)
-:rings(rings)
-,sectors(sectors)
-,radius(radius)
-{
-}
 
-SphereMesh *Sphere::genMesh(float rStart,float sStart,float rEnd,float sEnd){
-    SphereMesh* mesh=new SphereMesh(*this, rStart, sStart, rEnd, sEnd);
-    mesh->box=genAABox(rStart, sStart, rEnd, sEnd);
-    return mesh;
-}
+SubSphere::SubSphere(): rStart(0)
+                        ,sStart(0)
+                        ,rEnd(0)
+                        ,sEnd(0){}
+
+SubSphere::SubSphere(int rStart,
+                     int rEnd,
+                     int sStart,
+                     int sEnd):  rStart(rStart)
+                                ,rEnd(rEnd)
+                                ,sStart(sStart)
+                                ,sEnd(sEnd){}
+
+Sphere::Sphere():rings(0)
+                ,sectors(0)
+                ,radius(0)
+                {}
+
+Sphere::Sphere(int rings,
+               int sectors,
+               float radius):rings(rings)
+                            ,sectors(sectors)
+                            ,radius(radius)
+                            {}
 
 DFORCEINLINE int nearPivot(int pivot,int min,int max){
     int maxv;
@@ -56,8 +69,8 @@ DFORCEINLINE void sectorMinMaxHalf(
     Vec3 minE =self.getPoint(minring,sEnd);
     
     //middle
-    int m1=self.getSectors()*0.25;
-    int m2=self.getSectors()*0.75;
+    int m1=self.sectors*0.25;
+    int m2=self.sectors*0.75;
     Vec3 maxM=maxS;
     Vec3 minM=minS;
     
@@ -78,70 +91,23 @@ DFORCEINLINE void sectorMinMaxHalf(
     maxZ=Math::max(maxS.z,maxM.z,maxE.z,minS.z,minM.z,minE.z);
 }
 
-Easy3D::AABox Sphere::genAABox(float rStart,float sStart,float rEnd,float sEnd) const {
+Easy3D::AABox Sphere::genAABox(const SubSphere& sub) const {
 
     
     
-    Vec3 h0(getPoint(rStart,0));
-    Vec3 h1(getPoint(rEnd,0));
+    Vec3 h0(getPoint(sub.rStart,0));
+    Vec3 h1(getPoint(sub.rEnd,0));
     
     //get max size ring
-    int minring=farPivot(getRings(),rStart,rEnd);
-    int maxring=nearPivot(getRings()*0.5,rStart,rEnd);
+    int minring=farPivot(rings,sub.rStart,sub.rEnd);
+    int maxring=nearPivot(rings*0.5,sub.rStart,sub.rEnd);
     
-    
-#if 0
-    
-    double latMin = Math::PI * (-0.5 + (double) minring / getRings());
-    double zrMin =  std::cos(latMin);
-    
-    double latMax = Math::PI * (-0.5 + (double) maxring / getRings());
-    double zrMax =  std::cos(latMax);
-    
-    Vec3 min=Vec3::MAX,max=-Vec3::MAX;
-    
-    //for vars
-    float xMax,zMax,xMin,zMin;
-    float x,z,lng,invSectors=1.0f/getSectors();
-    
-    for(int s=rStart;s<sEnd;++s){
         
-        lng = Math::PI2 * (float) s * invSectors;
-        x = std::cos(lng);
-        z = std::sin(lng);
-        
-        xMax=x*zrMax;
-        zMax=z*zrMax;
-        
-        xMin=x*zrMin;
-        zMin=z*zrMin;
-        
-        min.x=Math::min(min.x,xMax,xMin);
-        min.z=Math::min(min.z,zMax,zMin);
-        max.x=Math::max(max.x,xMax,xMin);
-        max.z=Math::max(max.z,zMax,zMin);
-        
-    }
-    
-    min*=getRadius();
-    max*=getRadius();
     
     AABox box;
-    box.min.x=min.x;
-    box.min.y=h0.y;
-    box.min.z=min.z;
+    int sMid=sectors*0.5;
     
-    box.max.x=max.x;
-    box.max.y=h1.y;
-    box.max.z=max.z;
-    
-#else
-    
-    
-    AABox box;
-    int sMid=getSectors()*0.5;
-    
-    if((sEnd-sStart)<=sMid){
+    if((sub.sEnd-sub.sStart)<=sMid){
         
         float minX,minZ;
         float maxX,maxZ;
@@ -149,7 +115,7 @@ Easy3D::AABox Sphere::genAABox(float rStart,float sStart,float rEnd,float sEnd) 
         sectorMinMaxHalf(//in
                          *this,
                          maxring,minring,
-                         sStart,sEnd,
+                         sub.sStart,sub.sEnd,
                          //out
                          minX,minZ,
                          maxX,maxZ);
@@ -168,7 +134,7 @@ Easy3D::AABox Sphere::genAABox(float rStart,float sStart,float rEnd,float sEnd) 
         sectorMinMaxHalf(//in
                          *this,
                          maxring,minring,
-                         sStart,sMid,
+                         sub.sStart,sMid,
                          //out
                          minX1,minZ1,
                          maxX1,maxZ1);
@@ -178,7 +144,7 @@ Easy3D::AABox Sphere::genAABox(float rStart,float sStart,float rEnd,float sEnd) 
         sectorMinMaxHalf(//in
                          *this,
                          maxring,minring,
-                         sMid,sEnd,
+                         sMid,sub.sEnd,
                          //out
                          minX2,minZ2,
                          maxX2,maxZ2);
@@ -192,8 +158,6 @@ Easy3D::AABox Sphere::genAABox(float rStart,float sStart,float rEnd,float sEnd) 
         box.max.z=Math::max(maxZ1,maxZ2);
     }
     
-    
-#endif
     return box;
     
 }
@@ -202,14 +166,14 @@ Easy3D::AABox Sphere::genAABox(float rStart,float sStart,float rEnd,float sEnd) 
 Easy3D::Vec3 Sphere::getPoint(int pRings,int pSectors) const {
     
     
-    double lat0 = Math::PI * (-0.5 + (double) pRings / getRings());
+    double lat0 = Math::PI * (-0.5 + (double) pRings / rings);
     double z0  =  std::sin(lat0);
     double zr0 =  std::cos(lat0);
     
-    double lng = 2 * Math::PI * (double) pSectors / getSectors();
+    double lng = 2 * Math::PI * (double) pSectors / sectors;
     double x = std::cos(lng);
     double z = std::sin(lng);
     
-    return Vec3 (x * zr0, z0, z * zr0) * getRadius();
+    return Vec3 (x * zr0, z0, z * zr0) * radius;
     
 }

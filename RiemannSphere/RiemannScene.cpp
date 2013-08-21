@@ -10,7 +10,7 @@ using namespace Easy3D;
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,sphere(60,60,0.5f)
+    ,sphere(2800,2800,8,3.0f)
 {
 }
 
@@ -21,13 +21,10 @@ void RiemannScene::onStart(){
     setCullFaceState(CullFaceState(CullFace::BACK));
     //add camera manage
     addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO));
-    cameraManager->setVelocity(Vec3(10,10,5));
-    cameraManager->setProjectionInfo(Math::torad(45.0f), 1.0, 9.99);
-    camera.setPosition(Vec3(0,0,10),true);
+    cameraManager->setVelocity(Vec3(10,10,.001));
+    cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 49);
+    camera.setPosition(Vec3(0,0,50),true);
     setMatrixsState(MatrixsState(camera));
-    //sphere
-    sphereMeshs.push_back(sphere.genMesh(15, 5,
-                                         20, 10));
     //init
     onResume();
 }
@@ -48,22 +45,40 @@ void RiemannScene::onRun(float dt){
     camera.update();
     setMatrixsState(MatrixsState(camera));
     
-    setModelView(camera, obj);
-    sphereMeshs[0]->draw();
     
-
-    if(camera.boxInFrustum(sphereMeshs[0]->getAABox()))
-        setClearColorState({25,128,255,255});
-    else
-        setClearColorState({255,0,0,255});
+    if(getInput()->getKeyDown(Key::Q)){
+        Camera cam2;
+        cam2.setPerspective(Math::torad(25.0f), 1.0, 20.0);
+        cam2.setPosition(Vec3(0,0,20),true);
+        cam2.update();
+        setMatrixsState(MatrixsState(cam2));
+    }
     
+    int livel=0;
     
-    Object aabobj;
-    aabobj.setPosition(sphereMeshs[0]->getAABox().getCenter());
-    aabobj.setScale(sphereMeshs[0]->getAABox().getSize());
-    setModelView(camera, aabobj);
-    if(getInput()->getKeyDown(Key::X))
-        drawCube();
+    if(std::abs(cameraManager->getAngle())<0.05){
+        livel=1;
+    }
+    if(std::abs(cameraManager->getAngle())<0.030){
+        livel=2;
+    }
+    if(std::abs(cameraManager->getAngle())<0.020){
+        livel=3;
+    }
+    if(std::abs(cameraManager->getAngle())<0.010){
+        livel=4;
+    }
+    if(std::abs(cameraManager->getAngle())<0.006){
+        livel=5;
+    }
+    if(std::abs(cameraManager->getAngle())<0.003){
+        livel=6;
+    }
+    if(std::abs(cameraManager->getAngle())<0.002){
+        livel=7;
+    }
+    
+    sphere.draw(camera, livel);
     
     
 }
