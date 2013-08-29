@@ -10,7 +10,8 @@ using namespace Easy3D;
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,sphere(2800,2800,8,3.0f)
+    ,sphere(2800,2800,/*8000,8000,*/
+			8,3.0f)
 {
 }
 
@@ -19,6 +20,8 @@ void RiemannScene::onStart(){
     setClearColorState({25,128,255,255});
     //set projection and modelview
     setCullFaceState(CullFaceState(CullFace::BACK));
+	//set client state
+	setClientState(ClientState(ClientState::VERTEX));
     //add camera manage
     addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO));
     cameraManager->setVelocity(Vec3(10,10,.001));

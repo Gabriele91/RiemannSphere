@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="File di origine">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="File di intestazione">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="File di risorse">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="File di intestazione\Easy3D">
+      <UniqueIdentifier>{c5859901-0be7-4b52-863d-8f9a6fc1d1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di origine\Easy3D">
+      <UniqueIdentifier>{69fbe20e-d990-4aea-a90f-0ec2732fb04b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\Easy3D\window">
+      <UniqueIdentifier>{6fa76265-5bfc-44e7-baa4-203fe8d7853a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di origine\Easy3D\window">
+      <UniqueIdentifier>{e04ba542-f3a5-4c10-8a76-9bd25e38c5b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RiemannSphere">
+      <UniqueIdentifier>{be9c4da2-79e3-4d4b-853f-da8b8555a3a0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Application.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Blend.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Color.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Debug.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EStack.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EString.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ETime.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Math3D.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Memory.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Object.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Render.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Screen.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\State.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Timer.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utility.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\gletx_header.h">
+      <Filter>File di intestazione\Easy3D\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\OpenGLWindow.h">
+      <Filter>File di intestazione\Easy3D\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsApp.h">
+      <Filter>File di intestazione\Easy3D\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsInput.h">
+      <Filter>File di intestazione\Easy3D\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsScreen.h">
+      <Filter>File di intestazione\Easy3D\window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math3D_SSE2.h">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\WGL_ARB_multisample.h">
+      <Filter>File di origine\Easy3D\window</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\CameraManager.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\RiemannScene.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\Sphere.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\SphereMesh.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\SpheresManager.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Easy3D.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Config.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Debug.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EString.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ETime.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math3D.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math3D_SSE2.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Memory.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screen.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\State.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Timer.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\OpenGLWindow.cpp">
+      <Filter>File di origine\Easy3D\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\stdafx.cpp">
+      <Filter>File di origine\Easy3D\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\WGL_ARB_multisample.cpp">
+      <Filter>File di origine\Easy3D\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsApp.cpp">
+      <Filter>File di origine\Easy3D\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsInput.cpp">
+      <Filter>File di origine\Easy3D\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsScreen.cpp">
+      <Filter>File di origine\Easy3D\window</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\CameraManager.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\RiemannScene.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\Sphere.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\SphereMesh.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\SpheresManager.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

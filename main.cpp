@@ -5,7 +5,7 @@
 //  Created by Gabriele Di Bari on 14/08/13.
 //  Copyright (c) 2013 Gabriele Di Bari. All rights reserved.
 //
-
+#include <stdafx.h>
 #include <stdio.h>
 #include <Config.h>
 #include <Application.h>

@@ -74,7 +74,7 @@ extern PFNGLGETSHADERIVPROC			 glGetShaderiv;
 extern PFNGLGETPROGRAMIVPROC		 glGetProgramiv;
 extern PFNGLGETPROGRAMINFOLOGPROC	 glGetProgramInfoLog;
 
-namespace Easy2D {
+namespace Easy3D {
 	//init openGL2
 	extern void initOpenGL2();
 };

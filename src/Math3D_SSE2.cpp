@@ -159,13 +159,13 @@ extern void SSE2_Matrix4Transpose(Matrix4x4& self){
     
     __m128 T0 = _mm_unpacklo_ps(self.row0, self.row1);
     __m128 T1 = _mm_unpacklo_ps(self.row2, self.row3);
-    __m128 T2 = _mm_unpacklo_ps(self.row0, self.row1);
-    __m128 T3 = _mm_unpacklo_ps(self.row2, self.row3);
+    __m128 T2 = _mm_unpackhi_ps(self.row0, self.row1);
+    __m128 T3 = _mm_unpackhi_ps(self.row2, self.row3);
     
-    self.row0 = _mm_unpacklo_epi64(T0, T1);
-    self.row1 = _mm_unpacklo_epi64(T0, T1);
-    self.row2 = _mm_unpacklo_epi64(T2, T3);
-    self.row3 = _mm_unpacklo_epi64(T2, T3);
+    self.row0 = _mm_movelh_ps(T0, T1);
+    self.row1 = _mm_movelh_ps(T1, T0);
+    self.row2 = _mm_movelh_ps(T2, T3);
+    self.row3 = _mm_movelh_ps(T3, T2);
     
 }
 

@@ -2,11 +2,11 @@
 #define WINDOWSINPUT_H
 
 #include <Config.h>
-#include <Math2D.h>
+#include <Math3D.h>
 #include <Input.h>
 #include <WindowsApp.h>
 
-namespace Easy2D {
+namespace Easy3D {
 
 	class WindowsInput : Input{
 

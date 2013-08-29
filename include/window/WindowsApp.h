@@ -5,7 +5,7 @@
 #include <Application.h>
 #include <Game.h>
 
-namespace Easy2D {
+namespace Easy3D {
 	
 	/**
     * Abstract class, represent the application instance

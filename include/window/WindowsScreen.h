@@ -7,7 +7,7 @@
 #include <WindowsApp.h>
 #include <WindowsInput.h>
 
-namespace Easy2D {
+namespace Easy3D {
 
 	class WindowsScreen : Screen{
 
