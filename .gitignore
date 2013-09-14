@@ -1,0 +1,125 @@
+*.7z
+*.exe
+*.zip
+
+#test directory
+livel*/
+exemples*/
+
+#temp files
+temp/*
+
+#dependences
+dependencies-*/
+
+#doxy ignore
+[Dd]oxygen*/
+
+
+#mingw/gcc/g++
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so.*
+*.so
+*.dylib
+*.dylib*
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+#codeblocks
+*.layout
+
+#android old
+#AndroidProject/ant.properties
+#AndroidProject/debug.keystore
+#AndroidProject/local.properties
+#AndroidProject/libs*/
+#AndroidProject/bin*/
+#AndroidProject/Android*/
+#AndroidProject/*.sdf
+#AndroidProject/*.suo
+#AndroidProject/*.user
+
+#android new
+Android/ant.properties
+Android/debug.keystore
+Android/local.properties
+Android/libs*/
+Android/bin*/
+Android/Android*/
+Android/*.sdf
+Android/*.suo
+Android/*.user
+
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.opensdf
+*.unsuccessfulbuild
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+
+#pch Xcode must to be not ignored
+!xcode/*/*.pch
+!xcode/*.pch
+
+#MAC OS X ignore files:
+.DS_Store
+.Trashes
+*.swp
+*.lock
+*~.nib
+
+#xcode build
+build/
+xcode/build/
+DerivedData/
+xcode/DerivedData/
+
+#Xcode private settings 
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+#NB: also, whitelist the default ones, some projects need to use these
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+
+# Xcode 4 - semi-personal settings
+xcuserdata
+xcode/xcuserdata
+
+# Xcode 4 - Deprecated classes
+*.moved-aside
+
