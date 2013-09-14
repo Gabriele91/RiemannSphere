@@ -432,45 +432,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398809418.292575"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "91"
-         endingLineNumber = "91"
-         landmarkName = "SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398809418.292575"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "84"
-         endingLineNumber = "84"
-         landmarkName = "SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398809418.292575"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "85"
-         endingLineNumber = "85"
-         landmarkName = "SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "RiemannSphere/SphereMesh.h"
          timestampString = "398784776.277124"
          startingColumnNumber = "9223372036854775807"
@@ -485,11 +446,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398810035.881083"
+         timestampString = "400750419.089863"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "115"
-         endingLineNumber = "115"
+         startingLineNumber = "136"
+         endingLineNumber = "136"
          landmarkName = "SpheresManager::drawSub(Easy3D::Camera &amp;camera,int countlivel,int node)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -498,11 +459,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398810035.881083"
+         timestampString = "400750419.089863"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "114"
-         endingLineNumber = "114"
+         startingLineNumber = "135"
+         endingLineNumber = "135"
          landmarkName = "SpheresManager::drawSub(Easy3D::Camera &amp;camera,int countlivel,int node)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -576,11 +537,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398810035.881083"
+         timestampString = "400750419.089863"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "117"
-         endingLineNumber = "117"
+         startingLineNumber = "138"
+         endingLineNumber = "138"
          landmarkName = "SpheresManager::drawSub(Easy3D::Camera &amp;camera,int countlivel,int node)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -589,11 +550,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398810035.881083"
+         timestampString = "400750419.089863"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "122"
-         endingLineNumber = "122"
+         startingLineNumber = "143"
+         endingLineNumber = "143"
          landmarkName = "SpheresManager::drawSub(Easy3D::Camera &amp;camera,int countlivel,int node)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -602,11 +563,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398810035.881083"
+         timestampString = "400750419.089863"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "123"
-         endingLineNumber = "123"
+         startingLineNumber = "144"
+         endingLineNumber = "144"
          landmarkName = "SpheresManager::drawSub(Easy3D::Camera &amp;camera,int countlivel,int node)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -628,11 +589,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "RiemannSphere/SpheresManager.cpp"
-         timestampString = "398809418.292575"
+         timestampString = "400750419.089863"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "81"
-         endingLineNumber = "81"
+         startingLineNumber = "82"
+         endingLineNumber = "82"
          landmarkName = "SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -738,6 +699,32 @@
          startingLineNumber = "72"
          endingLineNumber = "72"
          landmarkName = "RiemannScene::onRun(float dt)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "RiemannSphere/SpheresManager.cpp"
+         timestampString = "400750467.713709"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "121"
+         endingLineNumber = "121"
+         landmarkName = "SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "RiemannSphere/SpheresManager.cpp"
+         timestampString = "400750470.141383"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "119"
+         endingLineNumber = "119"
+         landmarkName = "SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

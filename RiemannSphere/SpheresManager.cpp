@@ -79,28 +79,49 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)
     float sgmentsFactor=(float)sgments / livels;
     //set tree size
     setTreeSize(livels);
-    //gen meshs
-    for (int l=0; l<livels; ++l) {
-        //sphere
-        Sphere sphere(
-            ringsFactor*(l+1),
-            sgmentsFactor*(l+1),
-            radius
-        );
-        //divs
-        subDiv8(l,
-                0,
-                sphere,
-               {
-                0,
-                sphere.rings,
-                0,
-                sphere.sectors
-               }
-            );
-        
-    }
+    /*
+     get file
+     */
+    Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+".save");
     
+    if(path.existsFile()){
+        FILE *file=fopen(path, "r");
+        if(file){
+            fread(&meshs[0], meshs.size()*sizeof(SphereMesh), 1, file);
+            fclose(file);
+        }
+    }
+    else{
+        //gen meshs
+        for (int l=0; l<livels; ++l) {
+            //sphere
+            Sphere sphere(
+                ringsFactor*(l+1),
+                sgmentsFactor*(l+1),
+                radius
+            );
+            //divs
+            subDiv8(l,
+                    0,
+                    sphere,
+                   {
+                    0,
+                    sphere.rings,
+                    0,
+                    sphere.sectors
+                   }
+                );
+            
+        }
+        /*
+         Save into the file
+         */
+        FILE *file=fopen(path, "w");
+        if(file){
+            fwrite(&meshs[0], meshs.size()*sizeof(SphereMesh), 1, file);
+            fclose(file);
+        }
+    }
 }
 
 
