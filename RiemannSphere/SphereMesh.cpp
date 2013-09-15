@@ -1,12 +1,42 @@
 #include <stdafx.h>
 #include <Sphere.h>
 #include <SphereMesh.h>
+#include <complex>
 
 ///////////////////////
 using namespace RiemannSphere;
 using namespace Easy3D;
 ///////////////////////
 
+//  f(x)/f'(x)
+//  a[] is list of coefficients, g number of coefficients
+//  x is function's argument
+template<class T> inline std::complex<T> fxOnDx(T *a,int g,const std::complex<T>& x){
+   
+    if(g<2) return 0;
+   
+    std::complex<T> vn=a[g-1];
+    std::complex<T> wn=vn;
+ 
+    for(int i=g-2;i>0;--i){
+       vn = vn*x+a[i];
+       wn = wn*x+vn;
+    }
+   
+    vn = vn*x+a[0];
+   
+    return vn/wn;
+   
+}
+
+//newton
+template<class T> inline std::complex<T> newton(T *a,int g,const std::complex<T>& xk,int n){
+	while(n--)
+		xk=xk-fxOnDx(a,g,xk);
+	//determinare dove cade:
+
+}
+ 
 
 SphereMesh::SphereMesh()
 :vertexBuffer(0)
@@ -69,7 +99,7 @@ void SphereMesh::buildMesh(){
     //create the VBO
     if( !vertexBuffer )  glGenBuffers(1, &vertexBuffer );
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * nring*nsettors*3*6, &vertices[0], GL_STATIC_DRAW);
     vertexBufferSize=vertices.size()/3;
 }
 

@@ -24,6 +24,10 @@ void SpheresManager::subMeshDiv8(SphereMesh* meshs,const Sphere& sphere,const Su
     part3=sub.sStart+hlpart*2,
     part4=sub.sStart+hlpart*3,
     part5=sub.sEnd;
+
+	//hasert
+	if(part1==part2 || part2==part3 || part3==part4 || part4==part5)
+		Debug::message()<<"parts:"<<part1<<" "<<part2<<" "<<part3<<" "<<part4<<" "<<part5<<"\n";
     //build parts
     //up
     meshs[0].setMeshInfo(sphere,{up,middle,part1,part2});
@@ -84,14 +88,15 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)
      */
     Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+".save");
     
+	Debug::message()<<livels;
     if(path.existsFile()){
-        FILE *file=fopen(path, "r");
-        if(file){
+       FILE *file=fopen(path, "r");
+       if(file){
             fread(&meshs[0], meshs.size()*sizeof(SphereMesh), 1, file);
             fclose(file);
-        }
-    }
-    else{
+       }
+   }
+   else{
         //gen meshs
         for (int l=0; l<livels; ++l) {
             //sphere

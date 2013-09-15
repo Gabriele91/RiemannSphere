@@ -7,7 +7,7 @@ livel*/
 exemples*/
 
 #temp files
-temp/*
+temp/*.save
 
 #dependences
 dependencies-*/
