@@ -135,6 +135,15 @@
     <ClInclude Include="stdafx.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannSphere\Polynomial.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\NewtonFractal.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Table.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -227,5 +236,19 @@
     <ClCompile Include="main.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="RiemannSphere\Polynomial.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\NewtonFractal.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Table.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="function.test.e2d">
+      <Filter>File di risorse</Filter>
+    </None>
   </ItemGroup>
 </Project>

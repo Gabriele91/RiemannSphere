@@ -21,6 +21,7 @@
 #include <Application.h>
 #include <Screen.h>
 #include <Input.h>
+#include <Table.h>
 
 #include <Math3D.h>
 #include <Utility.h>

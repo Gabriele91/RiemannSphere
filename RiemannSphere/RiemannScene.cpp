@@ -10,9 +10,12 @@ using namespace Easy3D;
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,sphere(3600,3600*2,/*8000,8000,*/
-			6,
-			3.0f)
+    ,sphere("function.test.e2d",
+			3600*5,3600*2*5,/*8000,8000,*/
+			6,//livels
+			3.0f,//sphere radius
+			100.0f//detail per livels
+			)
 {
 }
 
@@ -22,7 +25,7 @@ void RiemannScene::onStart(){
     //set projection and modelview
     setCullFaceState(CullFaceState(CullFace::BACK));
 	//set client state
-	setClientState(ClientState(ClientState::VERTEX));
+	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
     addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO));
     cameraManager->setVelocity(Vec3(10,10,.001));
@@ -41,10 +44,11 @@ void RiemannScene::onResume(){
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
     //save info
     sceneInfo=ON_RESUME;
+	//clear and draw
+    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 }
 
 void RiemannScene::onRun(float dt){
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     doClear();
     camera.update();
     setMatrixsState(MatrixsState(camera));

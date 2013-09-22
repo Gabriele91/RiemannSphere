@@ -3,6 +3,7 @@
 
 #include <Easy3D.h>
 #include <Sphere.h>
+#include <NewtonFractal.h>
 
 namespace RiemannSphere {
     
@@ -26,12 +27,11 @@ namespace RiemannSphere {
         //ids
         GLuint vertexBuffer;
         size_t vertexBufferSize;
-        
+        //set info
+        void setMeshInfo(const Sphere& sphere,const SubSphere& sub);
         //build mesh
-        void setMeshInfo(const Sphere& sphere,
-                         const SubSphere& sub);
-        void buildMesh();
-        
+        void buildMesh(const NewtonFractal<float>& newton);
+        void buildMesh(const NewtonFractal<double>& newton);
         //draw
         void draw() const;
         

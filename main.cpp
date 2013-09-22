@@ -21,7 +21,7 @@ class RiemannApp : public Game {
     public:
     
     
-    RiemannApp():Game("RiemannSphere",1280,720){}
+		RiemannApp():Game("RiemannSphere",1280,720,32,30,false,Screen::MSAAx8){}
     
     enum SCENE{
         RIEMANN_SCENE=0

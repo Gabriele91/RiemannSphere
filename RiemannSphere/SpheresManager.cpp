@@ -6,8 +6,16 @@ using namespace Easy3D;
 using namespace RiemannSphere;
 ///////////////////////
 
-SpheresManager::SpheresManager(int rings,int sgments,int livels, float radius){
-    buildLivels(rings,sgments,livels,radius);
+SpheresManager::SpheresManager(const Easy3D::Utility::Path& polyfunction,
+							   int rings,
+							   int sgments,
+							   int livels, 
+							   float radius,
+							   float dfPerLivel)
+							   :poly(polyfunction)
+							   ,fractal(&poly)
+{
+    buildLivels(rings,sgments,livels,radius,dfPerLivel);
 }
 
 void SpheresManager::subMeshDiv8(SphereMesh* meshs,const Sphere& sphere,const SubSphere& sub){
@@ -73,14 +81,14 @@ void SpheresManager::subDiv8(int liv,int mid,const Sphere& sphere,const SubSpher
     subDiv8(liv-1,getChilds(mid)+7,sphere,{middle,down,part4,part5});
 }
 
-void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius){
+void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,float dfPerLivel){
     
     DEBUG_ASSERT(livels>0);
     //savelivels
     this->livels=livels;
     //calc factor
-    float ringsFactor=(float)rings / livels;
-    float sgmentsFactor=(float)sgments / livels;
+    float ringsFactor=(float)rings / (livels*dfPerLivel);
+    float sgmentsFactor=(float)sgments / (livels*dfPerLivel);
     //set tree size
     setTreeSize(livels);
     /*
@@ -89,20 +97,22 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius)
     Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+".save");
     
 	Debug::message()<<livels;
-    if(path.existsFile()){
+    /*if(path.existsFile()){
        FILE *file=fopen(path, "r");
        if(file){
             fread(&meshs[0], meshs.size()*sizeof(SphereMesh), 1, file);
             fclose(file);
        }
    }
-   else{
+   else
+   */
+	{
         //gen meshs
         for (int l=0; l<livels; ++l) {
             //sphere
             Sphere sphere(
-                ringsFactor*(l+1),
-                sgmentsFactor*(l+1),
+                ringsFactor*(l+1)*(dfPerLivel/(livels-l)),
+                sgmentsFactor*(l+1)*(dfPerLivel/(livels-l)),
                 radius
             );
             //divs
@@ -138,7 +148,7 @@ void SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
             if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
                 //to do: separate thread
                 if(!meshs[getChilds(node)+c].isBuild())
-                    meshs[getChilds(node)+c].buildMesh();
+                    meshs[getChilds(node)+c].buildMesh(fractal);
                 //
                 meshs[getChilds(node)+c].draw();
             }

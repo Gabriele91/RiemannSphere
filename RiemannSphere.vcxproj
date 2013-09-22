@@ -93,6 +93,7 @@
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\State.h" />
+    <ClInclude Include="include\Table.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\Types.h" />
     <ClInclude Include="include\Utility.h" />
@@ -102,6 +103,8 @@
     <ClInclude Include="include\window\WindowsInput.h" />
     <ClInclude Include="include\window\WindowsScreen.h" />
     <ClInclude Include="RiemannSphere\CameraManager.h" />
+    <ClInclude Include="RiemannSphere\NewtonFractal.h" />
+    <ClInclude Include="RiemannSphere\Polynomial.h" />
     <ClInclude Include="RiemannSphere\RiemannScene.h" />
     <ClInclude Include="RiemannSphere\Sphere.h" />
     <ClInclude Include="RiemannSphere\SphereMesh.h" />
@@ -113,6 +116,8 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RiemannSphere\CameraManager.cpp" />
+    <ClCompile Include="RiemannSphere\NewtonFractal.cpp" />
+    <ClCompile Include="RiemannSphere\Polynomial.cpp" />
     <ClCompile Include="RiemannSphere\RiemannScene.cpp" />
     <ClCompile Include="RiemannSphere\Sphere.cpp" />
     <ClCompile Include="RiemannSphere\SphereMesh.cpp" />
@@ -133,6 +138,7 @@
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\State.cpp" />
+    <ClCompile Include="src\Table.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\window\OpenGLWindow.cpp" />
@@ -144,6 +150,9 @@
     <ClCompile Include="src\window\WindowsApp.cpp" />
     <ClCompile Include="src\window\WindowsInput.cpp" />
     <ClCompile Include="src\window\WindowsScreen.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="function.test.e2d" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
