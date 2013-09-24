@@ -18,6 +18,9 @@
 #include <ETime.h>
 #include <Timer.h>
 
+#include <Thread.h>
+#include <Mutex.h>
+
 #include <Application.h>
 #include <Screen.h>
 #include <Input.h>

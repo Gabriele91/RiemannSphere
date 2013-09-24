@@ -10,12 +10,7 @@ using namespace Easy3D;
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,sphere("function.test.e2d",
-			3600*5,3600*2*5,/*8000,8000,*/
-			6,//livels
-			3.0f,//sphere radius
-			100.0f//detail per livels
-			)
+    ,sphere("function.test.e2d", 3600*8, 3600*2*8,/*8000,8000,*/  7,/*livels*/ 3.0f,/*sphere radius*/ 180.0f/*detail per livels*/)
 {
 }
 
@@ -28,7 +23,7 @@ void RiemannScene::onStart(){
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
     addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO));
-    cameraManager->setVelocity(Vec3(10,10,.001));
+    cameraManager->setVelocity(Vec3(10,10,.0002));
     cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 49);
     camera.setPosition(Vec3(0,0,50),true);
     setMatrixsState(MatrixsState(camera));
@@ -78,10 +73,10 @@ void RiemannScene::onRun(float dt){
     }
     if(std::abs(cameraManager->getAngle())<0.006){
         livel=5;
-    }/*
+    }
     if(std::abs(cameraManager->getAngle())<0.003){
         livel=6;
-    }
+    }/*
     if(std::abs(cameraManager->getAngle())<0.002){
         livel=7;
     }*/

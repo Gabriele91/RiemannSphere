@@ -28,6 +28,12 @@
     <Filter Include="RiemannSphere">
       <UniqueIdentifier>{be9c4da2-79e3-4d4b-853f-da8b8555a3a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di origine\Easy3D\thread">
+      <UniqueIdentifier>{bc2ee36a-4292-4191-a83e-ec3ed41e3e8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\Easy3D\thread">
+      <UniqueIdentifier>{8046fea2-d106-40ad-90a4-58eed78c9335}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -144,6 +150,21 @@
     <ClInclude Include="include\Table.h">
       <Filter>File di intestazione\Easy3D</Filter>
     </ClInclude>
+    <ClInclude Include="include\thread\Mutex.h">
+      <Filter>File di intestazione\Easy3D\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\thread\MutexConf.h">
+      <Filter>File di intestazione\Easy3D\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\thread\Thread.h">
+      <Filter>File di intestazione\Easy3D\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\thread\ThreadConf.h">
+      <Filter>File di intestazione\Easy3D\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\PoolThread.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -244,6 +265,15 @@
     </ClCompile>
     <ClCompile Include="src\Table.cpp">
       <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\MutexWin32.cpp">
+      <Filter>File di origine\Easy3D\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\ThreadWin32.cpp">
+      <Filter>File di origine\Easy3D\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\PoolThread.cpp">
+      <Filter>RiemannSphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

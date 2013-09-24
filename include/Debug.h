@@ -28,7 +28,9 @@ namespace Easy3D {
 	};
 
 #ifdef _DEBUG
-
+	
+	#define DEBUG_MODE "debug"
+	#define DEBUG_ENABLE
 	#define DEBUG_MESSAGE( x ) Debug::message()<<x<<"\n"
 	#define DEBUG_ASSERT( x ) Debug::doassert((x),#x,__FILE__,__LINE__)
 	#define DEBUG_ASSERT_MSG( x,y ) if(!(x)){Debug::message()<<y<<"\n";} Debug::doassert((x),#x,__FILE__,__LINE__)
@@ -39,6 +41,8 @@ namespace Easy3D {
 
 #else
 
+	#define DEBUG_MODE "release"
+	#define DEBUG_DISABLE
 	#define DEBUG_MESSAGE( x )
 	#define DEBUG_ASSERT( x )
 	#define DEBUG_ASSERT_MSG( x,y )

@@ -1,4 +1,5 @@
 #include <stdafx.h>
+#include <Debug.h>
 #include <SpheresManager.h>
 
 ///////////////////////
@@ -12,10 +13,16 @@ SpheresManager::SpheresManager(const Easy3D::Utility::Path& polyfunction,
 							   int livels, 
 							   float radius,
 							   float dfPerLivel)
-							   :poly(polyfunction)
+							   :multithread(NULL)
+							   ,poly(polyfunction)
 							   ,fractal(&poly)
 {
     buildLivels(rings,sgments,livels,radius,dfPerLivel);
+	multithread=new PoolThread(4);
+}
+
+SpheresManager::~SpheresManager(){
+	delete multithread;
 }
 
 void SpheresManager::subMeshDiv8(SphereMesh* meshs,const Sphere& sphere,const SubSphere& sub){
@@ -93,19 +100,19 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
     setTreeSize(livels);
     /*
      get file
-     */
-    Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+".save");
+    */
+    Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+"_"+DEBUG_MODE+".save");
     
-	Debug::message()<<livels;
-    /*if(path.existsFile()){
+	//Debug::message()<<livels;
+	/*
+    if(path.existsFile()){
        FILE *file=fopen(path, "r");
        if(file){
             fread(&meshs[0], meshs.size()*sizeof(SphereMesh), 1, file);
             fclose(file);
        }
    }
-   else
-   */
+   else*/
 	{
         //gen meshs
         for (int l=0; l<livels; ++l) {
@@ -141,24 +148,35 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
 
 
 
-void SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
-    
+bool SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
+
+    bool drawFather=false;
+
     if(countlivel==0){
         for(int c=0;c<8;++c)
             if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
                 //to do: separate thread
                 if(!meshs[getChilds(node)+c].isBuild())
-                    meshs[getChilds(node)+c].buildMesh(fractal);
+                    meshs[getChilds(node)+c].buildMesh(*multithread,fractal);
+                //					
+				drawFather=drawFather||!meshs[getChilds(node)+c].isDrawenable();
                 //
                 meshs[getChilds(node)+c].draw();
             }
     }
     else{
+
         for(int c=0;c<8;++c)
-            if(camera.boxInFrustum( meshs[getChilds(node)+c].box ))
-                drawSub(camera,countlivel-1,getChilds(node)+c);
+            if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
+				if(drawSub(camera,countlivel-1,getChilds(node)+c)){ 
+					drawFather=drawFather||!meshs[getChilds(node)+c].isDrawenable();
+					meshs[getChilds(node)+c].draw();
+				}
+			}
+
     }
-    
+	//draw dad?
+    return drawFather;
 }
 void SpheresManager::draw(Easy3D::Camera &camera,int livel){
     drawSub(camera,livel,0);

@@ -44,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./;include/;include/window/;RiemannSphere/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;include/;include/window/;include/thread/;RiemannSphere/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -61,7 +61,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./;include/;include/window/;RiemannSphere/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;include/;include/window/;include/thread/;RiemannSphere/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -94,6 +94,10 @@
     <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\Table.h" />
+    <ClInclude Include="include\thread\Mutex.h" />
+    <ClInclude Include="include\thread\MutexConf.h" />
+    <ClInclude Include="include\thread\Thread.h" />
+    <ClInclude Include="include\thread\ThreadConf.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\Types.h" />
     <ClInclude Include="include\Utility.h" />
@@ -105,6 +109,7 @@
     <ClInclude Include="RiemannSphere\CameraManager.h" />
     <ClInclude Include="RiemannSphere\NewtonFractal.h" />
     <ClInclude Include="RiemannSphere\Polynomial.h" />
+    <ClInclude Include="RiemannSphere\PoolThread.h" />
     <ClInclude Include="RiemannSphere\RiemannScene.h" />
     <ClInclude Include="RiemannSphere\Sphere.h" />
     <ClInclude Include="RiemannSphere\SphereMesh.h" />
@@ -118,6 +123,7 @@
     <ClCompile Include="RiemannSphere\CameraManager.cpp" />
     <ClCompile Include="RiemannSphere\NewtonFractal.cpp" />
     <ClCompile Include="RiemannSphere\Polynomial.cpp" />
+    <ClCompile Include="RiemannSphere\PoolThread.cpp" />
     <ClCompile Include="RiemannSphere\RiemannScene.cpp" />
     <ClCompile Include="RiemannSphere\Sphere.cpp" />
     <ClCompile Include="RiemannSphere\SphereMesh.cpp" />
@@ -139,6 +145,8 @@
     <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\Table.cpp" />
+    <ClCompile Include="src\thread\MutexWin32.cpp" />
+    <ClCompile Include="src\thread\ThreadWin32.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\window\OpenGLWindow.cpp" />

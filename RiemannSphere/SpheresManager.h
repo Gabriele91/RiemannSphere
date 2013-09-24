@@ -4,11 +4,15 @@
 #include <Easy3D.h>
 #include <SphereMesh.h>
 #include <NewtonFractal.h>
+#include <PoolThread.h>
 
 namespace RiemannSphere {
 
 	class SpheresManager {
         
+		//pool
+		PoolThread *multithread;
+
         //octree
         int livels;
         std::vector<SphereMesh> meshs;
@@ -32,12 +36,13 @@ namespace RiemannSphere {
         void buildLivels(int rings,int sgments,int livels,float radius,float dfPerLivel=2.0);
         
         //draw trees
-        void drawSub(Easy3D::Camera &camera,int countlivel,int node);
+        bool drawSub(Easy3D::Camera &camera,int countlivel,int node);
         void drawSubCube(Easy3D::Camera &camera,int countlivel,int node);
 
 		//math function
-		Polynomial<float> poly;
-		NewtonFractal<float> fractal;
+		Polynomial<double> poly;
+		NewtonFractal<double> fractal;
+
 
 	public:
 
@@ -47,7 +52,7 @@ namespace RiemannSphere {
 					   float dfPerLivel=2.0);
         void draw(Easy3D::Camera &camera,int livel);
         void drawCube(Easy3D::Camera &camera,int livel);
-
+		virtual ~SpheresManager();
 	};
 
 };

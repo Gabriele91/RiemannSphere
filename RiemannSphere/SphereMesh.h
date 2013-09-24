@@ -4,6 +4,7 @@
 #include <Easy3D.h>
 #include <Sphere.h>
 #include <NewtonFractal.h>
+#include <PoolThread.h>
 
 namespace RiemannSphere {
     
@@ -22,23 +23,33 @@ namespace RiemannSphere {
         //sub part
         Sphere sphere;
         SubSphere sub;
-        
-        //sphere 
-        //ids
+        //cpu side
+		void *cpuVertexBuffer;
+		size_t cpuVertexBufferSize;
+		bool build;
+        //ids gpu
         GLuint vertexBuffer;
         size_t vertexBufferSize;
+		bool canDraw;
         //set info
         void setMeshInfo(const Sphere& sphere,const SubSphere& sub);
         //build mesh
-        void buildMesh(const NewtonFractal<float>& newton);
-        void buildMesh(const NewtonFractal<double>& newton);
+        void buildMesh(PoolThread& pt,const NewtonFractal<float>& newton);
+        void buildMesh(PoolThread& pt,const NewtonFractal<double>& newton);
         //draw
-        void draw() const;
+        void draw();
         
         //info
         DFORCEINLINE bool isBuild() const {
             return vertexBuffer!=0;
-        }
+        }       
+        DFORCEINLINE bool isDrawenable() const {
+            return build;
+        }       
+		//send cpu buffer to gpu
+		void cpuBufferToGpu();
+		void freeCpuBuffers();
+
         
 	public:
         
