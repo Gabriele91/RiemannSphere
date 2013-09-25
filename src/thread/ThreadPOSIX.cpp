@@ -7,9 +7,12 @@
 //
 
 #include <stdafx.h>
-#include "Thread.h"
+#include <Config.h>
+#include <Thread.h>
+#include <unistd.h>
+#include <signal.h>
 
-using namespace SolarSystem;
+using namespace Easy3D;
 
 Thread::Thread(actionOnDelete cad)
 :thisThFun(NULL)

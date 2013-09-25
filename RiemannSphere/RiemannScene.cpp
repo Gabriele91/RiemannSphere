@@ -23,7 +23,7 @@ void RiemannScene::onStart(){
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
     addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO));
-    cameraManager->setVelocity(Vec3(10,10,.0002));
+    cameraManager->setVelocity(Vec3(10,10,.002));
     cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 49);
     camera.setPosition(Vec3(0,0,50),true);
     setMatrixsState(MatrixsState(camera));

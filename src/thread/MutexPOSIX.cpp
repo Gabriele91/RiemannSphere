@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include "Mutex.h"
-using namespace SolarSystem;
+using namespace Easy3D;
 
 Mutex::Mutex(){
 	pthread_mutexattr_t attr;

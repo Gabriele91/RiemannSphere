@@ -29,40 +29,40 @@ namespace RiemannSphere {
 		std::vector<T> constants;
 		std::vector< std::complex<T> > roots;
 		std::vector< RootColor<T> > rootsColor;
-
-		Polynomial(const Easy3D::Table& table){
-
-			if(table.getDeserializeErros().size()){
-				Debug::message()<<"Polynomial table:\n"<<table.getDeserializeErros();
-			}
-
-			if(table.existsAsType("constants",Easy3D::Table::TABLE)){
-				const Table& tconstants=table.getConstTable("constants");
-				for(auto cns:tconstants){
-					DEBUG_ASSERT(cns.second->asType(Easy3D::Table::FLOAT));
-					constants.push_back( (T)cns.second->get<float>() );
-				}
-			}
-			if(table.existsAsType("roots",Easy3D::Table::TABLE)){
-				const Table& troots=table.getConstTable("roots");
-				for(auto rt:troots){
-					DEBUG_ASSERT(rt.second->asType(Easy3D::Table::VECTOR2D));
-					std::complex<T> root(rt.second->get<Vec2>().x,
-										 rt.second->get<Vec2>().y);
-					roots.push_back(root);
-				}
-			}
-			if(table.existsAsType("rootsColors",Easy3D::Table::TABLE)){
-				const Table& troots=table.getConstTable("rootsColors");
-				for(auto rt:troots){
-					DEBUG_ASSERT(rt.second->asType(Easy3D::Table::VECTOR3D));
-					rootsColor.push_back({rt.second->get<Vec3>().x, 
-										  rt.second->get<Vec3>().y, 
-										  rt.second->get<Vec3>().z});
-				}
-			}
-
-		}
+        
+        Polynomial(const Easy3D::Table& table){
+            
+            if(table.getDeserializeErros().size()){
+                Easy3D::Debug::message()<<"Polynomial table:\n"<<table.getDeserializeErros();
+            }
+            
+            if(table.existsAsType("constants",Easy3D::Table::TABLE)){
+                const Easy3D::Table& tconstants=table.getConstTable("constants");
+                for(auto cns:tconstants){
+                    Easy3D::Debug::doassert((cns.second->asType(Easy3D::Table::FLOAT)),"Easy3D::Table::FLOAT",__FILE__,__LINE__);
+                    constants.push_back( (T)cns.second->get<float>() );
+                }
+            }
+            if(table.existsAsType("roots",Easy3D::Table::TABLE)){
+                const Easy3D::Table& troots=table.getConstTable("roots");
+                for(auto rt:troots){
+                    Easy3D::Debug::doassert((rt.second->asType(Easy3D::Table::VECTOR2D)),"Easy3D::Table::VECTOR2D",__FILE__,__LINE__);
+                    std::complex<T> root(rt.second->get<Easy3D::Vec2>().x,
+                                         rt.second->get<Easy3D::Vec2>().y);
+                    roots.push_back(root);
+                }
+            }
+            if(table.existsAsType("rootsColors",Easy3D::Table::TABLE)){
+                const Easy3D::Table& troots=table.getConstTable("rootsColors");
+                for(auto rt:troots){
+                    Easy3D::Debug::doassert((rt.second->asType(Easy3D::Table::VECTOR3D)),"Easy3D::Table::VECTOR3D",__FILE__,__LINE__);
+                    rootsColor.push_back({rt.second->get<Easy3D::Vec3>().x,
+                        rt.second->get<Easy3D::Vec3>().y, 
+                        rt.second->get<Easy3D::Vec3>().z});
+                }
+            }
+            
+        }
 
 	};
 

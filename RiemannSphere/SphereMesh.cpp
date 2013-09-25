@@ -44,6 +44,19 @@ void SphereMesh::freeCpuBuffers(){
 	}
 }
 
+#define pushv(v)\
+vertices[count++]=v.x*sphere.radius;\
+vertices[count++]=v.y*sphere.radius;\
+vertices[count++]=v.z*sphere.radius;
+
+#define pushRootColor(rcolor)\
+vertices[count++]=(rcolor.r);\
+vertices[count++]=(rcolor.g);\
+vertices[count++]=(rcolor.b);
+
+#define toComplex(v) std::complex<float>(v.x/(1.0-v.y),v.z/(1.0-v.y))
+
+
 void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<float>& newton){
 	//asserts
 	DEBUG_ASSERT(!cpuVertexBuffer);	
@@ -64,18 +77,6 @@ void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<float>& newton
 		//gpu side
 		vertexBufferSize=nring*nsettors*6;
 		
-		#define pushv(v)\
-		vertices[count++]=v.x*sphere.radius;\
-		vertices[count++]=v.y*sphere.radius;\
-		vertices[count++]=v.z*sphere.radius;
-
-		#define pushRootColor(rcolor)\
-		vertices[count++]=(rcolor.r);\
-		vertices[count++]=(rcolor.g);\
-		vertices[count++]=(rcolor.b);
-
-		#define toComplex(v) std::complex<float>(v.x/1.0-v.y,v.z/1.0-v.y)
-
 		//center
 		for(int i = sub.rStart; i<sub.rEnd; ++i){
         
@@ -151,18 +152,6 @@ void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<double>& newto
 		int count=0;
 		//gpu side
 		vertexBufferSize=nring*nsettors*6;
-		
-		#define pushv(v)\
-		vertices[count++]=v.x*sphere.radius;\
-		vertices[count++]=v.y*sphere.radius;\
-		vertices[count++]=v.z*sphere.radius;
-
-		#define pushRootColor(rcolor)\
-		vertices[count++]=(rcolor.r);\
-		vertices[count++]=(rcolor.g);\
-		vertices[count++]=(rcolor.b);
-
-		#define toComplex(v) std::complex<float>(v.x/1.0-v.y,v.z/1.0-v.y)
 
 		//center
 		for(int i = sub.rStart; i<sub.rEnd; ++i){
