@@ -123,16 +123,7 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
                 radius+0.0001f*l
             );
             //divs
-            subDiv8(l,
-                    0,
-                    sphere,
-                   {
-                    0,
-                    sphere.rings,
-                    0,
-                    sphere.sectors
-                   }
-                );
+            subDiv8(l, 0, sphere, {  0, sphere.rings, 0, sphere.sectors  });
             
         }
         /*
@@ -147,6 +138,20 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
 }
 
 
+void SpheresManager::addMeshToBuild(SphereMesh* mesh){
+	mutexBuildList.lock();
+		meshToBuilds.push_front(mesh);
+	mutexBuildList.unlock();
+}
+void SpheresManager::doBuildsList(){
+	mutexBuildList.lock();
+	for(auto meshs:meshToBuilds){
+		meshs->cpuBufferToGpu();
+		meshs->freeCpuBuffers();
+	}
+	meshToBuilds.clear();
+	mutexBuildList.unlock();
+}
 
 bool SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
 
@@ -157,7 +162,7 @@ bool SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
             if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
                 //to do: separate thread
                 if(!meshs[getChilds(node)+c].isBuild())
-                    meshs[getChilds(node)+c].buildMesh(*multithread,fractal);
+                    meshs[getChilds(node)+c].buildMesh(*this,fractal);
                 //draw
                 drawFather=meshs[getChilds(node)+c].draw()&&drawFather;
             }
@@ -176,6 +181,7 @@ bool SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
     return drawFather;
 }
 void SpheresManager::draw(Easy3D::Camera &camera,int livel){
+	doBuildsList();
     drawSub(camera,livel,0);
 }
 

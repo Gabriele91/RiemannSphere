@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <Sphere.h>
 #include <SphereMesh.h>
+#include <SpheresManager.h>
 #include <complex>
 
 ///////////////////////
@@ -57,7 +58,7 @@ vertices[count++]=(rcolor.b);
 #define toComplex(v) std::complex<float>(v.x/(1.0-v.y),v.z/(1.0-v.y))
 
 
-void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<float>& newton){
+void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<float>& newton){
 	//asserts
 	DEBUG_ASSERT(!cpuVertexBuffer);	
 	DEBUG_ASSERT(!vertexBuffer);
@@ -65,7 +66,8 @@ void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<float>& newton
 	if( !vertexBuffer )  	
 		glGenBuffers(1, &vertexBuffer );
 	//gen buffers
-	pooltr.addTaskFront([this,newton](){
+	smanager.addBuildTask(
+		[this,&smanager,newton](){
 
 		const int nring=sub.rEnd-sub.rStart;
 		const int nsettors=sub.sEnd-sub.sStart;
@@ -129,20 +131,21 @@ void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<float>& newton
 
 			}
 		}
-		//build
-		build=true;
+		//send message
+		smanager.addMeshToBuild(this);
 	});
 }
-void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<double>& newton){
+void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<double>& newton){
 	//asserts
 	DEBUG_ASSERT(!cpuVertexBuffer);	
 	DEBUG_ASSERT(!vertexBuffer);
 	//create the VBO
 	if( !vertexBuffer )  	
 		glGenBuffers(1, &vertexBuffer );
-	//gen buffers
-	pooltr.addTaskFront([this,newton](){
-
+	//gen buffers	
+	smanager.addBuildTask(
+		[this,&smanager,newton](){
+			
 		const int nring=sub.rEnd-sub.rStart;
 		const int nsettors=sub.sEnd-sub.sStart;
          //cpu side
@@ -205,15 +208,14 @@ void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<double>& newto
 
 			}
 		}
-		//build
-		build=true;
+		//send message
+		smanager.addMeshToBuild(this);
 	});
 
 }
 
 bool SphereMesh::draw() {
 	if( canDraw )  {
-		
 		//bind VBO
 		glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
 		//set vertex	
@@ -223,10 +225,6 @@ bool SphereMesh::draw() {
 		glDrawArrays( GL_TRIANGLES, 0, (GLuint)vertexBufferSize);
 		//is drawed
 		return true;
-	}
-	else if(build){
-		cpuBufferToGpu();
-		freeCpuBuffers();
 	}
 	return false;
 }

@@ -10,8 +10,6 @@ namespace RiemannSphere {
 
 	class SpheresManager {
         
-		//pool
-		PoolThread *multithread;
 
         //octree
         int livels;
@@ -42,7 +40,20 @@ namespace RiemannSphere {
 		//math function
 		Polynomial<double> poly;
 		NewtonFractal<double> fractal;
+		
+		//pool
+		PoolThread *multithread;
+		DFORCEINLINE void addBuildTask(DFUNCTION <void (void)> fn){
+			multithread->addTaskFront(fn);
+		}
+		//build list
+		Easy3D::Mutex mutexBuildList;
+		std::list< SphereMesh* > meshToBuilds;
+		void addMeshToBuild(SphereMesh* mesh);
+		void doBuildsList();
 
+		//friends class
+		friend class SphereMesh;
 
 	public:
 

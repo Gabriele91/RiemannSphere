@@ -34,8 +34,8 @@ namespace RiemannSphere {
         //set info
         void setMeshInfo(const Sphere& sphere,const SubSphere& sub);
         //build mesh
-        void buildMesh(PoolThread& pt,const NewtonFractal<float>& newton);
-        void buildMesh(PoolThread& pt,const NewtonFractal<double>& newton);
+        void buildMesh(SpheresManager& smanager,const NewtonFractal<float>& newton);
+        void buildMesh(SpheresManager& smanager,const NewtonFractal<double>& newton);
         //draw
         bool draw();
         
