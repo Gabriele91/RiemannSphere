@@ -137,7 +137,6 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
     }
 }
 
-
 void SpheresManager::addMeshToBuild(SphereMesh* mesh){
 	mutexBuildList.lock();
 		meshToBuilds.push_front(mesh);
@@ -145,11 +144,11 @@ void SpheresManager::addMeshToBuild(SphereMesh* mesh){
 }
 void SpheresManager::doBuildsList(){
 	mutexBuildList.lock();
-	for(auto meshs:meshToBuilds){
-		meshs->cpuBufferToGpu();
-		meshs->freeCpuBuffers();
-	}
-	meshToBuilds.clear();
+		for(auto meshs:meshToBuilds){
+			meshs->cpuBufferToGpu();
+			meshs->freeCpuBuffers();
+		}
+		meshToBuilds.clear();
 	mutexBuildList.unlock();
 }
 

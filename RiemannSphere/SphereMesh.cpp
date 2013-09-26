@@ -20,6 +20,14 @@ SphereMesh::SphereMesh()
 ,canDraw(false)
 {
 }
+SphereMesh::~SphereMesh()
+{
+	//free cpu memory
+	freeCpuBuffers();
+	//free gpu memory
+	if(vertexBuffer)
+		glDeleteBuffers(1,&vertexBuffer);
+}
 void SphereMesh::setMeshInfo(const Sphere& _sphere,
                              const SubSphere& _sub){
     sub=_sub;
@@ -56,7 +64,6 @@ vertices[count++]=(rcolor.g);\
 vertices[count++]=(rcolor.b);
 
 #define toComplex(v) std::complex<float>(v.x/(1.0-v.y),v.z/(1.0-v.y))
-
 
 void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<float>& newton){
 	//asserts

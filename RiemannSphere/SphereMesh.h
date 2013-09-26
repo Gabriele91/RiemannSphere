@@ -38,7 +38,6 @@ namespace RiemannSphere {
         void buildMesh(SpheresManager& smanager,const NewtonFractal<double>& newton);
         //draw
         bool draw();
-        
         //info
         DFORCEINLINE bool isBuild() const {
             return vertexBuffer!=0;
@@ -55,7 +54,7 @@ namespace RiemannSphere {
         
         //spheres
 		SphereMesh();
-        
+		~SphereMesh(); //virtual? 
         DFORCEINLINE const Easy3D::AABox& getAABox() const{
             return box;
         }
