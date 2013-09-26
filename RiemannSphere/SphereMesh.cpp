@@ -211,7 +211,7 @@ void SphereMesh::buildMesh(PoolThread& pooltr,const NewtonFractal<double>& newto
 
 }
 
-void SphereMesh::draw() {
+bool SphereMesh::draw() {
 	if( canDraw )  {
 		
 		//bind VBO
@@ -221,10 +221,12 @@ void SphereMesh::draw() {
 		glColorPointer (3, GL_FLOAT, sizeof(GLfloat)*6, (void*)(sizeof(GLfloat)*3) );
 		//draw call
 		glDrawArrays( GL_TRIANGLES, 0, (GLuint)vertexBufferSize);
-
+		//is drawed
+		return true;
 	}
 	else if(build){
 		cpuBufferToGpu();
 		freeCpuBuffers();
 	}
+	return false;
 }

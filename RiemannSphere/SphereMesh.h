@@ -37,7 +37,7 @@ namespace RiemannSphere {
         void buildMesh(PoolThread& pt,const NewtonFractal<float>& newton);
         void buildMesh(PoolThread& pt,const NewtonFractal<double>& newton);
         //draw
-        void draw();
+        bool draw();
         
         //info
         DFORCEINLINE bool isBuild() const {
