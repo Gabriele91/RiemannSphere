@@ -14,7 +14,6 @@ using namespace Easy3D;
 SphereMesh::SphereMesh()
 :cpuVertexBuffer(NULL)
 ,cpuVertexBufferSize(0)
-,build(false)
 ,vertexBuffer(0)
 ,vertexBufferSize(0)
 ,canDraw(false)
@@ -25,8 +24,7 @@ SphereMesh::~SphereMesh()
 	//free cpu memory
 	freeCpuBuffers();
 	//free gpu memory
-	if(vertexBuffer)
-		glDeleteBuffers(1,&vertexBuffer);
+	freeGpuBuffers();
 }
 void SphereMesh::setMeshInfo(const Sphere& _sphere,
                              const SubSphere& _sub){
@@ -44,6 +42,13 @@ void SphereMesh::cpuBufferToGpu(){
 	glBufferData(GL_ARRAY_BUFFER, cpuVertexBufferSize, cpuVertexBuffer, GL_STATIC_DRAW);
 	//now can draw
 	canDraw=true;
+}
+void SphereMesh::freeGpuBuffers(){
+	if(vertexBuffer){
+		glDeleteBuffers(1,&vertexBuffer);
+		vertexBuffer=0;
+		canDraw=false;
+	}
 }
 void SphereMesh::freeCpuBuffers(){
 	if(cpuVertexBuffer){
@@ -83,6 +88,7 @@ void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<float>& 
 		cpuVertexBuffer=malloc(cpuVertexBufferSize);
 		GLfloat *vertices=(GLfloat*)cpuVertexBuffer;
 		int count=0;
+		DEBUG_ASSERT(cpuVertexBuffer);	
 		//gpu side
 		vertexBufferSize=nring*nsettors*6;
 		
@@ -160,6 +166,7 @@ void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<double>&
 		cpuVertexBuffer=malloc(cpuVertexBufferSize);
 		GLfloat *vertices=(GLfloat*)cpuVertexBuffer;
 		int count=0;
+		DEBUG_ASSERT(cpuVertexBuffer);	
 		//gpu side
 		vertexBufferSize=nring*nsettors*6;
 

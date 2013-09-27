@@ -26,7 +26,6 @@ namespace RiemannSphere {
         //cpu side
 		void *cpuVertexBuffer;
 		size_t cpuVertexBufferSize;
-		bool build;
         //ids gpu
         GLuint vertexBuffer;
         size_t vertexBufferSize;
@@ -42,11 +41,10 @@ namespace RiemannSphere {
         DFORCEINLINE bool isBuild() const {
             return vertexBuffer!=0;
         }       
-        DFORCEINLINE bool isDrawenable() const {
-            return build;
-        }       
 		//send cpu buffer to gpu
 		void cpuBufferToGpu();
+		//dealloc
+		void freeGpuBuffers();
 		void freeCpuBuffers();
 
         
