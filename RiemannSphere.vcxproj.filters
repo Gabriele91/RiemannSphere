@@ -165,6 +165,9 @@
     <ClInclude Include="RiemannSphere\PoolThread.h">
       <Filter>RiemannSphere</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannSphere\VirtualVBO.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -273,6 +276,9 @@
       <Filter>File di origine\Easy3D\thread</Filter>
     </ClCompile>
     <ClCompile Include="RiemannSphere\PoolThread.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\VirtualVBO.cpp">
       <Filter>RiemannSphere</Filter>
     </ClCompile>
   </ItemGroup>

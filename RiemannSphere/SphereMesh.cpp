@@ -11,20 +11,14 @@ using namespace Easy3D;
 ///////////////////////
 
 
-SphereMesh::SphereMesh()
-:cpuVertexBuffer(NULL)
-,cpuVertexBufferSize(0)
-,vertexBuffer(0)
-,vertexBufferSize(0)
-,canDraw(false)
+SphereMesh::SphereMesh(bool avirtualVBO)
+	:isvirtual(avirtualVBO)
+	,inbuilding(false)
 {
 }
 SphereMesh::~SphereMesh()
 {
-	//free cpu memory
-	freeCpuBuffers();
-	//free gpu memory
-	freeGpuBuffers();
+	
 }
 void SphereMesh::setMeshInfo(const Sphere& _sphere,
                              const SubSphere& _sub){
@@ -34,27 +28,16 @@ void SphereMesh::setMeshInfo(const Sphere& _sphere,
 }
 
 
-void SphereMesh::cpuBufferToGpu(){
-	DEBUG_ASSERT(!canDraw);
-	DEBUG_ASSERT(vertexBuffer);
-	//send to gpu
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, cpuVertexBufferSize, cpuVertexBuffer, GL_STATIC_DRAW);
-	//now can draw
-	canDraw=true;
-}
-void SphereMesh::freeGpuBuffers(){
-	if(vertexBuffer){
-		glDeleteBuffers(1,&vertexBuffer);
-		vertexBuffer=0;
-		canDraw=false;
-	}
+void SphereMesh::sendToGpu(VirtualVBO* vVBO){
+	if(isvirtual)
+		vVBO->addNode(&nvbo);
+	else
+		nvbo.build();
 }
 void SphereMesh::freeCpuBuffers(){
-	if(cpuVertexBuffer){
-		free(cpuVertexBuffer);
-		cpuVertexBuffer=NULL;
-		cpuVertexBufferSize=0;
+	if(nvbo.getData()){
+		nvbo.cleanInfo();
+		inbuilding=false;
 	}
 }
 
@@ -70,28 +53,31 @@ vertices[count++]=(rcolor.b);
 
 #define toComplex(v) std::complex<float>(v.x/(1.0-v.y),v.z/(1.0-v.y))
 
-void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<float>& newton){
+void SphereMesh::buildMesh(SpheresManager& smanager,
+						   const Easy3D::Camera& camera,
+						   const NewtonFractal<float>& newton){
 	//asserts
-	DEBUG_ASSERT(!cpuVertexBuffer);	
-	DEBUG_ASSERT(!vertexBuffer);
-	//create the VBO
-	if( !vertexBuffer )  	
-		glGenBuffers(1, &vertexBuffer );
+	DEBUG_ASSERT(!virtualVBO.isAllocated());
+	DEBUG_ASSERT(!inbuilding);
+	//is inbuilding
+	inbuilding=true;
 	//gen buffers
 	smanager.addBuildTask(
-		[this,&smanager,newton](){
+		[this,&smanager,&camera,newton](){
+
+		if(!camera.boxInFrustum( box )){
+			inbuilding=false;
+			return;
+		}
 
 		const int nring=sub.rEnd-sub.rStart;
 		const int nsettors=sub.sEnd-sub.sStart;
-         //cpu side
-		cpuVertexBufferSize=nring*nsettors*6*6*sizeof(GLfloat);
-		cpuVertexBuffer=malloc(cpuVertexBufferSize);
-		GLfloat *vertices=(GLfloat*)cpuVertexBuffer;
+        //cpu side
+		GLuint nvertices=nring*nsettors*6;
+		nvbo.allocCpu(nvertices*6*sizeof(GLfloat),nvertices);
+		GLfloat *vertices=(GLfloat*)nvbo.getData();
+		DEBUG_ASSERT(vertices);	
 		int count=0;
-		DEBUG_ASSERT(cpuVertexBuffer);	
-		//gpu side
-		vertexBufferSize=nring*nsettors*6;
-		
 		//center
 		for(int i = sub.rStart; i<sub.rEnd; ++i){
         
@@ -148,28 +134,31 @@ void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<float>& 
 		smanager.addMeshToBuild(this);
 	});
 }
-void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<double>& newton){
+void SphereMesh::buildMesh(SpheresManager& smanager,
+						   const Easy3D::Camera& camera,
+						   const NewtonFractal<double>& newton){
 	//asserts
-	DEBUG_ASSERT(!cpuVertexBuffer);	
-	DEBUG_ASSERT(!vertexBuffer);
-	//create the VBO
-	if( !vertexBuffer )  	
-		glGenBuffers(1, &vertexBuffer );
-	//gen buffers	
+	DEBUG_ASSERT(!virtualVBO.isAllocated());
+	DEBUG_ASSERT(!inbuilding);
+	//is inbuilding
+	inbuilding=true;
+	//gen buffers
 	smanager.addBuildTask(
-		[this,&smanager,newton](){
-			
+		[this,&smanager,&camera,newton](){
+
+		if(!camera.boxInFrustum( box )){
+			inbuilding=false;
+			return;
+		}
+
 		const int nring=sub.rEnd-sub.rStart;
 		const int nsettors=sub.sEnd-sub.sStart;
-         //cpu side
-		cpuVertexBufferSize=nring*nsettors*6*6*sizeof(GLfloat);
-		cpuVertexBuffer=malloc(cpuVertexBufferSize);
-		GLfloat *vertices=(GLfloat*)cpuVertexBuffer;
+        //cpu side
+		GLuint nvertices=nring*nsettors*6;
+		nvbo.allocCpu(nvertices*6*sizeof(GLfloat),nvertices);
+		GLfloat *vertices=(GLfloat*)nvbo.getData();
+		DEBUG_ASSERT(vertices);	
 		int count=0;
-		DEBUG_ASSERT(cpuVertexBuffer);	
-		//gpu side
-		vertexBufferSize=nring*nsettors*6;
-
 		//center
 		for(int i = sub.rStart; i<sub.rEnd; ++i){
         
@@ -225,20 +214,8 @@ void SphereMesh::buildMesh(SpheresManager& smanager,const NewtonFractal<double>&
 		//send message
 		smanager.addMeshToBuild(this);
 	});
-
 }
 
 bool SphereMesh::draw() {
-	if( canDraw )  {
-		//bind VBO
-		glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
-		//set vertex	
-		glVertexPointer(3, GL_FLOAT, sizeof(GLfloat)*6, 0 );
-		glColorPointer (3, GL_FLOAT, sizeof(GLfloat)*6, (void*)(sizeof(GLfloat)*3) );
-		//draw call
-		glDrawArrays( GL_TRIANGLES, 0, (GLuint)vertexBufferSize);
-		//is drawed
-		return true;
-	}
-	return false;
+	return nvbo.draw();
 }

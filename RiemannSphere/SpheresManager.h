@@ -5,6 +5,7 @@
 #include <SphereMesh.h>
 #include <NewtonFractal.h>
 #include <PoolThread.h>
+#include <VirtualVBO.h>
 
 namespace RiemannSphere {
 
@@ -18,9 +19,9 @@ namespace RiemannSphere {
         int setTreeSize(int h){
             //size: (sommatoria notevole)
             // ((8^(x+1) - 1 )/7 )
-            int size= (std::pow(8,h+1)-1)/7;
+            size_t size= (std::pow(8,h+1)-1)/7;
             //new buffer
-            meshs.resize(size);
+			meshs.resize(size);
             //return size
             return size;
         }
@@ -47,10 +48,14 @@ namespace RiemannSphere {
 			multithread->addTaskFront(fn);
 		}
 		//build list
-		Easy3D::Mutex mutexBuildList;
 		std::list< SphereMesh* > meshToBuilds;
+		Easy3D::Mutex mutexBuildList;
+
 		void addMeshToBuild(SphereMesh* mesh);
 		void doBuildsList();
+
+		//vbo allocator
+		VirtualVBO virtualVBO;
 
 		//friends class
 		friend class SphereMesh;

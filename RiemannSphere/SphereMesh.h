@@ -5,6 +5,7 @@
 #include <Sphere.h>
 #include <NewtonFractal.h>
 #include <PoolThread.h>
+#include <VirtualVBO.h>
 
 namespace RiemannSphere {
     
@@ -13,45 +14,41 @@ namespace RiemannSphere {
     
     /////////////////
 	class SphereMesh {
-        
         //friends
         friend class SpheresManager;
-        
         //boxs
         Easy3D::AABox box;
-        
         //sub part
         Sphere sphere;
         SubSphere sub;
-        //cpu side
-		void *cpuVertexBuffer;
-		size_t cpuVertexBufferSize;
-        //ids gpu
-        GLuint vertexBuffer;
-        size_t vertexBufferSize;
-		bool canDraw;
+        //vertices info
+		VirtualVBO::Node nvbo;
+		bool isvirtual;
+		bool inbuilding;
         //set info
         void setMeshInfo(const Sphere& sphere,const SubSphere& sub);
         //build mesh
-        void buildMesh(SpheresManager& smanager,const NewtonFractal<float>& newton);
-        void buildMesh(SpheresManager& smanager,const NewtonFractal<double>& newton);
+        void buildMesh(SpheresManager& smanager, 
+					   const Easy3D::Camera& camera,
+					   const NewtonFractal<float>& newton);
+        void buildMesh(SpheresManager& smanager,
+					   const Easy3D::Camera& camera,
+					   const NewtonFractal<double>& newton);
         //draw
         bool draw();
-        //info
-        DFORCEINLINE bool isBuild() const {
-            return vertexBuffer!=0;
-        }       
-		//send cpu buffer to gpu
-		void cpuBufferToGpu();
+		//send to gpu
+		void sendToGpu(VirtualVBO* vVBO);
 		//dealloc
-		void freeGpuBuffers();
 		void freeCpuBuffers();
-
+		//query
+		bool lockTask(){
+			return nvbo.isAllocated() || inbuilding;
+		}
         
 	public:
         
         //spheres
-		SphereMesh();
+		SphereMesh(bool avirtualVBO=true);
 		~SphereMesh(); //virtual? 
         DFORCEINLINE const Easy3D::AABox& getAABox() const{
             return box;

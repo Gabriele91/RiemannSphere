@@ -16,6 +16,7 @@ SpheresManager::SpheresManager(const Easy3D::Utility::Path& polyfunction,
 							   :multithread(NULL)
 							   ,poly(polyfunction)
 							   ,fractal(&poly)
+							   ,virtualVBO(536870912) //512 MByte
 {
     buildLivels(rings,sgments,livels,radius,dfPerLivel);
 	multithread=new PoolThread(4);
@@ -104,23 +105,30 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
     Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+"_"+DEBUG_MODE+".save");
     
 	//Debug::message()<<livels;
-	/*
-    if(path.existsFile()){
-       FILE *file=fopen(path, "r");
+	
+    if(path.existsFile() ){
+       FILE *file=fopen(path, "rb");
        if(file){
-            fread(&meshs[0], meshs.size()*sizeof(SphereMesh), 1, file);
+		   for(size_t i=0;i!=meshs.size();++i){
+				fread(&meshs[i].sub,            sizeof(SubSphere), 1, file);
+				fread(&meshs[i].sphere,         sizeof(Sphere), 1, file);
+				fread(&meshs[i].box,            sizeof(Easy3D::AABox), 1, file);
+				fread(&meshs[i].isvirtual,      sizeof(bool), 1, file);
+			}
             fclose(file);
        }
    }
-   else*/
+   else
 	{
+		//first livel must to be allocated
+		for(int c=0;c<8;++c) meshs[getChilds(0)+c].isvirtual=false;
         //gen meshs
         for (int l=0; l<livels; ++l) {
             //sphere
             Sphere sphere(
                 ringsFactor*(l+1)*(dfPerLivel/(livels-l)),
                 sgmentsFactor*(l+1)*(dfPerLivel/(livels-l)),
-                radius+0.0001f*l
+                radius+0.0004f*l
             );
             //divs
             subDiv8(l, 0, sphere, {  0, sphere.rings, 0, sphere.sectors  });
@@ -128,26 +136,31 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
         }
         /*
          Save into the file
-         */
-        FILE *file=fopen(path, "w");
+		*/
+        FILE *file=fopen(path, "wb");
         if(file){
-            fwrite(&meshs[0], meshs.size()*sizeof(SphereMesh), 1, file);
+			for(size_t i=0;i!=meshs.size();++i){
+				fwrite(&meshs[i].sub,            sizeof(SubSphere), 1, file);
+				fwrite(&meshs[i].sphere,         sizeof(Sphere), 1, file);
+				fwrite(&meshs[i].box,            sizeof(Easy3D::AABox), 1, file);
+				fwrite(&meshs[i].isvirtual,    sizeof(bool), 1, file);
+			}
             fclose(file);
         }
+        
+
     }
 }
 
 void SpheresManager::addMeshToBuild(SphereMesh* mesh){
 	mutexBuildList.lock();
-		meshToBuilds.push_front(mesh);
+	meshToBuilds.push_front(mesh);
 	mutexBuildList.unlock();
 }
 void SpheresManager::doBuildsList(){
 	mutexBuildList.lock();
-		for(auto meshs:meshToBuilds){
-			meshs->cpuBufferToGpu();
-			meshs->freeCpuBuffers();
-		}
+		for(auto mesh:meshToBuilds)
+			mesh->sendToGpu(&virtualVBO);
 		meshToBuilds.clear();
 	mutexBuildList.unlock();
 }
@@ -160,8 +173,8 @@ bool SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
         for(int c=0;c<8;++c)
             if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
                 //to do: separate thread
-                if(!meshs[getChilds(node)+c].isBuild())
-                    meshs[getChilds(node)+c].buildMesh(*this,fractal);
+				if(!meshs[getChilds(node)+c].lockTask())
+                    meshs[getChilds(node)+c].buildMesh(*this,camera,fractal);
                 //draw
                 drawFather=meshs[getChilds(node)+c].draw()&&drawFather;
             }
@@ -170,16 +183,17 @@ bool SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
 
         for(int c=0;c<8;++c)
             if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
-				if(!drawSub(camera,countlivel-1,getChilds(node)+c))
+				if(!drawSub(camera,countlivel-1,getChilds(node)+c)){
 					//draw
 					drawFather=meshs[getChilds(node)+c].draw()&&drawFather;
+				}
 			}
-
     }
 	//draw Father?
     return drawFather;
 }
 void SpheresManager::draw(Easy3D::Camera &camera,int livel){
+	virtualVBO.updateMemory();
 	doBuildsList();
     drawSub(camera,livel,0);
 }
