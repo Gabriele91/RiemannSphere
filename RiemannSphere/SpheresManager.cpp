@@ -102,7 +102,7 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
     /*
      get file
     */
-    Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+"_"+DEBUG_MODE+".save");
+    Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+"_"+dfPerLivel+"_"+DEBUG_MODE+".save");
     
 	//Debug::message()<<livels;
 	
