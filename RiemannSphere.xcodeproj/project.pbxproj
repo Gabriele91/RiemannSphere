@@ -40,6 +40,7 @@
 		E053C07A17F1DFF300BDCE94 /* Polynomial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07517F1DFF300BDCE94 /* Polynomial.cpp */; };
 		E053C07B17F1DFF300BDCE94 /* PoolThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07717F1DFF300BDCE94 /* PoolThread.cpp */; };
 		E053C07D17F1E01600BDCE94 /* Table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07C17F1E01600BDCE94 /* Table.cpp */; };
+		E087F8ED17F813E70093DF8B /* VirtualVBO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */; };
 		E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3817BD4A0D00EB25FD /* Game.cpp */; };
 		E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3D17BD4EA100EB25FD /* Render.cpp */; };
 		E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */; };
@@ -129,6 +130,8 @@
 		E053C07817F1DFF300BDCE94 /* PoolThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoolThread.h; sourceTree = "<group>"; };
 		E053C07C17F1E01600BDCE94 /* Table.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Table.cpp; sourceTree = "<group>"; };
 		E053C07E17F1E01D00BDCE94 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
+		E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualVBO.cpp; sourceTree = "<group>"; };
+		E087F8EC17F813E70093DF8B /* VirtualVBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualVBO.h; sourceTree = "<group>"; };
 		E08B1A3817BD4A0D00EB25FD /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		E08B1A3C17BD4E8100EB25FD /* Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Render.h; sourceTree = "<group>"; };
 		E08B1A3D17BD4EA100EB25FD /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
@@ -274,6 +277,8 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */,
+				E087F8EC17F813E70093DF8B /* VirtualVBO.h */,
 				E053C07317F1DFF300BDCE94 /* NewtonFractal.cpp */,
 				E053C07417F1DFF300BDCE94 /* NewtonFractal.h */,
 				E053C07517F1DFF300BDCE94 /* Polynomial.cpp */,
@@ -348,6 +353,7 @@
 				E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */,
 				E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */,
 				E04F6FE817BBBFB100041D45 /* CocoaInput.mm in Sources */,
+				E087F8ED17F813E70093DF8B /* VirtualVBO.cpp in Sources */,
 				E04F6FE917BBBFB100041D45 /* CocoaScreen.mm in Sources */,
 				E04F6FEA17BBBFB100041D45 /* Config.cpp in Sources */,
 				E04F6FEB17BBBFB100041D45 /* Debug.cpp in Sources */,

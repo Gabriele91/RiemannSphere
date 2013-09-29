@@ -57,7 +57,7 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 						   const Easy3D::Camera& camera,
 						   const NewtonFractal<float>& newton){
 	//asserts
-	DEBUG_ASSERT(!virtualVBO.isAllocated());
+	DEBUG_ASSERT(!nvbo.isAllocated());
 	DEBUG_ASSERT(!inbuilding);
 	//is inbuilding
 	inbuilding=true;
@@ -138,7 +138,7 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 						   const Easy3D::Camera& camera,
 						   const NewtonFractal<double>& newton){
 	//asserts
-	DEBUG_ASSERT(!virtualVBO.isAllocated());
+	DEBUG_ASSERT(!nvbo.isAllocated());
 	DEBUG_ASSERT(!inbuilding);
 	//is inbuilding
 	inbuilding=true;

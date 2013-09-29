@@ -91,7 +91,7 @@ bool  VirtualVBO::Node::draw(){
 	return false;
 }
 void  VirtualVBO::Node::build(bool freedata){
-	DEBUG_ASSERT( size && data )
+	DEBUG_ASSERT( size && data );
 	//create the VBO
 	glGenBuffers(1, &vbo );
 	//send to gpu
@@ -104,7 +104,7 @@ void  VirtualVBO::Node::build(bool freedata){
 	}
 }
 void  VirtualVBO::Node::unbuild(){
-	DEBUG_ASSERT( vbo )
+	DEBUG_ASSERT( vbo );
 	//dealloc vbo
 	glDeleteBuffers(1,&vbo);
 	//update node
