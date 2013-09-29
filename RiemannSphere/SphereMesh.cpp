@@ -33,10 +33,13 @@ void SphereMesh::sendToGpu(VirtualVBO* vVBO){
 		vVBO->addNode(&nvbo);
 	else
 		nvbo.build();
+	//end task
+	inbuilding=false;
 }
 void SphereMesh::freeCpuBuffers(){
 	if(nvbo.getData()){
 		nvbo.cleanInfo();
+		//end task
 		inbuilding=false;
 	}
 }
@@ -51,7 +54,8 @@ vertices[count++]=(rcolor.r);\
 vertices[count++]=(rcolor.g);\
 vertices[count++]=(rcolor.b);
 
-#define toComplex(v) std::complex<float>(v.x/(1.0-v.y),v.z/(1.0-v.y))
+#define toComplexFloat(v) std::complex<float>(v.x/(1.0f-v.y),v.z/(1.0f-v.y))
+#define toComplexDouble(v) std::complex<double>((double)(v.x/(1.0-v.y)),double(v.z/(1.0-v.y)))
 
 void SphereMesh::buildMesh(SpheresManager& smanager,
 						   const Easy3D::Camera& camera,
@@ -81,20 +85,20 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 		//center
 		for(int i = sub.rStart; i<sub.rEnd; ++i){
         
-			float lat0 = Math::PI * (-0.5 + (float) i / sphere.rings);
+			float lat0 = Math::PI * (-0.5f + (float) i / sphere.rings);
 			float z0  =  std::sin(lat0);
 			float zr0 =  std::cos(lat0);
         
-			float lat1 = Math::PI * (-0.5 + (float) (i+1) / sphere.rings);
+			float lat1 = Math::PI * (-0.5f + (float) (i+1) / sphere.rings);
 			float z1 =   std::sin(lat1);
 			float zr1 =  std::cos(lat1);
         
 			for(int j = sub.sStart; j < sub.sEnd; ++j) {
-				float lng = 2 * Math::PI * (float) j / sphere.sectors;
+				float lng = 2.0f * Math::PI * (float) j / sphere.sectors;
 				float x = std::cos(lng);
 				float z = std::sin(lng);
             
-				float lng2 = 2 * Math::PI * (float) (j+1) / sphere.sectors;
+				float lng2 = 2.0f * Math::PI * (float) (j+1) / sphere.sectors;
 				float x2 = std::cos(lng2);
 				float z2 = std::sin(lng2);
             
@@ -103,10 +107,10 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 				Vec3 q3( x2 * zr1, z1, z2 * zr1 );
 				Vec3 q4( x2 * zr0, z0, z2 * zr0 );
 			
-				auto color1=newton.calcColor(toComplex(q1));
-				auto color2=newton.calcColor(toComplex(q1));
-				auto color3=newton.calcColor(toComplex(q1));
-				auto color4=newton.calcColor(toComplex(q1));
+				auto color1=newton.calcColor(toComplexFloat(q1));
+				auto color2=newton.calcColor(toComplexFloat(q1));
+				auto color3=newton.calcColor(toComplexFloat(q1));
+				auto color4=newton.calcColor(toComplexFloat(q1));
 
 				//tri 1
 				pushv(q1);  
@@ -162,20 +166,20 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 		//center
 		for(int i = sub.rStart; i<sub.rEnd; ++i){
         
-			float lat0 = Math::PI * (-0.5 + (float) i / sphere.rings);
+			float lat0 = Math::PI * (-0.5f + (float) i / sphere.rings);
 			float z0  =  std::sin(lat0);
 			float zr0 =  std::cos(lat0);
         
-			float lat1 = Math::PI * (-0.5 + (float) (i+1) / sphere.rings);
+			float lat1 = Math::PI * (-0.5f + (float) (i+1) / sphere.rings);
 			float z1 =   std::sin(lat1);
 			float zr1 =  std::cos(lat1);
         
 			for(int j = sub.sStart; j < sub.sEnd; ++j) {
-				float lng = 2 * Math::PI * (float) j / sphere.sectors;
+				float lng = 2.0f * Math::PI * (float) j / sphere.sectors;
 				float x = std::cos(lng);
 				float z = std::sin(lng);
             
-				float lng2 = 2 * Math::PI * (float) (j+1) / sphere.sectors;
+				float lng2 = 2.0f * Math::PI * (float) (j+1) / sphere.sectors;
 				float x2 = std::cos(lng2);
 				float z2 = std::sin(lng2);
             
@@ -184,10 +188,10 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 				Vec3 q3( x2 * zr1, z1, z2 * zr1 );
 				Vec3 q4( x2 * zr0, z0, z2 * zr0 );
 			
-				auto color1=newton.calcColor(toComplex(q1));
-				auto color2=newton.calcColor(toComplex(q1));
-				auto color3=newton.calcColor(toComplex(q1));
-				auto color4=newton.calcColor(toComplex(q1));
+				auto color1=newton.calcColor(toComplexDouble(q1));
+				auto color2=newton.calcColor(toComplexDouble(q1));
+				auto color3=newton.calcColor(toComplexDouble(q1));
+				auto color4=newton.calcColor(toComplexDouble(q1));
 
 				//tri 1
 				pushv(q1);  

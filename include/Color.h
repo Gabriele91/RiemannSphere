@@ -11,16 +11,16 @@ namespace Easy3D {
 		uchar r,g,b,a;
         
         Color(float *color)
-        :r(color[0]*255)
-        ,g(color[1]*255)
-        ,b(color[2]*255)
-        ,a(color[4]*255){}
+        :r((uchar)(color[0]*255))
+        ,g((uchar)(color[1]*255))
+        ,b((uchar)(color[2]*255))
+        ,a((uchar)(color[3]*255)){}
         
         Color(double *color)
-        :r(color[0]*255)
-        ,g(color[1]*255)
-        ,b(color[2]*255)
-        ,a(color[4]*255){}
+        :r((uchar)(color[0]*255))
+        ,g((uchar)(color[1]*255))
+        ,b((uchar)(color[2]*255))
+        ,a((uchar)(color[3]*255)){}
         
         Color(uchar *color)
         :r(color[0])

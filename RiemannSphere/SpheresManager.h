@@ -19,7 +19,7 @@ namespace RiemannSphere {
         int setTreeSize(int h){
             //size: (sommatoria notevole)
             // ((8^(x+1) - 1 )/7 )
-            size_t size= (std::pow(8,h+1)-1)/7;
+            size_t size=(size_t)( (std::pow(8,h+1)-1)/7 );
             //new buffer
 			meshs.resize(size);
             //return size

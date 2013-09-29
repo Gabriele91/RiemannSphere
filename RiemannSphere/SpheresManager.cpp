@@ -30,10 +30,10 @@ void SpheresManager::subMeshDiv8(SphereMesh* meshs,const Sphere& sphere,const Su
     //calc division rigns
     const int
         up=sub.rStart,
-        middle=sub.rStart+(sub.rEnd-sub.rStart)/2.0f,
+        middle=(int)(sub.rStart+(sub.rEnd-sub.rStart)/2.0f),
         down=sub.rEnd;
     //calc division sections
-    const int hlpart=(sub.sEnd-sub.sStart)/4.0f;
+    const int hlpart=(int)((sub.sEnd-sub.sStart)/4.0f);
     const int
     part1=sub.sStart,
     part2=sub.sStart+hlpart,
@@ -66,10 +66,10 @@ void SpheresManager::subDiv8(int liv,int mid,const Sphere& sphere,const SubSpher
     //calc division rigns
     const int
     up=sub.rStart,
-    middle=sub.rStart+(sub.rEnd-sub.rStart)/2.0f,
+    middle=(int)(sub.rStart+(sub.rEnd-sub.rStart)/2.0f),
     down=sub.rEnd;
     //calc division sections
-    const int hlpart=(sub.sEnd-sub.sStart)/4.0f;
+    const int hlpart=(int)((sub.sEnd-sub.sStart)/4.0f);
     const int
     part1=sub.sStart,
     part2=sub.sStart+hlpart,
@@ -89,6 +89,7 @@ void SpheresManager::subDiv8(int liv,int mid,const Sphere& sphere,const SubSpher
     subDiv8(liv-1,getChilds(mid)+7,sphere,{middle,down,part4,part5});
 }
 
+//#define ENABLE_CACHE
 void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,float dfPerLivel){
     
     DEBUG_ASSERT(livels>0);
@@ -99,13 +100,13 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
     float sgmentsFactor=(float)sgments / (livels*dfPerLivel);
     //set tree size
     setTreeSize(livels);
+
+#ifdef ENABLE_CACHE
     /*
      get file
     */
     Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+"_"+dfPerLivel+"_"+DEBUG_MODE+".save");
     
-	//Debug::message()<<livels;
-	
     if(path.existsFile() ){
        FILE *file=fopen(path, "rb");
        if(file){
@@ -119,21 +120,23 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
        }
    }
    else
-	{
-		//first livel must to be allocated
+   {
+#endif
+	   //first livel must to be allocated
 		for(int c=0;c<8;++c) meshs[getChilds(0)+c].isvirtual=false;
         //gen meshs
         for (int l=0; l<livels; ++l) {
             //sphere
             Sphere sphere(
-                ringsFactor*(l+1)*(dfPerLivel/(livels-l)),
-                sgmentsFactor*(l+1)*(dfPerLivel/(livels-l)),
+               (int)( ringsFactor*(l+1)*(dfPerLivel/(livels-l)) ),
+               (int)( sgmentsFactor*(l+1)*(dfPerLivel/(livels-l)) ),
                 radius+0.0004f*l
             );
             //divs
             subDiv8(l, 0, sphere, {  0, sphere.rings, 0, sphere.sectors  });
             
         }
+#ifdef ENABLE_CACHE
         /*
          Save into the file
 		*/
@@ -147,9 +150,8 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
 			}
             fclose(file);
         }
-        
-
     }
+#endif
 }
 
 void SpheresManager::addMeshToBuild(SphereMesh* mesh){

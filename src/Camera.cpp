@@ -116,9 +116,9 @@ Vec2 Camera::getPointIn3DSpace(const Vec3& point){
 	vpp.z/=vpp.w;
 
     /* Map x, y and z to range 0-1 */
-    vpp.x = vpp.x * 0.5 + 0.5;
-    vpp.y = vpp.y * 0.5 + 0.5;
-    vpp.z = vpp.z * 0.5 + 0.5;    
+    vpp.x = vpp.x * 0.5f + 0.5f;
+    vpp.y = vpp.y * 0.5f + 0.5f;
+    vpp.z = vpp.z * 0.5f + 0.5f;    
 
 	return vpp.xy();
 }

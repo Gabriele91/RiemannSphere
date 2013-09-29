@@ -341,8 +341,8 @@ void WindowsScreen::setCursor(bool show){
 */
 void WindowsScreen::setPositionCursor(const Vec2& pos){
 	POINT mouse;
-	mouse.x=pos.x;
-	mouse.y=pos.y;
+	mouse.x=(LONG)pos.x;
+	mouse.y=(LONG)pos.y;
     ClientToScreen(hWind, &mouse);
 	SetCursorPos(mouse.x,mouse.y);
 }

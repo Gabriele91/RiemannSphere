@@ -75,7 +75,7 @@ namespace RiemannSphere {
 			//into last
 			if(last) last->next=in;
 			in->prev=last;
-			//sbecame last
+			//become last
 			last=in;
 		}
 		DFORCEINLINE void __nodeToTop(Node *in){
@@ -87,7 +87,7 @@ namespace RiemannSphere {
 			//into top
 			if(first) first->prev=in;
 			in->next=first;
-			//sbecame first
+			//become first
 			first=in;
 		}
 		DFORCEINLINE void __buildVBO(Node *in){
