@@ -122,8 +122,6 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
    else
    {
 #endif
-	   //first livel must to be allocated
-		for(int c=0;c<8;++c) meshs[getChilds(0)+c].isvirtual=false;
         //gen meshs
         for (int l=0; l<livels; ++l) {
             //sphere
@@ -136,6 +134,9 @@ void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,
             subDiv8(l, 0, sphere, {  0, sphere.rings, 0, sphere.sectors  });
             
         }
+	   //first livel must to be allocated
+       for(int c=0;c<8;++c) meshs[getChilds(0)+c].isvirtual=false;
+       
 #ifdef ENABLE_CACHE
         /*
          Save into the file
