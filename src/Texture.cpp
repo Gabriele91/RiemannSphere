@@ -5,28 +5,39 @@
 #define IMAGE_LOADER_OPENGL
 #include "Image/Image.h"
 
-using namespace Easy2D;
+using namespace Easy3D;
 
 
-Texture::Texture(ResourcesGroup *rsmr,
-				 const String& pathfile)
-				:Resource(rsmr,pathfile)
-				,bBilinear(true)
-				,chBlr(true)
-				,bMipmaps(true)
-				,chMps(true)
-				,width(0)
-				,height(0)
-				,gpuid(0)
-				,offsetUV(1,1)
-				,po2Srpite(NULL){
+Texture::Texture()
+:rpath("")
+,bBilinear(true)
+,chBlr(true)
+,bMipmaps(true)
+,chMps(true)
+,width(0)
+,height(0)
+,gpuid(0){
 	//is not loaded
 	loaded=false;
+}
+Texture::Texture(const String& pathfile)
+:rpath(pathfile)
+,bBilinear(true)
+,chBlr(true)
+,bMipmaps(true)
+,chMps(true)
+,width(0)
+,height(0)
+,gpuid(0){
+	//is not loaded
+	loaded=false;
+    //load file
+    load();
 }
 
 Texture::~Texture(){
 	//release resource
-	release();
+	if(loaded) unload();
 }
 
 void Texture::bind(uint ntexture){
@@ -72,55 +83,14 @@ bool Texture::operator !=(const Texture& t) const{
 	return gpuid!=t.gpuid;
 }
 
-//return mesh
-Mesh::ptr Texture::getPO2Sprite(){
-	//create texture
-	if(!po2Srpite)
-		po2Srpite=Mesh::ptr (new Mesh());
-	//if loaded build mesh
-	__build();
-	//
-	return po2Srpite;
-}
-//texture
-void Texture::__build(){
-	  //set loaded values
-	  if(isLoad()&&po2Srpite){
-		//clear cpu mesh
-		po2Srpite->cpuClear();
-		//unload gpu mesh
-		if(po2Srpite->isLoad())
-			po2Srpite->unload();
-		//set size mesh
-		float hlSizeX=width*0.5;
-		float hlSizeY=height*0.5;
-		//add vertexs
-		po2Srpite->addVertex(  hlSizeX,
-							  -hlSizeY,
-							  offsetUV.x,
-							  offsetUV.y);
-		po2Srpite->addVertex(  hlSizeX,
-							   hlSizeY,
-							   offsetUV.x,
-							   0.0);
-		po2Srpite->addVertex( -hlSizeX,
-							  -hlSizeY,
-							   0.0,
-							   offsetUV.y);
-		po2Srpite->addVertex( -hlSizeX,
-							   hlSizeY,
-							   0.0,
-							   0.0);
-		//end add vertexs
-		//set draw mode
-		po2Srpite->setDrawMode(Mesh::TRIANGLE_STRIP);
-		//build mesh
-		po2Srpite->build();
-	  }
-  }
-
 //load methods
+bool Texture::load(const String& pathfile){
+    DEBUG_ASSERT(!loaded);
+    rpath=(pathfile);
+    load();
+}
 bool Texture::load(){
+    DEBUG_ASSERT(!loaded);
 	/////////////////////////////////////////////////////////////////////
 	//cpu load
 	//get raw file
@@ -128,9 +98,7 @@ bool Texture::load(){
 	Application::instance()->loadData(rpath,data,len);
 	//load image
 	Image image;
-	image.loadFromData(data,
-					   len,
-					   Image::getTypeFromExtetion(rpath.getExtension()));
+	image.loadFromData(data,len,Image::getTypeFromExtetion(rpath.getExtension()));
 	//free raw file
 	free(data);
 	/////////////////////////////////////////////////////////////////////
@@ -140,19 +108,8 @@ bool Texture::load(){
 	//build
 	bind();
 	//save width end height
-	width=realWidth=image.width;
-	height=realHeight=image.height;
-	//support only pow of 2?
-	if(Application::instance()->onlyPO2()){
-		//
-		if(!Math::isPowerOfTwo(realWidth))
-			realWidth=Math::nextPowerOfTwo(realWidth);
-		if(!Math::isPowerOfTwo(realHeight))
-			realHeight=Math::nextPowerOfTwo(realHeight);
-		//calc offset uv
-		offsetUV.x=(float)width/realWidth;
-		offsetUV.y=(float)height/realHeight;
-	}
+	width=image.width;
+	height=image.height;
 	//resize
 	GLuint typeInternal=image.type;
 #ifndef OPENGL_ES
@@ -166,8 +123,8 @@ bool Texture::load(){
 			GL_TEXTURE_2D,
 			0,
 			typeInternal,
-			realWidth,
-			realHeight,
+			width,
+			height,
 			0,
 			type,
 			GL_UNSIGNED_BYTE,
@@ -187,8 +144,6 @@ bool Texture::load(){
     CHECK_GPU_ERRORS();
 	//is loaded
 	loaded=true;
-	//if olready getted, build mesh
-	__build();
 	//return
     return loaded;
 }
@@ -198,12 +153,7 @@ bool Texture::unload(){
     glDeleteTextures(1, &gpuid );
 	//reset values
     width = height = 0;
-    realWidth = realHeight = 0;
     gpuid = 0;
-	//unbuild mesh
-	if(po2Srpite)
-		if(po2Srpite->isLoad())
-			po2Srpite->unload();
 	//is not loaded
 	loaded=false;
 	//return
@@ -223,16 +173,16 @@ bool Texture::loadFromBinaryData(std::vector<uchar>& bytes,
 	//build
 	bind();
 	//save width end height
-	width=realWidth=argWidth;
-	height=realHeight=argHeight;
+	width=argWidth;
+	height=argHeight;
 	//resize
 	//create a gpu texture
 	glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
 			format,
-			realWidth,
-			realHeight,
+			width,
+			height,
 			0,
 			type,
 			GL_UNSIGNED_BYTE,
@@ -254,10 +204,6 @@ bool Texture::loadFromBinaryData(std::vector<uchar>& bytes,
     CHECK_GPU_ERRORS();
 	//is loaded
 	loaded=true;
-	//is not relodable
-	reloadable=false;
-	//if olready getted, build mesh
-	__build();
 	//return
     return loaded;
 

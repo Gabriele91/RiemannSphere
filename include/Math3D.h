@@ -825,6 +825,10 @@ namespace Easy3D{
 		static const float PI2;
 		static const float PIOVER180;
 		static const float G180OVERPI;
+		static const float FLTMAX;
+		static const double DBLMAX;
+		static const float FLTMIN;
+		static const double DBLMIN;
 		//radians and degrees
 		static DFORCEINLINE float torad(float deg) { return deg*PIOVER180; }
 		static DFORCEINLINE float todeg(float rad) { return rad*G180OVERPI; }

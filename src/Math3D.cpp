@@ -1369,6 +1369,10 @@ const float Math::PI=3.1415926535f;
 const float Math::PI2=6.2831853071796f;
 const float Math::PIOVER180=0.0174532925f;
 const float Math::G180OVERPI=57.2957795130f;
+const float Math::FLTMAX=FLT_MAX;
+const double Math::DBLMAX=DBL_MAX;
+const float Math::FLTMIN=FLT_MIN;
+const double Math::DBLMIN=DBL_MIN;
 void  Math::seedRandom(unsigned int seed){
 
 	if( !seed )

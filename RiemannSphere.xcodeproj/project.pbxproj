@@ -41,6 +41,12 @@
 		E053C07B17F1DFF300BDCE94 /* PoolThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07717F1DFF300BDCE94 /* PoolThread.cpp */; };
 		E053C07D17F1E01600BDCE94 /* Table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07C17F1E01600BDCE94 /* Table.cpp */; };
 		E087F8ED17F813E70093DF8B /* VirtualVBO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */; };
+		E089188B17F96C1F0085A933 /* BMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089188817F96C1F0085A933 /* BMFontLoader.cpp */; };
+		E089188C17F96C1F0085A933 /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089188917F96C1F0085A933 /* Font.cpp */; };
+		E089188D17F96C1F0085A933 /* FreeTypeFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089188A17F96C1F0085A933 /* FreeTypeFontLoader.cpp */; };
+		E08918F017F96CA60085A933 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E08918EF17F96CA60085A933 /* libfreetype.a */; };
+		E08918F317F96DEC0085A933 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08918F217F96DEC0085A933 /* Texture.cpp */; };
+		E08918F917F96E460085A933 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08918F717F96E460085A933 /* lodepng.cpp */; };
 		E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3817BD4A0D00EB25FD /* Game.cpp */; };
 		E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3D17BD4EA100EB25FD /* Render.cpp */; };
 		E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */; };
@@ -132,6 +138,19 @@
 		E053C07E17F1E01D00BDCE94 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
 		E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualVBO.cpp; sourceTree = "<group>"; };
 		E087F8EC17F813E70093DF8B /* VirtualVBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualVBO.h; sourceTree = "<group>"; };
+		E089188817F96C1F0085A933 /* BMFontLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFontLoader.cpp; sourceTree = "<group>"; };
+		E089188917F96C1F0085A933 /* Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
+		E089188A17F96C1F0085A933 /* FreeTypeFontLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FreeTypeFontLoader.cpp; sourceTree = "<group>"; };
+		E089188E17F96C2E0085A933 /* BMFontLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMFontLoader.h; sourceTree = "<group>"; };
+		E089188F17F96C2E0085A933 /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
+		E089189017F96C2E0085A933 /* FreeTypeFontLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreeTypeFontLoader.h; sourceTree = "<group>"; };
+		E08918EF17F96CA60085A933 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfreetype.a; sourceTree = "<group>"; };
+		E08918F117F96DDA0085A933 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		E08918F217F96DEC0085A933 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		E08918F517F96E460085A933 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		E08918F617F96E460085A933 /* Image.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Image.inl; sourceTree = "<group>"; };
+		E08918F717F96E460085A933 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
+		E08918F817F96E460085A933 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		E08B1A3817BD4A0D00EB25FD /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		E08B1A3C17BD4E8100EB25FD /* Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Render.h; sourceTree = "<group>"; };
 		E08B1A3D17BD4EA100EB25FD /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
@@ -149,6 +168,7 @@
 			files = (
 				E04F701917BBCA5400041D45 /* libbz2.dylib in Frameworks */,
 				E04F701717BBCA4C00041D45 /* libz.dylib in Frameworks */,
+				E08918F017F96CA60085A933 /* libfreetype.a in Frameworks */,
 				E04F701517BBC9A600041D45 /* OpenGL.framework in Frameworks */,
 				E04F701317BBC99E00041D45 /* Cocoa.framework in Frameworks */,
 			);
@@ -160,6 +180,7 @@
 		E04F6F8C17BBBF8700041D45 = {
 			isa = PBXGroup;
 			children = (
+				E08918EE17F96CA60085A933 /* lib */,
 				E0DCC20017BF9DD10060E4CD /* Easy3D.h */,
 				E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */,
 				E04F701A17BBD07700041D45 /* main.cpp */,
@@ -185,6 +206,10 @@
 		E04F6FA117BBBFB100041D45 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E08918F117F96DDA0085A933 /* Texture.h */,
+				E089188E17F96C2E0085A933 /* BMFontLoader.h */,
+				E089188F17F96C2E0085A933 /* Font.h */,
+				E089189017F96C2E0085A933 /* FreeTypeFontLoader.h */,
 				E053C07E17F1E01D00BDCE94 /* Table.h */,
 				E053C06A17F1DF8500BDCE94 /* thread */,
 				E08B1A3C17BD4E8100EB25FD /* Render.h */,
@@ -226,6 +251,11 @@
 		E04F6FC017BBBFB100041D45 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E08918F417F96E460085A933 /* Image */,
+				E08918F217F96DEC0085A933 /* Texture.cpp */,
+				E089188817F96C1F0085A933 /* BMFontLoader.cpp */,
+				E089188917F96C1F0085A933 /* Font.cpp */,
+				E089188A17F96C1F0085A933 /* FreeTypeFontLoader.cpp */,
 				E053C07C17F1E01600BDCE94 /* Table.cpp */,
 				E053C06F17F1DFA300BDCE94 /* MutexPOSIX.cpp */,
 				E053C07017F1DFA300BDCE94 /* ThreadPOSIX.cpp */,
@@ -272,6 +302,26 @@
 				E053C06E17F1DF8500BDCE94 /* ThreadConf.h */,
 			);
 			path = thread;
+			sourceTree = "<group>";
+		};
+		E08918EE17F96CA60085A933 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				E08918EF17F96CA60085A933 /* libfreetype.a */,
+			);
+			name = lib;
+			path = "dependencies-osx64/lib";
+			sourceTree = "<group>";
+		};
+		E08918F417F96E460085A933 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				E08918F517F96E460085A933 /* Image.h */,
+				E08918F617F96E460085A933 /* Image.inl */,
+				E08918F717F96E460085A933 /* lodepng.cpp */,
+				E08918F817F96E460085A933 /* lodepng.h */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
@@ -350,18 +400,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E089188C17F96C1F0085A933 /* Font.cpp in Sources */,
 				E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */,
 				E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */,
+				E089188B17F96C1F0085A933 /* BMFontLoader.cpp in Sources */,
 				E04F6FE817BBBFB100041D45 /* CocoaInput.mm in Sources */,
 				E087F8ED17F813E70093DF8B /* VirtualVBO.cpp in Sources */,
 				E04F6FE917BBBFB100041D45 /* CocoaScreen.mm in Sources */,
 				E04F6FEA17BBBFB100041D45 /* Config.cpp in Sources */,
 				E04F6FEB17BBBFB100041D45 /* Debug.cpp in Sources */,
+				E08918F917F96E460085A933 /* lodepng.cpp in Sources */,
 				E04F6FEC17BBBFB100041D45 /* EString.cpp in Sources */,
 				E04F6FED17BBBFB100041D45 /* ETime.cpp in Sources */,
 				E04F6FEE17BBBFB100041D45 /* Input.cpp in Sources */,
 				E04F6FF317BBBFB100041D45 /* Screen.cpp in Sources */,
+				E08918F317F96DEC0085A933 /* Texture.cpp in Sources */,
 				E04F700717BBC84C00041D45 /* Scene.cpp in Sources */,
+				E089188D17F96C1F0085A933 /* FreeTypeFontLoader.cpp in Sources */,
 				E04F700817BBC84C00041D45 /* State.cpp in Sources */,
 				E04F700917BBC84C00041D45 /* Timer.cpp in Sources */,
 				E04F700A17BBC84C00041D45 /* Utility.cpp in Sources */,
@@ -482,6 +537,18 @@
 		E04F6F9F17BBBF8700041D45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					./,
+					include/,
+					include/cocoa/,
+					include/thread,
+					RiemannSphere/,
+					"dependencies-osx64/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"dependencies-osx64/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -489,6 +556,18 @@
 		E04F6FA017BBBF8700041D45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					./,
+					include/,
+					include/cocoa/,
+					include/thread,
+					RiemannSphere/,
+					"dependencies-osx64/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"dependencies-osx64/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

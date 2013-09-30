@@ -23,10 +23,12 @@ void RiemannScene::onStart(){
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
     addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO));
-    cameraManager->setVelocity(Vec3(10,10,.0005));
+    cameraManager->setVelocity(Vec3(10,10,.0015));
     cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 49);
     camera.setPosition(Vec3(0,0,50),true);
     setMatrixsState(MatrixsState(camera));
+    //font
+    aharoni.load("assets/game.font.e2d");
     //init
     onResume();
 }
@@ -74,13 +76,22 @@ void RiemannScene::onRun(float dt){
     if(std::abs(cameraManager->getAngle())<0.006){
         livel=5;
     }
-    if(std::abs(cameraManager->getAngle())<0.002){
+    if(std::abs(cameraManager->getAngle())<0.0025){
         livel=6;
     }/*
     if(std::abs(cameraManager->getAngle())<0.002){
         livel=7;
     }*/
+    
+	//draw sfere
+	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
+    setTextureState(TextureState(TextureState::NONE));
     sphere.draw(camera, livel);
+    
+	//draw text
+	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
+    setTextureState(TextureState(TextureState::TEXTURE2D));
+    aharoni.text(Vec2(10,10), "livello:"+String::toString(livel+1));
     
     
 }

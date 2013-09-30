@@ -16,6 +16,7 @@ namespace RiemannSphere {
         Easy3D::Object obj;
         CameraManager  *cameraManager;
         SpheresManager sphere;
+        Easy3D::Font aharoni;
         
         enum SceneInfo{
             ON_RESUME,

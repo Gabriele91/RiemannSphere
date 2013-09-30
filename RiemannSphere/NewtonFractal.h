@@ -93,7 +93,7 @@ namespace RiemannSphere {
 			std::complex<T> tmp;
 			//calc direction
 			//1E-37f
-			tmp=newton(xk,0.000001f,xkpass);
+			tmp=newton(xk,0.000000001f,xkpass);
 			//if found 
 			if(xkpass>0)
 				//return id root

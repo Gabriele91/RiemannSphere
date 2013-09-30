@@ -223,6 +223,61 @@ namespace Easy3D {
             
         };
 
+        struct TextureState{
+        
+            int textureState;
+            
+            enum{
+                NONE=0,     //000
+                TEXTURE1D=1,//001
+                TEXTURE2D=2,//010
+                TEXTURE3D=4 //100
+            };
+            
+            //ClientState
+            TextureState(int textureState=NONE):textureState(textureState){}
+            
+            //methos
+            void addState(int state){
+                textureState|=state;
+            }
+            void deleteState(int state){
+                textureState^=state;
+            }
+            
+            
+            void enableTexture1D(){
+                addState(TEXTURE1D);
+            }
+            void disableTexture1D(){
+                deleteState(TEXTURE1D);
+            }
+            
+            
+            void enableTexture2D(){
+                addState(TEXTURE2D);
+            }
+            void disableTexture2D(){
+                deleteState(TEXTURE2D);
+            }
+            
+            
+            void enableTexture3D(){
+                addState(TEXTURE3D);
+            }
+            void disableTexture3D(){
+                deleteState(TEXTURE3D);
+            }
+            
+            //operators
+			bool operator==(const TextureState& t)const{
+				return textureState==t.textureState;
+			}
+			bool operator!=(const TextureState& t)const{
+				return textureState!=t.textureState;
+			}
+        
+        };
         
 		Render();
         
@@ -241,9 +296,12 @@ namespace Easy3D {
         
         CullFaceState getCullFaceState();
         void setCullFaceState(const CullFaceState& cf);
-
+        
 		BlendState getBlendState() const;
 		void setBlendState(const BlendState& bs);
+        
+		TextureState getTextureState() const;
+		void setTextureState(const TextureState& ts);
 		
 		MatrixsState getMatrixsState() const;
 		void getMatrixsState(MatrixsState& ms) const;

@@ -40,10 +40,13 @@ namespace Easy3D {
 		};
 
 	private:
+        //resource info
+        Utility::Path rpath;
+        bool loaded;
 		//map characters
 		DUNORDERED_MAP< int , Character* > characters;
 		//page list
-		std::vector<Texture::ptr> pages;
+		std::vector<Texture*> pages;
 		//font size
 		bit16 fontSize;
 		//font size
@@ -57,7 +60,7 @@ namespace Easy3D {
 		void setName(const String& name){
 			fontName=name;
 		}
-		void addPage(Texture::ptr texturePage){
+		void addPage(Texture* texturePage){
 			pages.push_back(texturePage);
 		}
 		void addCharacter(int charName,Character* character){
@@ -85,9 +88,15 @@ namespace Easy3D {
 	public:
 
 		//costructor
+		Font();
 		Font(const String& path);
+        virtual ~Font(){
+            for(auto texture : pages)
+                delete texture;
+        }
 		//load methods
 		virtual bool load();
+		virtual bool load(const String& path);
 		virtual bool unload();
 		//getters
 		int size();
@@ -96,7 +105,11 @@ namespace Easy3D {
 		void text(const Vec2& pos,
 				  const String& textDraw,
 			      const Color& color=Color(255,255,255,255));
-
+        
+        //get if is loaded
+        DFORCEINLINE bool isLoaded(){
+            return loaded;
+        }
 
 	};
 

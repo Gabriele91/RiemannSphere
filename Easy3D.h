@@ -30,6 +30,9 @@
 #include <Utility.h>
 #include <Blend.h>
 
+#include <Font.h>
+#include <Texture.h>
+
 #include <State.h>
 #include <Render.h>
 #include <Scene.h>

@@ -5,7 +5,7 @@
 #include <Table.h>
 #include <Font.h>
 
-namespace Easy2D {
+namespace Easy3D {
 
 	class FreeTypeFontLoader{
 	

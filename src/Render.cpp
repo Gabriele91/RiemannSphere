@@ -143,6 +143,45 @@ void Render::setBlendState(const BlendState& bs){
 	glBlendFunc( bs.src, bs.dst );
 }
 
+
+Render::TextureState Render::getTextureState() const{
+    
+    TextureState ts;
+    GLboolean tex1d;
+	glGetBooleanv(GL_TEXTURE_1D,&tex1d);
+	GLboolean tex2d;
+	glGetBooleanv(GL_TEXTURE_2D,&tex2d);
+	GLboolean tex3d;
+	glGetBooleanv(GL_TEXTURE_3D,&tex3d);
+    
+    if(tex1d) ts.enableTexture1D();
+    else      ts.disableTexture1D();
+    if(tex2d) ts.enableTexture2D();
+    else      ts.disableTexture2D();
+    if(tex3d) ts.enableTexture3D();
+    else      ts.disableTexture3D();
+    
+    return ts;
+}
+void  Render::setTextureState(const TextureState& ts){
+    
+    if(ts.textureState&TextureState::TEXTURE1D)
+        glEnable(GL_TEXTURE_1D);
+    else
+        glDisable(GL_TEXTURE_1D);
+    
+    if(ts.textureState&TextureState::TEXTURE2D)
+        glEnable(GL_TEXTURE_2D);
+    else
+        glDisable(GL_TEXTURE_2D);
+    
+    if(ts.textureState&TextureState::TEXTURE3D)
+        glEnable(GL_TEXTURE_3D);
+    else
+        glDisable(GL_TEXTURE_3D);
+    
+}
+
 Render::MatrixsState Render::getMatrixsState() const{
 	Render::MatrixsState ms;
 	//save matrixs

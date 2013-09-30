@@ -4,7 +4,7 @@
 #include <Debug.h>
 #include <Texture.h>
 ///////////////////////
-using namespace Easy2D;
+using namespace Easy3D;
 ///////////////////////
 
 bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
@@ -107,12 +107,11 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 				while(localFntBuffer<fntBuffer+blockSize->size){
 					//load image
 					String filename(localFntBuffer);
-					Texture *pageTex=new Texture(font.getResourcesGroup(),
-												 fontPath.getDirectory()+"/"+filename);
+					Texture *pageTex=new Texture(fontPath.getDirectory()+"/"+filename);
 					pageTex->bilinear(false);
 					pageTex->mipmaps(false);
-					pageTex->load();
-					font.addPage(Texture::ptr(pageTex));
+					//pageTex->load();
+					font.addPage((pageTex));
 					//next string
 					localFntBuffer+=strlen(localFntBuffer)+1;
 				}

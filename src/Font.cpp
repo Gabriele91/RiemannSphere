@@ -12,20 +12,36 @@
 //#include "Image/Image.h"
 
 ///////////////////////
-using namespace Easy2D;
+using namespace Easy3D;
 ///////////////////////
 //costructor
 Font::Font(const String& path)
-	:Resource(rsgr,path)
-	,fontSize(0)
-	,isBMFont(false)
+:rpath(path)
+,fontSize(0)
+,isBMFont(false)
 {
-    
+    loaded=false;
+    //load file
+    load();
+}
+Font::Font()
+:rpath("")
+,fontSize(0)
+,isBMFont(false)
+{
+    loaded=false;
 }
 //load methods
+
+bool Font::load(const String& path){
+	DEBUG_ASSERT(!loaded);
+    rpath=path;
+    load();
+}
+
 bool Font::load(){
 	//can't load this resource
-	DEBUG_ASSERT(isReloadable());
+	DEBUG_ASSERT(!loaded);
 	//load font info
 	void *data=NULL; size_t len=0;
 	Application::instance()->loadData(rpath,data,len);
@@ -169,8 +185,8 @@ void Font::text(const Vec2& _pos,
 			//page
 			pageLast=chr->page;
 			//
-			Vec2 sizePage(pages[chr->page]->getRealWidth(),
-							pages[chr->page]->getRealHeight());
+			Vec2 sizePage(pages[chr->page]->getWidth(),
+                          pages[chr->page]->getHeight());
 			//uv
 			Vec2 nSXY(chr->srcX,chr->srcY); nSXY/=sizePage;
 			Vec2 nEXY(chr->srcX+chr->srcW,chr->srcY+chr->srcH); nEXY/=sizePage;

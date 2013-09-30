@@ -6,7 +6,7 @@
 #include <Debug.h>
 #include <Application.h>
 ///////////////////////
-using namespace Easy2D;
+using namespace Easy3D;
 ///////////////////////
 static inline bool notCollision(const Vec2& min1,
 								const Vec2& max1,
@@ -114,7 +114,7 @@ bool FreeTypeFontLoader::loadPage(     Font& font,
 	//set last char
 	startChar=c;
 	//create texture
-	Texture *texture=new Texture(font.getResourcesGroup());
+	Texture *texture=new Texture();
 	texture->bilinear(false);
 	texture->mipmaps(false);
 	texture->loadFromBinaryData(bytes,
@@ -124,7 +124,7 @@ bool FreeTypeFontLoader::loadPage(     Font& font,
 								//openGL 3, GL_RED + swizzle mask {GL_ZERO, GL_ZERO, GL_ZERO, GL_RED}
 								GL_LUMINANCE_ALPHA ,
 								GL_LUMINANCE_ALPHA);
-	font.addPage(Texture::ptr(texture));
+	font.addPage((texture));
 
 	return true;
 }
@@ -188,7 +188,7 @@ bool FreeTypeFontLoader::fastLoadPage(     Font& font,
 	//set last char
 	startChar=c;
 	//create texture
-	Texture *texture=new Texture(font.getResourcesGroup());
+	Texture *texture=new Texture();
 	texture->bilinear(false);
 	texture->mipmaps(false);
 	texture->loadFromBinaryData(bytes,
@@ -198,7 +198,7 @@ bool FreeTypeFontLoader::fastLoadPage(     Font& font,
 								//openGL 3, GL_RED + swizzle mask {GL_ZERO, GL_ZERO, GL_ZERO, GL_RED}
 								GL_LUMINANCE_ALPHA ,
 								GL_LUMINANCE_ALPHA);
-	font.addPage(Texture::ptr(texture));
+	font.addPage((texture));
 
 	return true;
 }
