@@ -10,7 +10,11 @@ using namespace Easy3D;
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,sphere("function.test.e2d", 3600*8, 3600*2*8,/*8000,8000,*/  7,/*livels*/ 3.0f,/*sphere radius*/ 180.0f/*detail per livels*/)
+    ,sphere(&camera,"function.test.e2d",
+            1000000, 1000000*2,/*8000,8000,*/
+            10,/*livels*/
+            3.0f,/*sphere radius*/
+            2.35/*detail per livels*/)
 {
 }
 
@@ -59,39 +63,59 @@ void RiemannScene::onRun(float dt){
         setMatrixsState(MatrixsState(cam2));
     }
     
-    int livel=0;
+    int level=0;
     
-    if(std::abs(cameraManager->getAngle())<0.05){
-        livel=1;
+    if(std::abs(cameraManager->getAngle())<0.08){
+        cameraManager->setVelocity(Vec3(10,10,.005));
+        level=1;
     }
-    if(std::abs(cameraManager->getAngle())<0.030){
-        livel=2;
+    if(std::abs(cameraManager->getAngle())<0.040){
+        cameraManager->setVelocity(Vec3(10,10,.002));
+        level=2;
     }
     if(std::abs(cameraManager->getAngle())<0.020){
-        livel=3;
+        cameraManager->setVelocity(Vec3(10,10,.001));
+        level=3;
     }
     if(std::abs(cameraManager->getAngle())<0.010){
-        livel=4;
+        cameraManager->setVelocity(Vec3(10,10,.0005));
+        level=4;
     }
-    if(std::abs(cameraManager->getAngle())<0.006){
-        livel=5;
+    if(std::abs(cameraManager->getAngle())<0.005){
+        cameraManager->setVelocity(Vec3(10,10,.0002));
+        level=5;
     }
-    if(std::abs(cameraManager->getAngle())<0.0025){
-        livel=6;
-    }/*
-    if(std::abs(cameraManager->getAngle())<0.002){
-        livel=7;
-    }*/
+    if(std::abs(cameraManager->getAngle())<0.001){
+        cameraManager->setVelocity(Vec3(10,10,.0002));
+        level=6;
+    }
+    if(std::abs(cameraManager->getAngle())<0.0004){
+        cameraManager->setVelocity(Vec3(10,10,.0001));
+        level=7;
+    }
+    if(std::abs(cameraManager->getAngle())<0.0001){
+        cameraManager->setVelocity(Vec3(10,10,.00002));
+        level=8;
+    }
+    if(std::abs(cameraManager->getAngle())<0.00005){
+        cameraManager->setVelocity(Vec3(10,10,.00001));
+        level=9;
+    }
     
 	//draw sfere
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
-    sphere.draw(camera, livel);
+    sphere.setLevel(level);
+    sphere.draw();
     
 	//draw text
 	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
     setTextureState(TextureState(TextureState::TEXTURE2D));
-    aharoni.text(Vec2(10,10), "livello:"+String::toString(livel+1));
+    aharoni.text(Vec2(10,10), "Level:"+String::toString(level+1)+"\n"+
+                              "vbo size:"+(size_t)(sphere.getVboSize()/pow(1024,2))+" mb\n"+
+                              "tree size:"+(size_t)(sphere.getTreeSize()/pow(1024,2))+" mb\n"+
+                              "tree nodes:"+sphere.getTreeNodes()
+                 );
     
     
 }

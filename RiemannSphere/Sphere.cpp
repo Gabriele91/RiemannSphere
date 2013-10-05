@@ -18,6 +18,13 @@ SubSphere::SubSphere(int rStart,
                      int rEnd,
                      int sStart,
                      int sEnd):  rStart(rStart)
+,rEnd(rEnd)
+,sStart(sStart)
+,sEnd(sEnd){}
+SubSphere::SubSphere(double rStart,
+                     double rEnd,
+                     double sStart,
+                     double sEnd):  rStart(rStart)
                                 ,rEnd(rEnd)
                                 ,sStart(sStart)
                                 ,sEnd(sEnd){}

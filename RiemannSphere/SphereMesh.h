@@ -5,6 +5,7 @@
 #include <Sphere.h>
 #include <NewtonFractal.h>
 #include <PoolThread.h>
+#include <VirtualOctree.h>
 #include <VirtualVBO.h>
 
 namespace RiemannSphere {
@@ -13,20 +14,22 @@ namespace RiemannSphere {
     class SpheresManager;
     
     /////////////////
-	class SphereMesh {
+	class SphereMesh : public VirtualOctree<SphereMesh>::Node {
         //friends
         friend class SpheresManager;
         //boxs
         Easy3D::AABox box;
         //sub part
-        Sphere sphere;
+        Easy3D::ushort idSphere;
         SubSphere sub;
         //vertices info
 		VirtualVBO::Node nvbo;
 		bool isvirtual;
 		bool inbuilding;
         //set info
-        void setMeshInfo(const Sphere& sphere,const SubSphere& sub);
+        void setMeshInfo(Easy3D::ushort idSphere,
+                         const SubSphere& sub,
+                         const SpheresManager& smanager);
         //build mesh
         void buildMesh(SpheresManager& smanager, 
 					   const Easy3D::Camera& camera,
@@ -49,7 +52,7 @@ namespace RiemannSphere {
         
         //spheres
 		SphereMesh(bool avirtualVBO=true);
-		~SphereMesh(); //virtual? 
+		virtual ~SphereMesh(); //virtual?
         DFORCEINLINE const Easy3D::AABox& getAABox() const{
             return box;
         }

@@ -7,16 +7,20 @@ using namespace Easy3D;
 using namespace RiemannSphere;
 ///////////////////////
 
-SpheresManager::SpheresManager(const Easy3D::Utility::Path& polyfunction,
+SpheresManager::SpheresManager(Easy3D::Camera* camera,
+                               const Easy3D::Utility::Path& polyfunction,
 							   int rings,
 							   int sgments,
 							   int livels, 
 							   float radius,
-							   float dfPerLivel)
-							   :multithread(NULL)
+							   double dfPerLivel)
+							   :VirtualOctree<SphereMesh>(536870912*(1.0/8.0)) //512 MByte
+                               ,camera(camera)
+                               ,curLevel(0)
+                               ,multithread(NULL)
 							   ,poly(polyfunction)
 							   ,fractal(&poly)
-							   ,virtualVBO(536870912) //512 MByte
+							   ,virtualVBO(536870912*1.25) //512 MByte
 {
     buildLivels(rings,sgments,livels,radius,dfPerLivel);
 	multithread=new PoolThread(4);
@@ -24,8 +28,49 @@ SpheresManager::SpheresManager(const Easy3D::Utility::Path& polyfunction,
 
 SpheresManager::~SpheresManager(){
 	delete multithread;
+    //all data are not in bulding (threads are dead)
+    for(auto mesh:meshToBuilds) mesh->inbuilding=false;
 }
 
+void SpheresManager::subMeshADiv(SphereMesh* meshs,
+                                 int i,
+                                 Easy3D::ushort idSphere,
+                                 const SubSphere& sub){
+    //calc division rigns
+    const int
+    up=sub.rStart,
+    middle=(int)(sub.rStart+(sub.rEnd-sub.rStart)/2.0f),
+    down=sub.rEnd;
+    //calc division sections
+    const int hlpart=(int)((sub.sEnd-sub.sStart)/4.0f);
+    const int
+    part1=sub.sStart,
+    part2=sub.sStart+hlpart,
+    part3=sub.sStart+hlpart*2,
+    part4=sub.sStart+hlpart*3,
+    part5=sub.sEnd;
+    
+	//assert
+	if(part1==part2 || part2==part3 || part3==part4 || part4==part5)
+		Debug::message()<<"parts:"<<part1<<" "<<part2<<" "<<part3<<" "<<part4<<" "<<part5<<"\n";
+    //build parts
+    switch (i) {
+        //up
+        case 0:  meshs->setMeshInfo(idSphere,{up,middle,part1,part2},*this); break;
+        case 1:  meshs->setMeshInfo(idSphere,{up,middle,part2,part3},*this); break;
+        case 2:  meshs->setMeshInfo(idSphere,{up,middle,part3,part4},*this); break;
+        case 3:  meshs->setMeshInfo(idSphere,{up,middle,part4,part5},*this); break;
+        //down
+        case 4:  meshs->setMeshInfo(idSphere,{middle,down,part1,part2},*this); break;
+        case 5:  meshs->setMeshInfo(idSphere,{middle,down,part2,part3},*this); break;
+        case 6:  meshs->setMeshInfo(idSphere,{middle,down,part3,part4},*this); break;
+        case 7:  meshs->setMeshInfo(idSphere,{middle,down,part4,part5},*this); break;
+        default: Debug::message()<<"parts: id invalid\n"; break;
+    }
+    
+    
+}
+/*
 void SpheresManager::subMeshDiv8(SphereMesh* meshs,const Sphere& sphere,const SubSphere& sub){
     //calc division rigns
     const int
@@ -87,72 +132,79 @@ void SpheresManager::subDiv8(int liv,int mid,const Sphere& sphere,const SubSpher
     subDiv8(liv-1,getChilds(mid)+5,sphere,{middle,down,part2,part3});
     subDiv8(liv-1,getChilds(mid)+6,sphere,{middle,down,part3,part4});
     subDiv8(liv-1,getChilds(mid)+7,sphere,{middle,down,part4,part5});
+}*/
+
+//build function
+SphereMesh* SpheresManager::buildNode(SphereMesh* parent,Easy3D::uchar i){
+    SphereMesh* tmp=new SphereMesh();
+    SubSphere sub=parent->sub/getSphere(parent->idSphere)*getSphere(parent->idSphere+1);
+    subMeshADiv(tmp,i,parent->idSphere+1,sub);
+    return tmp;
+}
+//delete function
+bool SpheresManager::isDeletableChild(SphereMesh* node){
+    if(node->isvirtual && ( !node->lockTask() ) ){
+        bool deletablechild=true;
+        for(Easy3D::uchar c=0; c!=8 && deletablechild; ++c){
+            if(node->getChild(c))
+                deletablechild= deletablechild && isDeletableChild(node->getChild(c));
+        }
+        return deletablechild;
+    }
+    return false;
+}
+bool SpheresManager::isDeletable(SphereMesh* node){
+    if(!node) return false;
+    
+    bool deletablenode=
+          node->isvirtual
+    && ( !node->lockTask() )
+    && ( node->idSphere < ( (int)(spheres.size()*0.5+1) ) )
+    && ( node->idSphere > (curLevel+1) || ( !camera->boxInFrustum(node->getAABox()) ) );
+    
+    if(deletablenode){
+        bool deletablechild=true;
+        for(Easy3D::uchar c=0; c!=8 && deletablechild; ++c){
+            if(node->getChild(c))
+                deletablechild= deletablechild && isDeletableChild(node->getChild(c));
+        }
+        return deletablechild;
+    }
+    
+    return false;
 }
 
+
 //#define ENABLE_CACHE
-void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,float dfPerLivel){
+void SpheresManager::buildLivels(int rings,int sgments,int livels, float radius,double _dfPerLivel){
     
     DEBUG_ASSERT(livels>0);
-    //savelivels
-    this->livels=livels;
     //calc factor
-    float ringsFactor=(float)rings / (livels*dfPerLivel);
-    float sgmentsFactor=(float)sgments / (livels*dfPerLivel);
-    //set tree size
-    setTreeSize(livels);
-
-#ifdef ENABLE_CACHE
-    /*
-     get file
-    */
-    Utility::Path path(String("temp/")+rings+"_"+sgments+"_"+livels+"_"+radius+"_"+dfPerLivel+"_"+DEBUG_MODE+".save");
+    dfPerLivel=_dfPerLivel;
+    ringsFactor=(double)rings / (livels+_dfPerLivel) ;//(double)pow(rings, 1.0/(livels*dfPerLivel));//
+    sgmentsFactor=(double)sgments / (livels+_dfPerLivel) ;//(double)pow(sgments, 1.0/(livels*dfPerLivel));//
+    spheres.resize(livels);
     
-    if(path.existsFile() ){
-       FILE *file=fopen(path, "rb");
-       if(file){
-		   for(size_t i=0;i!=meshs.size();++i){
-				fread(&meshs[i].sub,            sizeof(SubSphere), 1, file);
-				fread(&meshs[i].sphere,         sizeof(Sphere), 1, file);
-				fread(&meshs[i].box,            sizeof(Easy3D::AABox), 1, file);
-				fread(&meshs[i].isvirtual,      sizeof(bool), 1, file);
-			}
-            fclose(file);
-       }
-   }
-   else
-   {
-#endif
-        //gen meshs
-        for (int l=0; l<livels; ++l) {
-            //sphere
-            Sphere sphere(
-               (int)( ringsFactor*(l+1)*(dfPerLivel/(livels-l)) ),
-               (int)( sgmentsFactor*(l+1)*(dfPerLivel/(livels-l)) ),
-                radius+0.0004f*l
-            );
-            //divs
-            subDiv8(l, 0, sphere, {  0, sphere.rings, 0, sphere.sectors  });
-            
-        }
-	   //first livel must to be allocated
-       for(int c=0;c<8;++c) meshs[getChilds(0)+c].isvirtual=false;
-       
-#ifdef ENABLE_CACHE
-        /*
-         Save into the file
-		*/
-        FILE *file=fopen(path, "wb");
-        if(file){
-			for(size_t i=0;i!=meshs.size();++i){
-				fwrite(&meshs[i].sub,            sizeof(SubSphere), 1, file);
-				fwrite(&meshs[i].sphere,         sizeof(Sphere), 1, file);
-				fwrite(&meshs[i].box,            sizeof(Easy3D::AABox), 1, file);
-				fwrite(&meshs[i].isvirtual,    sizeof(bool), 1, file);
-			}
-            fclose(file);
-        }
+    for (int l=1; l<=livels; ++l) {
+        //sphere
+        spheres[livels-l].rings=rings/pow(dfPerLivel,l-1);
+        spheres[livels-l].sectors=sgments/pow(dfPerLivel,l-1);
+        spheres[livels-l].radius=radius+0.0004*(livels-l);
     }
-#endif
+    //first livel must to be allocated
+    root->idSphere=-1;
+    root->sub={
+        0,spheres[0].rings,
+        0,spheres[0].sectors
+    };
+    root->isvirtual=false;
+    for(Easy3D::uchar c=0;c!=8;++c){
+        SphereMesh* tmp=new SphereMesh();
+        subMeshADiv(tmp,c,0,root->sub);
+        root->setChild(tmp,c);
+        getChild(root,c)->isvirtual=false;
+    }
+    
 }
 
 void SpheresManager::addMeshToBuild(SphereMesh* mesh){
@@ -168,37 +220,40 @@ void SpheresManager::doBuildsList(){
 	mutexBuildList.unlock();
 }
 
-bool SpheresManager::drawSub(Easy3D::Camera &camera,int countlivel,int node){
+bool SpheresManager::drawSub(SphereMesh *node,int countlivel){
 
     bool drawFather=false;
 
     if(countlivel==0){
-        for(int c=0;c<8;++c)
-            if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
+        for(uchar c=0;c!=8;++c)
+            if(camera->boxInFrustum( getChild(node,c)->box )){
                 //to do: separate thread
-				if(!meshs[getChilds(node)+c].lockTask())
-                    meshs[getChilds(node)+c].buildMesh(*this,camera,fractal);
+				if(!getChild(node,c)->lockTask())
+                    getChild(node,c)->buildMesh(*this,*camera,fractal);
                 //draw
-                drawFather=meshs[getChilds(node)+c].draw()&&drawFather;
+                drawFather=getChild(node,c)->draw()&&drawFather;
             }
     }
     else{
-
-        for(int c=0;c<8;++c)
-            if(camera.boxInFrustum( meshs[getChilds(node)+c].box )){
-				if(!drawSub(camera,countlivel-1,getChilds(node)+c)){
+        for(uchar c=0;c!=8;++c)
+            if(camera->boxInFrustum( getChild(node,c)->box )){
+				if(!drawSub(getChild(node,c),countlivel-1)){
 					//draw
-					drawFather=meshs[getChilds(node)+c].draw()&&drawFather;
+					drawFather=getChild(node,c)->draw()&&drawFather;
 				}
 			}
     }
 	//draw Father?
     return drawFather;
 }
-void SpheresManager::draw(Easy3D::Camera &camera,int livel){
+void SpheresManager::draw(){
+    //update memory gpu
 	virtualVBO.updateMemory();
 	doBuildsList();
-    drawSub(camera,livel,0);
+    //update memory cpu
+    updateMemory();
+    //draw
+    drawSub(root,curLevel);
 }
 
 /*

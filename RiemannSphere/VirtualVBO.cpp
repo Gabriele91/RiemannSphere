@@ -55,8 +55,11 @@ VirtualVBO::Node::Node():prev(NULL)
 						,size(0)
 						,data(NULL){}
 VirtualVBO::Node::~Node(){
-	if(data)
+	if(data){
 		free(data);
+        data=NULL;
+    }
+	cVertices=0;
 }
 //cpu side
 void  VirtualVBO::Node::allocCpu(size_t size,GLuint vertexCount){
@@ -69,8 +72,8 @@ void* VirtualVBO::Node::getData(){
 }
 void  VirtualVBO::Node::cleanInfo(){
 	if(data) free(data);
+    data=NULL;
 	size=0;
-	cVertices=0;
 }
 //gpu side
 bool  VirtualVBO::Node::isAllocated(){

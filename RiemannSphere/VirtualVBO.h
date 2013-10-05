@@ -43,6 +43,9 @@ namespace RiemannSphere {
 		void updateNode(Node* in);
 		void deleteLast();
 		void updateMemory();
+        long long int globalSize(){
+            return gSize;
+        }
 
 	protected:
 		

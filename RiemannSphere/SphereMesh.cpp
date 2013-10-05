@@ -18,13 +18,14 @@ SphereMesh::SphereMesh(bool avirtualVBO)
 }
 SphereMesh::~SphereMesh()
 {
-	
+	//DEBUG_ASSERT(inbuilding==false);
 }
-void SphereMesh::setMeshInfo(const Sphere& _sphere,
-                             const SubSphere& _sub){
+void SphereMesh::setMeshInfo(Easy3D::ushort _idSphere,
+                             const SubSphere& _sub,
+                             const SpheresManager& smanager){
     sub=_sub;
-    sphere=_sphere;
-    box=sphere.genAABox(sub);
+    idSphere=_idSphere;
+    box=smanager.getSphere(idSphere).genAABox(sub);
 }
 
 
@@ -45,9 +46,9 @@ void SphereMesh::freeCpuBuffers(){
 }
 
 #define pushv(v)\
-vertices[count++]=v.x*sphere.radius;\
-vertices[count++]=v.y*sphere.radius;\
-vertices[count++]=v.z*sphere.radius;
+vertices[count++]=v.x*smanager.getSphere(idSphere).radius;\
+vertices[count++]=v.y*smanager.getSphere(idSphere).radius;\
+vertices[count++]=v.z*smanager.getSphere(idSphere).radius;
 
 #define pushRootColor(rcolor)\
 vertices[count++]=(rcolor.r);\
@@ -69,7 +70,7 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 	smanager.addBuildTask(
 		[this,&smanager,&camera,newton](){
 
-		if(!camera.boxInFrustum( box )){
+		if(idSphere!=smanager.curLevel||!camera.boxInFrustum( box )){
 			inbuilding=false;
 			return;
 		}
@@ -85,20 +86,20 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 		//center
 		for(int i = sub.rStart; i<sub.rEnd; ++i){
         
-			float lat0 = Math::PI * (-0.5f + (float) i / sphere.rings);
+			float lat0 = Math::PI * (-0.5f + (float) i / smanager.getSphere(idSphere).rings);
 			float z0  =  std::sin(lat0);
 			float zr0 =  std::cos(lat0);
         
-			float lat1 = Math::PI * (-0.5f + (float) (i+1) / sphere.rings);
+			float lat1 = Math::PI * (-0.5f + (float) (i+1) / smanager.getSphere(idSphere).rings);
 			float z1 =   std::sin(lat1);
 			float zr1 =  std::cos(lat1);
         
 			for(int j = sub.sStart; j < sub.sEnd; ++j) {
-				float lng = 2.0f * Math::PI * (float) j / sphere.sectors;
+				float lng = 2.0f * Math::PI * (float) j / smanager.getSphere(idSphere).rings;
 				float x = std::cos(lng);
 				float z = std::sin(lng);
             
-				float lng2 = 2.0f * Math::PI * (float) (j+1) / sphere.sectors;
+				float lng2 = 2.0f * Math::PI * (float) (j+1) / smanager.getSphere(idSphere).rings;
 				float x2 = std::cos(lng2);
 				float z2 = std::sin(lng2);
             
@@ -166,20 +167,20 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
 		//center
 		for(int i = sub.rStart; i<sub.rEnd; ++i){
         
-			float lat0 = Math::PI * (-0.5f + (float) i / sphere.rings);
+			float lat0 = Math::PI * (-0.5f + (float) i / smanager.getSphere(idSphere).rings);
 			float z0  =  std::sin(lat0);
 			float zr0 =  std::cos(lat0);
         
-			float lat1 = Math::PI * (-0.5f + (float) (i+1) / sphere.rings);
+			float lat1 = Math::PI * (-0.5f + (float) (i+1) / smanager.getSphere(idSphere).rings);
 			float z1 =   std::sin(lat1);
 			float zr1 =  std::cos(lat1);
         
 			for(int j = sub.sStart; j < sub.sEnd; ++j) {
-				float lng = 2.0f * Math::PI * (float) j / sphere.sectors;
+				float lng = 2.0f * Math::PI * (float) j / smanager.getSphere(idSphere).sectors;
 				float x = std::cos(lng);
 				float z = std::sin(lng);
             
-				float lng2 = 2.0f * Math::PI * (float) (j+1) / sphere.sectors;
+				float lng2 = 2.0f * Math::PI * (float) (j+1) / smanager.getSphere(idSphere).sectors;
 				float x2 = std::cos(lng2);
 				float z2 = std::sin(lng2);
             

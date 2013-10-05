@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E00BDDCD17FADBF200EB1A39 /* VirtualOctree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00BDDCB17FADBF200EB1A39 /* VirtualOctree.cpp */; };
 		E00EF2C817C153280032B058 /* SphereMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00EF2C617C153270032B058 /* SphereMesh.cpp */; };
 		E00EF2CB17C153650032B058 /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00EF2C917C153650032B058 /* Sphere.cpp */; };
 		E01049AE17C3922700EF760D /* SpheresManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01049AC17C3922700EF760D /* SpheresManager.cpp */; };
@@ -66,6 +67,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E00BDDCB17FADBF200EB1A39 /* VirtualOctree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualOctree.cpp; sourceTree = "<group>"; };
+		E00BDDCC17FADBF200EB1A39 /* VirtualOctree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualOctree.h; sourceTree = "<group>"; };
 		E00EF2C617C153270032B058 /* SphereMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SphereMesh.cpp; sourceTree = "<group>"; };
 		E00EF2C717C153280032B058 /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SphereMesh.h; sourceTree = "<group>"; };
 		E00EF2C917C153650032B058 /* Sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sphere.cpp; sourceTree = "<group>"; };
@@ -327,6 +330,8 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E00BDDCB17FADBF200EB1A39 /* VirtualOctree.cpp */,
+				E00BDDCC17FADBF200EB1A39 /* VirtualOctree.h */,
 				E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */,
 				E087F8EC17F813E70093DF8B /* VirtualVBO.h */,
 				E053C07317F1DFF300BDCE94 /* NewtonFractal.cpp */,
@@ -403,6 +408,7 @@
 				E089188C17F96C1F0085A933 /* Font.cpp in Sources */,
 				E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */,
 				E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */,
+				E00BDDCD17FADBF200EB1A39 /* VirtualOctree.cpp in Sources */,
 				E089188B17F96C1F0085A933 /* BMFontLoader.cpp in Sources */,
 				E04F6FE817BBBFB100041D45 /* CocoaInput.mm in Sources */,
 				E087F8ED17F813E70093DF8B /* VirtualVBO.cpp in Sources */,
@@ -556,6 +562,7 @@
 		E04F6FA017BBBF8700041D45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = 3;
 				HEADER_SEARCH_PATHS = (
 					./,
 					include/,
