@@ -87,7 +87,7 @@ bool Texture::operator !=(const Texture& t) const{
 bool Texture::load(const String& pathfile){
     DEBUG_ASSERT(!loaded);
     rpath=(pathfile);
-    load();
+	return load();
 }
 bool Texture::load(){
     DEBUG_ASSERT(!loaded);

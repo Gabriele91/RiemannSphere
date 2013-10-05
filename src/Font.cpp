@@ -36,7 +36,7 @@ Font::Font()
 bool Font::load(const String& path){
 	DEBUG_ASSERT(!loaded);
     rpath=path;
-    load();
+    return load();
 }
 
 bool Font::load(){

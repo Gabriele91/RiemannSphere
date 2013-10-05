@@ -38,20 +38,25 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./;include/;include/window/;include/thread/;RiemannSphere/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;include/;include/window/;include/thread/;RiemannSphere/;dependencies-win32/include/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>openGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype250_D.lib;openGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -61,22 +66,24 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>./;include/;include/window/;include/thread/;RiemannSphere/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;include/;include/window/;include/thread/;RiemannSphere/;dependencies-win32/include/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>openGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype250.lib;openGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Easy3D.h" />
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Blend.h" />
+    <ClInclude Include="include\BMFontLoader.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Config.h" />
@@ -84,6 +91,8 @@
     <ClInclude Include="include\EStack.h" />
     <ClInclude Include="include\EString.h" />
     <ClInclude Include="include\ETime.h" />
+    <ClInclude Include="include\Font.h" />
+    <ClInclude Include="include\FreeTypeFontLoader.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\Math3D.h" />
@@ -94,6 +103,7 @@
     <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\Table.h" />
+    <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\thread\Mutex.h" />
     <ClInclude Include="include\thread\MutexConf.h" />
     <ClInclude Include="include\thread\Thread.h" />
@@ -114,7 +124,10 @@
     <ClInclude Include="RiemannSphere\Sphere.h" />
     <ClInclude Include="RiemannSphere\SphereMesh.h" />
     <ClInclude Include="RiemannSphere\SpheresManager.h" />
+    <ClInclude Include="RiemannSphere\VirtualOctree.h" />
     <ClInclude Include="RiemannSphere\VirtualVBO.h" />
+    <ClInclude Include="src\Image\Image.h" />
+    <ClInclude Include="src\Image\lodepng.h" />
     <ClInclude Include="src\Math3D_SSE2.h" />
     <ClInclude Include="src\window\WGL_ARB_multisample.h" />
     <ClInclude Include="stdafx.h" />
@@ -129,14 +142,19 @@
     <ClCompile Include="RiemannSphere\Sphere.cpp" />
     <ClCompile Include="RiemannSphere\SphereMesh.cpp" />
     <ClCompile Include="RiemannSphere\SpheresManager.cpp" />
+    <ClCompile Include="RiemannSphere\VirtualOctree.cpp" />
     <ClCompile Include="RiemannSphere\VirtualVBO.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\BMFontLoader.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\Debug.cpp" />
     <ClCompile Include="src\EString.cpp" />
     <ClCompile Include="src\ETime.cpp" />
+    <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\FreeTypeFontLoader.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Image\lodepng.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Math3D.cpp" />
     <ClCompile Include="src\Math3D_SSE2.cpp" />
@@ -147,6 +165,7 @@
     <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\Table.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\thread\MutexWin32.cpp" />
     <ClCompile Include="src\thread\ThreadWin32.cpp" />
     <ClCompile Include="src\Timer.cpp" />
@@ -163,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="function.test.e2d" />
+    <None Include="src\Image\Image.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

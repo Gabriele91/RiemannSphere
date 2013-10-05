@@ -34,6 +34,9 @@
     <Filter Include="File di intestazione\Easy3D\thread">
       <UniqueIdentifier>{8046fea2-d106-40ad-90a4-58eed78c9335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di origine\Easy3D\image">
+      <UniqueIdentifier>{ed07d6c5-47dc-4f4c-b1e7-431cb2ce07da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -168,6 +171,27 @@
     <ClInclude Include="RiemannSphere\VirtualVBO.h">
       <Filter>RiemannSphere</Filter>
     </ClInclude>
+    <ClInclude Include="include\BMFontLoader.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Font.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FreeTypeFontLoader.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Texture.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\VirtualOctree.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Image\Image.h">
+      <Filter>File di origine\Easy3D\image</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Image\lodepng.h">
+      <Filter>File di origine\Easy3D\image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -281,10 +305,31 @@
     <ClCompile Include="RiemannSphere\VirtualVBO.cpp">
       <Filter>RiemannSphere</Filter>
     </ClCompile>
+    <ClCompile Include="src\BMFontLoader.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Font.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeTypeFontLoader.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>File di origine\Easy3D</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\VirtualOctree.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Image\lodepng.cpp">
+      <Filter>File di origine\Easy3D\image</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="function.test.e2d">
       <Filter>File di risorse</Filter>
+    </None>
+    <None Include="src\Image\Image.inl">
+      <Filter>File di origine\Easy3D\image</Filter>
     </None>
   </ItemGroup>
 </Project>

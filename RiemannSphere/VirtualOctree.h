@@ -17,12 +17,21 @@ namespace RiemannSphere {
         
         class Node{
             
-            T* childs[8]{NULL,NULL,NULL,NULL,
-                            NULL,NULL,NULL,NULL};
+            T* childs[8];
             friend  class VirtualOctree<T>;
             
         public:
             
+			Node(){
+                childs[0]=NULL;
+                childs[1]=NULL;
+                childs[2]=NULL;
+                childs[3]=NULL;
+                childs[4]=NULL;
+                childs[5]=NULL;
+                childs[6]=NULL;
+                childs[7]=NULL;
+			}
             T* getChild(Easy3D::uchar i){
                 return childs[i];
             }
@@ -68,9 +77,9 @@ namespace RiemannSphere {
         }
         
         //build function
-        virtual T* buildNode(T* parent,Easy3D::uchar i)=0;
+		virtual T* buildNode(T* parent,Easy3D::uchar i){ return NULL; }
         //delete function
-        virtual bool isDeletable(T* node)=0;
+		virtual bool isDeletable(T* node){ return true; }
         //build size
         size_t globalSize(){
             return gSize;

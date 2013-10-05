@@ -70,35 +70,35 @@ void RiemannScene::onRun(float dt){
         level=1;
     }
     if(std::abs(cameraManager->getAngle())<0.040){
-        cameraManager->setVelocity(Vec3(10,10,.002));
+        cameraManager->setVelocity(Vec3(5,5,.002));
         level=2;
     }
     if(std::abs(cameraManager->getAngle())<0.020){
-        cameraManager->setVelocity(Vec3(10,10,.001));
+        cameraManager->setVelocity(Vec3(2,2,.001));
         level=3;
     }
     if(std::abs(cameraManager->getAngle())<0.010){
-        cameraManager->setVelocity(Vec3(10,10,.0005));
+        cameraManager->setVelocity(Vec3(1,1,.0005));
         level=4;
     }
     if(std::abs(cameraManager->getAngle())<0.005){
-        cameraManager->setVelocity(Vec3(10,10,.0002));
+        cameraManager->setVelocity(Vec3(0.5,0.5,.0002));
         level=5;
     }
     if(std::abs(cameraManager->getAngle())<0.001){
-        cameraManager->setVelocity(Vec3(10,10,.0002));
+        cameraManager->setVelocity(Vec3(0.25,0.25,.0002));
         level=6;
     }
     if(std::abs(cameraManager->getAngle())<0.0004){
-        cameraManager->setVelocity(Vec3(10,10,.0001));
+        cameraManager->setVelocity(Vec3(0.1,0.1,.0001));
         level=7;
     }
     if(std::abs(cameraManager->getAngle())<0.0001){
-        cameraManager->setVelocity(Vec3(10,10,.00002));
+        cameraManager->setVelocity(Vec3(0.05,0.05,.00002));
         level=8;
     }
     if(std::abs(cameraManager->getAngle())<0.00005){
-        cameraManager->setVelocity(Vec3(10,10,.00001));
+        cameraManager->setVelocity(Vec3(0.025,0.025,.00001));
         level=9;
     }
     
