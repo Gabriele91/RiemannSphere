@@ -86,7 +86,7 @@ namespace RiemannSphere {
 				  ,intensity(intensity){}
 		};
 
-		NewtonFractal(Polynomial<T>* fun,int npass=16):fun(fun),npass(npass){}
+		NewtonFractal(Polynomial<T>* fun,int npass=100):fun(fun),npass(npass){}
 		DFORCEINLINE Values calc(const std::complex<T>& xk) const{
 			//vars dec
 			int xkpass=npass;
