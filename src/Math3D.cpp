@@ -1355,7 +1355,28 @@ void Matrix4x4::setPerspective(float fov, float fRealAspect, float fNear, float 
     entries[14] = (2 * fFar * fNear) * n;
     entries[15] = 0;
     
-        
+    /* NORMALIZE w/h
+    float e= 1.0 / (float)std::tan(fov * 0.5f);
+    entries[ 0] = e;
+    entries[ 1] = 0;
+    entries[ 2] = 0;
+    entries[ 3] = 0;
+    
+    entries[ 4] = 0;
+    entries[ 5] = e/fRealAspect;
+    entries[ 6] = 0;
+    entries[ 7] = 0;
+    
+    entries[ 8] = 0;
+    entries[ 9] = 0;
+    entries[10] = - ( (fFar + fNear) / (fFar-fNear) ) ;
+    entries[11] = -1;
+    
+    entries[12] = 0;
+    entries[13] = 0;
+    entries[14] = -( (2 * fFar * fNear) / (fFar-fNear) );
+    entries[15] = 0;
+     */
 }
 
 String Matrix4x4::toString(const String& start,const String& sep,const String& sepline,const String& end) const{

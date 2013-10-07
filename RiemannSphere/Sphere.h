@@ -2,6 +2,7 @@
 #define SPHERE_H
 
 #include <Easy3D.h>
+#include <Rays.h>
 
 namespace RiemannSphere {
     
@@ -23,6 +24,7 @@ namespace RiemannSphere {
         
         Easy3D::AABox genAABox(const SubSphere& sub) const;
         Easy3D::Vec3 getPoint(int pRings,int pSectors) const;
+        bool rayCast(const Ray& r,Segment& sg) const;
 	};
     
     //subpart

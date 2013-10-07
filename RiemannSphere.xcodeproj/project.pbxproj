@@ -50,6 +50,7 @@
 		E08918F917F96E460085A933 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08918F717F96E460085A933 /* lodepng.cpp */; };
 		E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3817BD4A0D00EB25FD /* Game.cpp */; };
 		E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3D17BD4EA100EB25FD /* Render.cpp */; };
+		E08BDD74180197BD003AA295 /* Rays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08BDD72180197BD003AA295 /* Rays.cpp */; };
 		E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */; };
 		E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */; };
 /* End PBXBuildFile section */
@@ -157,6 +158,8 @@
 		E08B1A3817BD4A0D00EB25FD /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		E08B1A3C17BD4E8100EB25FD /* Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Render.h; sourceTree = "<group>"; };
 		E08B1A3D17BD4EA100EB25FD /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
+		E08BDD72180197BD003AA295 /* Rays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rays.cpp; sourceTree = "<group>"; };
+		E08BDD73180197BD003AA295 /* Rays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rays.h; sourceTree = "<group>"; };
 		E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannScene.cpp; sourceTree = "<group>"; };
 		E0DCC1FE17BF9D8D0060E4CD /* RiemannScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannScene.h; sourceTree = "<group>"; };
 		E0DCC20017BF9DD10060E4CD /* Easy3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Easy3D.h; sourceTree = "<group>"; };
@@ -330,6 +333,8 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E08BDD72180197BD003AA295 /* Rays.cpp */,
+				E08BDD73180197BD003AA295 /* Rays.h */,
 				E00BDDCB17FADBF200EB1A39 /* VirtualOctree.cpp */,
 				E00BDDCC17FADBF200EB1A39 /* VirtualOctree.h */,
 				E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */,
@@ -411,6 +416,7 @@
 				E00BDDCD17FADBF200EB1A39 /* VirtualOctree.cpp in Sources */,
 				E089188B17F96C1F0085A933 /* BMFontLoader.cpp in Sources */,
 				E04F6FE817BBBFB100041D45 /* CocoaInput.mm in Sources */,
+				E08BDD74180197BD003AA295 /* Rays.cpp in Sources */,
 				E087F8ED17F813E70093DF8B /* VirtualVBO.cpp in Sources */,
 				E04F6FE917BBBFB100041D45 /* CocoaScreen.mm in Sources */,
 				E04F6FEA17BBBFB100041D45 /* Config.cpp in Sources */,

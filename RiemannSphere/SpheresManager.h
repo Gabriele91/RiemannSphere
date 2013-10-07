@@ -27,15 +27,6 @@ namespace RiemannSphere {
         //delete function
         bool isDeletableChild(SphereMesh* node);
         virtual bool isDeletable(SphereMesh* node);
-        
-        //spheres
-        Sphere& getSphere(Easy3D::ushort i){
-            return spheres[i];
-        }
-        const Sphere& getSphere(Easy3D::ushort i) const{
-            return spheres[i];
-        }
-        
         //octree manager
         void buildLivels(int rings,int sgments,int livels,float radius,double dfPerLivel=2.0);
         
@@ -77,6 +68,19 @@ namespace RiemannSphere {
         }
         int getLevel(){
             return curLevel;
+        }
+        //spheres
+        Sphere& getSphere(Easy3D::ushort i){
+            return spheres[i];
+        }
+        const Sphere& getSphere(Easy3D::ushort i) const{
+            return spheres[i];
+        }
+        Sphere& getCurSphere(){
+            return spheres[curLevel];
+        }
+        const Sphere& getCurSphere() const{
+            return spheres[curLevel];
         }
         
         void draw();

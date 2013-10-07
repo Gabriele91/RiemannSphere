@@ -58,12 +58,16 @@ void CameraManager::onStateStart(){
     }
 }
 
+
+Ray CameraManager::calcRayFromCam(const Easy3D::Vec2& point){
+    return Ray();
+}
+
 void CameraManager::onStateRun(float dt){
     
     //update projection
     camera->setPerspective(angle,n, f);
     camera->update();
-    
     
     //update rotation
     if(getLastMessage()==DO_POINT){

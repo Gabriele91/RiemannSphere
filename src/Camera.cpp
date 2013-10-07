@@ -122,6 +122,47 @@ Vec2 Camera::getPointIn3DSpace(const Vec3& point){
 
 	return vpp.xy();
 }
+
+Vec3 Camera::getPointFrom2DClipSpace(const Vec2& point) {
+    //clip to projection
+    Vec2 pProj=mProjMatrix.getInverse().mul(Easy3D::Vector4D(point,0.0,1.0)).xy();
+    //peojection to world (n.b. getGlobalMatrix()==getGlobalView().getInverse())
+    Vec3 world=getGlobalMatrix().mul(Vec4(pProj,0.0,1.0)).xyz();
+    //return
+    return world;
+}
+Vec3 Camera::getPointFrom2DScreen(const Vec2& point) {
+    //window space to clip space
+    Vec2 screen(Application::instance()->getScreen()->getWidth(),
+                Application::instance()->getScreen()->getHeight());
+    
+    Vec2 clipPoint((2.0f * point.x) / screen.x - 1.0f,
+                    1.0f - (2.0f * point.y) /screen.y);
+
+    //calc point in 3D wolrd
+    return getPointFrom2DClipSpace(clipPoint);
+}
+
+Vec3 Camera::getNormalPointFrom2DClipSpace(const Vec2& point) {
+    //clip to projection
+    Vec2 pProj=mProjMatrix.getInverse().mul(Easy3D::Vector4D(point,0.0,1.0)).xy();
+    //peojection to world (n.b. getGlobalMatrix()==getGlobalView().getInverse())
+    Vec3 world=getGlobalMatrix().mul(Vec4(pProj,-1.0,0.0)).xyz();
+    //return
+    return world;
+}
+Vec3 Camera::getNormalPointFrom2DScreen(const Vec2& point){
+    //window space to clip space
+    Vec2 screen(Application::instance()->getScreen()->getWidth(),
+                Application::instance()->getScreen()->getHeight());
+    
+    Vec2 clipPoint((2.0f * point.x) / screen.x - 1.0f,
+                   1.0f - (2.0f * point.y) /screen.y);
+    
+    //calc point in 3D wolrd
+    return getNormalPointFrom2DClipSpace(clipPoint);
+}
+
 Mat4 Camera::getGlobalView(){
     
     return __getGlobalView();

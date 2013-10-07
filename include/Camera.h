@@ -9,6 +9,14 @@ namespace Easy3D {
 
 	class Camera : public Object {
 
+		//planes
+		Plane planes[6];
+		//matrix
+		Mat4 mProjMatrix;
+		Mat4 mViewProjMatrix;
+		//
+	public:
+        
 		enum{
 			BACK=0,
 			FRONT=1,
@@ -17,13 +25,10 @@ namespace Easy3D {
 			LEFT=4,
 			RIGHT=5
 		};
-		//planes
-		Plane planes[6];
-		//matrix
-		Mat4 mProjMatrix;
-		Mat4 mViewProjMatrix;
-		//
-	public:
+        
+        const Plane& getPlane(uchar i) const {
+            return planes[i];
+        }
 		//
 		Camera():Object(){}
 		//set prospetive
@@ -46,6 +51,10 @@ namespace Easy3D {
 			return mViewProjMatrix;
 		}
 		Vec2 getPointIn3DSpace(const Vec3& point);
+        Vec3 getPointFrom2DClipSpace(const Vec2& point);
+        Vec3 getPointFrom2DScreen(const Vec2& point);
+        Vec3 getNormalPointFrom2DClipSpace(const Vec2& point);
+        Vec3 getNormalPointFrom2DScreen(const Vec2& point);
         //get view
         Mat4 getGlobalView();
 	};

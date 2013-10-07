@@ -1,6 +1,5 @@
 #include <stdafx.h>
 #include <RiemannScene.h>
-#include <CameraManager.h>
 
 ///////////////////////
 using namespace RiemannSphere;
@@ -102,19 +101,47 @@ void RiemannScene::onRun(float dt){
         level=9;
     }
     
+    
 	//draw sfere
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
     sphere.setLevel(level);
     sphere.draw();
-    
+#if 0
+    //draw ray
+    Vec3 dir=camera.getNormalPointFrom2DScreen(getInput()->getMouse());
+    Vec3 pos=camera.getPointFrom2DScreen(getInput()->getMouse());
+    Ray ray(pos,dir);
+    ray.draw(this,50);
+    //draw collision / point
+    Segment out;
+    auto collide=sphere.getCurSphere().rayCast(ray, out);
+    out.draw(this);
+    //draw point
+    {
+        //change state
+        auto mState=getMatrixsState();
+        auto newMState=mState;
+        //set model matrix info
+        Object obj;
+        obj.setPosition(out.t[0]);
+        obj.setScale(Vec3::ONE*0.2);
+        //draw
+        newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
+        setMatrixsState(newMState);
+        drawColorCube(Color(255,255,0,255));
+        //reset state
+        setMatrixsState(mState);
+    }
+#endif
 	//draw text
 	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
     setTextureState(TextureState(TextureState::TEXTURE2D));
-    aharoni.text(Vec2(10,10), "Level:"+String::toString(level+1)+"\n"+
-                              "vbo size:"+(size_t)(sphere.getVboSize()/pow(1024,2))+" mb\n"+
-                              "tree size:"+(size_t)(sphere.getTreeSize()/pow(1024,2))+" mb\n"+
-                              "tree nodes:"+sphere.getTreeNodes()
+    aharoni.text(Vec2(10,10),
+                 "Level:"+String::toString(level+1)+"\n"+
+                 "vbo size:"+(size_t)(sphere.getVboSize()/pow(1024,2))+" mb\n"+
+                 "tree size:"+(size_t)(sphere.getTreeSize()/pow(1024,2))+" mb\n"+
+                 "tree nodes:"+sphere.getTreeNodes()+"\n"
                  );
     
     

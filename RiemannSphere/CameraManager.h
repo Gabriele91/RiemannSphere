@@ -2,6 +2,8 @@
 #define CAMERAINPUT_H
 
 #include <Easy3D.h>
+#include <Rays.h>
+#include <SpheresManager.h>
 
 namespace RiemannSphere {
 
@@ -9,6 +11,7 @@ namespace RiemannSphere {
                                 Easy3D::Input::KeyboardHandler,
                                 Easy3D::Input::MouseHandler {
 
+        SpheresManager *smanager;
         Easy3D::Camera *camera;
         Easy3D::Object cameraPointer;
         Easy3D::Vec3   velocity;
@@ -31,6 +34,8 @@ namespace RiemannSphere {
         
         void setProjectionInfo(float angle,float n,float f);
         void setVelocity(const Easy3D::Vec3& vel);
+        Ray calcRayFromCam(const Easy3D::Vec2& point);
+                                    
                                   
         virtual void onStateStart();
         virtual void onStateRun(float dt);
