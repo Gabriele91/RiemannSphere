@@ -25,7 +25,7 @@ void RiemannScene::onStart(){
 	//set client state
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
-    addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO));
+	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,&sphere));
     cameraManager->setVelocity(Vec3(10,10,.0015));
     cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 49);
     camera.setPosition(Vec3(0,0,50),true);
@@ -107,7 +107,7 @@ void RiemannScene::onRun(float dt){
     setTextureState(TextureState(TextureState::NONE));
     sphere.setLevel(level);
     sphere.draw();
-#if 0
+#if 1
     //draw ray
     Vec3 dir=camera.getNormalPointFrom2DScreen(getInput()->getMouse());
     Vec3 pos=camera.getPointFrom2DScreen(getInput()->getMouse());
@@ -125,7 +125,7 @@ void RiemannScene::onRun(float dt){
         //set model matrix info
         Object obj;
         obj.setPosition(out.t[0]);
-        obj.setScale(Vec3::ONE*0.2);
+        obj.setScale(Vec3::ONE*0.0001);
         //draw
         newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
         setMatrixsState(newMState);

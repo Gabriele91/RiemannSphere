@@ -610,6 +610,8 @@ namespace Easy3D{
 		void setFromEulero(const Vec3& pyr){
 			setFromEulero(pyr.x,pyr.y,pyr.z);
 		}
+		//look at vector
+		static  Quaternion fromLookRotation(const Vec3& lookAt,Vector3D up);
 		void setLookRotation(const Vector3D &lookAt,Vector3D up);
         
 		///return pitch, yaw and roll

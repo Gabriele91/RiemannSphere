@@ -120,6 +120,7 @@
     <ClInclude Include="RiemannSphere\NewtonFractal.h" />
     <ClInclude Include="RiemannSphere\Polynomial.h" />
     <ClInclude Include="RiemannSphere\PoolThread.h" />
+    <ClInclude Include="RiemannSphere\Rays.h" />
     <ClInclude Include="RiemannSphere\RiemannScene.h" />
     <ClInclude Include="RiemannSphere\Sphere.h" />
     <ClInclude Include="RiemannSphere\SphereMesh.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="RiemannSphere\NewtonFractal.cpp" />
     <ClCompile Include="RiemannSphere\Polynomial.cpp" />
     <ClCompile Include="RiemannSphere\PoolThread.cpp" />
+    <ClCompile Include="RiemannSphere\Rays.cpp" />
     <ClCompile Include="RiemannSphere\RiemannScene.cpp" />
     <ClCompile Include="RiemannSphere\Sphere.cpp" />
     <ClCompile Include="RiemannSphere\SphereMesh.cpp" />

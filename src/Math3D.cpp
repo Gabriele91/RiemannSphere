@@ -307,6 +307,11 @@ void Quaternion::getEulero(Vec3& euler) const {
 	}*/
 }
 
+Quaternion Quaternion::fromLookRotation(const Vec3& lookAt,Vector3D upDirection){
+	Quaternion out;
+	out.setLookRotation(lookAt,upDirection);
+	return out;
+}
 void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
     
 	Vec3 forward = lookAt; Vec3 up = upDirection;

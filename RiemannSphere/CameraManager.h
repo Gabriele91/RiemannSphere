@@ -11,11 +11,20 @@ namespace RiemannSphere {
                                 Easy3D::Input::KeyboardHandler,
                                 Easy3D::Input::MouseHandler {
 
-        SpheresManager *smanager;
+		
         Easy3D::Camera *camera;
         Easy3D::Object cameraPointer;
         Easy3D::Vec3   velocity;
         float angle,n,f;
+        SpheresManager *smanager;
+		//info rotation
+		Easy3D::Vec2 lastMousePos;
+		Easy3D::Quaternion startPickRotation;
+		//info pick
+		struct Pick{	
+			Pick():collided(false){};
+			Ray ray; Segment segment; bool collided;
+		} onClick,onMove;
                                   
 	public:
         
@@ -30,11 +39,13 @@ namespace RiemannSphere {
             NO_POINT=2
         };
                                   
-		CameraManager(Easy3D::Camera *camera,const Easy3D::Vec3& toPoint);
+		CameraManager(Easy3D::Camera *camera,
+					  const Easy3D::Vec3& toPoint,
+					  SpheresManager *smanager);
         
         void setProjectionInfo(float angle,float n,float f);
         void setVelocity(const Easy3D::Vec3& vel);
-        Ray calcRayFromCam(const Easy3D::Vec2& point);
+        Ray getMouseRay();
                                     
                                   
         virtual void onStateStart();
@@ -45,6 +56,8 @@ namespace RiemannSphere {
         virtual void onKeyDown(Easy3D::Key::Keyboard key);
         virtual void onMouseScroll(short scroll);
         virtual void onMouseDown(Easy3D::Vec2 mousePosition,  Easy3D::Key::Mouse button);
+		virtual void onMousePress(Easy3D::Vec2 mousePosition,  Easy3D::Key::Mouse button);
+        virtual void onMouseRelease(Easy3D::Vec2 mousePosition,  Easy3D::Key::Mouse button);
 	};
 
 };

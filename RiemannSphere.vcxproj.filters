@@ -192,6 +192,9 @@
     <ClInclude Include="src\Image\lodepng.h">
       <Filter>File di origine\Easy3D\image</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannSphere\Rays.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -322,6 +325,9 @@
     </ClCompile>
     <ClCompile Include="src\Image\lodepng.cpp">
       <Filter>File di origine\Easy3D\image</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\Rays.cpp">
+      <Filter>RiemannSphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
