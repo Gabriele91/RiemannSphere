@@ -18,7 +18,6 @@ namespace RiemannSphere {
         float angle,n,f;
         SpheresManager *smanager;
 		//info rotation
-		Easy3D::Vec2 lastMousePos;
 		Easy3D::Quaternion startPickRotation;
 		//info pick
 		struct Pick{	

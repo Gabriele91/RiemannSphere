@@ -51,7 +51,6 @@ void CameraManager::onMouseDown(Vec2 mousePosition, Key::Mouse button){
 						 ->getCurSphere()
 						 .rayCast(onMove.ray,onMove.segment);
 		
-		sendMessage(DO_POINT);
     }
 }
 void CameraManager::onMouseRelease(Easy3D::Vec2 mousePosition,  Easy3D::Key::Mouse button){
@@ -67,8 +66,8 @@ void CameraManager::onMousePress(Vec2 mousePosition, Key::Mouse button){
 						 .rayCast(onClick.ray,onClick.segment);
 		//save rotation
 		startPickRotation=Quaternion::fromMatrix(cameraPointer.getGlobalMatrix()).getNormalize();
-		//get mouse pos
-		lastMousePos=mousePosition;
+		//send message
+		sendMessage(DO_POINT);
 	}
 }
 ///////////
@@ -88,6 +87,9 @@ void CameraManager::onStateStart(){
 Ray CameraManager::getMouseRay(){    
 	Vec3 dir=camera->getNormalPointFrom2DScreen(Application::instance()->getInput()->getMouse());
     Vec3 pos=camera->getPointFrom2DScreen(Application::instance()->getInput()->getMouse());
+	Mat4 rotation=cameraPointer.getRotation(true).getNormalize().getInverse().getMatrix();
+	pos=rotation.mul(Vec4(pos,0)).xyz();
+	dir=rotation.mul(Vec4(dir,0)).xyz();
     return Ray(pos,dir);
 }
 
@@ -116,61 +118,18 @@ void CameraManager::onStateRun(float dt){
     //update rotation
     if(getLastMessage()==DO_POINT){
 		if(onClick.collided&&onMove.collided){
-			/*
-			Vec3 start=onClick.segment.t[0].getNormalize();
-			Vec3 end=onMove.segment.t[0].getNormalize();
-			//rote only Yaw
-			float syaw=dirToEuler(start).y;
-			float eyaw=dirToEuler(end).y;
-			//rote only Pitch
-			float spitch=dirToEuler(start).x;
-			float epitch=dirToEuler(end).x;
-			
-			Debug::message()<< "start: " << (dirToEuler(start)*Math::G180OVERPI).toString() <<"\n";
-			Debug::message()<< "end: " << (dirToEuler(end)*Math::G180OVERPI).toString() <<"\n";
-			*/
-			//
-			//turn
-			//up vector not work
+			//start point
 			Vec3 vStart=(onClick.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
-			vStart=cameraPointer.getRotation(true).getNormalize().getInverse().getMatrix().mul(Vec4(vStart,0)).xyz();
 			Quaternion rotStart=Quaternion::fromLookRotation(vStart,Vec3(0,1,0)).getNormalize();
-
+			//end point
 			Vec3 vEnd=(onMove.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
-			vEnd=cameraPointer.getRotation(true).getNormalize().getInverse().getMatrix().mul(Vec4(vEnd,0)).xyz();
 			Quaternion rotEnd=Quaternion::fromLookRotation(vEnd,Vec3(0,1,0)).getNormalize();
-
+			//turn
 			cameraPointer.setRotation(
 				startPickRotation.getInverse().mul(rotEnd.mul(rotStart.getInverse()))
 				);
 			
-			sendMessage(NO_POINT);
 		}
-        /*
-        //var declaretion
-        Vec2  center(Application::instance()->getScreen()->getWidth()*0.5,
-                     Application::instance()->getScreen()->getHeight()*0.5);
-        Vec2  dir=Application::instance()->getInput()->getMouse()-center;
-        float leng=dir.length();
-        Vec3  euler;
-        
-        if(leng!=0.0f){
-            //rotation
-            cameraPointer.getRotation().getEulero(euler);
-            if(dir.x>0) euler.y-=Math::torad(1)*leng*dt*velocity.y;
-            if(dir.x<0) euler.y+=Math::torad(1)*leng*dt*velocity.y;
-            
-            if(dir.y>0) euler.x-=Math::torad(1)*leng*dt*velocity.x;
-            if(dir.y<0) euler.x+=Math::torad(1)*leng*dt*velocity.x;
-            cameraPointer.setRotation(Quaternion::fromEulero(euler));
-        }
-        
-        //center screen
-        Application::instance()->getScreen()->setPositionCursor(center);
-        
-        //end point
-        sendMessage(NO_POINT);
-		*/
     }
     
 }
