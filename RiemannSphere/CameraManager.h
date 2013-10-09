@@ -54,6 +54,7 @@ namespace RiemannSphere {
         
         virtual void onKeyDown(Easy3D::Key::Keyboard key);
         virtual void onMouseScroll(short scroll);
+        virtual void onMouseMove(Easy3D::Vec2 mousePosition);
         virtual void onMouseDown(Easy3D::Vec2 mousePosition,  Easy3D::Key::Mouse button);
 		virtual void onMousePress(Easy3D::Vec2 mousePosition,  Easy3D::Key::Mouse button);
         virtual void onMouseRelease(Easy3D::Vec2 mousePosition,  Easy3D::Key::Mouse button);

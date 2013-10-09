@@ -50,8 +50,14 @@ void CameraManager::onMouseDown(Vec2 mousePosition, Key::Mouse button){
 		onMove.collided=smanager
 						 ->getCurSphere()
 						 .rayCast(onMove.ray,onMove.segment);
-		
+
     }
+}
+void CameraManager::onMouseMove(Easy3D::Vec2 mousePosition){
+	if(Application::instance()->getInput()->getMouseDown(Key::BUTTON_LEFT)||
+	   Application::instance()->getInput()->getMouseDown(Key::BUTTON_RIGHT))
+		//send message
+		sendMessage(DO_POINT);
 }
 void CameraManager::onMouseRelease(Easy3D::Vec2 mousePosition,  Easy3D::Key::Mouse button){
 	if(Key::list(button, Key::BUTTON_LEFT, Key::BUTTON_RIGHT))
@@ -66,8 +72,7 @@ void CameraManager::onMousePress(Vec2 mousePosition, Key::Mouse button){
 						 .rayCast(onClick.ray,onClick.segment);
 		//save rotation
 		startPickRotation=Quaternion::fromMatrix(cameraPointer.getGlobalMatrix()).getNormalize();
-		//send message
-		sendMessage(DO_POINT);
+
 	}
 }
 ///////////
@@ -118,18 +123,18 @@ void CameraManager::onStateRun(float dt){
     //update rotation
     if(getLastMessage()==DO_POINT){
 		if(onClick.collided&&onMove.collided){
-			//start point
-			Vec3 vStart=(onClick.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
-			Quaternion rotStart=Quaternion::fromLookRotation(vStart,Vec3(0,1,0)).getNormalize();
-			//end point
-			Vec3 vEnd=(onMove.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
-			Quaternion rotEnd=Quaternion::fromLookRotation(vEnd,Vec3(0,1,0)).getNormalize();
-			//turn
-			cameraPointer.setRotation(
-				startPickRotation.getInverse().mul(rotEnd.mul(rotStart.getInverse()))
-				);
-			
+				//start point
+				Vec3 vStart=(onClick.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
+				Quaternion rotStart=Quaternion::fromLookRotation(vStart,Vec3(0,1,0)).getNormalize();
+				//end point
+				Vec3 vEnd=(onMove.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
+				Quaternion rotEnd=Quaternion::fromLookRotation(vEnd,Vec3(0,1,0)).getNormalize();
+				//turn
+				cameraPointer.setRotation(
+					startPickRotation.getInverse().mul(rotEnd.mul(rotStart.getInverse()))
+					);
 		}
+		sendMessage(NO_POINT);
     }
     
 }

@@ -107,7 +107,7 @@ void RiemannScene::onRun(float dt){
     setTextureState(TextureState(TextureState::NONE));
     sphere.setLevel(level);
     sphere.draw();
-#if 1
+#if 0
     //draw ray
     Vec3 dir=camera.getNormalPointFrom2DScreen(getInput()->getMouse());
     Vec3 pos=camera.getPointFrom2DScreen(getInput()->getMouse());
