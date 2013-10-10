@@ -11,6 +11,7 @@ namespace RiemannSphere {
 		T r,g,b;
 		RootColor():r(0.0f),g(0.0f),b(0.0f){}
 		RootColor(T r,T g,T b):r(r),g(g),b(b){}
+        
 		DFORCEINLINE const RootColor& operator*=(T v){
 			r*=v;g*=v;b*=v;
 			return (*this);
@@ -18,6 +19,14 @@ namespace RiemannSphere {
 		DFORCEINLINE RootColor operator * (T v) const{
 			return {r*v,g*v,b*v};
 		}
+        
+        DFORCEINLINE operator RootColor<float>(){
+            return RootColor<float>((float)r,(float)g,(float)b);
+        }
+        DFORCEINLINE operator RootColor<double>(){
+            return RootColor<float>((double)r,(double)g,(double)b);
+        }
+        
 	};
 
 	template <class T>

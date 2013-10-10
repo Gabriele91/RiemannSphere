@@ -3,7 +3,7 @@
 
 #include <Easy3D.h>
 #include <SphereMesh.h>
-#include <NewtonFractal.h>
+#include <Fractal.h>
 #include <PoolThread.h>
 #include <VirtualOctree.h>
 #include <VirtualVBO.h>
@@ -14,28 +14,35 @@ namespace RiemannSphere {
         
         //infos
         Easy3D::Camera *camera;
+        
+        //sphere
         int curLevel;
         std::vector<Sphere> spheres;
         double dfPerLivel,ringsFactor,sgmentsFactor;
+        
+        //math function
+		Fractal* fractal;
+		
+        //vbo allocator
+		VirtualVBO virtualVBO;
+        
         //octree
-        void subMeshADiv(SphereMesh* mesh,
-                         int i,
-                         Easy3D::ushort idSphere,
-                         const SubSphere& sub);
+        void subMeshADiv(SphereMesh* mesh,int i,Easy3D::ushort idSphere,const SubSphere& sub);
+        
         //build function
         virtual SphereMesh* buildNode(SphereMesh* parent,Easy3D::uchar i);
+       
         //delete function
         bool isDeletableChild(SphereMesh* node);
         virtual bool isDeletable(SphereMesh* node);
+        
         //octree manager
         void buildLivels(int rings,int sgments,int livels,float radius,double dfPerLivel=2.0);
         
         //draw trees
         bool drawSub(SphereMesh *node,int countlivel);
 
-		//math function
-		Polynomial<double> poly;
-		NewtonFractal<double> fractal;
+
 		
 		//pool
 		PoolThread *multithread;
@@ -45,12 +52,8 @@ namespace RiemannSphere {
 		//build list
 		std::list< SphereMesh* > meshToBuilds;
 		Easy3D::Mutex mutexBuildList;
-
 		void addMeshToBuild(SphereMesh* mesh);
 		void doBuildsList();
-
-		//vbo allocator
-		VirtualVBO virtualVBO;
 
 		//friends class
 		friend class SphereMesh;
@@ -58,11 +61,11 @@ namespace RiemannSphere {
 	public:
 
 		SpheresManager(Easy3D::Camera* camera,
-                       const Easy3D::Utility::Path& polyfunction,
+                       Fractal* fractal,
 					   int rings,int sgments,
 					   int livels,float radius,
 					   double dfPerLivel=2.0);
-        
+        //query
         void setLevel(int level){
             curLevel=level;
         }
@@ -82,11 +85,7 @@ namespace RiemannSphere {
         const Sphere& getCurSphere() const{
             return spheres[curLevel];
         }
-        
-        void draw();
-        
-		virtual ~SpheresManager();
-        
+        //size info
         Easy3D::ulong getVboSize(){
             return virtualVBO.globalSize();
         }
@@ -96,7 +95,14 @@ namespace RiemannSphere {
         Easy3D::ulong getTreeNodes(){
             return gSize/sizeof(SphereMesh);
         }
-        
+        //get current camera
+        Easy3D::Camera *getCamera(){
+            return camera;
+        }
+        //draw
+        void draw();
+        //destructor
+		virtual ~SpheresManager();
         /*
          
          

@@ -4,6 +4,9 @@
 #include <Easy3D.h>
 #include <CameraManager.h>
 #include <SpheresManager.h>
+#include <NewtonFractal.h>
+#include <HalleyFractal.h>
+#include <SchroederFractal.h>
 
 namespace RiemannSphere {
 
@@ -15,7 +18,11 @@ namespace RiemannSphere {
         Easy3D::Camera camera;
         Easy3D::Object obj;
         CameraManager  *cameraManager;
-        SpheresManager sphere;
+        Polynomial<double> poly;
+        NewtonFractal<double> newton;
+        HalleyFractal<double> halley;
+        SchroederFractal<double> schroeder;
+        SpheresManager *sphere;
         Easy3D::Font aharoni;
         
         enum SceneInfo{

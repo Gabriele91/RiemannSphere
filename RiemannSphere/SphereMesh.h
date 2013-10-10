@@ -3,7 +3,7 @@
 
 #include <Easy3D.h>
 #include <Sphere.h>
-#include <NewtonFractal.h>
+#include <Fractal.h>
 #include <PoolThread.h>
 #include <VirtualOctree.h>
 #include <VirtualVBO.h>
@@ -31,12 +31,7 @@ namespace RiemannSphere {
                          const SubSphere& sub,
                          const SpheresManager& smanager);
         //build mesh
-        void buildMesh(SpheresManager& smanager, 
-					   const Easy3D::Camera& camera,
-					   const NewtonFractal<float>& newton);
-        void buildMesh(SpheresManager& smanager,
-					   const Easy3D::Camera& camera,
-					   const NewtonFractal<double>& newton);
+        void buildMesh(SpheresManager& smanager, const Fractal* fractal);
         //draw
         bool draw();
 		//send to gpu
@@ -58,6 +53,8 @@ namespace RiemannSphere {
         }
 
 	};
+    
+    //#include <SpheresManager.inl>
 
 };
 

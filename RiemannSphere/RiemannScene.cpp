@@ -9,12 +9,25 @@ using namespace Easy3D;
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,sphere(&camera,"function.test.e2d",
-            1000000, 1000000*2,/*8000,8000,*/
-            10,/*livels*/
-            3.0f,/*sphere radius*/
-            2.35/*detail per livels*/)
+    ,poly(Table("function.test.e2d"))
+,newton(&poly)
+,halley(&poly)
+,schroeder(&poly)
 {
+sphere=new SpheresManager
+          (&camera,
+           &newton,
+           1000000, 1000000*2,//8000,8000,
+           10,//livels
+           3.0f,//sphere radius
+           2.35//detail per livels
+           /*
+           1000000*20, 1000000*2*20,//8000,8000,
+           12,//livels
+           3.0f,//sphere radius
+           2.8//detail per livels
+           */
+           );
 }
 
 void RiemannScene::onStart(){
@@ -25,8 +38,8 @@ void RiemannScene::onStart(){
 	//set client state
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
-	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,&sphere));
-    cameraManager->setVelocity(Vec3(10,10,.0015));
+	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,sphere));
+    cameraManager->setVelocity(Vec3(10,10,0.08));
     cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 49);
     camera.setPosition(Vec3(0,0,50),true);
     setMatrixsState(MatrixsState(camera));
@@ -65,11 +78,11 @@ void RiemannScene::onRun(float dt){
     int level=0;
     
     if(std::abs(cameraManager->getAngle())<0.08){
-        cameraManager->setVelocity(Vec3(10,10,.005));
+        cameraManager->setVelocity(Vec3(10,10,.02));
         level=1;
     }
     if(std::abs(cameraManager->getAngle())<0.040){
-        cameraManager->setVelocity(Vec3(5,5,.002));
+        cameraManager->setVelocity(Vec3(5,5,.01));
         level=2;
     }
     if(std::abs(cameraManager->getAngle())<0.020){
@@ -99,14 +112,22 @@ void RiemannScene::onRun(float dt){
     if(std::abs(cameraManager->getAngle())<0.00005){
         cameraManager->setVelocity(Vec3(0.025,0.025,.00001));
         level=9;
+    }/*
+    if(std::abs(cameraManager->getAngle())<0.000025){
+        cameraManager->setVelocity(Vec3(0.025,0.025,.000005));
+        level=10;
     }
+    if(std::abs(cameraManager->getAngle())<0.00001){
+        cameraManager->setVelocity(Vec3(0.025,0.025,.000002));
+        level=11;
+    }*/
     
     
 	//draw sfere
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
-    sphere.setLevel(level);
-    sphere.draw();
+    sphere->setLevel(level);
+    sphere->draw();
 #if 0
     //draw ray
     Vec3 dir=camera.getNormalPointFrom2DScreen(getInput()->getMouse());
@@ -115,7 +136,7 @@ void RiemannScene::onRun(float dt){
     ray.draw(this,50);
     //draw collision / point
     Segment out;
-    auto collide=sphere.getCurSphere().rayCast(ray, out);
+    auto collide=sphere->getCurSphere().rayCast(ray, out);
     out.draw(this);
     //draw point
     {
@@ -139,9 +160,9 @@ void RiemannScene::onRun(float dt){
     setTextureState(TextureState(TextureState::TEXTURE2D));
     aharoni.text(Vec2(10,10),
                  "Level:"+String::toString(level+1)+"\n"+
-                 "vbo size:"+(size_t)(sphere.getVboSize()/pow(1024,2))+" mb\n"+
-                 "tree size:"+(size_t)(sphere.getTreeSize()/pow(1024,2))+" mb\n"+
-                 "tree nodes:"+sphere.getTreeNodes()+"\n"
+                 "vbo size:"+(size_t)(sphere->getVboSize()/pow(1024,2))+" mb\n"+
+                 "tree size:"+(size_t)(sphere->getTreeSize()/pow(1024,2))+" mb\n"+
+                 "tree nodes:"+sphere->getTreeNodes()+"\n"
                  );
     
     

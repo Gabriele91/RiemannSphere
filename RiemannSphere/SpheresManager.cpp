@@ -8,7 +8,7 @@ using namespace RiemannSphere;
 ///////////////////////
 
 SpheresManager::SpheresManager(Easy3D::Camera* camera,
-                               const Easy3D::Utility::Path& polyfunction,
+                               Fractal* fractal,
 							   int rings,
 							   int sgments,
 							   int livels, 
@@ -18,8 +18,7 @@ SpheresManager::SpheresManager(Easy3D::Camera* camera,
                                ,camera(camera)
                                ,curLevel(0)
                                ,multithread(NULL)
-							   ,poly(polyfunction)
-							   ,fractal(&poly)
+							   ,fractal(fractal)
 							   ,virtualVBO(536870912*1.25) //512 MByte
 {
     buildLivels(rings,sgments,livels,radius,dfPerLivel);
@@ -229,7 +228,7 @@ bool SpheresManager::drawSub(SphereMesh *node,int countlivel){
             if(camera->boxInFrustum( getChild(node,c)->box )){
                 //to do: separate thread
 				if(!getChild(node,c)->lockTask())
-                    getChild(node,c)->buildMesh(*this,*camera,fractal);
+                    getChild(node,c)->buildMesh(*this,fractal);
                 //draw
                 drawFather=getChild(node,c)->draw()&&drawFather;
             }

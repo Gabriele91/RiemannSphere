@@ -37,7 +37,6 @@
 		E04F702417BC346400041D45 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04F702317BC346400041D45 /* Camera.cpp */; };
 		E053C07117F1DFA300BDCE94 /* MutexPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C06F17F1DFA300BDCE94 /* MutexPOSIX.cpp */; };
 		E053C07217F1DFA300BDCE94 /* ThreadPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07017F1DFA300BDCE94 /* ThreadPOSIX.cpp */; };
-		E053C07917F1DFF300BDCE94 /* NewtonFractal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07317F1DFF300BDCE94 /* NewtonFractal.cpp */; };
 		E053C07A17F1DFF300BDCE94 /* Polynomial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07517F1DFF300BDCE94 /* Polynomial.cpp */; };
 		E053C07B17F1DFF300BDCE94 /* PoolThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07717F1DFF300BDCE94 /* PoolThread.cpp */; };
 		E053C07D17F1E01600BDCE94 /* Table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E053C07C17F1E01600BDCE94 /* Table.cpp */; };
@@ -132,7 +131,6 @@
 		E053C06E17F1DF8500BDCE94 /* ThreadConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadConf.h; sourceTree = "<group>"; };
 		E053C06F17F1DFA300BDCE94 /* MutexPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MutexPOSIX.cpp; path = thread/MutexPOSIX.cpp; sourceTree = "<group>"; };
 		E053C07017F1DFA300BDCE94 /* ThreadPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThreadPOSIX.cpp; path = thread/ThreadPOSIX.cpp; sourceTree = "<group>"; };
-		E053C07317F1DFF300BDCE94 /* NewtonFractal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NewtonFractal.cpp; sourceTree = "<group>"; };
 		E053C07417F1DFF300BDCE94 /* NewtonFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewtonFractal.h; sourceTree = "<group>"; };
 		E053C07517F1DFF300BDCE94 /* Polynomial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Polynomial.cpp; sourceTree = "<group>"; };
 		E053C07617F1DFF300BDCE94 /* Polynomial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Polynomial.h; sourceTree = "<group>"; };
@@ -140,6 +138,9 @@
 		E053C07817F1DFF300BDCE94 /* PoolThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoolThread.h; sourceTree = "<group>"; };
 		E053C07C17F1E01600BDCE94 /* Table.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Table.cpp; sourceTree = "<group>"; };
 		E053C07E17F1E01D00BDCE94 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
+		E08570581806991700BD4106 /* Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fractal.h; sourceTree = "<group>"; };
+		E085705D1806A44700BD4106 /* HalleyFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalleyFractal.h; sourceTree = "<group>"; };
+		E085705F1806A89600BD4106 /* SchroederFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchroederFractal.h; sourceTree = "<group>"; };
 		E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualVBO.cpp; sourceTree = "<group>"; };
 		E087F8EC17F813E70093DF8B /* VirtualVBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualVBO.h; sourceTree = "<group>"; };
 		E089188817F96C1F0085A933 /* BMFontLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFontLoader.cpp; sourceTree = "<group>"; };
@@ -310,6 +311,16 @@
 			path = thread;
 			sourceTree = "<group>";
 		};
+		E08570601806A8AE00BD4106 /* Fractals */ = {
+			isa = PBXGroup;
+			children = (
+				E053C07417F1DFF300BDCE94 /* NewtonFractal.h */,
+				E085705D1806A44700BD4106 /* HalleyFractal.h */,
+				E085705F1806A89600BD4106 /* SchroederFractal.h */,
+			);
+			name = Fractals;
+			sourceTree = "<group>";
+		};
 		E08918EE17F96CA60085A933 /* lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,14 +344,14 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E08570601806A8AE00BD4106 /* Fractals */,
+				E08570581806991700BD4106 /* Fractal.h */,
 				E08BDD72180197BD003AA295 /* Rays.cpp */,
 				E08BDD73180197BD003AA295 /* Rays.h */,
 				E00BDDCB17FADBF200EB1A39 /* VirtualOctree.cpp */,
 				E00BDDCC17FADBF200EB1A39 /* VirtualOctree.h */,
 				E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */,
 				E087F8EC17F813E70093DF8B /* VirtualVBO.h */,
-				E053C07317F1DFF300BDCE94 /* NewtonFractal.cpp */,
-				E053C07417F1DFF300BDCE94 /* NewtonFractal.h */,
 				E053C07517F1DFF300BDCE94 /* Polynomial.cpp */,
 				E053C07617F1DFF300BDCE94 /* Polynomial.h */,
 				E053C07717F1DFF300BDCE94 /* PoolThread.cpp */,
@@ -447,7 +458,6 @@
 				E01049AE17C3922700EF760D /* SpheresManager.cpp in Sources */,
 				E053C07117F1DFA300BDCE94 /* MutexPOSIX.cpp in Sources */,
 				E053C07217F1DFA300BDCE94 /* ThreadPOSIX.cpp in Sources */,
-				E053C07917F1DFF300BDCE94 /* NewtonFractal.cpp in Sources */,
 				E053C07A17F1DFF300BDCE94 /* Polynomial.cpp in Sources */,
 				E053C07B17F1DFF300BDCE94 /* PoolThread.cpp in Sources */,
 				E053C07D17F1E01600BDCE94 /* Table.cpp in Sources */,
