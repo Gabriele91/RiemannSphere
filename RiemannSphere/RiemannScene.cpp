@@ -16,7 +16,7 @@ RiemannScene::RiemannScene()
 {
 sphere=new SpheresManager
           (&camera,
-           &newton,
+           &schroeder,
            1000000, 1000000*2,//8000,8000,
            10,//livels
            3.0f,//sphere radius
@@ -28,6 +28,10 @@ sphere=new SpheresManager
            2.8//detail per livels
            */
            );
+}
+
+RiemannScene::~RiemannScene(){
+	delete sphere;
 }
 
 void RiemannScene::onStart(){

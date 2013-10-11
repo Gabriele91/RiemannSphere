@@ -31,6 +31,7 @@ namespace RiemannSphere {
 			std::complex<T> vn=fun->constants[fun->constants.size()-1];
 			std::complex<T> wn=vn;
  
+            //Horner
 			for(int i=(int)(fun->constants.size())-2;i>0;--i){
 			   vn = vn*x+fun->constants[i];
 			   wn = wn*x+vn;

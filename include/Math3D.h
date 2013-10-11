@@ -834,6 +834,10 @@ namespace Easy3D{
 		//radians and degrees
 		static DFORCEINLINE float torad(float deg) { return deg*PIOVER180; }
 		static DFORCEINLINE float todeg(float rad) { return rad*G180OVERPI; }
+		static DFORCEINLINE float normaliseOrientation(float rot){
+			rot=std::fmodf(rot,(float)Math::PI2);
+			return rot<0 ? rot+=Math::PI2 : rot;
+		}
 		//fast swap
 		template<typename T>
 		static DFORCEINLINE void swap(T& x,T& y){

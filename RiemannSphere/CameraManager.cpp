@@ -98,22 +98,6 @@ Ray CameraManager::getMouseRay(){
     return Ray(pos,dir);
 }
 
-float rotNormalize(float rot){
-	rot=std::fmodf(rot,(float)Math::PI2);
-	if(rot<0){
-		rot+=Math::PI2;
-	}
-	return rot;
-}
-Vec3 dirToEuler(const Vec3& d){
-
-	float r = sqrt(d.x*d.x + d.y*d.y + d.z*d.z);
-	float t = atan2(d.y,d.x);
-	float p = atan2(d.z,d.r);
-
-	return Vec3(rotNormalize(t),rotNormalize(p),rotNormalize(r));
-}
-
 void CameraManager::onStateRun(float dt){
     
     //update projection

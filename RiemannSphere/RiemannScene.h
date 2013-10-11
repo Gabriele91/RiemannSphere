@@ -32,8 +32,9 @@ namespace RiemannSphere {
         SceneInfo sceneInfo;
 
 	public:
-
+		
         RiemannScene();
+        ~RiemannScene();
         
         virtual void onPause();
         

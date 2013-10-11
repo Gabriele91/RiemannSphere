@@ -21,7 +21,7 @@ namespace RiemannSphere {
 			return ( std::abs(b.imag()-a.imag()) < e && std::abs(b.real()-a.real()) < e );
 		}
         
-		//  f(x)/f'(x)
+		//  ( f(x)*f'(x) ) / ( (f'(x)^2) - ( (f''(x)^2)/4 ) )
 		//  x function argument
 		DFORCEINLINE std::complex<T> fxOnDx(const std::complex<T>& x) const{
             
@@ -31,7 +31,7 @@ namespace RiemannSphere {
             std::complex<T> wn=vn;
             std::complex<T> un=wn;
             
-            
+            //Horner
             for(int i=(int)(fun->constants.size())-2;i>1;--i){
                 vn = vn*x+fun->constants[i];
                 wn = wn*x+vn;

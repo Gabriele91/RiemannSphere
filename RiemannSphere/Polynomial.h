@@ -3,6 +3,7 @@
 
 #include <Easy3D.h>
 #include <complex>
+#include <PolynomialRoots.h>
 
 namespace RiemannSphere {
 	
@@ -61,6 +62,9 @@ namespace RiemannSphere {
                     roots.push_back(root);
                 }
             }
+			else{
+				getPolynomialRoots(constants,roots);
+			}
             if(table.existsAsType("rootsColors",Easy3D::Table::TABLE)){
                 const Easy3D::Table& troots=table.getConstTable("rootsColors");
                 for(auto rt:troots){

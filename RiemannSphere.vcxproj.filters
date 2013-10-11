@@ -37,6 +37,12 @@
     <Filter Include="File di origine\Easy3D\image">
       <UniqueIdentifier>{ed07d6c5-47dc-4f4c-b1e7-431cb2ce07da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RiemannSphere\Fractals">
+      <UniqueIdentifier>{2c65e3af-c9c2-4aeb-b7fd-9be355b8bbf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RiemannSphere\Polynomial Roots">
+      <UniqueIdentifier>{1ec6de09-de74-4986-b691-f71a5449a9a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -147,9 +153,6 @@
     <ClInclude Include="RiemannSphere\Polynomial.h">
       <Filter>RiemannSphere</Filter>
     </ClInclude>
-    <ClInclude Include="RiemannSphere\NewtonFractal.h">
-      <Filter>RiemannSphere</Filter>
-    </ClInclude>
     <ClInclude Include="include\Table.h">
       <Filter>File di intestazione\Easy3D</Filter>
     </ClInclude>
@@ -194,6 +197,21 @@
     </ClInclude>
     <ClInclude Include="RiemannSphere\Rays.h">
       <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\Fractal.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\HalleyFractal.h">
+      <Filter>RiemannSphere\Fractals</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\NewtonFractal.h">
+      <Filter>RiemannSphere\Fractals</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\SchroederFractal.h">
+      <Filter>RiemannSphere\Fractals</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\PolynomialRoots.h">
+      <Filter>RiemannSphere\Polynomial Roots</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -290,9 +308,6 @@
     <ClCompile Include="RiemannSphere\Polynomial.cpp">
       <Filter>RiemannSphere</Filter>
     </ClCompile>
-    <ClCompile Include="RiemannSphere\NewtonFractal.cpp">
-      <Filter>RiemannSphere</Filter>
-    </ClCompile>
     <ClCompile Include="src\Table.cpp">
       <Filter>File di origine\Easy3D</Filter>
     </ClCompile>
@@ -328,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="RiemannSphere\Rays.cpp">
       <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\PolynomialRoots.cpp">
+      <Filter>RiemannSphere\Polynomial Roots</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
