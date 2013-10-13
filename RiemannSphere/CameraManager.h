@@ -16,7 +16,7 @@ namespace RiemannSphere {
         Easy3D::Object cameraPointer;
         Easy3D::Vec3   velocity;
         float angle,n,f;
-        SpheresManager *smanager;
+        Sphere *sphere;
 		//info rotation
 		Easy3D::Quaternion startPickRotation;
 		//info pick
@@ -40,7 +40,7 @@ namespace RiemannSphere {
                                   
 		CameraManager(Easy3D::Camera *camera,
 					  const Easy3D::Vec3& toPoint,
-					  SpheresManager *smanager);
+					  Sphere *sphere);
         
         void setProjectionInfo(float angle,float n,float f);
         void setVelocity(const Easy3D::Vec3& vel);

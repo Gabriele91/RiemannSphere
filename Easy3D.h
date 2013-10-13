@@ -32,6 +32,7 @@
 
 #include <Font.h>
 #include <Texture.h>
+#include <Shader.h>
 
 #include <State.h>
 #include <Render.h>

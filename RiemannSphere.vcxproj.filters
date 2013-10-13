@@ -213,6 +213,12 @@
     <ClInclude Include="RiemannSphere\PolynomialRoots.h">
       <Filter>RiemannSphere\Polynomial Roots</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannSphere\RiemannSceneGLSL.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shader.h">
+      <Filter>File di intestazione\Easy3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -346,6 +352,12 @@
     </ClCompile>
     <ClCompile Include="RiemannSphere\PolynomialRoots.cpp">
       <Filter>RiemannSphere\Polynomial Roots</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\RiemannSceneGLSL.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>File di origine\Easy3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

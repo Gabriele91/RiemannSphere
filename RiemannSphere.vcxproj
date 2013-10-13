@@ -101,6 +101,7 @@
     <ClInclude Include="include\Render.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Screen.h" />
+    <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\Table.h" />
     <ClInclude Include="include\Texture.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="RiemannSphere\PoolThread.h" />
     <ClInclude Include="RiemannSphere\Rays.h" />
     <ClInclude Include="RiemannSphere\RiemannScene.h" />
+    <ClInclude Include="RiemannSphere\RiemannSceneGLSL.h" />
     <ClInclude Include="RiemannSphere\SchroederFractal.h" />
     <ClInclude Include="RiemannSphere\Sphere.h" />
     <ClInclude Include="RiemannSphere\SphereMesh.h" />
@@ -145,6 +147,7 @@
     <ClCompile Include="RiemannSphere\PoolThread.cpp" />
     <ClCompile Include="RiemannSphere\Rays.cpp" />
     <ClCompile Include="RiemannSphere\RiemannScene.cpp" />
+    <ClCompile Include="RiemannSphere\RiemannSceneGLSL.cpp" />
     <ClCompile Include="RiemannSphere\Sphere.cpp" />
     <ClCompile Include="RiemannSphere\SphereMesh.cpp" />
     <ClCompile Include="RiemannSphere\SpheresManager.cpp" />
@@ -169,6 +172,7 @@
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Screen.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\Table.cpp" />
     <ClCompile Include="src\Texture.cpp" />

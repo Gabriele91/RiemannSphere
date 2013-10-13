@@ -9,9 +9,9 @@ using namespace Easy3D;
 
 CameraManager::CameraManager(Easy3D::Camera *camera,
 							 const Easy3D::Vec3& toPoint,
-							 SpheresManager *smanager)
+							 Sphere *sphere)
 :camera(camera)
-,smanager(smanager)
+,sphere(sphere)
 {
     addState(ON_ENABLE);
     addState(ON_DISABLE);
@@ -47,9 +47,7 @@ void CameraManager::onMouseDown(Vec2 mousePosition, Key::Mouse button){
     if(Key::list(button, Key::BUTTON_LEFT, Key::BUTTON_RIGHT)){
 		//get ray collision
 		onMove.ray=getMouseRay();
-		onMove.collided=smanager
-						 ->getCurSphere()
-						 .rayCast(onMove.ray,onMove.segment);
+		onMove.collided=sphere->rayCast(onMove.ray,onMove.segment);
 
     }
 }
@@ -67,9 +65,7 @@ void CameraManager::onMousePress(Vec2 mousePosition, Key::Mouse button){
     if(Key::list(button, Key::BUTTON_LEFT, Key::BUTTON_RIGHT)){
 		//get ray collision
 		onClick.ray=getMouseRay();
-		onClick.collided=smanager
-						 ->getCurSphere()
-						 .rayCast(onClick.ray,onClick.segment);
+		onClick.collided=sphere->rayCast(onClick.ray,onClick.segment);
 		//save rotation
 		startPickRotation=Quaternion::fromMatrix(cameraPointer.getGlobalMatrix()).getNormalize();
 

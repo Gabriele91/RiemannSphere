@@ -42,13 +42,14 @@ namespace Easy3D {
 		bool mipmaps();
 		bool mipmaps(bool value);
 		//query
-		DFORCEINLINE uint getWidth(){ return width; }
-		DFORCEINLINE uint getHeight(){ return height; }
+		DFORCEINLINE uint getWidth() const { return width; }
+		DFORCEINLINE uint getHeight() const { return height; }
+		DFORCEINLINE uint getGpuID() const { return gpuid; }
 		//overload
 		bool operator ==(const Texture&) const;
 		bool operator !=(const Texture&) const;
         //get if is loaded
-        DFORCEINLINE bool isLoaded(){
+        DFORCEINLINE bool isLoaded() const {
             return loaded;
         }
 	};
