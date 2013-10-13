@@ -5,7 +5,7 @@
 using namespace RiemannSphere;
 using namespace Easy3D;
 ///////////////////////
-
+#define _HD_
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
@@ -17,16 +17,17 @@ RiemannScene::RiemannScene()
 sphere=new SpheresManager
           (&camera,
            &newton,
+#ifdef _HD_
+           1000000*20, 1000000*2*20,//8000,8000,
+           12,//livels
+           3.0f,//sphere radius
+           2.85//detail per livels
+#else
            1000000, 1000000*2,//8000,8000,
            10,//livels
            3.0f,//sphere radius
            2.35//detail per livels
-           /*
-           1000000*20, 1000000*2*20,//8000,8000,
-           12,//livels
-           3.0f,//sphere radius
-           2.8//detail per livels
-           */
+#endif
            );
 }
 
@@ -116,16 +117,17 @@ void RiemannScene::onRun(float dt){
     if(std::abs(cameraManager->getAngle())<0.00005){
         cameraManager->setVelocity(Vec3(0.025,0.025,.00001));
         level=9;
-    }/*
-    if(std::abs(cameraManager->getAngle())<0.000025){
+    }
+#ifdef _HD_
+    if(std::abs(cameraManager->getAngle())<0.000015){
         cameraManager->setVelocity(Vec3(0.025,0.025,.000005));
         level=10;
     }
-    if(std::abs(cameraManager->getAngle())<0.00001){
+    if(std::abs(cameraManager->getAngle())<0.000005){
         cameraManager->setVelocity(Vec3(0.025,0.025,.000002));
         level=11;
-    }*/
-    
+    }
+#endif
     
 	//draw sfere
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));

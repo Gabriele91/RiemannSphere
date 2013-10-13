@@ -52,6 +52,9 @@
 		E08BDD74180197BD003AA295 /* Rays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08BDD72180197BD003AA295 /* Rays.cpp */; };
 		E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */; };
 		E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */; };
+		E0FA9AC0180AD10200D63274 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0FA9ABF180AD10200D63274 /* Shader.cpp */; };
+		E0FA9AC6180AD12700D63274 /* PolynomialRoots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0FA9AC2180AD12700D63274 /* PolynomialRoots.cpp */; };
+		E0FA9AC7180AD12700D63274 /* RiemannSceneGLSL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0FA9AC4180AD12700D63274 /* RiemannSceneGLSL.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -166,6 +169,12 @@
 		E0DCC20017BF9DD10060E4CD /* Easy3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Easy3D.h; sourceTree = "<group>"; };
 		E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraManager.cpp; sourceTree = "<group>"; };
 		E0DCC20217BFAC9B0060E4CD /* CameraManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraManager.h; sourceTree = "<group>"; };
+		E0FA9ABF180AD10200D63274 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		E0FA9AC1180AD10B00D63274 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		E0FA9AC2180AD12700D63274 /* PolynomialRoots.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolynomialRoots.cpp; sourceTree = "<group>"; };
+		E0FA9AC3180AD12700D63274 /* PolynomialRoots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolynomialRoots.h; sourceTree = "<group>"; };
+		E0FA9AC4180AD12700D63274 /* RiemannSceneGLSL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannSceneGLSL.cpp; sourceTree = "<group>"; };
+		E0FA9AC5180AD12700D63274 /* RiemannSceneGLSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannSceneGLSL.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +222,7 @@
 		E04F6FA117BBBFB100041D45 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E0FA9AC1180AD10B00D63274 /* Shader.h */,
 				E08918F117F96DDA0085A933 /* Texture.h */,
 				E089188E17F96C2E0085A933 /* BMFontLoader.h */,
 				E089188F17F96C2E0085A933 /* Font.h */,
@@ -258,6 +268,7 @@
 		E04F6FC017BBBFB100041D45 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E0FA9ABF180AD10200D63274 /* Shader.cpp */,
 				E08918F417F96E460085A933 /* Image */,
 				E08918F217F96DEC0085A933 /* Texture.cpp */,
 				E089188817F96C1F0085A933 /* BMFontLoader.cpp */,
@@ -344,6 +355,9 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E0FA9AC8180AD13400D63274 /* PolynomialRoots */,
+				E0FA9AC4180AD12700D63274 /* RiemannSceneGLSL.cpp */,
+				E0FA9AC5180AD12700D63274 /* RiemannSceneGLSL.h */,
 				E08570601806A8AE00BD4106 /* Fractals */,
 				E08570581806991700BD4106 /* Fractal.h */,
 				E08BDD72180197BD003AA295 /* Rays.cpp */,
@@ -368,6 +382,15 @@
 				E0DCC1FE17BF9D8D0060E4CD /* RiemannScene.h */,
 			);
 			path = RiemannSphere;
+			sourceTree = "<group>";
+		};
+		E0FA9AC8180AD13400D63274 /* PolynomialRoots */ = {
+			isa = PBXGroup;
+			children = (
+				E0FA9AC3180AD12700D63274 /* PolynomialRoots.h */,
+				E0FA9AC2180AD12700D63274 /* PolynomialRoots.cpp */,
+			);
+			name = PolynomialRoots;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -422,6 +445,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E089188C17F96C1F0085A933 /* Font.cpp in Sources */,
+				E0FA9AC0180AD10200D63274 /* Shader.cpp in Sources */,
 				E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */,
 				E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */,
 				E00BDDCD17FADBF200EB1A39 /* VirtualOctree.cpp in Sources */,
@@ -451,10 +475,12 @@
 				E04F702417BC346400041D45 /* Camera.cpp in Sources */,
 				E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */,
 				E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */,
+				E0FA9AC7180AD12700D63274 /* RiemannSceneGLSL.cpp in Sources */,
 				E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */,
 				E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */,
 				E00EF2C817C153280032B058 /* SphereMesh.cpp in Sources */,
 				E00EF2CB17C153650032B058 /* Sphere.cpp in Sources */,
+				E0FA9AC6180AD12700D63274 /* PolynomialRoots.cpp in Sources */,
 				E01049AE17C3922700EF760D /* SpheresManager.cpp in Sources */,
 				E053C07117F1DFA300BDCE94 /* MutexPOSIX.cpp in Sources */,
 				E053C07217F1DFA300BDCE94 /* ThreadPOSIX.cpp in Sources */,
