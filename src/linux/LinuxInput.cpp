@@ -321,36 +321,36 @@ void LinuxInput::update(){
 }
 
 //calls
-void WindowsInput::__callOnKeyPress(Key::Keyboard key) {
+void LinuxInput::__callOnKeyPress(Key::Keyboard key) {
 	for(size_t i=0;i!=vkeyboardh.size();++i)
 		vkeyboardh[i]->onKeyPress(key);
 }
-void WindowsInput::__callOnKeyRelease(Key::Keyboard key) {
+void LinuxInput::__callOnKeyRelease(Key::Keyboard key) {
 	for(size_t i=0;i!=vkeyboardh.size();++i)
 		vkeyboardh[i]->onKeyRelease(key);
 }
-void WindowsInput::__callOnKeyDown(Key::Keyboard key) {
+void LinuxInput::__callOnKeyDown(Key::Keyboard key) {
 	for(size_t i=0;i!=vkeyboardh.size();++i)
 		vkeyboardh[i]->onKeyDown(key);
 }
 //mouse
-void WindowsInput::__callOnMouseMove(Vec2 mousePosition) {
+void LinuxInput::__callOnMouseMove(Vec2 mousePosition) {
 	for(size_t i=0;i!=vmouseh.size();++i)
 		vmouseh[i]->onMouseMove(mousePosition);
 }
-void WindowsInput::__callOnMousePress(Vec2 mousePosition, Key::Mouse button) {
+void LinuxInput::__callOnMousePress(Vec2 mousePosition, Key::Mouse button) {
 	for(size_t i=0;i!=vmouseh.size();++i)
 		vmouseh[i]->onMousePress(mousePosition,button);
 }
-void WindowsInput::__callOnMouseDown(Vec2 mousePosition, Key::Mouse button) {
+void LinuxInput::__callOnMouseDown(Vec2 mousePosition, Key::Mouse button) {
 	for(size_t i=0;i!=vmouseh.size();++i)
 		vmouseh[i]->onMouseDown(mousePosition,button);
 }
-void WindowsInput::__callOnMouseRelease(Vec2 mousePosition, Key::Mouse button) {
+void LinuxInput::__callOnMouseRelease(Vec2 mousePosition, Key::Mouse button) {
 	for(size_t i=0;i!=vmouseh.size();++i)
 		vmouseh[i]->onMouseRelease(mousePosition,button);
 }
-void WindowsInput::__callOnMouseScroll(short scrollDelta) {
+void LinuxInput::__callOnMouseScroll(short scrollDelta) {
 	for(size_t i=0;i!=vmouseh.size();++i)
 		vmouseh[i]->onMouseScroll(scrollDelta);
 }
