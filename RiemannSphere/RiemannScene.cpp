@@ -5,7 +5,7 @@
 using namespace RiemannSphere;
 using namespace Easy3D;
 ///////////////////////
-#define _HD_
+//#define _HD_
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
