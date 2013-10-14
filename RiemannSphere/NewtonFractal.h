@@ -19,7 +19,7 @@ namespace RiemannSphere {
 		DFORCEINLINE bool complexDist(const std::complex<T>& a,
 									  const std::complex<T>& b,
 									  T e) const{
-			return ( std::abs(b.imag()-a.imag()) < e && std::abs(b.real()-a.real()) < e );
+            return std::abs(b-a)<e;
 		}
 
 		//  f(x)/f'(x)
@@ -28,16 +28,16 @@ namespace RiemannSphere {
 
 			if(fun->constants.size()<2) return 0;
    
-			std::complex<T> vn=fun->constants[fun->constants.size()-1];
+			std::complex<T> vn=fun->constants[0];
 			std::complex<T> wn=vn;
  
             //Horner
-			for(int i=(int)(fun->constants.size())-2;i>0;--i){
+			for(int i=1;i<fun->constants.size()-1;++i){
 			   vn = vn*x+fun->constants[i];
 			   wn = wn*x+vn;
 			}
    
-			vn = vn*x+fun->constants[0];
+			vn = vn*x+fun->constants[fun->constants.size()-1];
    
 			return vn/wn;
    
@@ -48,18 +48,18 @@ namespace RiemannSphere {
 		// n=max iteration
 		DFORCEINLINE std::complex<T> newton(const std::complex<T>& x,T e,int& n) const{
 			//var dec
-			std::complex<T> kx1;
+			std::complex<T> xk1;
 			std::complex<T> xk=x;
 			//loop
 			while(n--){
-				kx1=xk-fxOnDx(xk);
+				xk1=xk-fxOnDx(xk);
 				//tolleranza
-				if(complexDist(xk,kx1,e)){
-					xk=kx1;
+				if(complexDist(xk,xk1,e)){
+					xk=xk1;
 					break;
 				}
 				//
-				xk=kx1;
+				xk=xk1;
 			}
 			//return
 			return xk;
@@ -69,6 +69,7 @@ namespace RiemannSphere {
 		//xk newton return
 		//e error;
 		int nearRoots(const std::complex<T>& xk,T e) const{
+            //Easy3D::Debug::message()<<" real:"<< xk.real()<<" img:"<<xk.imag()<<"\n";
 			for(int i=0;i<fun->roots.size();++i){
 				if(complexDist(fun->roots[i],xk,e))
 					return i;

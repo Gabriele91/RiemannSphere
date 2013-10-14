@@ -41,8 +41,10 @@ namespace RiemannSphere {
 		CameraManager(Easy3D::Camera *camera,
 					  const Easy3D::Vec3& toPoint,
 					  Sphere *sphere);
-        
+                                    
         void setProjectionInfo(float angle,float n,float f);
+        void changeFar(float f);
+        void changeNear(float n);
         void setVelocity(const Easy3D::Vec3& vel);
         Ray getMouseRay();
                                     

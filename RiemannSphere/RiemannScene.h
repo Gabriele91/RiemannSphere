@@ -18,6 +18,7 @@ namespace RiemannSphere {
         Easy3D::Camera camera;
         Easy3D::Object obj;
         CameraManager  *cameraManager;
+        Easy3D::Table polynomialConfig;
         Polynomial<double> poly;
         NewtonFractal<double> newton;
         HalleyFractal<double> halley;

@@ -9,14 +9,22 @@ using namespace Easy3D;
 RiemannScene::RiemannScene()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,poly(Table("function.test.e2d"))
+    ,polynomialConfig("function.test.e2d")
+    ,poly(polynomialConfig)
 	,newton(&poly)
 	,halley(&poly)
 	,schroeder(&poly)
 {
+    Fractal *select=NULL;
+    String method=polynomialConfig.getString("mathod","newton").toLower();
+    if(method=="newton"||method=="n") select=&newton;
+    else if(method=="halley"||method=="h") select=&halley;
+    else if(method=="schroeder"||method=="s") select=&schroeder;
+    DEBUG_ASSERT_MSG(select, "Must to be selected a valid method");
+    
 sphere=new SpheresManager
           (&camera,
-           &newton,
+           select,
 #ifdef _HD_
            1000000*20, 1000000*2*20,//8000,8000,
            12,//livels
@@ -170,7 +178,40 @@ void RiemannScene::onRun(float dt){
                  "tree size:"+(size_t)(sphere->getTreeSize()/pow(1024,2))+" mb\n"+
                  "tree nodes:"+sphere->getTreeNodes()+"\n"
                  );
-    
+    {
+        //change state
+        auto mState=getMatrixsState();
+        auto newMState=mState;
+        //transform
+        Object obj;
+        float scale=0.005;
+        obj.setScale(Vec3::ONE*scale);
+        Vec2 sizeHText=aharoni.sizeText("INFINITY")*-0.5*scale;
+        obj.setPosition(Vec3(sizeHText.x,3.2,0));
+        //draw
+        newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
+        setMatrixsState(newMState);
+        aharoni.text("INFINITY");
+        //reset state
+        setMatrixsState(mState);
+    }
+    {
+        //change state
+        auto mState=getMatrixsState();
+        auto newMState=mState;
+        //transform
+        Object obj;
+        float scale=0.005;
+        obj.setScale(Vec3::ONE*scale);
+        Vec2 sizeHText=aharoni.sizeText("ZERO")*-0.5*scale;
+        obj.setPosition(Vec3(sizeHText.x,-3.0,0));
+        //draw
+        newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
+        setMatrixsState(newMState);
+        aharoni.text("ZERO");
+        //reset state
+        setMatrixsState(mState);
+    }
     
 }
 

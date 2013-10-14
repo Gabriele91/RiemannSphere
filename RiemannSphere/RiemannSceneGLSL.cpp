@@ -8,7 +8,8 @@ using namespace RiemannSphere;
 RiemannSceneGLSL::RiemannSceneGLSL()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,poly(Table("function.test.e2d"))
+    ,polynomialConfig("function.test.e2d")
+    ,poly(polynomialConfig)
 {
 }
 
@@ -35,7 +36,15 @@ void RiemannSceneGLSL::onStart(){
 	String define=("POLYSIZE "+String::toString(poly.constants.size()));
     const char *defines[2]={NULL,0};
     defines[0]=&define[0];
-	newtonShader.loadShader("assets/newton.vs.glsl","assets/newton.ps.glsl",defines);
+	newtonShader.loadShader("assets/base.vs.glsl","assets/newton.ps.glsl",defines);
+    halleyShader.loadShader("assets/base.vs.glsl","assets/halley.ps.glsl",defines);
+    schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
+    
+    String method=polynomialConfig.getString("mathod","newton").toLower();
+    if(method=="newton"||method=="n") selected=&newtonShader;
+    else if(method=="halley"||method=="h") selected=&halleyShader;
+    else if(method=="schroeder"||method=="s") selected=&schroederShader;
+    
     //init
     onResume();
 	
@@ -145,7 +154,7 @@ void RiemannSceneGLSL::onRun(float dt){
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
 	
-	newtonShader.bind();
+	selected->bind();
     
     std::vector<Vec2> consts;
     std::vector<Vec2> roots;
@@ -158,12 +167,12 @@ void RiemannSceneGLSL::onRun(float dt){
     for(auto& rc:poly.rootsColor)
         colors.push_back(Vec4(rc.r,rc.g,rc.b,1.0));
     
-	newtonShader.uniformFloat("radius",1.0f);
-	newtonShader.uniformVec2Array("poly",&consts[0],(int)consts.size());
-	newtonShader.uniformVec2Array("roots",&roots[0],(int)consts.size()-1);
-	newtonShader.uniformVec4Array("colors",&colors[0],(int)consts.size()-1);
+	selected->uniformFloat("radius",1.0f);
+	selected->uniformVec2Array("poly",&consts[0],(int)consts.size());
+	selected->uniformVec2Array("roots",&roots[0],(int)consts.size()-1);
+	selected->uniformVec4Array("colors",&colors[0],(int)consts.size()-1);
 	drawSphere(100,200);
-	newtonShader.unbind();
+	selected->unbind();
     //reset state
     setMatrixsState(mState);
 	
@@ -191,7 +200,11 @@ void RiemannSceneGLSL::onEnd(){
     if(sceneInfo==ON_RESUME) onPause();
 }
 
-void RiemannSceneGLSL::onKeyDown(Key::Keyboard key){}
+void RiemannSceneGLSL::onKeyDown(Key::Keyboard key){
+    if(key==Key::N) selected=&newtonShader;
+    else if(key==Key::H) selected=&halleyShader;
+    else if(key==Key::S) selected=&schroederShader;
+}
 void RiemannSceneGLSL::onMouseDown(Vec2 mousePosition, Key::Mouse button){
     // if(button==Key::BUTTON_LEFT)
     //    obj.setTranslation(Vec3(0,0,-0.1f));

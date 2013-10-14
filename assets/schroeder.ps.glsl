@@ -97,18 +97,23 @@ vec2 horner(vec2 x){
 
     vec2 vn=poly[0];
     vec2 wn=poly[0];
+    vec2 un=poly[0];
 	
-    for(int i=1;i<POLYSIZE-1;++i){
+    for(int i=1;i<POLYSIZE-2;++i){
         vn = complexMult(vn,x)+poly[i];
         wn = complexMult(wn,x)+vn;
+        un = complexMult(un,x)+wn;
     }
 	
+    vn = complexMult(vn,x)+poly[POLYSIZE-2];
+    wn = complexMult(wn,x)+vn;
     vn = complexMult(vn,x)+poly[POLYSIZE-1];
     
-    return complexDivide(vn,wn);
+    vec2 q=complexDivide(vn,wn);
+    return q+complexDivide(complexMult(complexMult(q,q),un),wn);
 }
 
-vec3 newton(vec2 x,float e){
+vec3 schroeder(vec2 x,float e){
 
     vec2 cx=x; 
     vec2 nextx; 
@@ -141,7 +146,7 @@ vec4 colorFromPoint(vec3 p,float e){
 
 void main()
 {    
-    vec3 point=newton(toPlane(vPos*2.0),1E-10);
+    vec3 point=schroeder(toPlane(vPos*2.0),1E-10);
     vec4 pointColor=colorFromPoint(point,0.0001);
     gl_FragColor = vec4(pointColor.xyz,1.0);
 }

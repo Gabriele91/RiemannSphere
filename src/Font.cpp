@@ -80,7 +80,7 @@ const String& Font::getFontName(){
 }
 
 //define lambda function
-typedef void(*lambdaChar)(int fontSize,Vec2 pos,Vec2& cursor);
+typedef void(*lambdaChar)(int fontSize,Vec2& cursor);
 //list of special char :D
 struct SpecialChars
 {
@@ -88,18 +88,18 @@ struct SpecialChars
 	lambdaChar lambda;
 }
 specialChars[]={
-	{'\n',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
+	{'\n',[](int fontSize,Vec2& cursor)->void{
 		cursor.y-=fontSize;
-		cursor.x=pos.x;
+		cursor.x=0;
 	}},
-	{'\v',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
+	{'\v',[](int fontSize,Vec2& cursor)->void{
 		cursor.y-=fontSize;
-		cursor.x=pos.x;
+		cursor.x=0;
 	}},
-	{' ',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
+	{' ',[](int fontSize,Vec2& cursor)->void{
 		cursor.x+=fontSize*0.5;
 	}},
-	{'\t',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
+	{'\t',[](int fontSize,Vec2& cursor)->void{
 		cursor.x+=fontSize*2.0;
 	}}
 };
@@ -115,10 +115,10 @@ lambdaChar isASpecialChar(int c){
 void Font::text(const Vec2& _pos,
 				const String& textDraw,
 				const Color& color){
-
+    
 	if(textDraw.size()==0) return;
 	Vec2 pos(_pos.x,-_pos.y+Application::instance()->getScreen()->getHeight());
-
+    
 	GLboolean cull,blend;
 	GLint bs_src, bs_dst;
 	Matrix4x4 old_projection,old_modelview;
@@ -149,8 +149,48 @@ void Font::text(const Vec2& _pos,
 	glLoadMatrixf(projection);
 	//reset model matrix
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+    float posMat[]={
+        1.0f  ,0.0f    ,0.0f,0.0f,
+        0.0f  ,1.0f    ,0.0f,0.0f,
+        0.0f  ,0.0f    ,1.0f,0.0f,
+        pos.x,pos.y    ,0.0f,1.0f
+    };
+	glLoadMatrixf(posMat);
+    //draw text
+    text(textDraw,color);
+    //matrix
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf(old_projection);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(old_modelview);
 	//color
+	glColor4fv(old_color);
+}
+
+void Font::text(const String& textDraw,
+				const Color& color){
+    
+	if(textDraw.size()==0) return;
+    
+	GLboolean cull,blend;
+	GLint bs_src, bs_dst;
+	Matrix4x4 old_projection,old_modelview;
+	GLfloat old_color[4];
+	glGetBooleanv(GL_CULL_FACE,&cull);
+	glGetBooleanv(GL_BLEND , &blend);
+	glGetIntegerv(GL_BLEND_SRC , &bs_src);
+	glGetIntegerv(GL_BLEND_DST , &bs_dst);
+	glGetFloatv(GL_PROJECTION_MATRIX ,  old_projection );
+	glGetFloatv(GL_MODELVIEW_MATRIX , old_modelview );
+    glGetFloatv(GL_CURRENT_COLOR, old_color);
+	//////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////
+	//change param
+	glDisable(GL_CULL_FACE);
+	//blend
+	if(!blend) glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //color
 	glColor4ub(color.r,color.g,color.b,color.a);
 	//////////////////////////////////////////////////////////////////
 	//VBA
@@ -158,8 +198,7 @@ void Font::text(const Vec2& _pos,
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	//////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////
-
-	Vec2 cursor(pos);
+	Vec2 cursor;
 	//vector sprites
 	std::vector<float> xyUV(textDraw.size()*24,0);
 	//temp vars
@@ -168,7 +207,7 @@ void Font::text(const Vec2& _pos,
 	Character* chr=NULL;
 	Character* nextChr=getCharacter(textDraw[0]);
 	int pageLast=0;
-
+    
 	for(int i=0;i<textDraw.length();++i){
 		//string's char
 		char c=textDraw[i];
@@ -180,7 +219,7 @@ void Font::text(const Vec2& _pos,
 		//is special?
 		lambdaChar charFunction=isASpecialChar(c);
 		if(charFunction)
-				charFunction(fontSize,pos,cursor);
+            charFunction(fontSize,cursor);
 		else if(chr){
 			//page
 			pageLast=chr->page;
@@ -191,21 +230,21 @@ void Font::text(const Vec2& _pos,
 			Vec2 nSXY(chr->srcX,chr->srcY); nSXY/=sizePage;
 			Vec2 nEXY(chr->srcX+chr->srcW,chr->srcY+chr->srcH); nEXY/=sizePage;
 			Math::swap(nSXY.v,nEXY.v);
-
+            
 			//opengl uv flipped error on y axis
 			float yerror=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
-
+            
 			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
-
-			#define XYUV(x) xyUV[countCharPage*24+x]
-				XYUV(0)=posChr.x;           XYUV(1)=posChr.y;           XYUV(2)=nSXY.u;  XYUV(3)=nSXY.v;
-				XYUV(4)=posChr.x;           XYUV(5)=posChr.y+chr->srcH; XYUV(6)=nSXY.u;  XYUV(7)=nEXY.v;
-				XYUV(8)=posChr.x+chr->srcW; XYUV(9)=posChr.y;           XYUV(10)=nEXY.u; XYUV(11)=nSXY.v;
-
-				XYUV(12)=posChr.x;		     XYUV(13)=posChr.y+chr->srcH; XYUV(14)=nSXY.u; XYUV(15)=nEXY.v,
-				XYUV(16)=posChr.x+chr->srcW; XYUV(17)=posChr.y;           XYUV(18)=nEXY.u; XYUV(19)=nSXY.v;
-				XYUV(20)=posChr.x+chr->srcW; XYUV(21)=posChr.y+chr->srcH; XYUV(22)=nEXY.u; XYUV(23)=nEXY.v;
-			#undef XYUV
+            
+#define XYUV(x) xyUV[countCharPage*24+x]
+            XYUV(0)=posChr.x;           XYUV(1)=posChr.y;           XYUV(2)=nSXY.u;  XYUV(3)=nSXY.v;
+            XYUV(4)=posChr.x;           XYUV(5)=posChr.y+chr->srcH; XYUV(6)=nSXY.u;  XYUV(7)=nEXY.v;
+            XYUV(8)=posChr.x+chr->srcW; XYUV(9)=posChr.y;           XYUV(10)=nEXY.u; XYUV(11)=nSXY.v;
+            
+            XYUV(12)=posChr.x;		     XYUV(13)=posChr.y+chr->srcH; XYUV(14)=nSXY.u; XYUV(15)=nEXY.v,
+            XYUV(16)=posChr.x+chr->srcW; XYUV(17)=posChr.y;           XYUV(18)=nEXY.u; XYUV(19)=nSXY.v;
+            XYUV(20)=posChr.x+chr->srcW; XYUV(21)=posChr.y+chr->srcH; XYUV(22)=nEXY.u; XYUV(23)=nEXY.v;
+#undef XYUV
 			//count this char
 			++countCharPage;
 			//next pos
@@ -218,9 +257,9 @@ void Font::text(const Vec2& _pos,
 			//reset count
 			countCharPage=0;
 		}
-
+        
 	}
-
+    
 	//////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////
 	if(cull)
@@ -237,6 +276,50 @@ void Font::text(const Vec2& _pos,
 	glLoadMatrixf(old_modelview);
 	//color
 	glColor4fv(old_color);
+}
+
+Vec2 Font::sizeText( const String& textDraw){
+    if(textDraw.size()==0) return Vec2::ZERO;
+	Vec2 outSize;
+	Vec2 cursor;
+	//temp vars
+	int countCharPage=0;
+	Character* chr=NULL;
+	Character* nextChr=getCharacter(textDraw[0]);
+	int pageLast=0;
+    
+	for(int i=0;i<textDraw.length();++i){
+		//string's char
+		char c=textDraw[i];
+		char nextC=textDraw[i+1];
+		//image's char
+		chr=nextChr;
+		//next char
+		nextChr=getCharacter(nextC);
+		//is special?
+		lambdaChar charFunction=isASpecialChar(c);
+		if(charFunction)
+            charFunction(fontSize,cursor);
+		else if(chr){
+			//page
+			pageLast=chr->page;
+			//
+			Vec2 sizePage(pages[chr->page]->getWidth(),
+                          pages[chr->page]->getHeight());
+            
+			//opengl uv flipped error on y axis
+			float yerror=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
+			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
+			//get max
+			outSize.x=Math::max(outSize.x,posChr.x+chr->srcW);
+			outSize.y=Math::min(outSize.y,posChr.y+chr->srcH);
+			//count this char
+			++countCharPage;
+			//next pos
+			cursor.x+=chr->xAdv;
+		}
+	}
+	return outSize;
 }
 
 /*

@@ -57,6 +57,7 @@ namespace Easy3D{
 		uint programID();
 
 	private:
+        //String loadShaderFile(const Utility::Path &path,int& cinclude);
 		unsigned int texture_id[3];
 		uint shader_id;
 		uint shader_vs;

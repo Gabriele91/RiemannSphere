@@ -17,8 +17,11 @@ namespace RiemannSphere {
 		Polynomial<T>* fun;
         
 		//distance
-		DFORCEINLINE bool complexDist(const std::complex<T>& a,const std::complex<T>& b, T e) const{
-			return ( std::abs(b.imag()-a.imag()) < e && std::abs(b.real()-a.real()) < e );
+		//distance
+		DFORCEINLINE bool complexDist(const std::complex<T>& a,
+									  const std::complex<T>& b,
+									  T e) const{
+            return std::abs(b-a)<e;
 		}
         
 		//  ( f(x)*f'(x) ) / ( (f'(x)^2) - ( (f''(x)^2)/4 ) )
@@ -27,20 +30,20 @@ namespace RiemannSphere {
             
             if(fun->constants.size()<2) return 0;
             
-            std::complex<T> vn=fun->constants[fun->constants.size()-1];
+            std::complex<T> vn=fun->constants[0];
             std::complex<T> wn=vn;
             std::complex<T> un=wn;
             
             //Horner
-            for(int i=(int)(fun->constants.size())-2;i>1;--i){
+            for(int i=1;i<(int)(fun->constants.size())-2;++i){
                 vn = vn*x+fun->constants[i];
                 wn = wn*x+vn;
                 un = un*x+wn;
             }
             
-            vn = vn*x+fun->constants[1];
+            vn = vn*x+fun->constants[fun->constants.size()-2];
             wn = wn*x+vn;
-            vn = vn*x+fun->constants[0];
+            vn = vn*x+fun->constants[fun->constants.size()-1];
             
             auto s=vn*wn;
             auto d=(wn*wn)-vn*un;

@@ -34,8 +34,8 @@ class RiemannApp : public Game,
         //add input keyboard
         getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
 		//scenes
-        addScene(RIEMANN_SCENE, new RiemannSphere::RiemannScene());
-        addSceneAndActive(RIEMANN_GLSL_SCENE, new RiemannSphere::RiemannSceneGLSL());
+        addSceneAndActive(RIEMANN_SCENE, new RiemannSphere::RiemannScene());
+        addScene(RIEMANN_GLSL_SCENE, new RiemannSphere::RiemannSceneGLSL());
     }
     
     void onRun(float dt){

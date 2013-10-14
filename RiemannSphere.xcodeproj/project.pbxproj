@@ -82,7 +82,7 @@
 		E0229964180BC93100299313 /* Aharoni40.fnt */ = {isa = PBXFileReference; lastKnownFileType = file; name = Aharoni40.fnt; path = assets/Aharoni40.fnt; sourceTree = "<group>"; };
 		E0229965180BC93100299313 /* game.font.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = game.font.e2d; path = assets/game.font.e2d; sourceTree = "<group>"; };
 		E0229966180BC93100299313 /* newton.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = newton.ps.glsl; path = assets/newton.ps.glsl; sourceTree = "<group>"; };
-		E0229967180BC93100299313 /* newton.vs.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = newton.vs.glsl; path = assets/newton.vs.glsl; sourceTree = "<group>"; };
+		E0229967180BC93100299313 /* base.vs.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = base.vs.glsl; path = assets/base.vs.glsl; sourceTree = "<group>"; };
 		E04F6F9517BBBF8700041D45 /* RiemannSphere */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RiemannSphere; sourceTree = BUILT_PRODUCTS_DIR; };
 		E04F6FA817BBBFB100041D45 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		E04F6FA917BBBFB100041D45 /* Blend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blend.h; sourceTree = "<group>"; };
@@ -146,6 +146,8 @@
 		E053C07817F1DFF300BDCE94 /* PoolThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoolThread.h; sourceTree = "<group>"; };
 		E053C07C17F1E01600BDCE94 /* Table.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Table.cpp; sourceTree = "<group>"; };
 		E053C07E17F1E01D00BDCE94 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
+		E0645F8B180BF98700E3ADE9 /* halley.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = halley.ps.glsl; path = assets/halley.ps.glsl; sourceTree = "<group>"; };
+		E0645F8C180BFCC600E3ADE9 /* schroeder.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = schroeder.ps.glsl; path = assets/schroeder.ps.glsl; sourceTree = "<group>"; };
 		E08570581806991700BD4106 /* Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fractal.h; sourceTree = "<group>"; };
 		E085705D1806A44700BD4106 /* HalleyFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalleyFractal.h; sourceTree = "<group>"; };
 		E085705F1806A89600BD4106 /* SchroederFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchroederFractal.h; sourceTree = "<group>"; };
@@ -201,11 +203,13 @@
 		E0229962180BC91F00299313 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				E0645F8C180BFCC600E3ADE9 /* schroeder.ps.glsl */,
+				E0645F8B180BF98700E3ADE9 /* halley.ps.glsl */,
 				E0229963180BC93100299313 /* Aharoni40_0.tga */,
 				E0229964180BC93100299313 /* Aharoni40.fnt */,
 				E0229965180BC93100299313 /* game.font.e2d */,
 				E0229966180BC93100299313 /* newton.ps.glsl */,
-				E0229967180BC93100299313 /* newton.vs.glsl */,
+				E0229967180BC93100299313 /* base.vs.glsl */,
 			);
 			name = assets;
 			sourceTree = "<group>";

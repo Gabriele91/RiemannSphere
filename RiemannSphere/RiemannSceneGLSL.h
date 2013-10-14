@@ -12,13 +12,17 @@ namespace RiemannSphere {
                                 Easy3D::Input::MouseHandler
     {
         
-        Polynomial<double> poly;
 		Sphere  sphere;
+        Easy3D::Table polynomialConfig;
+        Polynomial<double> poly;
         CameraManager  *cameraManager;
         Easy3D::Camera camera;
         Easy3D::Object obj;
         Easy3D::Font aharoni;
 		Easy3D::Shader newtonShader;
+		Easy3D::Shader halleyShader;
+		Easy3D::Shader schroederShader;
+        Easy3D::Shader *selected;
         
         enum SceneInfo{
             ON_RESUME,

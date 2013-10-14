@@ -37,6 +37,19 @@ void CameraManager::setProjectionInfo(float angle,float n,float f){
 }
 //////////////
 
+void CameraManager::changeFar(float f){
+    this->f=f;
+    //update projection
+    camera->setPerspective(angle,n, f);
+    camera->update();
+}
+void CameraManager::changeNear(float n){
+    this->n=n;
+    //update projection
+    camera->setPerspective(angle,n, f);
+    camera->update();
+}
+
 //////INPUT
 void CameraManager::onKeyDown(Key::Keyboard key){}
 void CameraManager::onMouseScroll(short scroll){

@@ -38,6 +38,29 @@ DFORCEINLINE static bool logError(unsigned int shader,int status) {
 			return true;
 
 }
+/*
+String Shader::loadShaderFile(const Utility::Path &path,int& cinclude){
+    
+    String baseGlSL=textFileRead(path);
+    int fileid=cinclude;
+    int cline=0;
+    size_t n=0;
+    //find includes
+    while(n!=baseGlSL.size()){
+        if() baseGlSL[n]
+        if(baseGlSL[n]=='#'){
+            //is include?
+            if(strncmp(&baseGlSL[n],"#include", 8)==0){
+                n+=8;
+                cinclude=0;
+                baseGlSL+=loadShaderFile(path,cinclude);
+            }
+        }
+        ++n;
+    }
+    
+    return baseGlSL;
+}*/
 //costruttore
 Shader::Shader(){
 	shader_fs=shader_vs=shader_id=0;
