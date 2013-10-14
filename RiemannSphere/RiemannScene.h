@@ -50,6 +50,10 @@ namespace RiemannSphere {
         virtual void onKeyDown(Easy3D::Key::Keyboard key);
         virtual void onMouseDown(Easy3D::Vec2 mousePosition,
                                  Easy3D::Key::Mouse button);
+
+		void drawFontIn3DScene(const Easy3D::Vec3& pos,
+							   const Easy3D::String& text,
+							   const Easy3D::Vec2& scale);
 	};
 
 };

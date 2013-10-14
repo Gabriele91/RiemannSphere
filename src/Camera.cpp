@@ -104,10 +104,10 @@ void Camera::update(){
     //
 }
 //get a projectate point
-Vec2 Camera::getPointIn3DSpace(const Vec3& point){
+Vec2 Camera::getClipPointFrom3DSpace(const Vec3& point){
 	
 	Vec4 vpp(point,1.0);
-	vpp=getGlobalMatrix().mul(vpp);	
+	vpp=getGlobalView().mul(vpp);	
 	vpp=mProjMatrix.mul(vpp);	
 	if(vpp.w==0) return Vec2::ZERO;
 
@@ -116,11 +116,34 @@ Vec2 Camera::getPointIn3DSpace(const Vec3& point){
 	vpp.z/=vpp.w;
 
     /* Map x, y and z to range 0-1 */
-    vpp.x = vpp.x * 0.5f + 0.5f;
-    vpp.y = vpp.y * 0.5f + 0.5f;
-    vpp.z = vpp.z * 0.5f + 0.5f;    
+    vpp.x =( vpp.x + 1.0f ) * 0.5f;
+    vpp.y =( vpp.y + 1.0f ) * 0.5f;
+    vpp.z =( vpp.z + 1.0f ) * 0.5f;   
 
 	return vpp.xy();
+}
+Vec2 Camera::getScreenPointFrom3DSpace(const Vec3& point){
+	
+	Vec4 vpp(point,1.0);
+	vpp=getGlobalView().mul(vpp);	
+	vpp=mProjMatrix.mul(vpp);	
+	if(vpp.w==0) return Vec2::ZERO;
+
+	vpp.x/=vpp.w;
+	vpp.y/=vpp.w;
+	vpp.z/=vpp.w;
+
+    /* Map x, y and z to range 0-1 */
+    vpp.x =( vpp.x + 1.0f ) * 0.5f;
+    vpp.y =( vpp.y + 1.0f ) * 0.5f;
+    vpp.z =( vpp.z + 1.0f ) * 0.5f;    
+	
+	//clip to screen
+    Vec2 screen(Application::instance()->getScreen()->getWidth(),
+                Application::instance()->getScreen()->getHeight());
+	Vec2 pscreen=vpp.xy()*screen;
+	//flip y
+	return Vec2(pscreen.x,screen.y-pscreen.y);
 }
 
 Vec3 Camera::getPointFrom2DClipSpace(const Vec2& point) {

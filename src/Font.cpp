@@ -114,6 +114,7 @@ lambdaChar isASpecialChar(int c){
 //other methods
 void Font::text(const Vec2& _pos,
 				const String& textDraw,
+				const Vec2& _scale,
 				const Color& color){
     
 	if(textDraw.size()==0) return;
@@ -150,10 +151,10 @@ void Font::text(const Vec2& _pos,
 	//reset model matrix
 	glMatrixMode(GL_MODELVIEW);
     float posMat[]={
-        1.0f  ,0.0f    ,0.0f,0.0f,
-        0.0f  ,1.0f    ,0.0f,0.0f,
-        0.0f  ,0.0f    ,1.0f,0.0f,
-        pos.x,pos.y    ,0.0f,1.0f
+        _scale.x  ,0.0f        ,0.0f,0.0f,
+        0.0f      ,_scale.y    ,0.0f,0.0f,
+        0.0f      ,0.0f        ,1.0f,0.0f,
+        pos.x     ,pos.y       ,0.0f,1.0f
     };
 	glLoadMatrixf(posMat);
     //draw text
@@ -312,7 +313,7 @@ Vec2 Font::sizeText( const String& textDraw){
 			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
 			//get max
 			outSize.x=Math::max(outSize.x,posChr.x+chr->srcW);
-			outSize.y=Math::min(outSize.y,posChr.y+chr->srcH);
+			outSize.y=Math::min(outSize.y,posChr.y-chr->srcH);
 			//count this char
 			++countCharPage;
 			//next pos

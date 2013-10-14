@@ -104,6 +104,7 @@ namespace Easy3D {
 		//other methods
 		void text(const Vec2& pos,
 				  const String& textDraw,
+				  const Vec2& scale=Vec2::ONE,
 			      const Color& color=Color(255,255,255,255));
 		void text(const String& textDraw,
 			      const Color& color=Color(255,255,255,255));

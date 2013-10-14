@@ -10,10 +10,31 @@ RiemannSceneGLSL::RiemannSceneGLSL()
     ,sceneInfo(ON_PAUSE)
     ,polynomialConfig("function.test.e2d")
     ,poly(polynomialConfig)
+	,fractal(poly)
 {
 }
 
 RiemannSceneGLSL::~RiemannSceneGLSL(){
+}
+
+
+RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly){
+    for(auto c:poly.constants)
+		constants.push_back(Vec2(c,0.0));
+    for(auto& r:poly.roots)
+        roots.push_back(Vec2(r.real(),r.imag()));
+    for(auto& rc:poly.rootsColor)
+        colors.push_back(Vec4(rc.r,rc.g,rc.b,1.0));
+}
+void RiemannSceneGLSL::FractalShader::bind(){
+	sheder->bind();
+	sheder->uniformFloat("radius",1.0f);
+	sheder->uniformVec2Array("poly",&constants[0],(int)constants.size());
+	sheder->uniformVec2Array("roots",&roots[0],(int)roots.size());
+	sheder->uniformVec4Array("colors",&colors[0],(int)colors.size());
+}
+void RiemannSceneGLSL::FractalShader::unbind(){
+	sheder->unbind();
 }
 
 void RiemannSceneGLSL::onStart(){
@@ -33,6 +54,7 @@ void RiemannSceneGLSL::onStart(){
     //font
     aharoni.load("assets/game.font.e2d");
 	//shader
+	//load sheders
 	String define=("POLYSIZE "+String::toString(poly.constants.size()));
     const char *defines[2]={NULL,0};
     defines[0]=&define[0];
@@ -41,9 +63,9 @@ void RiemannSceneGLSL::onStart(){
     schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
     
     String method=polynomialConfig.getString("mathod","newton").toLower();
-    if(method=="newton"||method=="n") selected=&newtonShader;
-    else if(method=="halley"||method=="h") selected=&halleyShader;
-    else if(method=="schroeder"||method=="s") selected=&schroederShader;
+    if(method=="newton"||method=="n") fractal.sheder=&newtonShader;
+    else if(method=="halley"||method=="h") fractal.sheder=&halleyShader;
+    else if(method=="schroeder"||method=="s") fractal.sheder=&schroederShader;
     
     //init
     onResume();
@@ -154,25 +176,9 @@ void RiemannSceneGLSL::onRun(float dt){
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
 	
-	selected->bind();
-    
-    std::vector<Vec2> consts;
-    std::vector<Vec2> roots;
-    std::vector<Vec4> colors;
-    
-    for(auto c:poly.constants)
-        consts.push_back(Vec2(c,0.0));
-    for(auto& r:poly.roots)
-        roots.push_back(Vec2(r.real(),r.imag()));
-    for(auto& rc:poly.rootsColor)
-        colors.push_back(Vec4(rc.r,rc.g,rc.b,1.0));
-    
-	selected->uniformFloat("radius",1.0f);
-	selected->uniformVec2Array("poly",&consts[0],(int)consts.size());
-	selected->uniformVec2Array("roots",&roots[0],(int)consts.size()-1);
-	selected->uniformVec4Array("colors",&colors[0],(int)consts.size()-1);
+	fractal.bind();
 	drawSphere(100,200);
-	selected->unbind();
+	fractal.unbind();
     //reset state
     setMatrixsState(mState);
 	
@@ -182,8 +188,13 @@ void RiemannSceneGLSL::onRun(float dt){
     aharoni.text(Vec2(10,10),
                  "Level:"+String::toString(level+1)+"\n"
                  );
-    
-    
+	drawFontIn3DScene(Vec3(0,sphere.radius,0),"INFINITY",Vec2(0.5,0.5));
+	drawFontIn3DScene(Vec3(0,-sphere.radius,0),"ZERO",Vec2(0.5,0.5));
+}
+
+void RiemannSceneGLSL::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::String& text,const Easy3D::Vec2& scale){
+	Vec2 offset=aharoni.sizeText(text)*Vec2(-0.5,0.25)*scale;
+	aharoni.text(camera.getScreenPointFrom3DSpace(pos)+offset,text,scale);
 }
 
 void RiemannSceneGLSL::onPause(){
@@ -201,9 +212,9 @@ void RiemannSceneGLSL::onEnd(){
 }
 
 void RiemannSceneGLSL::onKeyDown(Key::Keyboard key){
-    if(key==Key::N) selected=&newtonShader;
-    else if(key==Key::H) selected=&halleyShader;
-    else if(key==Key::S) selected=&schroederShader;
+	if(key==Key::N) fractal.sheder=&newtonShader;
+    else if(key==Key::H) fractal.sheder=&halleyShader;
+    else if(key==Key::S) fractal.sheder=&schroederShader;
 }
 void RiemannSceneGLSL::onMouseDown(Vec2 mousePosition, Key::Mouse button){
     // if(button==Key::BUTTON_LEFT)

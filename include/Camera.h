@@ -50,7 +50,9 @@ namespace Easy3D {
 		DFORCEINLINE const Mat4& getViewProjMatrix() const {
 			return mViewProjMatrix;
 		}
-		Vec2 getPointIn3DSpace(const Vec3& point);
+		Vec2 getClipPointFrom3DSpace(const Vec3& point);
+		Vec2 getScreenPointFrom3DSpace(const Vec3& point);
+
         Vec3 getPointFrom2DClipSpace(const Vec2& point);
         Vec3 getPointFrom2DScreen(const Vec2& point);
         Vec3 getNormalPointFrom2DClipSpace(const Vec2& point);

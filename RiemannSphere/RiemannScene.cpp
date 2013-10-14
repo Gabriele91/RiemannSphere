@@ -142,33 +142,6 @@ void RiemannScene::onRun(float dt){
     setTextureState(TextureState(TextureState::NONE));
     sphere->setLevel(level);
     sphere->draw();
-#if 0
-    //draw ray
-    Vec3 dir=camera.getNormalPointFrom2DScreen(getInput()->getMouse());
-    Vec3 pos=camera.getPointFrom2DScreen(getInput()->getMouse());
-    Ray ray(pos,dir);
-    ray.draw(this,50);
-    //draw collision / point
-    Segment out;
-    auto collide=sphere->getCurSphere().rayCast(ray, out);
-    out.draw(this);
-    //draw point
-    {
-        //change state
-        auto mState=getMatrixsState();
-        auto newMState=mState;
-        //set model matrix info
-        Object obj;
-        obj.setPosition(out.t[0]);
-        obj.setScale(Vec3::ONE*0.0001);
-        //draw
-        newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
-        setMatrixsState(newMState);
-        drawColorCube(Color(255,255,0,255));
-        //reset state
-        setMatrixsState(mState);
-    }
-#endif
 	//draw text
 	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
     setTextureState(TextureState(TextureState::TEXTURE2D));
@@ -178,41 +151,14 @@ void RiemannScene::onRun(float dt){
                  "tree size:"+(size_t)(sphere->getTreeSize()/pow(1024,2))+" mb\n"+
                  "tree nodes:"+sphere->getTreeNodes()+"\n"
                  );
-    {
-        //change state
-        auto mState=getMatrixsState();
-        auto newMState=mState;
-        //transform
-        Object obj;
-        float scale=0.005;
-        obj.setScale(Vec3::ONE*scale);
-        Vec2 sizeHText=aharoni.sizeText("INFINITY")*-0.5*scale;
-        obj.setPosition(Vec3(sizeHText.x,3.2,0));
-        //draw
-        newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
-        setMatrixsState(newMState);
-        aharoni.text("INFINITY");
-        //reset state
-        setMatrixsState(mState);
-    }
-    {
-        //change state
-        auto mState=getMatrixsState();
-        auto newMState=mState;
-        //transform
-        Object obj;
-        float scale=0.005;
-        obj.setScale(Vec3::ONE*scale);
-        Vec2 sizeHText=aharoni.sizeText("ZERO")*-0.5*scale;
-        obj.setPosition(Vec3(sizeHText.x,-3.0,0));
-        //draw
-        newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
-        setMatrixsState(newMState);
-        aharoni.text("ZERO");
-        //reset state
-        setMatrixsState(mState);
-    }
-    
+   
+	drawFontIn3DScene(Vec3(0,sphere->getCurSphere().radius,0),"INFINITY",Vec2(0.5,0.5));
+	drawFontIn3DScene(Vec3(0,-sphere->getCurSphere().radius,0),"ZERO",Vec2(0.5,0.5));
+}
+
+void RiemannScene::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::String& text,const Easy3D::Vec2& scale){
+	Vec2 offset=aharoni.sizeText(text)*Vec2(-0.5,0.25)*scale;
+	aharoni.text(camera.getScreenPointFrom3DSpace(pos)+offset,text,scale);
 }
 
 void RiemannScene::onPause(){

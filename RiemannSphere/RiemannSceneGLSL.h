@@ -22,7 +22,17 @@ namespace RiemannSphere {
 		Easy3D::Shader newtonShader;
 		Easy3D::Shader halleyShader;
 		Easy3D::Shader schroederShader;
-        Easy3D::Shader *selected;
+
+		struct FractalShader{
+			Easy3D::Shader *sheder;
+			std::vector<Easy3D::Vec2> constants;
+			std::vector<Easy3D::Vec2> roots;
+			std::vector<Easy3D::Vec4> colors;
+			FractalShader(Polynomial<double>& poly);
+			void bind();
+			void unbind();
+		}fractal;
+
         
         enum SceneInfo{
             ON_RESUME,
@@ -49,6 +59,10 @@ namespace RiemannSphere {
         virtual void onKeyDown(Easy3D::Key::Keyboard key);
         virtual void onMouseDown(Easy3D::Vec2 mousePosition,
                                  Easy3D::Key::Mouse button);
+
+		void drawFontIn3DScene(const Easy3D::Vec3& pos,
+							   const Easy3D::String& text,
+							   const Easy3D::Vec2& scale);
 	};
 
 };
