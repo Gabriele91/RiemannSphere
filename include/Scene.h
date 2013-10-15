@@ -51,7 +51,9 @@ namespace Easy3D {
         bool sceneActive(int uid){
             return active.contains(uid);
         }
-                      
+        int sceneActive(){
+            return active.top();
+        }
         //add sub scene
         void addScene(int uid,Scene* scene,bool destructible=true){
             scenes[uid]=SubScene(scene,destructible);
@@ -77,6 +79,23 @@ namespace Easy3D {
                 scenes[active.top()].child->onPause();
                 active.pop();
             }
+        }
+        
+        Scene *eraseScene(int uid){
+            DEBUG_ASSERT(sceneExist(uid));
+            //get child
+            auto it=scenes.find(uid);
+            Scene *temp=it->second.child;
+            //if olready active
+            while(active.top()==uid&&active.size())
+                popScene();
+            //disable activation
+            while(active.contains(uid))
+                active.erase(uid);
+            //delete from map
+            scenes.erase(it);
+            //return
+            return temp;
         }
         
         //application methos

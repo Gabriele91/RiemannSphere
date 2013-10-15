@@ -44,6 +44,16 @@ class RiemannApp : public Game,
 	virtual void onKeyDown(Easy3D::Key::Keyboard key){
 		if(key==Key::C) activeScene(RIEMANN_SCENE);
 		if(key==Key::G) activeScene(RIEMANN_GLSL_SCENE);
+		if(key==Key::R && sceneActive()==RIEMANN_SCENE) {
+            auto scene=eraseScene(RIEMANN_SCENE);
+            delete scene;
+            addSceneAndActive(RIEMANN_SCENE, new RiemannSphere::RiemannScene());
+        }
+		if(key==Key::R && sceneActive()==RIEMANN_GLSL_SCENE) {
+            auto scene=eraseScene(RIEMANN_GLSL_SCENE);
+            delete scene;
+            addSceneAndActive(RIEMANN_GLSL_SCENE, new RiemannSphere::RiemannSceneGLSL());
+        }
 	}
 
     void onEnd(){
