@@ -1,16 +1,20 @@
-#include <stdafx.h>
+﻿#include <stdafx.h>
 #include <RiemannSceneGLSL.h>
 
 ///////////////////////
 using namespace Easy3D;
 using namespace RiemannSphere;
-///////////////////////
+
 RiemannSceneGLSL::RiemannSceneGLSL()
     :cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
     ,polynomialConfig("function.test.e2d")
     ,poly(polynomialConfig)
 	,fractal(poly)
+	,drawSymbols(&camera,this,
+				"assets/infinity.tga",
+				"assets/zero.tga",
+				"assets/point.tga")
 {
 }
 
@@ -182,19 +186,23 @@ void RiemannSceneGLSL::onRun(float dt){
     //reset state
     setMatrixsState(mState);
 	
+	
 	//draw text
 	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
     setTextureState(TextureState(TextureState::TEXTURE2D));
     aharoni.text(Vec2(10,10),
-                 "Level:"+String::toString(level+1)+"\n"
-                 );
-	drawFontIn3DScene(Vec3(0,sphere.radius,0),"INFINITY",Vec2(0.5,0.5));
-	drawFontIn3DScene(Vec3(0,-sphere.radius,0),"ZERO",Vec2(0.5,0.5));
+                 "Level:"+String::toString(level+1)+"\n"                
+				 );
+	//infinity point
+	drawSymbols.drawInfinity(Vec3(0,sphere.radius,0),Vec2(20,10),0.38,1.00);
+	drawSymbols.drawZero(Vec3(0,-sphere.radius,0),Vec2(10,20),0.38,1.00);
+	drawSymbols.drawPoint(Vec3(sphere.radius,0,0),Vec2(10,10),0.38,1.00,Color(255,0,0,255));
+	
 }
 
-void RiemannSceneGLSL::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::String& text,const Easy3D::Vec2& scale){
+void RiemannSceneGLSL::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::String& text,const Easy3D::Vec2& scale,const Easy3D::Color& color){
 	Vec2 offset=aharoni.sizeText(text)*Vec2(-0.5,0.25)*scale;
-	aharoni.text(camera.getScreenPointFrom3DSpace(pos)+offset,text,scale);
+	aharoni.text(camera.getScreenPointFrom3DSpace(pos)+offset,text,scale,color);
 }
 
 void RiemannSceneGLSL::onPause(){

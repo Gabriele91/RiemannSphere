@@ -14,6 +14,10 @@ RiemannScene::RiemannScene()
 	,newton(&poly)
 	,halley(&poly)
 	,schroeder(&poly)
+	,drawSymbols(&camera,this,
+				"assets/infinity.tga",
+				"assets/zero.tga",
+				"assets/point.tga")
 {
     Fractal *select=NULL;
     String method=polynomialConfig.getString("mathod","newton").toLower();
@@ -152,8 +156,8 @@ void RiemannScene::onRun(float dt){
                  "tree nodes:"+sphere->getTreeNodes()+"\n"
                  );
    
-	drawFontIn3DScene(Vec3(0,sphere->getCurSphere().radius,0),"INFINITY",Vec2(0.5,0.5));
-	drawFontIn3DScene(Vec3(0,-sphere->getCurSphere().radius,0),"ZERO",Vec2(0.5,0.5));
+	drawSymbols.drawInfinity(Vec3(0,sphere->getCurSphere().radius,0),Vec2(20,10),0.38,1.00);
+	drawSymbols.drawZero(Vec3(0,-sphere->getCurSphere().radius,0),Vec2(10,20),0.38,1.00);
 }
 
 void RiemannScene::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::String& text,const Easy3D::Vec2& scale){

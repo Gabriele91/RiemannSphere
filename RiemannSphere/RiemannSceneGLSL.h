@@ -4,8 +4,10 @@
 #include <Easy3D.h>
 #include <Polynomial.h>
 #include <CameraManager.h>
+#include <DrawSymbols.h>
 
 namespace RiemannSphere {
+
 
 	class RiemannSceneGLSL: public Easy3D::Scene,
                                 Easy3D::Input::KeyboardHandler,
@@ -22,6 +24,7 @@ namespace RiemannSphere {
 		Easy3D::Shader newtonShader;
 		Easy3D::Shader halleyShader;
 		Easy3D::Shader schroederShader;
+		DrawSymbols drawSymbols;
 
 		struct FractalShader{
 			Easy3D::Shader *sheder;
@@ -57,14 +60,17 @@ namespace RiemannSphere {
         virtual void onEnd();
 
         virtual void onKeyDown(Easy3D::Key::Keyboard key);
+
         virtual void onMouseDown(Easy3D::Vec2 mousePosition,
                                  Easy3D::Key::Mouse button);
 
 		void drawFontIn3DScene(const Easy3D::Vec3& pos,
 							   const Easy3D::String& text,
-							   const Easy3D::Vec2& scale);
+							   const Easy3D::Vec2& scale,
+							   const Easy3D::Color& color=Easy3D::Color());
+		
+		
 	};
-
 };
 
 #endif

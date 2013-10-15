@@ -912,7 +912,7 @@ namespace Easy3D{
 		//saturate
 		template <class T>
 		static DFORCEINLINE T saturate( const T& value ){
-			return clamp(value,1,0);
+			return clamp(value,(T)(1.0),(T)(0.0));
 		}
 		//power of 2 test
 		template <class T>

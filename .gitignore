@@ -1,6 +1,8 @@
 *.7z
 *.exe
 *.zip
+#paint.net files
+*.pdn
 
 #test directory
 livel*/

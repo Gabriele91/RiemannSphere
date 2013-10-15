@@ -315,8 +315,12 @@ namespace Easy3D {
 	
         //easy
         void drawCube();
+        void drawSprite();
+        void drawUVSprite();
         void drawSphere(int ring=20,int settor=20);
         void drawColorCube(const Color& color);
+        void drawColorSprite(const Color& color);
+        void drawColorUVSprite(const Color& color);
         void drawColorSphere(const Color& color,int ring=20,int settor=20);
 		
 	};

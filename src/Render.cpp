@@ -257,6 +257,56 @@ void Render::drawCube(){
     //set old client state
     setClientState(lastClientState);
 }
+void Render::drawSprite(){    //save state
+    ClientState lastClientState=getClientState();
+    //only vertex
+    setClientState(ClientState(ClientState::VERTEX));   
+	//model
+	static const float
+	size=1.0;
+	static const float
+	vertices[]={
+			-size,-size,
+			-size, size,
+			 size,-size,
+			 size, size,
+	        }; 
+	//unbind VBO
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    //pointer to vertexs
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+	//draw
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    //set old client state
+    setClientState(lastClientState);
+}
+void Render::drawUVSprite(){   
+	//save state
+    ClientState lastClientState=getClientState();
+    //only vertex
+	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));   
+	//model
+	static const float
+	size=1.0;
+	static const float
+	xyUV[]={
+			-size,-size,0.0,0.0,
+			-size, size,0.0,1.0,
+			 size,-size,1.0,0.0,
+			 size, size,1.0,1.0
+	        };
+
+	//unbind VBO
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+    //pointer to vertexs
+	glVertexPointer(  2, GL_FLOAT, sizeof(float)*4,  &xyUV[0]);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(float)*4,  &xyUV[2]);
+	//draw
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    //set old client state
+    setClientState(lastClientState);
+}
 void Render::drawSphere(int ring,int settor){
     
     //save state
@@ -319,6 +369,24 @@ void Render::drawColorCube(const Color& color){
     //draw
     setColorState(ColorState(color));
     drawCube();
+    //set old state
+    setColorState(lastColorState);
+}
+void Render::drawColorSprite(const Color& color){    //save state
+    //save color
+    ColorState lastColorState=getColorState();
+    //draw
+    setColorState(ColorState(color));
+    drawSprite();
+    //set old state
+    setColorState(lastColorState);
+}
+void Render::drawColorUVSprite(const Color& color){    //save state
+    //save color
+    ColorState lastColorState=getColorState();
+    //draw
+    setColorState(ColorState(color));
+    drawUVSprite();
     //set old state
     setColorState(lastColorState);
 }

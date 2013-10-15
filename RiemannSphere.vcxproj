@@ -118,6 +118,7 @@
     <ClInclude Include="include\window\WindowsInput.h" />
     <ClInclude Include="include\window\WindowsScreen.h" />
     <ClInclude Include="RiemannSphere\CameraManager.h" />
+    <ClInclude Include="RiemannSphere\DrawSymbols.h" />
     <ClInclude Include="RiemannSphere\Fractal.h" />
     <ClInclude Include="RiemannSphere\HalleyFractal.h" />
     <ClInclude Include="RiemannSphere\NewtonFractal.h" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RiemannSphere\CameraManager.cpp" />
+    <ClCompile Include="RiemannSphere\DrawSymbols.cpp" />
     <ClCompile Include="RiemannSphere\Polynomial.cpp" />
     <ClCompile Include="RiemannSphere\PolynomialRoots.cpp" />
     <ClCompile Include="RiemannSphere\PoolThread.cpp" />
