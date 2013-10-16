@@ -62,7 +62,8 @@ void RiemannSceneGLSL::onStart(){
 	String define=("POLYSIZE "+String::toString(poly.constants.size()));
     const char *defines[2]={NULL,0};
     defines[0]=&define[0];
-	newtonShader.loadShader("assets/base.vs.glsl","assets/newton.ps.glsl",defines);
+	schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
+	schroeder4Shader.loadShader("assets/base.vs.glsl","assets/schroeder4.ps.glsl",defines);
     halleyShader.loadShader("assets/base.vs.glsl","assets/halley.ps.glsl",defines);
     schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
     
@@ -70,6 +71,7 @@ void RiemannSceneGLSL::onStart(){
     if(method=="newton"||method=="n") fractal.sheder=&newtonShader;
     else if(method=="halley"||method=="h") fractal.sheder=&halleyShader;
     else if(method=="schroeder"||method=="s") fractal.sheder=&schroederShader;
+    else if(method=="schroeder4"||method=="s4") fractal.sheder=&schroeder4Shader;
     
     //init
     onResume();
@@ -172,7 +174,6 @@ void RiemannSceneGLSL::onRun(float dt){
     Object obj;
 	obj.setPosition(Vec3::ZERO);
 	obj.setScale(Vec3::ONE*5.0f);
-	obj.setTurn(Quaternion::fromEulero(Vec3(0,Math::torad(30),0)));
     //draw
     newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
     setMatrixsState(newMState);
@@ -196,7 +197,11 @@ void RiemannSceneGLSL::onRun(float dt){
 	//infinity point
 	drawSymbols.drawInfinity(Vec3(0,sphere.radius,0),Vec2(20,10),0.38,1.00);
 	drawSymbols.drawZero(Vec3(0,-sphere.radius,0),Vec2(10,20),0.38,1.00);
-	drawSymbols.drawPoint(Vec3(sphere.radius,0,0),Vec2(10,10),0.38,1.00,Color(255,0,0,255));
+    
+    for(size_t i=0;i<poly.roots.size();++i){
+        Vec3 pos=poly.planeToSphere(poly.roots[i]).to<'x','y','z'>()*(sphere.radius);
+        drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly.rootsColor[i]);
+    }
 	
 }
 

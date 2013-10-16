@@ -19,7 +19,7 @@ SpheresManager::SpheresManager(Easy3D::Camera* camera,
                                ,curLevel(0)
                                ,multithread(NULL)
 							   ,fractal(fractal)
-							   ,virtualVBO(536870912*1.8) //512 MByte
+							   ,virtualVBO(536870912*2) //512 MByte
 {
     buildLivels(rings,sgments,livels,radius,dfPerLivel);
 	multithread=new PoolThread(4);

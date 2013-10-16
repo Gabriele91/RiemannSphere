@@ -7,6 +7,7 @@
 #include <NewtonFractal.h>
 #include <HalleyFractal.h>
 #include <SchroederFractal.h>
+#include <Schroeder4Fractal.h>
 #include <DrawSymbols.h>
 
 namespace RiemannSphere {
@@ -24,6 +25,7 @@ namespace RiemannSphere {
         NewtonFractal<double> newton;
         HalleyFractal<double> halley;
         SchroederFractal<double> schroeder;
+        Schroeder4Fractal<double> schroeder4;
         SpheresManager *sphere;
         Easy3D::Font aharoni;
 		DrawSymbols drawSymbols;

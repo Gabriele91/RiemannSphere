@@ -12,8 +12,9 @@ RiemannScene::RiemannScene()
     ,polynomialConfig("function.test.e2d")
     ,poly(polynomialConfig)
 	,newton(&poly)
-	,halley(&poly)
-	,schroeder(&poly)
+    ,halley(&poly)
+    ,schroeder(&poly)
+    ,schroeder4(&poly)
 	,drawSymbols(&camera,this,
 				"assets/infinity.tga",
 				"assets/zero.tga",
@@ -24,6 +25,7 @@ RiemannScene::RiemannScene()
     if(method=="newton"||method=="n") select=&newton;
     else if(method=="halley"||method=="h") select=&halley;
     else if(method=="schroeder"||method=="s") select=&schroeder;
+    else if(method=="schroeder4"||method=="s4") select=&schroeder4;
     DEBUG_ASSERT_MSG(select, "Must to be selected a valid method");
     
 sphere=new SpheresManager
@@ -158,6 +160,11 @@ void RiemannScene::onRun(float dt){
    
 	drawSymbols.drawInfinity(Vec3(0,sphere->getCurSphere().radius,0),Vec2(20,10),0.38,1.00);
 	drawSymbols.drawZero(Vec3(0,-sphere->getCurSphere().radius,0),Vec2(10,20),0.38,1.00);
+    
+    for(size_t i=0;i<poly.roots.size();++i){
+        Vec3 pos=poly.planeToSphere(poly.roots[i])*(sphere->getCurSphere().radius);
+        drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly.rootsColor[i]);
+    }
 }
 
 void RiemannScene::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::String& text,const Easy3D::Vec2& scale){

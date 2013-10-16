@@ -24,6 +24,7 @@ namespace RiemannSphere {
 		Easy3D::Shader newtonShader;
 		Easy3D::Shader halleyShader;
 		Easy3D::Shader schroederShader;
+		Easy3D::Shader schroeder4Shader;
 		DrawSymbols drawSymbols;
 
 		struct FractalShader{

@@ -8,7 +8,7 @@
 	constants={ 1 0 0 0.9 0 0 0.10} //  c b a
 //	constants={ 1 0 0.75 0 -0.75 0 } //  c b a
 
-	mathod="n"
+	mathod="s4"
 /*
 	roots={ 
 		(1 0) 

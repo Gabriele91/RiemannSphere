@@ -2,6 +2,7 @@
 #define DRAWSYMBOLS_H
 
 #include <Easy3D.h>
+#include <complex>
 
 namespace RiemannSphere {
 
@@ -23,12 +24,12 @@ namespace RiemannSphere {
 		void drawZero(const Easy3D::Vec3& pos,
 						const Easy3D::Vec2& scale,
 						float cstart=0.0f,float cend=1.0f,
-						Easy3D::Color color=Easy3D::Color());
-
+                      Easy3D::Color color=Easy3D::Color());
+        
 		void drawPoint(const Easy3D::Vec3& pos,
-						const Easy3D::Vec2& scale,
-						float cstart=0.0f,float cend=1.0f,
-						Easy3D::Color color=Easy3D::Color());
+                       const Easy3D::Vec2& scale,
+                       float cstart=0.0f,float cend=1.0f,
+                       Easy3D::Color color=Easy3D::Color());
 
 	protected:
 			

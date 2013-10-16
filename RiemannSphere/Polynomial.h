@@ -27,6 +27,12 @@ namespace RiemannSphere {
         DFORCEINLINE operator RootColor<double>(){
             return RootColor<float>((double)r,(double)g,(double)b);
         }
+        DFORCEINLINE operator Easy3D::Color(){
+            return Easy3D::Color((Easy3D::uchar)(r*255),
+                                 (Easy3D::uchar)(g*255),
+                                 (Easy3D::uchar)(b*255),
+                                 255);
+        }
         
 	};
 
@@ -76,7 +82,15 @@ namespace RiemannSphere {
             }
             
         }
-
+        
+        static Easy3D::Vec3 planeToSphere(std::complex<T>& root){
+            float a2=root.real()*root.real();
+            float b2=root.imag()*root.imag();
+            return Easy3D::Vec3( root.real()*2/(a2+b2+1), (a2+b2-1)/(a2+b2+1), root.imag()*2/(a2+b2+1));
+        }
+        static std::complex<T> sphereToPlane(const Easy3D::Vec3& pos){
+            return std::complex<T>( pos.x/(1.0-pos.y), pos.z/(1.0-pos.y) );
+        }
 	};
 
 };
