@@ -11,8 +11,9 @@ RiemannScene::RiemannScene()
     ,sceneInfo(ON_PAUSE)
     ,polynomialConfig("function.test.e2d")
     ,poly(polynomialConfig)
-	,newton(&poly)
+    ,newton(&poly)
     ,halley(&poly)
+    ,halley4(&poly)
     ,schroeder(&poly)
     ,schroeder4(&poly)
 	,drawSymbols(&camera,this,
@@ -21,9 +22,10 @@ RiemannScene::RiemannScene()
 				"assets/point.tga")
 {
     Fractal *select=NULL;
-    String method=polynomialConfig.getString("mathod","newton").toLower();
+    String method=polynomialConfig.getString("method","newton").toLower();
     if(method=="newton"||method=="n") select=&newton;
     else if(method=="halley"||method=="h") select=&halley;
+    else if(method=="halley4"||method=="h4") select=&halley4;
     else if(method=="schroeder"||method=="s") select=&schroeder;
     else if(method=="schroeder4"||method=="s4") select=&schroeder4;
     DEBUG_ASSERT_MSG(select, "Must to be selected a valid method");

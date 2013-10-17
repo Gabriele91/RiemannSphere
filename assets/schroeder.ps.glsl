@@ -84,7 +84,8 @@ vec2 complexInvert(in vec2 z)
 }
 
 vec2 complexDivide(in vec2 z0, in vec2 z1){
-	return complexMult(z0,complexInvert(z1));
+    float c2d2=(z1.x*z1.x)+(z1.y*z1.y);
+	return vec2((z0.x*z1.x+z0.y*z1.y)/c2d2,(z0.y*z1.x-z0.x*z1.y)/c2d2);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

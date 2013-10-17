@@ -6,6 +6,7 @@
 #include <SpheresManager.h>
 #include <NewtonFractal.h>
 #include <HalleyFractal.h>
+#include <Halley4Fractal.h>
 #include <SchroederFractal.h>
 #include <Schroeder4Fractal.h>
 #include <DrawSymbols.h>
@@ -24,6 +25,7 @@ namespace RiemannSphere {
         Polynomial<double> poly;
         NewtonFractal<double> newton;
         HalleyFractal<double> halley;
+        Halley4Fractal<double> halley4;
         SchroederFractal<double> schroeder;
         Schroeder4Fractal<double> schroeder4;
         SpheresManager *sphere;

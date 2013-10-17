@@ -65,11 +65,13 @@ void RiemannSceneGLSL::onStart(){
 	schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
 	schroeder4Shader.loadShader("assets/base.vs.glsl","assets/schroeder4.ps.glsl",defines);
     halleyShader.loadShader("assets/base.vs.glsl","assets/halley.ps.glsl",defines);
-    schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
+    halley4Shader.loadShader("assets/base.vs.glsl","assets/halley4.ps.glsl",defines);
+    newtonShader.loadShader("assets/base.vs.glsl","assets/newton.ps.glsl",defines);
     
-    String method=polynomialConfig.getString("mathod","newton").toLower();
+    String method=polynomialConfig.getString("method","newton").toLower();
     if(method=="newton"||method=="n") fractal.sheder=&newtonShader;
     else if(method=="halley"||method=="h") fractal.sheder=&halleyShader;
+    else if(method=="halley4"||method=="h4") fractal.sheder=&halley4Shader;
     else if(method=="schroeder"||method=="s") fractal.sheder=&schroederShader;
     else if(method=="schroeder4"||method=="s4") fractal.sheder=&schroeder4Shader;
     
@@ -228,6 +230,10 @@ void RiemannSceneGLSL::onKeyDown(Key::Keyboard key){
 	if(key==Key::N) fractal.sheder=&newtonShader;
     else if(key==Key::H) fractal.sheder=&halleyShader;
     else if(key==Key::S) fractal.sheder=&schroederShader;
+    else if(key==Key::N4) {
+        if(fractal.sheder==&schroederShader) fractal.sheder=&schroeder4Shader;;
+        if(fractal.sheder==&halleyShader) fractal.sheder=&halley4Shader;;
+    }
 }
 void RiemannSceneGLSL::onMouseDown(Vec2 mousePosition, Key::Mouse button){
     // if(button==Key::BUTTON_LEFT)
