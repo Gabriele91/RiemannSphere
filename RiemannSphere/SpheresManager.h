@@ -103,6 +103,8 @@ namespace RiemannSphere {
         void draw();
         //destructor
 		virtual ~SpheresManager();
+        //draw cubes
+        void drawCubes(Easy3D::Render* render);
         /*
          
          

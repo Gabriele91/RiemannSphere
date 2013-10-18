@@ -255,6 +255,10 @@ void SpheresManager::draw(){
     drawSub(root,curLevel);
 }
 
+void SpheresManager::drawCubes(Easy3D::Render* render){
+    render->drawLineCube();
+}
+
 /*
 TODO
 void SpheresManager::drawSubCube(Easy3D::Camera &camera,int countlivel,int node){

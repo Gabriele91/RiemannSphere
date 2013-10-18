@@ -31,7 +31,7 @@ PoolThread::PoolThread(uint nworkers):workers(nworkers){
 				//call
 				if(task) task();
 				//sleep thread
-				worker->sleepThread(16);
+                else worker->sleepThread(16);
 			}
 			return 0;
 		});

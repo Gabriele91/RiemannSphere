@@ -63,6 +63,7 @@ vertices[count++]=(rcolor.b);
 #define toComplexReal(v) ((float)(v.x/(1.0-v.y)))
 #define toComplexImg(v) ((float)(v.z/(1.0-v.y)))
 
+
 void SphereMesh::buildMesh(SpheresManager& smanager,
 						   const Fractal* fractal){
 	//asserts
@@ -87,25 +88,34 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
                               GLfloat *vertices=(GLfloat*)nvbo.getData();
                               DEBUG_ASSERT(vertices);
                               int count=0;
+                              //var dec
+                              //first for
+                              float lat0,z0,zr0;
+                              float lat1,z1,zr1;
+                              //second for
+                              float lng,x,z;
+                              float lng2,x2,z2;
+                              //for index
+                              int i,j;
                               //center
-                              for(int i = sub.rStart; i<sub.rEnd; ++i){
+                              for( i = sub.rStart; i<sub.rEnd; ++i){
                                   
-                                  float lat0 = Math::PI * (-0.5f + (float) i / smanager.getSphere(idSphere).rings);
-                                  float z0  =  std::sin(lat0);
-                                  float zr0 =  std::cos(lat0);
+                                   lat0 = Math::PI * (-0.5f + (float) i / smanager.getSphere(idSphere).rings);
+                                   z0  =  std::sin(lat0);
+                                   zr0 =  std::cos(lat0);
                                   
-                                  float lat1 = Math::PI * (-0.5f + (float) (i+1) / smanager.getSphere(idSphere).rings);
-                                  float z1 =   std::sin(lat1);
-                                  float zr1 =  std::cos(lat1);
+                                   lat1 = Math::PI * (-0.5f + (float) (i+1) / smanager.getSphere(idSphere).rings);
+                                   z1 =   std::sin(lat1);
+                                   zr1 =  std::cos(lat1);
                                   
-                                  for(int j = sub.sStart; j < sub.sEnd; ++j) {
-                                      float lng = 2.0f * Math::PI * (float) j / smanager.getSphere(idSphere).sectors;
-                                      float x = std::cos(lng);
-                                      float z = std::sin(lng);
+                                  for( j = sub.sStart; j < sub.sEnd; ++j) {
+                                       lng = 2.0f * Math::PI * (float) j / smanager.getSphere(idSphere).sectors;
+                                       x = std::cos(lng);
+                                       z = std::sin(lng);
                                       
-                                      float lng2 = 2.0f * Math::PI * (float) (j+1) / smanager.getSphere(idSphere).sectors;
-                                      float x2 = std::cos(lng2);
-                                      float z2 = std::sin(lng2);
+                                       lng2 = 2.0f * Math::PI * (float) (j+1) / smanager.getSphere(idSphere).sectors;
+                                       x2 = std::cos(lng2);
+                                       z2 = std::sin(lng2);
                                       
                                       Vec3 q1( x  * zr0, z0, z  * zr0 );
                                       Vec3 q2( x  * zr1, z1, z  * zr1 );
@@ -117,29 +127,47 @@ void SphereMesh::buildMesh(SpheresManager& smanager,
                                       auto color2=fractal->calcColor(toComplexReal(q2),toComplexImg(q2));
                                       auto color3=fractal->calcColor(toComplexReal(q3),toComplexImg(q3));
                                       auto color4=fractal->calcColor(toComplexReal(q4),toComplexImg(q4));
+                                      //tri 1
+                                      pushv(q1);
+                                      pushRootColor(color1);
+                                      
+                                      pushv(q2);
+                                      pushRootColor(color2);
+                                      
+                                      pushv(q3);
+                                      pushRootColor(color3);
+                                      
+                                      //tri 2
+                                      pushv(q4);
+                                      pushRootColor(color4);
+                                      
+                                      pushv(q1);
+                                      pushRootColor(color1);
+                                      
+                                      pushv(q3);
+                                      pushRootColor(color3);
 #else
                                       auto color1=fractal->calcColor(toComplexReal(q1),toComplexImg(q1));
-                                      auto color2=color1,color3=color1,color4=color1;
-#endif
                                       //tri 1
                                       pushv(q1);  
                                       pushRootColor(color1);
                                       
                                       pushv(q2);  
-                                      pushRootColor(color2);
+                                      pushRootColor(color1);
                                       
                                       pushv(q3); 
-                                      pushRootColor(color3);
+                                      pushRootColor(color1);
                                       
                                       //tri 2
                                       pushv(q4); 
-                                      pushRootColor(color4);
+                                      pushRootColor(color1);
                                       
                                       pushv(q1);  
                                       pushRootColor(color1);
                                       
                                       pushv(q3); 
-                                      pushRootColor(color3);
+                                      pushRootColor(color1);
+#endif
                                       
                                   }
                               }
