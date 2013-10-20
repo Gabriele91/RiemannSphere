@@ -85,7 +85,78 @@ void CameraManager::onMousePress(Vec2 mousePosition, Key::Mouse button){
 	}
 }
 ///////////
+//debug
+void CameraManager::drawFrustum(Easy3D::Render* r){
+	//save 
+	Render::ClientState saveClientState=r->getClientState();
+	Render::ColorState saveColorState=r->getColorState();
+	Render::MatrixsState saveMatrixsState=r->getMatrixsState();
 
+	//change state:
+	r->setClientState(Render::ClientState::VERTEX);
+	r->setColorState({0,255,0,255});
+	//change matrix
+	auto newMS=saveMatrixsState;
+	newMS.modelview=newMS.modelview.mul(camera->getGlobalMatrix());
+	r->setMatrixsState(newMS);
+	//draw
+	// Get near and far from the Projection matrix.
+	Mat4 proj=camera->getProjectionMatrix();
+    float cnear =this->n;// proj[11] / (proj[10] - 1.0);
+    float cfar =this->f;// proj[11] / (1.0 + proj[10]);
+	// Get the sides of the near plane.
+    float nLeft = cnear * (proj[2] - 1.0) / proj[0];
+    float nRight = cnear * (1.0 + proj[2]) / proj[0];
+    float nTop = cnear * (1.0 + proj[6]) / proj[5];
+    float nBottom = cnear * (proj[6] - 1.0) / proj[5];
+	// Get the sides of the far plane.
+    float fLeft = cfar * (proj[2] - 1.0) / proj[0];
+    float fRight = cfar * (1.0 + proj[2]) / proj[0];
+    float fTop = cfar * (1.0 + proj[6]) / proj[5];
+    float fBottom = cfar * (proj[6] - 1.0) / proj[5];
+
+	 // 8 of vertex coords
+    GLfloat vertices[] = {	
+
+		0.0f, 0.0f, 0.0f,
+		fLeft, fBottom, -cfar,
+		0.0f, 0.0f, 0.0f,
+		fRight, fBottom, -cfar,
+		0.0f, 0.0f, 0.0f,
+		fRight, fTop, -cfar,
+		0.0f, 0.0f, 0.0f,
+		fLeft, fTop, -cfar,
+		//far
+		fLeft, fBottom, -cfar,
+		fRight, fBottom, -cfar,
+		fRight, fTop, -cfar,
+		fLeft, fTop, -cfar,
+		fRight, fTop, -cfar,
+		fRight, fBottom, -cfar,
+		fLeft, fTop, -cfar,
+		fLeft, fBottom, -cfar,
+		//near
+		nLeft, nBottom, -cnear,
+		nRight, nBottom, -cnear,
+		nRight, nTop, -cnear,
+		nLeft, nTop, -cnear,
+		nLeft, nTop, -cnear,
+		nLeft, nBottom, -cnear,
+		nRight, nTop, -cnear,
+		nRight, nBottom, -cnear
+
+    };
+	//unbind VBO
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    //pointer to vertexs
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    //draw call
+    glDrawArrays(GL_LINE_STRIP, 0, 24);
+	//reset
+	r->setClientState(saveClientState);
+	r->setColorState(saveColorState);
+	r->setMatrixsState(saveMatrixsState);
+}
 
 ///STATE MACHINE
 void CameraManager::onStateMessage(int message){}

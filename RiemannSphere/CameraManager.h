@@ -47,7 +47,7 @@ namespace RiemannSphere {
         void changeNear(float n);
         void setVelocity(const Easy3D::Vec3& vel);
         Ray getMouseRay();
-                                    
+		void drawFrustum(Easy3D::Render* r);
                                   
         virtual void onStateStart();
         virtual void onStateRun(float dt);

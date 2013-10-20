@@ -42,7 +42,7 @@ sphere=new SpheresManager
            1000000, 1000000*2,//8000,8000,
            10,//livels
            3.0f,//sphere radius
-           2.35//detail per livels
+           2.41//detail per livels
 #endif
            );
 }
@@ -55,7 +55,7 @@ void RiemannScene::onStart(){
     //set clear color
     setClearColorState({25,128,255,255});
     //set projection and modelview
-    setCullFaceState(CullFaceState(CullFace::BACK));
+	setCullFaceState(CullFaceState(CullFace::BACK));
 	//set client state
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
@@ -90,8 +90,8 @@ void RiemannScene::onRun(float dt){
     
     if(getInput()->getKeyDown(Key::Q)){
         Camera cam2;
-        cam2.setPerspective(Math::torad(25.0f), 1.0, 20.0);
-        cam2.setPosition(Vec3(0,0,20),true);
+        cam2.setPerspective(Math::torad(25.0f), 1.0, 200.0);
+        cam2.setPosition(Vec3(0,0,60),true);
         cam2.update();
         setMatrixsState(MatrixsState(cam2));
     }
@@ -119,28 +119,28 @@ void RiemannScene::onRun(float dt){
         level=5;
     }
     if(std::abs(cameraManager->getAngle())<0.001){
-        cameraManager->setVelocity(Vec3(0.25,0.25,.0002));
+        cameraManager->setVelocity(Vec3(0.25,0.25,.0001));
         level=6;
     }
     if(std::abs(cameraManager->getAngle())<0.0004){
-        cameraManager->setVelocity(Vec3(0.1,0.1,.0001));
+        cameraManager->setVelocity(Vec3(0.1,0.1,.00005));
         level=7;
     }
-    if(std::abs(cameraManager->getAngle())<0.0001){
-        cameraManager->setVelocity(Vec3(0.05,0.05,.00002));
+    if(std::abs(cameraManager->getAngle())<0.00005){
+        cameraManager->setVelocity(Vec3(0.05,0.05,.000005));
         level=8;
     }
-    if(std::abs(cameraManager->getAngle())<0.00005){
-        cameraManager->setVelocity(Vec3(0.025,0.025,.00001));
+    if(std::abs(cameraManager->getAngle())<0.00001){
+        cameraManager->setVelocity(Vec3(0.025,0.025,.000001));
         level=9;
     }
 #ifdef _HD_
-    if(std::abs(cameraManager->getAngle())<0.000015){
-        cameraManager->setVelocity(Vec3(0.025,0.025,.000005));
+    if(std::abs(cameraManager->getAngle())<0.000005){
+        cameraManager->setVelocity(Vec3(0.025,0.025,.000001));
         level=10;
     }
-    if(std::abs(cameraManager->getAngle())<0.000005){
-        cameraManager->setVelocity(Vec3(0.025,0.025,.000002));
+    if(std::abs(cameraManager->getAngle())<0.000002){
+        cameraManager->setVelocity(Vec3(0.025,0.025,.000001));
         level=11;
     }
 #endif
@@ -150,6 +150,8 @@ void RiemannScene::onRun(float dt){
     setTextureState(TextureState(TextureState::NONE));
     sphere->setLevel(level);
     sphere->draw();
+	//fustrum
+	//cameraManager->drawFrustum(this);
 	//draw text
 	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
     setTextureState(TextureState(TextureState::TEXTURE2D));

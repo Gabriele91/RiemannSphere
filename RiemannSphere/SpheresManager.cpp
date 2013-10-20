@@ -221,7 +221,7 @@ void SpheresManager::doBuildsList(){
 
 bool SpheresManager::drawSub(SphereMesh *node,int countlivel){
 
-    bool drawFather=false;
+    bool childIsDraw=true;
 
     if(countlivel==0){
         for(uchar c=0;c!=8;++c)
@@ -230,7 +230,7 @@ bool SpheresManager::drawSub(SphereMesh *node,int countlivel){
 				if(!getChild(node,c)->lockTask())
                     getChild(node,c)->buildMesh(*this,fractal);
                 //draw
-                drawFather=getChild(node,c)->draw()&&drawFather;
+                childIsDraw=getChild(node,c)->draw()&&childIsDraw;
             }
     }
     else{
@@ -238,12 +238,12 @@ bool SpheresManager::drawSub(SphereMesh *node,int countlivel){
             if(camera->boxInFrustum( getChild(node,c)->box )){
 				if(!drawSub(getChild(node,c),countlivel-1)){
 					//draw
-					drawFather=getChild(node,c)->draw()&&drawFather;
+					childIsDraw=getChild(node,c)->draw()&&childIsDraw;
 				}
 			}
     }
 	//draw Father?
-    return drawFather;
+    return childIsDraw;
 }
 void SpheresManager::draw(){
     //update memory gpu

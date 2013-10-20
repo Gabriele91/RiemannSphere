@@ -119,25 +119,11 @@ void Font::text(const Vec2& _pos,
     
 	if(textDraw.size()==0) return;
 	Vec2 pos(_pos.x,-_pos.y+Application::instance()->getScreen()->getHeight());
-    
-	GLboolean cull,blend;
-	GLint bs_src, bs_dst;
 	Matrix4x4 old_projection,old_modelview;
-	GLfloat old_color[4];
-	glGetBooleanv(GL_CULL_FACE,&cull);
-	glGetBooleanv(GL_BLEND , &blend);
-	glGetIntegerv(GL_BLEND_SRC , &bs_src);
-	glGetIntegerv(GL_BLEND_DST , &bs_dst);
 	glGetFloatv(GL_PROJECTION_MATRIX ,  old_projection );
 	glGetFloatv(GL_MODELVIEW_MATRIX , old_modelview );
-    glGetFloatv(GL_CURRENT_COLOR, old_color);
 	//////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////
-	//change param
-	glDisable(GL_CULL_FACE);
-	//blend
-	if(!blend) glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//reset projection matrix
 	Matrix4x4 projection;
 	//set viewport
@@ -164,8 +150,6 @@ void Font::text(const Vec2& _pos,
 	glLoadMatrixf(old_projection);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(old_modelview);
-	//color
-	glColor4fv(old_color);
 }
 
 void Font::text(const String& textDraw,
@@ -174,15 +158,13 @@ void Font::text(const String& textDraw,
 	if(textDraw.size()==0) return;
     
 	GLboolean cull,blend;
-	GLint bs_src, bs_dst;
-	Matrix4x4 old_projection,old_modelview;
+	GLint cull_mode,bs_src, bs_dst;
 	GLfloat old_color[4];
 	glGetBooleanv(GL_CULL_FACE,&cull);
+    glGetIntegerv(GL_CULL_FACE_MODE,&cull_mode);
 	glGetBooleanv(GL_BLEND , &blend);
 	glGetIntegerv(GL_BLEND_SRC , &bs_src);
 	glGetIntegerv(GL_BLEND_DST , &bs_dst);
-	glGetFloatv(GL_PROJECTION_MATRIX ,  old_projection );
-	glGetFloatv(GL_MODELVIEW_MATRIX , old_modelview );
     glGetFloatv(GL_CURRENT_COLOR, old_color);
 	//////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////
@@ -263,18 +245,15 @@ void Font::text(const String& textDraw,
     
 	//////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////
-	if(cull)
+	if(cull){
 		glEnable( GL_CULL_FACE );
+		glCullFace(cull_mode);
+	}
 	//blend
 	if(!blend)
 		glDisable( GL_BLEND );
 	else
 		glBlendFunc(bs_src,bs_dst);
-	//matrix
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(old_projection);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(old_modelview);
 	//color
 	glColor4fv(old_color);
 }

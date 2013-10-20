@@ -292,10 +292,10 @@ void Render::drawSprite(){
 	size=1.0;
 	static const float
 	vertices[]={
-			-size,-size,
 			-size, size,
-			 size,-size,
+			-size,-size,
 			 size, size,
+			 size,-size,
 	        }; 
 	//unbind VBO
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
@@ -316,10 +316,10 @@ void Render::drawUVSprite(){
 	size=1.0;
 	static const float
 	xyUV[]={
-			-size,-size,0.0,0.0,
 			-size, size,0.0,1.0,
-			 size,-size,1.0,0.0,
-			 size, size,1.0,1.0
+			-size,-size,0.0,0.0,
+			 size, size,1.0,1.0,
+			 size,-size,1.0,0.0
 	        };
 
 	//unbind VBO
