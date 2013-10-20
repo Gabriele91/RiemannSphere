@@ -120,6 +120,7 @@
     <ClInclude Include="RiemannSphere\CameraManager.h" />
     <ClInclude Include="RiemannSphere\DrawSymbols.h" />
     <ClInclude Include="RiemannSphere\Fractal.h" />
+    <ClInclude Include="RiemannSphere\Halley4Fractal.h" />
     <ClInclude Include="RiemannSphere\HalleyFractal.h" />
     <ClInclude Include="RiemannSphere\NewtonFractal.h" />
     <ClInclude Include="RiemannSphere\Polynomial.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="RiemannSphere\Rays.h" />
     <ClInclude Include="RiemannSphere\RiemannScene.h" />
     <ClInclude Include="RiemannSphere\RiemannSceneGLSL.h" />
+    <ClInclude Include="RiemannSphere\Schroeder4Fractal.h" />
     <ClInclude Include="RiemannSphere\SchroederFractal.h" />
     <ClInclude Include="RiemannSphere\Sphere.h" />
     <ClInclude Include="RiemannSphere\SphereMesh.h" />
@@ -193,6 +195,23 @@
     <ClCompile Include="src\window\WindowsScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\Aharoni40.fnt" />
+    <None Include="assets\Aharoni40_0.tga" />
+    <None Include="assets\base.vs.glsl" />
+    <None Include="assets\game.font.e2d" />
+    <None Include="assets\halley.ps.glsl" />
+    <None Include="assets\halley4.ps.glsl" />
+    <None Include="assets\infinity.pdn" />
+    <None Include="assets\infinity.tga" />
+    <None Include="assets\newton.ps.glsl" />
+    <None Include="assets\point.pdn" />
+    <None Include="assets\point.tga" />
+    <None Include="assets\schroeder.ps.glsl" />
+    <None Include="assets\schroeder4.ps.glsl" />
+    <None Include="assets\Verdana40.fnt" />
+    <None Include="assets\Verdana40_0.tga" />
+    <None Include="assets\Zero.pdn" />
+    <None Include="assets\zero.tga" />
     <None Include="function.test.e2d" />
     <None Include="src\Image\Image.inl" />
   </ItemGroup>

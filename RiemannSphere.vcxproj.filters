@@ -43,6 +43,9 @@
     <Filter Include="RiemannSphere\Polynomial Roots">
       <UniqueIdentifier>{1ec6de09-de74-4986-b691-f71a5449a9a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di risorse\assets">
+      <UniqueIdentifier>{0daa2446-0e71-484e-b9b6-5feb609b516a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -222,6 +225,12 @@
     <ClInclude Include="RiemannSphere\DrawSymbols.h">
       <Filter>RiemannSphere</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannSphere\Halley4Fractal.h">
+      <Filter>RiemannSphere\Fractals</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\Schroeder4Fractal.h">
+      <Filter>RiemannSphere\Fractals</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -372,6 +381,57 @@
     </None>
     <None Include="src\Image\Image.inl">
       <Filter>File di origine\Easy3D\image</Filter>
+    </None>
+    <None Include="assets\Aharoni40.fnt">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\Aharoni40_0.tga">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\base.vs.glsl">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\game.font.e2d">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\halley.ps.glsl">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\halley4.ps.glsl">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\infinity.pdn">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\infinity.tga">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\newton.ps.glsl">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\point.pdn">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\point.tga">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\schroeder.ps.glsl">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\schroeder4.ps.glsl">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\Verdana40.fnt">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\Verdana40_0.tga">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\Zero.pdn">
+      <Filter>File di risorse\assets</Filter>
+    </None>
+    <None Include="assets\zero.tga">
+      <Filter>File di risorse\assets</Filter>
     </None>
   </ItemGroup>
 </Project>
