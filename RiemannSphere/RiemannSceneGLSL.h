@@ -26,11 +26,13 @@ namespace RiemannSphere {
 		Easy3D::Shader schroederShader;
 		Easy3D::Shader halley4Shader;
 		Easy3D::Shader schroeder4Shader;
+		Easy3D::Shader genericShader;
 		DrawSymbols drawSymbols;
 
 		struct FractalShader{
 			Easy3D::Shader *sheder;
 			std::vector<Easy3D::Vec2> constants;
+			std::vector<Easy3D::Vec2> subconstants;
 			std::vector<Easy3D::Vec2> roots;
 			std::vector<Easy3D::Vec4> colors;
 			FractalShader(Polynomial<double>& poly);

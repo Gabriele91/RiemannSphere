@@ -177,6 +177,8 @@
 		E08B1A3D17BD4EA100EB25FD /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
 		E08BDD72180197BD003AA295 /* Rays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rays.cpp; sourceTree = "<group>"; };
 		E08BDD73180197BD003AA295 /* Rays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rays.h; sourceTree = "<group>"; };
+		E0961FF61820FCB8007B773F /* GenericFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericFractal.h; sourceTree = "<group>"; };
+		E0961FF7182109EF007B773F /* generic.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = generic.ps.glsl; path = assets/generic.ps.glsl; sourceTree = "<group>"; };
 		E0B46556180FD057002909A2 /* Halley4Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Halley4Fractal.h; sourceTree = "<group>"; };
 		E0B46557180FD5E2002909A2 /* halley4.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = halley4.ps.glsl; path = assets/halley4.ps.glsl; sourceTree = "<group>"; };
 		E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannScene.cpp; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 		E0229962180BC91F00299313 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				E0961FF7182109EF007B773F /* generic.ps.glsl */,
 				E0B46557180FD5E2002909A2 /* halley4.ps.glsl */,
 				E085CA7A180EE0CD00ADFF6C /* schroeder4.ps.glsl */,
 				E0645F8C180BFCC600E3ADE9 /* schroeder.ps.glsl */,
@@ -358,6 +361,7 @@
 		E08570601806A8AE00BD4106 /* Fractals */ = {
 			isa = PBXGroup;
 			children = (
+				E0961FF61820FCB8007B773F /* GenericFractal.h */,
 				E0B46556180FD057002909A2 /* Halley4Fractal.h */,
 				E04A6B0E180E75AE00B5F2E2 /* Schroeder4Fractal.h */,
 				E053C07417F1DFF300BDCE94 /* NewtonFractal.h */,

@@ -41,8 +41,9 @@ namespace RiemannSphere {
 		
 	public:
 
-
+        
 		std::vector<T> constants;
+		std::vector<T> subconstants;
 		std::vector< std::complex<T> > roots;
 		std::vector< RootColor<T> > rootsColor;
         
@@ -57,6 +58,13 @@ namespace RiemannSphere {
                 for(auto cns:tconstants){
                     Easy3D::Debug::doassert((cns.second->asType(Easy3D::Table::FLOAT)),"Easy3D::Table::FLOAT",__FILE__,__LINE__);
                     constants.push_back( (T)cns.second->get<float>() );
+                }
+            }
+            if(table.existsAsType("subconstants",Easy3D::Table::TABLE)){
+                const Easy3D::Table& tconstants=table.getConstTable("subconstants");
+                for(auto cns:tconstants){
+                    Easy3D::Debug::doassert((cns.second->asType(Easy3D::Table::FLOAT)),"Easy3D::Table::FLOAT",__FILE__,__LINE__);
+                    subconstants.push_back( (T)cns.second->get<float>() );
                 }
             }
             if(table.existsAsType("roots",Easy3D::Table::TABLE)){

@@ -16,6 +16,7 @@ RiemannScene::RiemannScene()
     ,halley4(&poly)
     ,schroeder(&poly)
     ,schroeder4(&poly)
+    ,genericfractal(&poly)
 	,drawSymbols(&camera,this,
 				"assets/infinity.tga",
 				"assets/zero.tga",
@@ -28,6 +29,7 @@ RiemannScene::RiemannScene()
     else if(method=="halley4"||method=="h4") select=&halley4;
     else if(method=="schroeder"||method=="s") select=&schroeder;
     else if(method=="schroeder4"||method=="s4") select=&schroeder4;
+    else if(method=="generic"||method=="g") select=&genericfractal;
     DEBUG_ASSERT_MSG(select, "Must to be selected a valid method");
     
 sphere=new SpheresManager

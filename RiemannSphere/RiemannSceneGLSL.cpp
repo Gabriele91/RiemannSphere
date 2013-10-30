@@ -25,6 +25,8 @@ RiemannSceneGLSL::~RiemannSceneGLSL(){
 RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly){
     for(auto c:poly.constants)
 		constants.push_back(Vec2(c,0.0));
+    for(auto c:poly.subconstants)
+		subconstants.push_back(Vec2(c,0.0));
     for(auto& r:poly.roots)
         roots.push_back(Vec2(r.real(),r.imag()));
     for(auto& rc:poly.rootsColor)
@@ -33,9 +35,15 @@ RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly){
 void RiemannSceneGLSL::FractalShader::bind(){
 	sheder->bind();
 	sheder->uniformFloat("radius",1.0f);
-	sheder->uniformVec2Array("poly",&constants[0],(int)constants.size());
-	sheder->uniformVec2Array("roots",&roots[0],(int)roots.size());
-	sheder->uniformVec4Array("colors",&colors[0],(int)colors.size());
+    //uniform polygon
+    sheder->uniformVec2Array("poly",&constants[0],(int)constants.size());
+    //unifor subpolygon if is supportated
+    GLint idsubpoly=sheder->getUniformID("subpoly");
+    if(idsubpoly!=-1) sheder->uniformVec2Array(idsubpoly,&subconstants[0],(int)subconstants.size());
+	//uniform roots
+    sheder->uniformVec2Array("roots",&roots[0],(int)roots.size());
+	//uniform colors
+    sheder->uniformVec4Array("colors",&colors[0],(int)colors.size());
 }
 void RiemannSceneGLSL::FractalShader::unbind(){
 	sheder->unbind();
@@ -59,14 +67,17 @@ void RiemannSceneGLSL::onStart(){
     aharoni.load("assets/game.font.e2d");
 	//shader
 	//load sheders
-	String define=("POLYSIZE "+String::toString(poly.constants.size()));
-    const char *defines[2]={NULL,0};
-    defines[0]=&define[0];
+	String definePolySize=("POLYSIZE "+String::toString(poly.constants.size()));
+	String defineSubPolySize=("SUBPOLYSIZE "+String::toString(poly.subconstants.size()));
+    const char *defines[3]={NULL,NULL,0};
+    defines[0]=&definePolySize[0];
+    defines[1]=&defineSubPolySize[0];
 	schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
 	schroeder4Shader.loadShader("assets/base.vs.glsl","assets/schroeder4.ps.glsl",defines);
     halleyShader.loadShader("assets/base.vs.glsl","assets/halley.ps.glsl",defines);
     halley4Shader.loadShader("assets/base.vs.glsl","assets/halley4.ps.glsl",defines);
     newtonShader.loadShader("assets/base.vs.glsl","assets/newton.ps.glsl",defines);
+    genericShader.loadShader("assets/base.vs.glsl","assets/generic.ps.glsl",defines);
     
     String method=polynomialConfig.getString("method","newton").toLower();
     if(method=="newton"||method=="n") fractal.sheder=&newtonShader;
@@ -74,6 +85,7 @@ void RiemannSceneGLSL::onStart(){
     else if(method=="halley4"||method=="h4") fractal.sheder=&halley4Shader;
     else if(method=="schroeder"||method=="s") fractal.sheder=&schroederShader;
     else if(method=="schroeder4"||method=="s4") fractal.sheder=&schroeder4Shader;
+    else if(method=="generic"||method=="g") fractal.sheder=&genericShader;
     
     //init
     onResume();
@@ -228,6 +240,7 @@ void RiemannSceneGLSL::onKeyDown(Key::Keyboard key){
 	if(key==Key::N) fractal.sheder=&newtonShader;
     else if(key==Key::H) fractal.sheder=&halleyShader;
     else if(key==Key::S) fractal.sheder=&schroederShader;
+    else if(key==Key::G) fractal.sheder=&genericShader;
     else if(key==Key::N4) {
         if(fractal.sheder==&schroederShader) fractal.sheder=&schroeder4Shader;;
         if(fractal.sheder==&halleyShader) fractal.sheder=&halley4Shader;;
