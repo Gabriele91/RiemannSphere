@@ -1,5 +1,5 @@
 
-#define NEWTONIT 250
+#define NUMIT 250
 
 uniform vec2 poly[POLYSIZE];
 uniform vec2 roots[POLYSIZE-1];
@@ -58,13 +58,13 @@ vec3 schroeder(vec2 x,float e){
     vec2 cx=x; 
     vec2 nextx; 
     
-    for(int i=NEWTONIT;i>0;--i){
+    for(int i=NUMIT;i>0;--i){
     
         nextx=cx-horner(cx);
         
         if( distance(nextx.x,cx.x) < e || distance(nextx.y,cx.y) < e ) 
         {
-            return vec3(cx,float(i)/float(NEWTONIT));
+            return vec3(cx,float(i)/float(NUMIT));
         }
         
         cx=nextx;
