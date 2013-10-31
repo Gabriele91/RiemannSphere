@@ -36,9 +36,23 @@ namespace RiemannSphere {
         
 	};
 
+    class PolynomialParse{
+    public:
+        static bool parse(const std::string& text,
+                          std::vector< std::complex<double> >& vout,
+                          std::string& errors);
+        
+        static bool parse(const std::string& text,
+                          std::vector< std::complex<float> >& vout,
+                          std::string& errors);
+    
+    };
+    
 	template <class T>
 	class Polynomial {
 		
+
+        
 	public:
 
         
@@ -66,6 +80,11 @@ namespace RiemannSphere {
                                                              cns.second->get<Easy3D::Vec2>().y) );
                 }
             }
+            else if(table.existsAsType("constants",Easy3D::Table::STRING)){
+                Easy3D::String errors;
+                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("constants"),
+                                                               constants,errors),errors,__FILE__,__LINE__);
+            }
             if(table.existsAsType("subconstants",Easy3D::Table::TABLE)){
                 const Easy3D::Table& tconstants=table.getConstTable("subconstants");
                 for(auto cns:tconstants){
@@ -79,10 +98,16 @@ namespace RiemannSphere {
                                                                 cns.second->get<Easy3D::Vec2>().y) );
                 }
             }
+            else if(table.existsAsType("subconstants",Easy3D::Table::STRING)){
+                Easy3D::String errors;
+                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("subconstants"),
+                                                               subconstants,errors),errors,__FILE__,__LINE__);
+            }
             if(table.existsAsType("roots",Easy3D::Table::TABLE)){
                 const Easy3D::Table& troots=table.getConstTable("roots");
                 for(auto rt:troots){
-                    Easy3D::Debug::doassert((rt.second->asType(Easy3D::Table::VECTOR2D)),"Easy3D::Table::VECTOR2D",__FILE__,__LINE__);
+                    Easy3D::Debug::doassert((rt.second->asType(Easy3D::Table::VECTOR2D)),
+                                            "Easy3D::Table::VECTOR2D",__FILE__,__LINE__);
                     std::complex<T> root(rt.second->get<Easy3D::Vec2>().x,
                                          rt.second->get<Easy3D::Vec2>().y);
                     roots.push_back(root);
