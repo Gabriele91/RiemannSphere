@@ -24,9 +24,9 @@ RiemannSceneGLSL::~RiemannSceneGLSL(){
 
 RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly){
     for(auto c:poly.constants)
-		constants.push_back(Vec2(c,0.0));
+		constants.push_back(Vec2(c.real(),c.imag()));
     for(auto c:poly.subconstants)
-		subconstants.push_back(Vec2(c,0.0));
+		subconstants.push_back(Vec2(c.real(),c.imag()));
     for(auto& r:poly.roots)
         roots.push_back(Vec2(r.real(),r.imag()));
     for(auto& rc:poly.rootsColor)
@@ -68,7 +68,7 @@ void RiemannSceneGLSL::onStart(){
 	//shader
 	//load sheders
 	String definePolySize=("POLYSIZE "+String::toString(poly.constants.size()));
-	String defineSubPolySize=("SUBPOLYSIZE "+String::toString(poly.subconstants.size()));
+	String defineSubPolySize=("SUBPOLYSIZE "+String::toString(Math::max(poly.subconstants.size(),(size_t)1)));
     const char *defines[3]={NULL,NULL,0};
     defines[0]=&definePolySize[0];
     defines[1]=&defineSubPolySize[0];

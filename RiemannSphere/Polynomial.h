@@ -42,8 +42,8 @@ namespace RiemannSphere {
 	public:
 
         
-		std::vector<T> constants;
-		std::vector<T> subconstants;
+		std::vector< std::complex<T> > constants;
+		std::vector< std::complex<T> > subconstants;
 		std::vector< std::complex<T> > roots;
 		std::vector< RootColor<T> > rootsColor;
         
@@ -56,15 +56,27 @@ namespace RiemannSphere {
             if(table.existsAsType("constants",Easy3D::Table::TABLE)){
                 const Easy3D::Table& tconstants=table.getConstTable("constants");
                 for(auto cns:tconstants){
-                    Easy3D::Debug::doassert((cns.second->asType(Easy3D::Table::FLOAT)),"Easy3D::Table::FLOAT",__FILE__,__LINE__);
-                    constants.push_back( (T)cns.second->get<float>() );
+                    Easy3D::Debug::doassert((cns.second->asType(Easy3D::Table::FLOAT))||
+                                            (cns.second->asType(Easy3D::Table::VECTOR2D)),
+                                            "Easy3D::Table::FLOAT or Easy3D::Table::VEC2D",__FILE__,__LINE__);
+                    if(cns.second->asType(Easy3D::Table::FLOAT))
+                        constants.push_back( (T)cns.second->get<float>() );
+                    else
+                        constants.push_back( std::complex<T>(cns.second->get<Easy3D::Vec2>().x,
+                                                             cns.second->get<Easy3D::Vec2>().y) );
                 }
             }
             if(table.existsAsType("subconstants",Easy3D::Table::TABLE)){
                 const Easy3D::Table& tconstants=table.getConstTable("subconstants");
                 for(auto cns:tconstants){
-                    Easy3D::Debug::doassert((cns.second->asType(Easy3D::Table::FLOAT)),"Easy3D::Table::FLOAT",__FILE__,__LINE__);
-                    subconstants.push_back( (T)cns.second->get<float>() );
+                    Easy3D::Debug::doassert((cns.second->asType(Easy3D::Table::FLOAT))||
+                                            (cns.second->asType(Easy3D::Table::VECTOR2D)),
+                                            "Easy3D::Table::FLOAT or Easy3D::Table::VEC2D",__FILE__,__LINE__);
+                    if(cns.second->asType(Easy3D::Table::FLOAT))
+                        subconstants.push_back( (T)cns.second->get<float>() );
+                    else
+                        subconstants.push_back( std::complex<T>(cns.second->get<Easy3D::Vec2>().x,
+                                                                cns.second->get<Easy3D::Vec2>().y) );
                 }
             }
             if(table.existsAsType("roots",Easy3D::Table::TABLE)){
@@ -77,7 +89,24 @@ namespace RiemannSphere {
                 }
             }
 			else{
-				getPolynomialRoots(constants,roots);
+                size_t size=std::max(constants.size(),subconstants.size()+1);
+                
+                std::vector< std::complex<T> > pzq(size,0)
+                                              ,p1(size,0)
+                                              ,q1(size,0);
+                //q1
+                size_t size_q1=size-subconstants.size()-1;
+                for(size_t i=size_q1;i!=size-1;++i)
+                        q1[i]=subconstants[i-size_q1];
+                //p1
+                size_t size_p1=size-constants.size();
+                for(size_t i=size_p1;i!=size;++i)
+                    p1[i]=constants[i-size_p1];
+                //p-zq
+                for(size_t i=0;i!=size;++i)
+                    pzq[i]=p1[i]-q1[i];
+                
+				getPolynomialRoots(pzq,roots);
 			}
             if(table.existsAsType("rootsColors",Easy3D::Table::TABLE)){
                 const Easy3D::Table& troots=table.getConstTable("rootsColors");

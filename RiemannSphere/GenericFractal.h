@@ -24,13 +24,14 @@ namespace RiemannSphere {
 
 		//  f(x)/f'(x)
 		//  x function argument
-		DFORCEINLINE std::complex<T> horner(const std::complex<T>& x,std::vector<T>& constants) const{
+		DFORCEINLINE std::complex<T> horner(const std::complex<T>& x,std::vector< std::complex<T> >& cns) const{
             //exit condiction
-			if(fun->constants.size()<2) return 0;
+			if(cns.size()==0) return 0;
+			if(cns.size()==1) return cns[0];
             //start
-			std::complex<T> vn=constants[0];
+			std::complex<T> vn=cns[0];
             //Horner
-			for(int i=1;i<constants.size();++i) vn = vn*x+constants[i];
+			for(int i=1;i<cns.size();++i) vn = vn*x+cns[i];
    
 			return vn;
    
@@ -45,7 +46,8 @@ namespace RiemannSphere {
 			std::complex<T> xk=x;
 			//loop
 			while(n--){
-				xk1=xk-(horner(xk,fun->constants)/horner(xk,fun->subconstants));
+				xk1=(horner(xk,fun->constants)/
+                     horner(xk,fun->subconstants));
 				//tolleranza
 				if(complexDist(xk,xk1,e)){
 					xk=xk1;
@@ -89,7 +91,7 @@ namespace RiemannSphere {
 			std::complex<T> tmp;
 			//calc direction
 			//1E-37f
-			tmp=newton(xk,0.0000001f,xkpass);
+			tmp=newton(xk,0.00001f,xkpass);
 			//if found 
 			if(xkpass>0)
 				//return id root

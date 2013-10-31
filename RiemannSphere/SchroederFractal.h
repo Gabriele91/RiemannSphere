@@ -24,7 +24,9 @@ namespace RiemannSphere {
 		//  x function argument
 		DFORCEINLINE std::complex<T> fxOnDx(const std::complex<T>& x) const{
             
-            if(fun->constants.size()<2) return 0;
+            //exit condiction
+			if(fun->constants.size()==0) return 0;
+			if(fun->constants.size()==1) return fun->constants[0];
             
             std::complex<T> vn=fun->constants[0];
             std::complex<T> wn=vn;
