@@ -199,6 +199,7 @@
     <None Include="assets\Aharoni40_0.tga" />
     <None Include="assets\base.vs.glsl" />
     <None Include="assets\game.font.e2d" />
+    <None Include="assets\generic.ps.glsl" />
     <None Include="assets\halley.ps.glsl" />
     <None Include="assets\halley4.ps.glsl" />
     <None Include="assets\infinity.pdn" />

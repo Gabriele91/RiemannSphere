@@ -61,6 +61,7 @@ void jumpspace(const char*& c,int& nc){
 struct ParseError{
     std::string error;
     int nc;
+	ParseError(const std::string& er,int nc):error(er),nc(nc){}
 };
 
 template<class T>
@@ -75,7 +76,7 @@ int parseInt(const char*& c,int& nc){
     double value=std::strtod(c, &cend);
     //is not a int
     if(value!=std::floor(value))
-        throw ParseError({"must to be an integer value",nc});
+        throw ParseError("must to be an integer value",nc);
     //cout chars
     nc+=cend-c;
     //set next char
@@ -104,20 +105,20 @@ std::complex<T> const_complex(const char*& c,int& nc){
         if(isnumber(c))
             return {parseNumber<T>(c,nc),0.0};
         else
-            throw ParseError({"invalid complex constant",nc});
+            throw ParseError("invalid complex constant",nc);
     }
     next
     //(<number>
     jumpspace(c,nc);
-    if(!isnumber(c)) throw  ParseError({"invalid complex real part",nc});
+    if(!isnumber(c)) throw  ParseError("invalid complex real part",nc);
     float real=parseNumber<T>(c,nc);
-    if(!isnumber(c)) throw  ParseError({"invalid complex imag part",nc});
+    if(!isnumber(c)) throw  ParseError("invalid complex imag part",nc);
     float imag=parseNumber<T>(c,nc);
     //i
-    if(!isimag(c)) throw  ParseError({"invalid complex imag part",nc});
+    if(!isimag(c)) throw  ParseError("invalid complex imag part",nc);
     next
     //)
-    if(!isrightp(c)) throw  ParseError({"invalid complex imag part",nc});
+    if(!isrightp(c)) throw  ParseError("invalid complex imag part",nc);
     next
     //return
     return {real,imag};
@@ -143,7 +144,7 @@ powValue<T> grade(bool first,const char*& c,int& nc) {
     else if(first)
         vout.value=1.0;
     else
-        throw  ParseError({"value whiout signed",nc});
+        throw  ParseError("value whiout signed",nc);
     //+/- <complex>
     if(isleftp(c)||isnumber(c)){
         vout.value*=const_complex<T>(c,nc);
@@ -190,7 +191,7 @@ std::vector< std::complex<T> > poly(const char*& c,int& nc){
         }
         //is olready setted?
         if(boolout[xcurrent.pow])
-            throw  ParseError({"value olready setted",nc});
+            throw  ParseError("value olready setted",nc);
         //look variable
         boolout[xcurrent.pow]=true;
         //save value

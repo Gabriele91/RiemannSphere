@@ -433,5 +433,8 @@
     <None Include="assets\zero.tga">
       <Filter>File di risorse\assets</Filter>
     </None>
+    <None Include="assets\generic.ps.glsl">
+      <Filter>File di risorse\assets</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 
-#define NUMIT 250
+#define NUMIT 100
 
 uniform vec2 poly[POLYSIZE];
 uniform vec2 subpoly[SUBPOLYSIZE];
@@ -60,7 +60,7 @@ vec3 generic(in vec2 x,in float e){
     
     for(int i=NUMIT;i>0;--i){
     
-        nextx=cx-complexDivide(hornerPolygon(cx),hornerSubPolygon(cx));
+        nextx=complexDivide(hornerPolygon(cx),hornerSubPolygon(cx));
         
         if( distance(nextx.x,cx.x) < e || distance(nextx.y,cx.y) < e ) 
         {

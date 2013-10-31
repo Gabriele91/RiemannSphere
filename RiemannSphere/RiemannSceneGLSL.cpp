@@ -39,7 +39,8 @@ void RiemannSceneGLSL::FractalShader::bind(){
     sheder->uniformVec2Array("poly",&constants[0],(int)constants.size());
     //unifor subpolygon if is supportated
     GLint idsubpoly=sheder->getUniformID("subpoly");
-    if(idsubpoly!=-1) sheder->uniformVec2Array(idsubpoly,&subconstants[0],(int)subconstants.size());
+    if(idsubpoly!=-1) 
+		sheder->uniformVec2Array(idsubpoly,&subconstants[0],(int)subconstants.size());
 	//uniform roots
     sheder->uniformVec2Array("roots",&roots[0],(int)roots.size());
 	//uniform colors
