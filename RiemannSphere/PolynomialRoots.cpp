@@ -1,18 +1,9 @@
-// bbpr.cpp -- Finds all roots of polynomial by first finding quadratic
-//             factors using Bairstow's method, then extracting roots
-//             from quadratics. Implements new algorithm for managing
-//             multiple roots.
-//
-//  (C) 2002, 2003, C. Bond. All rights reserved.
-//
 #include <stdafx.h>
 #include <iomanip>
 #include <math.h>
 #include <stdlib.h>
 #include <PolynomialRoots.h>
-
-
-// implementation of the Durand-Kerner-Weierstrass method
+// C++ reimplementation of the Durand-Kerner-Weierstrass method
 //https://sites.google.com/site/drjohnbmatthews/polyroots
 const int MAX_COUNT = 5000;
 const double epsilon = 1E-15;

@@ -6,7 +6,7 @@
 	//constants={ 1 1 1 1 1 1 } //  c b a
 	//constants={ 1 0 0.75 } //  c b a
 	//subconstants={ 1 } //  c b a
-	constants="(2+0.2i)x^3-(1+2i)" //  c b a
+	constants="(2+0.1i)x^3-(1+2i)" //  c b a
 	subconstants="3x^2+x-0.15" //  c b a
 //	constants={ 1 0 -100.01 0 1} //  c b a
 //	constants={ 1 0 0 0.9 0 0 0.10} //  c b a

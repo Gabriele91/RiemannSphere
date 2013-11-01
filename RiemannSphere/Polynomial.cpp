@@ -111,12 +111,26 @@ std::complex<T> const_complex(const char*& c,int& nc){
     //(<number>
     jumpspace(c,nc);
     if(!isnumber(c)) throw  ParseError("invalid complex real part",nc);
-    float real=parseNumber<T>(c,nc);
-    if(!isnumber(c)) throw  ParseError("invalid complex imag part",nc);
-    float imag=parseNumber<T>(c,nc);
-    //i
-    if(!isimag(c)) throw  ParseError("invalid complex imag part",nc);
+    T real=parseNumber<T>(c,nc);
+    //imag
+    T imag=0;
+    //find +/-
+    if(!isplus(c)&&!ismin(c)) throw  ParseError("invalid complex imag part",nc);
+    imag=(isplus(c)?+1.0:-1.0);
     next
+    //+/-<number>i
+    if(!isnumber(c)){
+        //+/-i
+        if(!isimag(c)) throw  ParseError("invalid complex imag part",nc);
+        next
+    }
+    else{
+        //<number>
+        imag*=parseNumber<T>(c,nc);
+        //i
+        if(!isimag(c)) throw  ParseError("invalid complex imag part",nc);
+        next
+    }
     //)
     if(!isrightp(c)) throw  ParseError("invalid complex imag part",nc);
     next
