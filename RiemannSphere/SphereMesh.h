@@ -5,7 +5,7 @@
 #include <Sphere.h>
 #include <Fractal.h>
 #include <PoolThread.h>
-#include <VirtualOctree.h>
+#include <VirtualTree.h>
 #include <VirtualVBO.h>
 
 namespace RiemannSphere {
@@ -14,7 +14,7 @@ namespace RiemannSphere {
     class SpheresManager;
     
     /////////////////
-	class SphereMesh : public VirtualOctree<SphereMesh>::Node {
+	class SphereMesh : public VirtualTree<SphereMesh,8>::Node {
         //friends
         friend class SpheresManager;
         //boxs

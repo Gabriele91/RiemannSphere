@@ -7,10 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E00BDDCD17FADBF200EB1A39 /* VirtualOctree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00BDDCB17FADBF200EB1A39 /* VirtualOctree.cpp */; };
+		E00BDDCD17FADBF200EB1A39 /* VirtualTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00BDDCB17FADBF200EB1A39 /* VirtualTree.cpp */; };
 		E00EF2C817C153280032B058 /* SphereMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00EF2C617C153270032B058 /* SphereMesh.cpp */; };
 		E00EF2CB17C153650032B058 /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00EF2C917C153650032B058 /* Sphere.cpp */; };
 		E01049AE17C3922700EF760D /* SpheresManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01049AC17C3922700EF760D /* SpheresManager.cpp */; };
+		E01FF8B1182639EA007AF239 /* RiemannSceneGeodesic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01FF8AF182639EA007AF239 /* RiemannSceneGeodesic.cpp */; };
+		E01FF8B418263A5C007AF239 /* GeodesicSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01FF8B218263A5C007AF239 /* GeodesicSphere.cpp */; };
+		E01FF8BB1826BEC6007AF239 /* GeodesicNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01FF8B51826BEC6007AF239 /* GeodesicNode.cpp */; };
+		E01FF8BC1826BEC6007AF239 /* GeodesicTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01FF8B71826BEC6007AF239 /* GeodesicTree.cpp */; };
+		E01FF8BD1826BEC6007AF239 /* GeodesicTri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01FF8B91826BEC6007AF239 /* GeodesicTri.cpp */; };
 		E04A6B0D180E746A00B5F2E2 /* DrawSymbols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04A6B0B180E746A00B5F2E2 /* DrawSymbols.cpp */; };
 		E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FC817BBBFB100041D45 /* Application.cpp */; };
 		E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FCA17BBBFB100041D45 /* CocoaApp.mm */; };
@@ -71,14 +76,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E00BDDCB17FADBF200EB1A39 /* VirtualOctree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualOctree.cpp; sourceTree = "<group>"; };
-		E00BDDCC17FADBF200EB1A39 /* VirtualOctree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualOctree.h; sourceTree = "<group>"; };
+		E00BDDCB17FADBF200EB1A39 /* VirtualTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualTree.cpp; sourceTree = "<group>"; };
+		E00BDDCC17FADBF200EB1A39 /* VirtualTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualTree.h; sourceTree = "<group>"; };
 		E00EF2C617C153270032B058 /* SphereMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SphereMesh.cpp; sourceTree = "<group>"; };
 		E00EF2C717C153280032B058 /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SphereMesh.h; sourceTree = "<group>"; };
 		E00EF2C917C153650032B058 /* Sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sphere.cpp; sourceTree = "<group>"; };
 		E00EF2CA17C153650032B058 /* Sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sphere.h; sourceTree = "<group>"; };
 		E01049AC17C3922700EF760D /* SpheresManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpheresManager.cpp; sourceTree = "<group>"; };
 		E01049AD17C3922700EF760D /* SpheresManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpheresManager.h; sourceTree = "<group>"; };
+		E01FF8AF182639EA007AF239 /* RiemannSceneGeodesic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannSceneGeodesic.cpp; sourceTree = "<group>"; };
+		E01FF8B0182639EA007AF239 /* RiemannSceneGeodesic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannSceneGeodesic.h; sourceTree = "<group>"; };
+		E01FF8B218263A5C007AF239 /* GeodesicSphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeodesicSphere.cpp; sourceTree = "<group>"; };
+		E01FF8B318263A5C007AF239 /* GeodesicSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeodesicSphere.h; sourceTree = "<group>"; };
+		E01FF8B51826BEC6007AF239 /* GeodesicNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeodesicNode.cpp; sourceTree = "<group>"; };
+		E01FF8B61826BEC6007AF239 /* GeodesicNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeodesicNode.h; sourceTree = "<group>"; };
+		E01FF8B71826BEC6007AF239 /* GeodesicTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeodesicTree.cpp; sourceTree = "<group>"; };
+		E01FF8B81826BEC6007AF239 /* GeodesicTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeodesicTree.h; sourceTree = "<group>"; };
+		E01FF8B91826BEC6007AF239 /* GeodesicTri.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeodesicTri.cpp; sourceTree = "<group>"; };
+		E01FF8BA1826BEC6007AF239 /* GeodesicTri.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeodesicTri.h; sourceTree = "<group>"; };
 		E0229963180BC93100299313 /* Aharoni40_0.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = Aharoni40_0.tga; path = assets/Aharoni40_0.tga; sourceTree = "<group>"; };
 		E0229964180BC93100299313 /* Aharoni40.fnt */ = {isa = PBXFileReference; lastKnownFileType = file; name = Aharoni40.fnt; path = assets/Aharoni40.fnt; sourceTree = "<group>"; };
 		E0229965180BC93100299313 /* game.font.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = game.font.e2d; path = assets/game.font.e2d; sourceTree = "<group>"; };
@@ -394,6 +409,16 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E01FF8B51826BEC6007AF239 /* GeodesicNode.cpp */,
+				E01FF8B61826BEC6007AF239 /* GeodesicNode.h */,
+				E01FF8B71826BEC6007AF239 /* GeodesicTree.cpp */,
+				E01FF8B81826BEC6007AF239 /* GeodesicTree.h */,
+				E01FF8B91826BEC6007AF239 /* GeodesicTri.cpp */,
+				E01FF8BA1826BEC6007AF239 /* GeodesicTri.h */,
+				E01FF8B218263A5C007AF239 /* GeodesicSphere.cpp */,
+				E01FF8B318263A5C007AF239 /* GeodesicSphere.h */,
+				E01FF8AF182639EA007AF239 /* RiemannSceneGeodesic.cpp */,
+				E01FF8B0182639EA007AF239 /* RiemannSceneGeodesic.h */,
 				E04A6B0B180E746A00B5F2E2 /* DrawSymbols.cpp */,
 				E04A6B0C180E746A00B5F2E2 /* DrawSymbols.h */,
 				E0FA9AC8180AD13400D63274 /* PolynomialRoots */,
@@ -403,8 +428,8 @@
 				E08570581806991700BD4106 /* Fractal.h */,
 				E08BDD72180197BD003AA295 /* Rays.cpp */,
 				E08BDD73180197BD003AA295 /* Rays.h */,
-				E00BDDCB17FADBF200EB1A39 /* VirtualOctree.cpp */,
-				E00BDDCC17FADBF200EB1A39 /* VirtualOctree.h */,
+				E00BDDCB17FADBF200EB1A39 /* VirtualTree.cpp */,
+				E00BDDCC17FADBF200EB1A39 /* VirtualTree.h */,
 				E087F8EB17F813E70093DF8B /* VirtualVBO.cpp */,
 				E087F8EC17F813E70093DF8B /* VirtualVBO.h */,
 				E053C07517F1DFF300BDCE94 /* Polynomial.cpp */,
@@ -489,7 +514,9 @@
 				E0FA9AC0180AD10200D63274 /* Shader.cpp in Sources */,
 				E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */,
 				E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */,
-				E00BDDCD17FADBF200EB1A39 /* VirtualOctree.cpp in Sources */,
+				E01FF8BC1826BEC6007AF239 /* GeodesicTree.cpp in Sources */,
+				E00BDDCD17FADBF200EB1A39 /* VirtualTree.cpp in Sources */,
+				E01FF8B1182639EA007AF239 /* RiemannSceneGeodesic.cpp in Sources */,
 				E089188B17F96C1F0085A933 /* BMFontLoader.cpp in Sources */,
 				E04F6FE817BBBFB100041D45 /* CocoaInput.mm in Sources */,
 				E08BDD74180197BD003AA295 /* Rays.cpp in Sources */,
@@ -503,6 +530,7 @@
 				E04F6FEE17BBBFB100041D45 /* Input.cpp in Sources */,
 				E04F6FF317BBBFB100041D45 /* Screen.cpp in Sources */,
 				E08918F317F96DEC0085A933 /* Texture.cpp in Sources */,
+				E01FF8B418263A5C007AF239 /* GeodesicSphere.cpp in Sources */,
 				E04F700717BBC84C00041D45 /* Scene.cpp in Sources */,
 				E089188D17F96C1F0085A933 /* FreeTypeFontLoader.cpp in Sources */,
 				E04F700817BBC84C00041D45 /* State.cpp in Sources */,
@@ -512,6 +540,7 @@
 				E04F701117BBC94200041D45 /* Math3D.cpp in Sources */,
 				E04F701B17BBD07700041D45 /* main.cpp in Sources */,
 				E04F701E17BBD24000041D45 /* Memory.cpp in Sources */,
+				E01FF8BB1826BEC6007AF239 /* GeodesicNode.cpp in Sources */,
 				E04F702117BC2FEB00041D45 /* Object.cpp in Sources */,
 				E04F702417BC346400041D45 /* Camera.cpp in Sources */,
 				E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */,
@@ -526,6 +555,7 @@
 				E053C07117F1DFA300BDCE94 /* MutexPOSIX.cpp in Sources */,
 				E04A6B0D180E746A00B5F2E2 /* DrawSymbols.cpp in Sources */,
 				E053C07217F1DFA300BDCE94 /* ThreadPOSIX.cpp in Sources */,
+				E01FF8BD1826BEC6007AF239 /* GeodesicTri.cpp in Sources */,
 				E053C07A17F1DFF300BDCE94 /* Polynomial.cpp in Sources */,
 				E053C07B17F1DFF300BDCE94 /* PoolThread.cpp in Sources */,
 				E053C07D17F1E01600BDCE94 /* Table.cpp in Sources */,

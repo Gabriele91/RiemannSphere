@@ -11,6 +11,7 @@
 #include <Application.h>
 #include <Game.h>
 #include <RiemannScene.h>
+#include <RiemannSceneGeodesic.h>
 #include <RiemannSceneGLSL.h>
 
 //last exemple http://pastebin.com/RGFiAuBs
@@ -26,23 +27,26 @@ class RiemannApp : public Game,
 		RiemannApp():Game("RiemannSphere",1280,720,32,30,false,Screen::MSAAx4){}
     
     enum SCENE{
-        RIEMANN_SCENE=0,
-        RIEMANN_GLSL_SCENE=1
+        RIEMANN_SCENE_GEODESIC=0,
+        RIEMANN_SCENE=1,
+        RIEMANN_GLSL_SCENE=2
     };
     
     void onStart(){
         //add input keyboard
         getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
 		//scenes
-        addSceneAndActive(RIEMANN_SCENE, new RiemannSphere::RiemannScene());
+        addSceneAndActive(RIEMANN_SCENE_GEODESIC, new RiemannSphere::RiemannSceneGeodesic());
+        addScene(RIEMANN_SCENE, new RiemannSphere::RiemannScene());
         addScene(RIEMANN_GLSL_SCENE, new RiemannSphere::RiemannSceneGLSL());
     }
     
     void onRun(float dt){
     }
 
-	virtual void onKeyDown(Easy3D::Key::Keyboard key){
-		if(key==Key::C) activeScene(RIEMANN_SCENE);
+    virtual void onKeyDown(Easy3D::Key::Keyboard key){
+        if(key==Key::C) activeScene(RIEMANN_SCENE);
+        if(key==Key::V) activeScene(RIEMANN_SCENE_GEODESIC);
 		if(key==Key::G) activeScene(RIEMANN_GLSL_SCENE);
 		if(key==Key::R && sceneActive()==RIEMANN_SCENE) {
             auto scene=eraseScene(RIEMANN_SCENE);

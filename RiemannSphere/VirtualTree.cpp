@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include <VirtualOctree.h>
+#include <VirtualTree.h>
 
 ///////////////////////
 using namespace Easy3D;

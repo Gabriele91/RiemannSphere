@@ -5,12 +5,12 @@
 #include <SphereMesh.h>
 #include <Fractal.h>
 #include <PoolThread.h>
-#include <VirtualOctree.h>
+#include <VirtualTree.h>
 #include <VirtualVBO.h>
 
 namespace RiemannSphere {
 
-	class SpheresManager : public VirtualOctree<SphereMesh>  {
+	class SpheresManager : public VirtualTree<SphereMesh,8>  {
         
         //infos
         Easy3D::Camera *camera;

@@ -6,73 +6,69 @@
 namespace RiemannSphere {
     
     class Node;
-    template<class T> class VirtualOctree;
+    template<class T, int N> class VirtualTree;
     
 
     
-    template<class T>
-	class VirtualOctree {
+    template<class T, int N>
+	class VirtualTree {
         
     public:
         
         class Node{
             
-            T* childs[8];
-            friend  class VirtualOctree<T>;
+            T* childs[N];
+            friend  class VirtualTree<T,N>;
             
         public:
             
 			Node(){
-                childs[0]=NULL;
-                childs[1]=NULL;
-                childs[2]=NULL;
-                childs[3]=NULL;
-                childs[4]=NULL;
-                childs[5]=NULL;
-                childs[6]=NULL;
-                childs[7]=NULL;
+                for(Easy3D::uchar i=0;i!=N;++i) childs[i]=NULL;
 			}
             T* getChild(Easy3D::uchar i){
+                DEBUG_ASSERT(i<N);
                 return childs[i];
             }
             void setChild(T* child,Easy3D::uchar i){
                 childs[i]=child;
             }
             virtual ~Node(){
-                DEBUG_ASSERT(childs[0]==NULL);
-                DEBUG_ASSERT(childs[1]==NULL);
-                DEBUG_ASSERT(childs[2]==NULL);
-                DEBUG_ASSERT(childs[3]==NULL);
-                DEBUG_ASSERT(childs[4]==NULL);
-                DEBUG_ASSERT(childs[5]==NULL);
-                DEBUG_ASSERT(childs[6]==NULL);
-                DEBUG_ASSERT(childs[7]==NULL);
+                for(Easy3D::uchar i=0;i!=N;++i) {
+                    DEBUG_ASSERT(childs[i]==NULL);
+                }
             }
             
         };
         
         
         //constructor
-        VirtualOctree(size_t maxSize):gSize(0),maxSize(maxSize){
+        VirtualTree(Easy3D::uchar  maxSize):gSize(0),maxSize(maxSize){
             root=new T();
         }
+        //set max size
+        void setMaxBufferSize(size_t msize){
+            maxSize=msize;
+        }
         //destructor
-        virtual ~VirtualOctree(){
-            for(Easy3D::uchar c=0;c!=8;++c)
-                __deleteChilds(root,c);
+        virtual ~VirtualTree(){
+            for(Easy3D::uchar  c=0;c!=N;++c)
+                if(root->Node::getChild(c))
+                    __deleteChilds(root,c);
             delete root;
         }
         //tree root
-        T* getRoot();
+        T* getRoot(){
+            return root;
+        }
         //a child
-        T* getChild(T* parent,Easy3D::uchar i){
+        T* getChild(T* parent,Easy3D::uchar  i){
            //get child
-           T* child=parent->Node::getChild(i);
+           T* child=parent->VirtualTree<T,N>::Node::getChild(i);
            if(child) return child;
            //create a child
            gSize+=sizeof(T);
            child=buildNode(parent,i);
-           parent->Node::setChild(child,i);
+           parent->VirtualTree<T,N>::Node::setChild(child,i);
            return child;
         }
         
@@ -90,7 +86,6 @@ namespace RiemannSphere {
                 deleteChilds(root);
         }
         
-        
     protected:
         
         T* root;
@@ -99,16 +94,17 @@ namespace RiemannSphere {
         
         //search and deletable node
         void deleteChilds(T* node){
-            for(Easy3D::uchar c=0;c!=8;++c)
+            for(Easy3D::uchar  c=0;c!=N;++c)
                 if(node->Node::getChild(c))
                     deleteChild(node,c);
         }
         void deleteChild(T* node,Easy3D::uchar c){
+            DEBUG_ASSERT(c<N);
             if ( isDeletable(node->Node::getChild(c)) ){
                 __deleteChilds(node,c);
             }
             else if(globalSize()>maxSize){
-                for(Easy3D::uchar i=0;i!=8;++i){
+                for(Easy3D::uchar i=0;i!=N;++i){
                     if(node->Node::getChild(c)->Node::getChild(i)){
                         deleteChild(node->Node::getChild(c),i);
                     }
@@ -116,7 +112,8 @@ namespace RiemannSphere {
             }
         }
         void __deleteChilds(T* node,Easy3D::uchar c){
-            for(Easy3D::uchar i=0;i!=8;++i){
+            DEBUG_ASSERT(c<N);
+            for(Easy3D::uchar i=0;i!=N;++i){
                 if(node->Node::getChild(c)->Node::getChild(i)){
                     __deleteChilds(node->Node::getChild(c),i);
                 }

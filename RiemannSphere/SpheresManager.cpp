@@ -14,7 +14,7 @@ SpheresManager::SpheresManager(Easy3D::Camera* camera,
 							   int livels, 
 							   float radius,
 							   double dfPerLivel)
-							   :VirtualOctree<SphereMesh>(536870912*(1.0/8.0)) //512 MByte
+							   :VirtualTree<SphereMesh,8>(536870912*(1.0/8.0)) //512 MByte
                                ,camera(camera)
                                ,curLevel(0)
                                ,multithread(NULL)
@@ -69,69 +69,6 @@ void SpheresManager::subMeshADiv(SphereMesh* meshs,
     
     
 }
-/*
-void SpheresManager::subMeshDiv8(SphereMesh* meshs,const Sphere& sphere,const SubSphere& sub){
-    //calc division rigns
-    const int
-        up=sub.rStart,
-        middle=(int)(sub.rStart+(sub.rEnd-sub.rStart)/2.0f),
-        down=sub.rEnd;
-    //calc division sections
-    const int hlpart=(int)((sub.sEnd-sub.sStart)/4.0f);
-    const int
-    part1=sub.sStart,
-    part2=sub.sStart+hlpart,
-    part3=sub.sStart+hlpart*2,
-    part4=sub.sStart+hlpart*3,
-    part5=sub.sEnd;
-
-	//hasert
-	if(part1==part2 || part2==part3 || part3==part4 || part4==part5)
-		Debug::message()<<"parts:"<<part1<<" "<<part2<<" "<<part3<<" "<<part4<<" "<<part5<<"\n";
-    //build parts
-    //up
-    meshs[0].setMeshInfo(sphere,{up,middle,part1,part2});
-    meshs[1].setMeshInfo(sphere,{up,middle,part2,part3});
-    meshs[2].setMeshInfo(sphere,{up,middle,part3,part4});
-    meshs[3].setMeshInfo(sphere,{up,middle,part4,part5});
-    //down
-    meshs[4].setMeshInfo(sphere,{middle,down,part1,part2});
-    meshs[5].setMeshInfo(sphere,{middle,down,part2,part3});
-    meshs[6].setMeshInfo(sphere,{middle,down,part3,part4});
-    meshs[7].setMeshInfo(sphere,{middle,down,part4,part5});
-}
-void SpheresManager::subDiv8(int liv,int mid,const Sphere& sphere,const SubSphere& sub){
-    //gen mesh
-    if(liv<=0){
-        subMeshDiv8(&meshs[getChilds(mid)],sphere,sub);
-        return;
-    }
-    //sub mesh
-    //calc division rigns
-    const int
-    up=sub.rStart,
-    middle=(int)(sub.rStart+(sub.rEnd-sub.rStart)/2.0f),
-    down=sub.rEnd;
-    //calc division sections
-    const int hlpart=(int)((sub.sEnd-sub.sStart)/4.0f);
-    const int
-    part1=sub.sStart,
-    part2=sub.sStart+hlpart,
-    part3=sub.sStart+hlpart*2,
-    part4=sub.sStart+hlpart*3,
-    part5=sub.sEnd;
-    //build parts
-    //up
-    subDiv8(liv-1,getChilds(mid),sphere,{up,middle,part1,part2});
-    subDiv8(liv-1,getChilds(mid)+1,sphere,{up,middle,part2,part3});
-    subDiv8(liv-1,getChilds(mid)+2,sphere,{up,middle,part3,part4});
-    subDiv8(liv-1,getChilds(mid)+3,sphere,{up,middle,part4,part5});
-    //down
-    subDiv8(liv-1,getChilds(mid)+4,sphere,{middle,down,part1,part2});
-    subDiv8(liv-1,getChilds(mid)+5,sphere,{middle,down,part2,part3});
-    subDiv8(liv-1,getChilds(mid)+6,sphere,{middle,down,part3,part4});
-    subDiv8(liv-1,getChilds(mid)+7,sphere,{middle,down,part4,part5});
-}*/
 
 //build function
 SphereMesh* SpheresManager::buildNode(SphereMesh* parent,Easy3D::uchar i){

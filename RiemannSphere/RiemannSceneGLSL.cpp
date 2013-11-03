@@ -101,9 +101,8 @@ void RiemannSceneGLSL::onResume(){
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
     //save info
     sceneInfo=ON_RESUME;
-	//clear and draw
-    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 }
+
 
 void RiemannSceneGLSL::onRun(float dt){
     doClear();
@@ -197,7 +196,7 @@ void RiemannSceneGLSL::onRun(float dt){
     setTextureState(TextureState(TextureState::NONE));
 	
 	fractal.bind();
-	drawSphere(100,200);
+	drawSphere(300,100);
 	fractal.unbind();
     //reset state
     setMatrixsState(mState);
