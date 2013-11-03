@@ -138,12 +138,16 @@ void RiemannSceneGeodesic::onRun(float dt){
         cameraManager->setVelocity(Vec3(0.025,0.025,.0000015));
         level=12;
     }
+    if(std::abs(cameraManager->getAngle())<0.00005){
+        cameraManager->setVelocity(Vec3(0.025,0.025,.0000015));
+        level=13;
+    }
     
 	//draw sfere
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
     sphere->draw(this,level);
-    sphere->drawNodes(this);
+    //sphere->drawNodes(this);
     //sphere->draw();
 	//fustrum
 	//cameraManager->drawFrustum(this);

@@ -254,35 +254,13 @@ void GeodesicSphere::build(float radius,size_t sBufferNodes){
     tris[17].getRoot()->tri={v7, v11, v8};
     tris[18].getRoot()->tri={v5, v12, v6};
     tris[19].getRoot()->tri={v5, v9, v11};
-    //set boxs
-    for(size_t i=0;i!=20;++i)
+    //set boxs and mesh
+    for(size_t i=0;i!=20;++i){
         //calc aabox
         tris[i].getRoot()->tri.getAABox(tris[i].getRoot()->box, radius);
-    /*
-    // draw the icosahedron
-    //drawIcosahedron (v1, v2, v3, maxEdgeLength, radius);//0
-    //drawIcosahedron (v4, v3, v2, maxEdgeLength, radius);//1
-    //drawIcosahedron (v4, v5, v6, maxEdgeLength, radius);//2
-    //drawIcosahedron (v4, v9, v5, maxEdgeLength, radius);//3
-    
-    //drawIcosahedron (v1, v7, v8, maxEdgeLength, radius);//4
-    //drawIcosahedron (v1, v10, v7, maxEdgeLength, radius);//5
-    //drawIcosahedron (v5, v11, v12, maxEdgeLength, radius);//6
-    //drawIcosahedron (v7, v12, v11, maxEdgeLength, radius);//7
-    
-    //drawIcosahedron (v3, v6, v10, maxEdgeLength, radius);//8
-    //drawIcosahedron (v12, v10, v6, maxEdgeLength, radius);//9
-    //drawIcosahedron (v2, v8, v9, maxEdgeLength, radius);//10
-    //drawIcosahedron (v11, v9, v8, maxEdgeLength, radius);//11
-    
-    //drawIcosahedron (v4, v6, v3, maxEdgeLength, radius);//12
-    //drawIcosahedron (v4, v2, v9, maxEdgeLength, radius);//13
-    //drawIcosahedron (v1, v3, v10, maxEdgeLength, radius);//14
-    //drawIcosahedron (v1, v8, v2, maxEdgeLength, radius);//15
-    
-    //drawIcosahedron (v7, v10, v12, maxEdgeLength, radius);//16
-    //drawIcosahedron (v7, v11, v8, maxEdgeLength*0.25, radius);//17
-    //drawIcosahedron (v5, v12, v6, maxEdgeLength*0.5, radius);//18
-    //drawIcosahedron (v5, v9, v11, maxEdgeLength*0.5, radius);//19
-     */
+        //calc mesh
+        if(!tris[i].getRoot()->lockTask())
+            tris[i].getRoot()->buildMesh(*this,fractal);
+    }
+
 }
