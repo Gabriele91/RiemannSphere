@@ -22,6 +22,7 @@ RiemannSceneGLSL::~RiemannSceneGLSL(){
 }
 
 
+
 RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly){
     for(auto c:poly.constants)
 		constants.push_back(Vec2(c.real(),c.imag()));
@@ -52,7 +53,7 @@ void RiemannSceneGLSL::FractalShader::unbind(){
 
 void RiemannSceneGLSL::onStart(){
     //set clear color
-    setClearColorState({25,128,255,255});
+    setClearColorState({255,255,255,255});
     //set projection and modelview
     setCullFaceState(CullFaceState(CullFace::BACK));
 	//set client state
@@ -70,9 +71,11 @@ void RiemannSceneGLSL::onStart(){
 	//load sheders
 	String definePolySize=("POLYSIZE "+String::toString(poly.constants.size()));
 	String defineSubPolySize=("SUBPOLYSIZE "+String::toString(Math::max(poly.subconstants.size(),(size_t)1)));
-    const char *defines[3]={NULL,NULL,0};
+	String defineItPoly=("NUMIT "+String::toString(polynomialConfig.getFloat("iterations",50)));
+    const char *defines[4]={NULL,NULL,NULL,0};
     defines[0]=&definePolySize[0];
     defines[1]=&defineSubPolySize[0];
+    defines[2]=&defineItPoly[0];
 	schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
 	schroeder4Shader.loadShader("assets/base.vs.glsl","assets/schroeder4.ps.glsl",defines);
     halleyShader.loadShader("assets/base.vs.glsl","assets/halley.ps.glsl",defines);
@@ -87,6 +90,10 @@ void RiemannSceneGLSL::onStart(){
     else if(method=="schroeder"||method=="s") fractal.sheder=&schroederShader;
     else if(method=="schroeder4"||method=="s4") fractal.sheder=&schroeder4Shader;
     else if(method=="generic"||method=="g") fractal.sheder=&genericShader;
+    
+    //build grid
+    grid.build(20,20);
+    grid.setScale(Vec3(2,1,2));
     
     //init
     onResume();
@@ -194,7 +201,9 @@ void RiemannSceneGLSL::onRun(float dt){
 	//draw sfere
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
-	
+	//draw grid
+    grid.draw(this,Color(0,0,0,255));
+    //draw sphere
 	fractal.bind();
 	drawSphere(300,100);
 	fractal.unbind();

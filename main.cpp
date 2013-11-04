@@ -48,6 +48,12 @@ class RiemannApp : public Game,
         if(key==Key::C) activeScene(RIEMANN_SCENE);
         if(key==Key::V) activeScene(RIEMANN_SCENE_GEODESIC);
 		if(key==Key::G) activeScene(RIEMANN_GLSL_SCENE);
+        
+		if(key==Key::R && sceneActive()==RIEMANN_SCENE_GEODESIC) {
+            auto scene=eraseScene(RIEMANN_SCENE_GEODESIC);
+            delete scene;
+            addSceneAndActive(RIEMANN_SCENE_GEODESIC, new RiemannSphere::RiemannSceneGeodesic());
+        }
 		if(key==Key::R && sceneActive()==RIEMANN_SCENE) {
             auto scene=eraseScene(RIEMANN_SCENE);
             delete scene;
@@ -58,6 +64,7 @@ class RiemannApp : public Game,
             delete scene;
             addSceneAndActive(RIEMANN_GLSL_SCENE, new RiemannSphere::RiemannSceneGLSL());
         }
+        
 	}
 
     void onEnd(){

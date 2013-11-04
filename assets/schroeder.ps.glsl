@@ -1,5 +1,6 @@
-
-#define NUMIT 250
+#ifndef NUMIT
+#define NUMIT 100
+#endif
 
 uniform vec2 poly[POLYSIZE];
 uniform vec2 roots[POLYSIZE-1];

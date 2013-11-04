@@ -58,6 +58,7 @@
 		E08BDD74180197BD003AA295 /* Rays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08BDD72180197BD003AA295 /* Rays.cpp */; };
 		E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */; };
 		E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */; };
+		E0EA4B6B1827C3D7004DB92E /* GridMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0EA4B691827C3D7004DB92E /* GridMesh.cpp */; };
 		E0FA9AC0180AD10200D63274 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0FA9ABF180AD10200D63274 /* Shader.cpp */; };
 		E0FA9AC6180AD12700D63274 /* PolynomialRoots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0FA9AC2180AD12700D63274 /* PolynomialRoots.cpp */; };
 		E0FA9AC7180AD12700D63274 /* RiemannSceneGLSL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0FA9AC4180AD12700D63274 /* RiemannSceneGLSL.cpp */; };
@@ -201,6 +202,8 @@
 		E0DCC20017BF9DD10060E4CD /* Easy3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Easy3D.h; sourceTree = "<group>"; };
 		E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraManager.cpp; sourceTree = "<group>"; };
 		E0DCC20217BFAC9B0060E4CD /* CameraManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraManager.h; sourceTree = "<group>"; };
+		E0EA4B691827C3D7004DB92E /* GridMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridMesh.cpp; sourceTree = "<group>"; };
+		E0EA4B6A1827C3D7004DB92E /* GridMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridMesh.h; sourceTree = "<group>"; };
 		E0FA9ABF180AD10200D63274 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		E0FA9AC1180AD10B00D63274 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		E0FA9AC2180AD12700D63274 /* PolynomialRoots.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolynomialRoots.cpp; sourceTree = "<group>"; };
@@ -409,6 +412,8 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E0EA4B691827C3D7004DB92E /* GridMesh.cpp */,
+				E0EA4B6A1827C3D7004DB92E /* GridMesh.h */,
 				E01FF8B51826BEC6007AF239 /* GeodesicNode.cpp */,
 				E01FF8B61826BEC6007AF239 /* GeodesicNode.h */,
 				E01FF8B71826BEC6007AF239 /* GeodesicTree.cpp */,
@@ -526,6 +531,7 @@
 				E04F6FEB17BBBFB100041D45 /* Debug.cpp in Sources */,
 				E08918F917F96E460085A933 /* lodepng.cpp in Sources */,
 				E04F6FEC17BBBFB100041D45 /* EString.cpp in Sources */,
+				E0EA4B6B1827C3D7004DB92E /* GridMesh.cpp in Sources */,
 				E04F6FED17BBBFB100041D45 /* ETime.cpp in Sources */,
 				E04F6FEE17BBBFB100041D45 /* Input.cpp in Sources */,
 				E04F6FF317BBBFB100041D45 /* Screen.cpp in Sources */,

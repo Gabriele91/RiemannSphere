@@ -11,12 +11,12 @@ RiemannSceneGeodesic::RiemannSceneGeodesic()
     ,sceneInfo(ON_PAUSE)
     ,polynomialConfig("function.test.e2d")
     ,poly(polynomialConfig)
-    ,newton(&poly)
-    ,halley(&poly)
-    ,halley4(&poly)
-    ,schroeder(&poly)
-    ,schroeder4(&poly)
-    ,genericfractal(&poly)
+    ,newton(&poly,polynomialConfig.getFloat("iterations",50))
+    ,halley(&poly,polynomialConfig.getFloat("iterations",50))
+    ,halley4(&poly,polynomialConfig.getFloat("iterations",50))
+    ,schroeder(&poly,polynomialConfig.getFloat("iterations",50))
+    ,schroeder4(&poly,polynomialConfig.getFloat("iterations",50))
+    ,genericfractal(&poly,polynomialConfig.getFloat("iterations",50))
 	,drawSymbols(&camera,this,
 				"assets/infinity.tga",
 				"assets/zero.tga",
@@ -34,17 +34,38 @@ RiemannSceneGeodesic::RiemannSceneGeodesic()
     sphere=new GeodesicSphere(&camera,
                               select,
                               3.0,
-                              (size_t)(536870912*0.5),
+                              (size_t)(536870912*0.15),
                               (size_t)(536870912*3));
+    //build grid
+    grid.build(20,20);
+    grid.setScale(Vec3(10,1,10));
 }
 
 RiemannSceneGeodesic::~RiemannSceneGeodesic(){
 	delete sphere;
 }
 
+void RiemannSceneGeodesic::drawGridHack(){
+    //draw grid
+    cameraManager->changeNear(49);
+    cameraManager->changeFar(100);
+    setMatrixsState(MatrixsState(camera));
+    setZBufferState(false);
+    //draw grid
+    grid.draw(this,Color(0,0,0,255));
+    //renable
+    setZBufferState(true);
+    //reset far
+    cameraManager->changeNear(20);
+    cameraManager->changeFar(49);
+    setMatrixsState(MatrixsState(camera));
+    //draw grid
+    grid.draw(this,Color(0,0,0,255));
+}
+
 void RiemannSceneGeodesic::onStart(){
     //set clear color
-    setClearColorState({25,128,255,255});
+    setClearColorState({255,255,255,255});
     //set projection and modelview
 	setCullFaceState(CullFaceState(CullFace::DISABLE));
 	//set client state
@@ -53,7 +74,7 @@ void RiemannSceneGeodesic::onStart(){
     camera_sphere.radius=3.0;
 	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,&camera_sphere));
     cameraManager->setVelocity(Vec3(10,10,0.08));
-    cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 49);
+    cameraManager->setProjectionInfo(Math::torad(10.0f), 20.0, 49);
     camera.setPosition(Vec3(0,0,50),true);
     setMatrixsState(MatrixsState(camera));
     //font
@@ -143,9 +164,12 @@ void RiemannSceneGeodesic::onRun(float dt){
         level=13;
     }
     
-	//draw sfere
+	//draw sfere and greed
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
+    //draw grid
+    drawGridHack();
+    //draw sphere
     sphere->draw(this,level);
     //sphere->drawNodes(this);
     //sphere->draw();

@@ -10,7 +10,7 @@ using namespace RiemannSphere;
 // number_float := [<number_int >] '.' <number_int>
 // signed := '-' | '+'
 // const_real := [<signed>] <number_float>
-// const_complex := [<signed>] ( '(' <const_real> <const_real> 'i' ')' | <const_real> )
+// const_complex := [<signed>] ( '(' <const_real> <const_real> 'i' ')' | <const_real> | [ <const_real> ] i)
 // variable := 'x'
 // grade := [ <const_complex> | <const_real> ] <variable> ['^' <number_int> ]
 // poly := [<signed>] grade {[ <signed> <grade> ]}
@@ -100,15 +100,32 @@ template <class T> T parseNumber(const char*& c,int& nc){
 template <class T>
 std::complex<T> const_complex(const char*& c,int& nc){
     jumpspace(c,nc);
-    //(<complex> or float/real
+    //(<complex> or float/real or <number>i or i
     if(!isleftp(c)){
-        if(isnumber(c))
-            return {parseNumber<T>(c,nc),0.0};
+        //real or <number>i
+        if(isnumber(c)){
+            //parse number
+            T value=parseNumber<T>(c,nc);
+            //<number>i ?
+            if(isimag(c)){
+                next
+                return {0,value};
+            }
+            //is a real
+            //return value
+            return {value,0.0};
+        }
+        //i
+        else if(isimag(c)){
+            next //next i
+            return {0.0,1.0};
+        }
         else
             throw ParseError("invalid complex constant",nc);
     }
+    //jump (
     next
-    //(<number>
+    //(....<number>
     jumpspace(c,nc);
     if(!isnumber(c)) throw  ParseError("invalid complex real part",nc);
     T real=parseNumber<T>(c,nc);
@@ -160,7 +177,7 @@ powValue<T> grade(bool first,const char*& c,int& nc) {
     else
         throw  ParseError("value whiout signed",nc);
     //+/- <complex>
-    if(isleftp(c)||isnumber(c)){
+    if(isleftp(c)||isnumber(c)||isimag(c)){
         vout.value*=const_complex<T>(c,nc);
         jumpspace(c,nc);
     }

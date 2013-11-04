@@ -3,7 +3,20 @@
 
 	//0.5x^3-xx+1
 // Di Bari non cancelli ciò	constants={ 1 1 1 1 1 1 } //  c b a
-	constants={ 1 1 1 1 1 1 } //  c b a
+	/*
+	iterations=70
+	constants="x^3+2.1x^2+x+1" //  c b a
+	subconstants="3.1x-1"
+	method="g"
+	*/
+	
+
+	iterations=100
+	constants="x^3+2.1x^2+ix" //  c b a
+	method="n"
+	
+	//constants="x^2"
+	//subconstants="1"
 	//constants={ 1 0 0.75 } //  c b a
 	//subconstants={ 1 } //  c b a
 	//constants="(2+0.05i)x^3-(1+2i)" //  c b a
@@ -14,7 +27,6 @@
 //	constants={ 1 0 0.75 0 -0.75 0 } //  c b a
 	//constants="x^6+x^5+x^4+x^3+x^2+x+1"
 	//constants="-(2-2i)x^4-x+1"
-	method="n"
 /*
 	roots={ 
 		(1 0) 
@@ -24,6 +36,28 @@
 */
 
 	rootsColors={ 
+		(1 0 0) 
+		(0 1 0)
+		(0 0 1)
+		(1 0 1)
+		(1 0 0) 
+		(0 1 0)
+		(0 0 1)
+		(1 0 1)
+		(1 0 0) 
+		(0 1 0)
+		(0 1 0)
+		(0 0 1)
+		(1 0 1)
+		(1 0 0) 
+		(0 1 0)
+		(0 1 0)
+		(0 0 1)
+		(1 0 1)
+		(1 0 0) 
+		(0 1 0)
+		(0 0 1)
+		(1 0 1)
 		(1 0 0) 
 		(0 1 0)
 		(0 0 1)

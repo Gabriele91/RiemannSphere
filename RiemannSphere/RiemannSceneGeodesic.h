@@ -11,6 +11,7 @@
 #include <Schroeder4Fractal.h>
 #include <GenericFractal.h>
 #include <DrawSymbols.h>
+#include <GridMesh.h>
 
 namespace RiemannSphere {
 
@@ -34,6 +35,8 @@ namespace RiemannSphere {
 		DrawSymbols drawSymbols;
         GeodesicSphere *sphere;
 		Sphere  camera_sphere;
+        GridMesh grid;
+        void drawGridHack();
         
         enum SceneInfo{
             ON_RESUME,

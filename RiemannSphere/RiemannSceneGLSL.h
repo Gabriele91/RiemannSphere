@@ -4,6 +4,7 @@
 #include <Easy3D.h>
 #include <Polynomial.h>
 #include <CameraManager.h>
+#include <GridMesh.h>
 #include <DrawSymbols.h>
 
 namespace RiemannSphere {
@@ -28,6 +29,7 @@ namespace RiemannSphere {
 		Easy3D::Shader schroeder4Shader;
 		Easy3D::Shader genericShader;
 		DrawSymbols drawSymbols;
+        GridMesh grid;
 
 		struct FractalShader{
 			Easy3D::Shader *sheder;

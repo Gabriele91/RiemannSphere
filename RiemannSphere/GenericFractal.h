@@ -40,7 +40,7 @@ namespace RiemannSphere {
 		// xk+1=xk-f(x)/g(x)
 		// e=error max
 		// n=max iteration
-		DFORCEINLINE std::complex<T> newton(const std::complex<T>& x,T e,int& n) const{
+		DFORCEINLINE std::complex<T> itfun(const std::complex<T>& x,T e,int& n) const{
 			//var dec
 			std::complex<T> xk1;
 			std::complex<T> xk=x;
@@ -91,12 +91,12 @@ namespace RiemannSphere {
 			std::complex<T> tmp;
 			//calc direction
 			//1E-37f
-			tmp=newton(xk,0.00001f,xkpass);
+			tmp=itfun(xk,0.0000001f,xkpass);
 			//if found 
 			if(xkpass>0)
 				//return id root
 				//todo calc minimal distance
-				return Values(nearRoots(tmp,0.0001f),((T)xkpass)/npass);
+				return Values(nearRoots(tmp,0.0001f),((T)xkpass)/(npass+1));
 			//return 0
 			return Values();
 		}

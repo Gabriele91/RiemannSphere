@@ -1,5 +1,6 @@
-
+#ifndef NUMIT
 #define NUMIT 100
+#endif
 
 uniform vec2 poly[POLYSIZE];
 uniform vec2 subpoly[SUBPOLYSIZE];

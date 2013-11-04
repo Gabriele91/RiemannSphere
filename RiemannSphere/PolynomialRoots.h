@@ -6,8 +6,10 @@
 
 namespace RiemannSphere{
 	
-	void getPolynomialRoots( std::vector< std::complex<double> >& a,std::vector< std::complex<double> >& output );
-	void getPolynomialRoots( std::vector< std::complex<float> >& a,std::vector< std::complex<float> >& output );
+	void getPolynomialRoots(const std::vector< std::complex<double> >& a,
+                                  std::vector< std::complex<double> >& output );
+	void getPolynomialRoots(const std::vector< std::complex<float> >& a,
+                                  std::vector< std::complex<float> >& output );
 
 };
 #endif
