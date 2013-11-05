@@ -11,9 +11,9 @@
 	*/
 	
 
-	iterations=100
-	constants="x^3+2.1x^2+ix" //  c b a
-	method="n"
+	iterations=80
+	constants="x^7+2.1x^2+ix" //  c b a
+	method="h4"
 	
 	//constants="x^2"
 	//subconstants="1"
@@ -34,7 +34,7 @@
 		(-0.50000 0.86603) 
 	}
 */
-
+/*
 	rootsColors={ 
 		(1 0 0) 
 		(0 1 0)
@@ -65,5 +65,5 @@
 		(1 1 0)
 		(0 1 1)
 	}
-
+*/
 }

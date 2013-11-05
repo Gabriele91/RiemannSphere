@@ -17,7 +17,7 @@
     #include <pthread.h>
     typedef pthread_t thrd_t;
 
-	#define THREAD_STATIC_METHOS\	
+	#define THREAD_STATIC_METHOS\
 	static void thread_exit_handler(int sig);\
 	static void * _thrd_wrapper_function(void * aArg);
 

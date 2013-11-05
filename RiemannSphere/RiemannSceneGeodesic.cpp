@@ -34,7 +34,7 @@ RiemannSceneGeodesic::RiemannSceneGeodesic()
     sphere=new GeodesicSphere(&camera,
                               select,
                               3.0,
-                              (size_t)(536870912*0.15),
+                              (size_t)(536870912*0.1),
                               (size_t)(536870912*3));
     //build grid
     grid.build(20,20);

@@ -36,6 +36,12 @@ namespace RiemannSphere {
         
 	};
 
+    class PolynomialColor{
+    public:
+       static void colors(int n,std::vector< RootColor<double> >& vout);
+       static void colors(int n,std::vector< RootColor<float> >& vout);
+    };
+    
     class PolynomialParse{
     public:
         static bool parse(const std::string& text,
@@ -141,6 +147,9 @@ namespace RiemannSphere {
                         rt.second->get<Easy3D::Vec3>().y, 
                         rt.second->get<Easy3D::Vec3>().z});
                 }
+            }
+            else{
+                PolynomialColor::colors((int)roots.size(),rootsColor);
             }
             
         }
