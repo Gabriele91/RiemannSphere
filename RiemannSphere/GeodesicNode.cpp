@@ -145,3 +145,32 @@ void GeodesicNode::buildMesh(GeodesicSphere& gsphere,
                               gsphere.addMeshToBuild(this);
                           });
 }
+void GeodesicNode::forceBuildMesh(GeodesicSphere& gsphere,
+                                  const Fractal* fractal){
+	//asserts
+	DEBUG_ASSERT(!nvbo.isAllocated());
+	DEBUG_ASSERT(!inbuilding);
+	//is inbuilding
+	inbuilding=true;
+	//gen buffers
+	gsphere.addBuildTask([this,&gsphere,fractal](){
+        //cpu side
+        const int divs=6;
+        GLuint ntris=pow(4,divs);
+        GLuint nvertices=ntris*3;
+        nvbo.allocCpu(sizeof(GLfloat)*nvertices*6,nvertices);
+        //alloc
+        GLfloat *vertices=(GLfloat*)nvbo.getData();
+        DEBUG_ASSERT(vertices);
+        //
+        //calc
+        subtriangles(vertices,
+                     fractal,
+                     divs,
+                     tri.point[0],
+                     tri.point[1],
+                     tri.point[2]);
+        //send message
+        gsphere.addMeshToBuild(this);
+    });
+}

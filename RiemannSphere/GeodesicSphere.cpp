@@ -260,7 +260,7 @@ void GeodesicSphere::build(float radius,size_t sBufferNodes){
         tris[i].getRoot()->tri.getAABox(tris[i].getRoot()->box, radius);
         //calc mesh
         if(!tris[i].getRoot()->lockTask())
-            tris[i].getRoot()->buildMesh(*this,fractal);
+            tris[i].getRoot()->forceBuildMesh(*this,fractal);
     }
 
 }

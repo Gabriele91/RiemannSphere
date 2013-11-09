@@ -26,7 +26,7 @@ namespace RiemannSphere {
             
             size_t n=a.size();
             
-            for(size_t i=0;i!=n;++i) d[i]=a[0];
+            for(size_t i=0;i!=d.size();++i) d[i]=a[0];
             
             for(size_t i=1;i!=n;++i){
                 d[0]=d[0]*x+a[i];

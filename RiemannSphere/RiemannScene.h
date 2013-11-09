@@ -54,6 +54,10 @@ namespace RiemannSphere {
         virtual void onRun(float dt);
         
         virtual void onEnd();
+        
+        //camera info
+        CameraPositionInfo getCameraPositionInfo();
+        void setCameraPositionInfo(const CameraPositionInfo& cpi);
 
         virtual void onKeyDown(Easy3D::Key::Keyboard key);
         virtual void onMouseDown(Easy3D::Vec2 mousePosition,

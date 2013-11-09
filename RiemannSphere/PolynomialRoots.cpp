@@ -104,16 +104,16 @@ std::vector< std::complex<T> > getRoots(std::vector< std::complex<T> > fx){
     std::vector< std::complex<T> > xk(fx.size()-1,std::complex<T>(0.0,0.0));
     std::vector< std::complex<T> > xkk(fx.size()-1,std::complex<T>(0.0,0.0));
     //calc px
-    std::complex<T> leading = fx[0];
-    if (fx[0]!=CPXONE){
-        for (size_t i = 0; i != fx.size(); i++)
-            fx[i] /=leading;
-    }
+    //std::complex<T> leading = fx[0];
+    //for (size_t i = 0; i != fx.size(); i++)
+    //        fx[i] /=leading;
+    
+    const T offset=1.134678;
     //start values
     //root of unity
     for (size_t i = 0; i != xk.size(); ++i){
-        xk[xk.size()-i-1]=std::complex<T>(std::cos(((double)M_PI_2*i)/(double)xk.size()),
-                                          std::sin(((double)M_PI_2*i)/(double)xk.size()));
+        xk[i]=std::complex<T>(std::cos(((double)M_PI*(offset+2*i))/(double)xk.size()),
+                               std::sin(((double)M_PI*(offset+2*i))/(double)xk.size()));
     }
     
     //count

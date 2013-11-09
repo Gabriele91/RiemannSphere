@@ -19,7 +19,8 @@ namespace RiemannSphere {
 		DFORCEINLINE bool complexDist(const std::complex<T>& a,
 									  const std::complex<T>& b,
 									  T e) const{
-            return std::abs(b-a)<e;
+            //return (std::abs(b-a)/Easy3D::Math::min(std::abs(b),std::abs(a)))<e;
+            return (std::abs(b-a))<e;
 		}
 
 		//  f(x)/f'(x)
@@ -98,12 +99,12 @@ namespace RiemannSphere {
 			std::complex<T> tmp;
 			//calc direction
 			//1E-37f
-			tmp=newton(xk,0.0000001f,xkpass);
+			tmp=newton(xk,0.00000000000001f,xkpass);
 			//if found 
 			if(xkpass>0)
 				//return id root
 				//todo calc minimal distance
-				return Values(nearRoots(tmp,0.0001f),((T)xkpass)/npass);
+				return Values(nearRoots(tmp,0.00000001f),((T)xkpass)/npass);
 			//return 0
 			return Values();
 		}

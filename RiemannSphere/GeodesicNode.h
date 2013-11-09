@@ -45,6 +45,9 @@ namespace RiemannSphere {
         //build mesh
         void buildMesh(GeodesicSphere& smanager,
                        const Fractal* fractal);
+        //build mesh
+        void forceBuildMesh(GeodesicSphere& smanager,
+                            const Fractal* fractal);
         //draw
         bool draw();
 		//send to gpu

@@ -101,13 +101,6 @@ void RiemannSceneGeodesic::onRun(float dt){
     setMatrixsState(MatrixsState(camera));
     
     
-    if(getInput()->getKeyDown(Key::Q)){
-        Camera cam2;
-        cam2.setPerspective(Math::torad(25.0f), 1.0, 200.0);
-        cam2.setPosition(Vec3(0,0,60),true);
-        cam2.update();
-        setMatrixsState(MatrixsState(cam2));
-    }
     
     int level=0;
     
@@ -167,14 +160,26 @@ void RiemannSceneGeodesic::onRun(float dt){
 	//draw sfere and greed
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
-    //draw grid
-    drawGridHack();
+
+    
+    if(getInput()->getKeyDown(Key::Q)){
+        Camera cam2;
+        cam2.setPerspective(Math::torad(25.0f), 1.0, 200.0);
+        cam2.setPosition(Vec3(0,0,40),true);
+        cam2.update();
+        setMatrixsState(MatrixsState(cam2));
+    }
+    else{
+        //draw grid
+        //drawGridHack();
+    }
     //draw sphere
     sphere->draw(this,level);
     //sphere->drawNodes(this);
     //sphere->draw();
 	//fustrum
 	//cameraManager->drawFrustum(this);
+    
 	//draw text
 	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
     setTextureState(TextureState(TextureState::TEXTURE2D));
@@ -204,6 +209,13 @@ void RiemannSceneGeodesic::onPause(){
 
 void RiemannSceneGeodesic::onEnd(){
     if(sceneInfo==ON_RESUME) onPause();
+}
+
+CameraPositionInfo RiemannSceneGeodesic::getCameraPositionInfo(){
+    return cameraManager->getCameraPositionInfo();
+}
+void RiemannSceneGeodesic::setCameraPositionInfo(const CameraPositionInfo& cpi){
+    cameraManager->setCameraPositionInfo(cpi);
 }
 
 void RiemannSceneGeodesic::onKeyDown(Key::Keyboard key){}

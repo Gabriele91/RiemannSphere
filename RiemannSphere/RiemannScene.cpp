@@ -191,6 +191,12 @@ void RiemannScene::onPause(){
 void RiemannScene::onEnd(){
     if(sceneInfo==ON_RESUME) onPause();
 }
+CameraPositionInfo RiemannScene::getCameraPositionInfo(){
+    return cameraManager->getCameraPositionInfo();
+}
+void RiemannScene::setCameraPositionInfo(const CameraPositionInfo& cpi){
+    cameraManager->setCameraPositionInfo(cpi);
+}
 
 void RiemannScene::onKeyDown(Key::Keyboard key){}
 void RiemannScene::onMouseDown(Vec2 mousePosition, Key::Mouse button){

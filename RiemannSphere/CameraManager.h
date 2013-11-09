@@ -6,6 +6,12 @@
 #include <SpheresManager.h>
 
 namespace RiemannSphere {
+    
+    struct CameraPositionInfo{
+        float angle,n,f;
+        Easy3D::Vec3 pos;
+        Easy3D::Quaternion rot;
+    };
 
 	class CameraManager: public Easy3D::StateManager,
                                 Easy3D::Input::KeyboardHandler,
@@ -47,7 +53,10 @@ namespace RiemannSphere {
         void changeNear(float n);
         void setVelocity(const Easy3D::Vec3& vel);
         Ray getMouseRay();
-		void drawFrustum(Easy3D::Render* r);
+        void drawFrustum(Easy3D::Render* r);
+        CameraPositionInfo getCameraPositionInfo();
+        void setCameraPositionInfo(const CameraPositionInfo& cpi);
+                                    
                                   
         virtual void onStateStart();
         virtual void onStateRun(float dt);

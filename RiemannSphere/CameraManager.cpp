@@ -35,6 +35,23 @@ void CameraManager::setProjectionInfo(float angle,float n,float f){
     this->n=n;
     this->f=f;
 }
+
+CameraPositionInfo CameraManager::getCameraPositionInfo(){
+    CameraPositionInfo cpiout;
+    cpiout.angle=angle;
+    cpiout.n=n;
+    cpiout.f=f;
+    cpiout.pos=cameraPointer.getPosition(true);
+    cpiout.rot=cameraPointer.getRotation(true);
+    return cpiout;
+}
+void CameraManager::setCameraPositionInfo(const CameraPositionInfo& cpi){
+    angle=cpi.angle;
+    n=cpi.n;
+    f=cpi.f;
+    cameraPointer.setPosition(cpi.pos,true);
+    cameraPointer.setRotation(cpi.rot,true);
+}
 //////////////
 
 void CameraManager::changeFar(float f){

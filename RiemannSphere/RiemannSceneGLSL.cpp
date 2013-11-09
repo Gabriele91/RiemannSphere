@@ -245,6 +245,13 @@ void RiemannSceneGLSL::onEnd(){
     if(sceneInfo==ON_RESUME) onPause();
 }
 
+CameraPositionInfo RiemannSceneGLSL::getCameraPositionInfo(){
+    return cameraManager->getCameraPositionInfo();
+}
+void RiemannSceneGLSL::setCameraPositionInfo(const CameraPositionInfo& cpi){
+    cameraManager->setCameraPositionInfo(cpi);
+}
+
 void RiemannSceneGLSL::onKeyDown(Key::Keyboard key){
 	if(key==Key::N) fractal.sheder=&newtonShader;
     else if(key==Key::H) fractal.sheder=&halleyShader;
