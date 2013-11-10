@@ -32,16 +32,25 @@ RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly){
         roots.push_back(Vec2(r.real(),r.imag()));
     for(auto& rc:poly.rootsColor)
         colors.push_back(Vec4(rc.r,rc.g,rc.b,1.0));
+    //infinite color
+    infiniteColor.r=(float)poly.infiniteColor.r;
+    infiniteColor.g=(float)poly.infiniteColor.g;
+    infiniteColor.b=(float)poly.infiniteColor.b;
+    infiniteColor.a=(float)1.0f;
 }
 void RiemannSceneGLSL::FractalShader::bind(){
 	sheder->bind();
 	sheder->uniformFloat("radius",1.0f);
     //uniform polygon
     sheder->uniformVec2Array("poly",&constants[0],(int)constants.size());
-    //unifor subpolygon if is supportated
+    //uniform subpolygon if is supportated
     GLint idsubpoly=sheder->getUniformID("subpoly");
-    if(idsubpoly!=-1) 
+    if(idsubpoly!=-1)
 		sheder->uniformVec2Array(idsubpoly,&subconstants[0],(int)subconstants.size());
+    //uniform infinitecolor if is supportated
+    GLint infcolor=sheder->getUniformID("infcolor");
+    if(idsubpoly!=-1)
+		sheder->uniformVector4D(infcolor,infiniteColor);
 	//uniform roots
     sheder->uniformVec2Array("roots",&roots[0],(int)roots.size());
 	//uniform colors
@@ -52,12 +61,6 @@ void RiemannSceneGLSL::FractalShader::unbind(){
 }
 
 void RiemannSceneGLSL::onStart(){
-    //set clear color
-    setClearColorState({255,255,255,255});
-    //set projection and modelview
-    setCullFaceState(CullFaceState(CullFace::BACK));
-	//set client state
-	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
 	sphere.radius=2.5;
 	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,&sphere));
@@ -83,6 +86,9 @@ void RiemannSceneGLSL::onStart(){
     newtonShader.loadShader("assets/base.vs.glsl","assets/newton.ps.glsl",defines);
     genericShader.loadShader("assets/base.vs.glsl","assets/generic.ps.glsl",defines);
     
+    //default newton
+    fractal.sheder=&newtonShader;
+    //read from table
     String method=polynomialConfig.getString("method","newton").toLower();
     if(method=="newton"||method=="n") fractal.sheder=&newtonShader;
     else if(method=="halley"||method=="h") fractal.sheder=&halleyShader;
@@ -101,6 +107,13 @@ void RiemannSceneGLSL::onStart(){
 }
 
 void RiemannSceneGLSL::onResume(){
+    //reset states
+    //set clear color
+    setClearColorState({255,255,255,255});
+    //set projection and modelview
+    setCullFaceState(CullFaceState(CullFace::BACK));
+	//set client state
+	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add input
     getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
     getInput()->addHandler((Easy3D::Input::MouseHandler*)this);
@@ -205,7 +218,9 @@ void RiemannSceneGLSL::onRun(float dt){
     grid.draw(this,Color(0,0,0,255));
     //draw sphere
 	fractal.bind();
+    //draw
 	drawSphere(300,100);
+    //unbind
 	fractal.unbind();
     //reset state
     setMatrixsState(mState);

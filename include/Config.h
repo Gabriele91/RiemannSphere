@@ -2,6 +2,7 @@
 #define CONFIG_H
 
 //std include C
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <cassert>
 #include <cstdlib>

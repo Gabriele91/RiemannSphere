@@ -64,12 +64,6 @@ void RiemannSceneGeodesic::drawGridHack(){
 }
 
 void RiemannSceneGeodesic::onStart(){
-    //set clear color
-    setClearColorState({255,255,255,255});
-    //set projection and modelview
-	setCullFaceState(CullFaceState(CullFace::DISABLE));
-	//set client state
-	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add camera manage
     camera_sphere.radius=3.0;
 	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,&camera_sphere));
@@ -84,6 +78,13 @@ void RiemannSceneGeodesic::onStart(){
 }
 
 void RiemannSceneGeodesic::onResume(){
+    //reset states
+    //set clear color
+    setClearColorState({255,255,255,255});
+    //set projection and modelview
+	setCullFaceState(CullFaceState(CullFace::DISABLE));
+	//set client state
+	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add input
     getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
     getInput()->addHandler((Easy3D::Input::MouseHandler*)this);

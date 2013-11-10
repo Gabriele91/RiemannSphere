@@ -37,6 +37,7 @@ namespace RiemannSphere {
 			std::vector<Easy3D::Vec2> subconstants;
 			std::vector<Easy3D::Vec2> roots;
 			std::vector<Easy3D::Vec4> colors;
+			Easy3D::Vec4 infiniteColor;
 			FractalShader(Polynomial<double>& poly);
 			void bind();
 			void unbind();

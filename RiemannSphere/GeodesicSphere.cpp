@@ -229,31 +229,61 @@ void GeodesicSphere::build(float radius,size_t sBufferNodes){
         //set ptr
         tris[i].sphere=this;
     }
+#define setTri(i,a,b,c)\
+    tris[i].getRoot()->tri.point[0]=a;\
+    tris[i].getRoot()->tri.point[1]=b;\
+    tris[i].getRoot()->tri.point[2]=c;
     
+    setTri(0,v1,v2,v3);
+    setTri(1,v4,v3,v2);
+    setTri(2,v4,v5,v6);
+    setTri(3,v4,v9,v5);
+    /*
     tris[0].getRoot()->tri={v1, v2, v3};
     tris[1].getRoot()->tri={v4, v3, v2};
     tris[2].getRoot()->tri={v4, v5, v6};
     tris[3].getRoot()->tri={v4, v9, v5};
-    
+    */
+    setTri(4,v1,v7,v8);
+    setTri(5,v1,v10,v7);
+    setTri(6,v5,v11,v12);
+    setTri(7,v7,v12,v11);
+    /*
     tris[4].getRoot()->tri={v1, v7, v8};
     tris[5].getRoot()->tri={v1, v10, v7};
     tris[6].getRoot()->tri={v5, v11, v12};
     tris[7].getRoot()->tri={v7, v12, v11};
-    
+    */
+    setTri(8,v3,v6,v10);
+    setTri(9,v12,v10,v6);
+    setTri(10,v2,v8,v9);
+    setTri(11,v11,v9,v8);
+    /*
     tris[8].getRoot()->tri={v3, v6, v10};
     tris[9].getRoot()->tri={v12, v10, v6};
     tris[10].getRoot()->tri={v2, v8, v9};
     tris[11].getRoot()->tri={v11, v9, v8};
-    
+     */
+    setTri(12,v4, v6, v3);
+    setTri(13,v4, v2, v9);
+    setTri(14,v1, v3, v10);
+    setTri(15,v1, v8, v2);
+    /*
     tris[12].getRoot()->tri={v4, v6, v3};
     tris[13].getRoot()->tri={v4, v2, v9};
     tris[14].getRoot()->tri={v1, v3, v10};
     tris[15].getRoot()->tri={v1, v8, v2};
-    
+     */
+    setTri(16,v7, v10, v12);
+    setTri(17,v7, v11, v8);
+    setTri(18,v5, v12, v6);
+    setTri(19,v5, v9, v11);
+    /*
     tris[16].getRoot()->tri={v7, v10, v12};
     tris[17].getRoot()->tri={v7, v11, v8};
     tris[18].getRoot()->tri={v5, v12, v6};
     tris[19].getRoot()->tri={v5, v9, v11};
+     */
     //set boxs and mesh
     for(size_t i=0;i!=20;++i){
         //calc aabox

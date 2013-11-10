@@ -14,6 +14,11 @@ namespace RiemannSphere {
 
 		//function pointer
 		Polynomial<T>* fun;
+        
+        //is infinite
+        DFORCEINLINE bool isinf(const std::complex<T>& a) const{
+            return std::isinf(a.real())||std::isinf(a.imag());
+		}
 
 		//distance
 		DFORCEINLINE bool complexDist(const std::complex<T>& a,
@@ -49,7 +54,7 @@ namespace RiemannSphere {
 				xk1=(horner(xk,fun->constants)/
                      horner(xk,fun->subconstants));
 				//tolleranza
-				if(complexDist(xk,xk1,e)){
+				if(complexDist(xk,xk1,e)||isinf(xk1)){
 					xk=xk1;
 					break;
 				}
@@ -93,10 +98,13 @@ namespace RiemannSphere {
 			//1E-37f
 			tmp=itfun(xk,0.0000001f,xkpass);
 			//if found 
-			if(xkpass>0)
+			if(xkpass>0){
+                //infinite color
+                if(isinf(tmp)) return Values(-2,((T)xkpass)/(npass+1));
 				//return id root
 				//todo calc minimal distance
 				return Values(nearRoots(tmp,0.0001f),((T)xkpass)/(npass+1));
+            }
 			//return 0
 			return Values();
 		}
@@ -104,8 +112,13 @@ namespace RiemannSphere {
         virtual RootColor<float> calcColor(float real,float img) const{
 			//vars dec
 			Values values=calc(std::complex<T>(real,img));
-			if(values.idroot!=-1)
+            //root color
+			if(values.idroot>-1)
 				return ( RootColor<float> )(fun->rootsColor[values.idroot]*values.intensity);
+            //infinite color
+			if(values.idroot==-2)
+                return ( RootColor<float> )(fun->infiniteColor*values.intensity);
+            //not found color
 			return RootColor<float>();
         }
 

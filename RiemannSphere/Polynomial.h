@@ -12,6 +12,7 @@ namespace RiemannSphere {
 		T r,g,b;
 		RootColor():r(0.0f),g(0.0f),b(0.0f){}
 		RootColor(T r,T g,T b):r(r),g(g),b(b){}
+		RootColor(const Easy3D::Vec3& v):r(v.x),g(v.y),b(v.z){}
         
 		DFORCEINLINE const RootColor& operator*=(T v){
 			r*=v;g*=v;b*=v;
@@ -66,6 +67,7 @@ namespace RiemannSphere {
 		std::vector< std::complex<T> > subconstants;
 		std::vector< std::complex<T> > roots;
 		std::vector< RootColor<T> > rootsColor;
+		RootColor<T> infiniteColor;
         
         Polynomial(const Easy3D::Table& table){
             
@@ -151,6 +153,8 @@ namespace RiemannSphere {
             else{
                 PolynomialColor::colors((int)roots.size(),rootsColor);
             }
+            //infinite root color
+            infiniteColor=table.getVector3D("infiniteColor",Easy3D::Vec3::ONE);
             
         }
         

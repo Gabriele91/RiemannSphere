@@ -65,7 +65,7 @@ vec3 schroeder(vec2 x,float e){
         
         if( distance(nextx.x,cx.x) < e || distance(nextx.y,cx.y) < e ) 
         {
-            return vec3(cx,float(i)/float(NUMIT));
+            return vec3(nextx,float(i)/float(NUMIT));
         }
         
         cx=nextx;
@@ -87,7 +87,7 @@ vec4 colorFromPoint(vec3 p,float e){
 
 void main()
 {    
-    vec3 point=schroeder(toPlane(vPos*2.0),1E-10);
+    vec3 point=schroeder(toPlane(vPos*2.0),1E-6);
     vec4 pointColor=colorFromPoint(point,0.0001);
     gl_FragColor = vec4(pointColor.xyz,1.0);
 }

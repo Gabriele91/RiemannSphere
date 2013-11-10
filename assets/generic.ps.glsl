@@ -6,6 +6,7 @@ uniform vec2 poly[POLYSIZE];
 uniform vec2 subpoly[SUBPOLYSIZE];
 uniform vec2 roots[POLYSIZE-1];
 uniform vec4 colors[POLYSIZE-1];
+uniform vec4 infcolor[1];
 uniform float radius;
 
 varying vec4 vPos;
@@ -54,6 +55,14 @@ vec2 hornerSubPolygon(in vec2 x){
     return vn;
 }
 
+const float cinf= 11E+18;
+
+bool isInfinite(in vec2 v){
+    vec2 absv=abs(v);
+    return absv.x > cinf || absv.y > cinf ;
+}
+
+
 vec3 generic(in vec2 x,in float e){
 
     vec2 cx=x; 
@@ -63,9 +72,9 @@ vec3 generic(in vec2 x,in float e){
     
         nextx=complexDivide(hornerPolygon(cx),hornerSubPolygon(cx));
         
-        if( distance(nextx.x,cx.x) < e || distance(nextx.y,cx.y) < e ) 
+        if( distance(nextx.xy,cx.xy) < e ||  isInfinite(nextx.xy) )
         {
-            return vec3(cx,float(i)/float(NUMIT));
+            return vec3(nextx,float(i)/float(NUMIT));
         }
         
         cx=nextx;
@@ -75,19 +84,26 @@ vec3 generic(in vec2 x,in float e){
     return vec3(cx,0.0);
 }
 
+
 vec4 colorFromPoint(in vec3 p,in float e){
+    //return infinite color
+    //test
+    if(isInfinite(p.xy))
+        return infcolor[0]*p.z;
+    //else return root color
     for(int i=0;i<(POLYSIZE-1);++i){
         if( distance(roots[i],p.xy) < e )
         {
                 return  colors[i]*p.z;
         }
     }
+    //olso is black
     return vec4(0,0,0,1);
 }
 
 void main()
 {    
-    vec3 point=generic(toPlane(vPos*2.0),1E-10);
+    vec3 point=generic(toPlane(vPos*2.0),1E-6);
     vec4 pointColor=colorFromPoint(point,0.0001);
     gl_FragColor = vec4(pointColor.xyz,1.0);
 }
