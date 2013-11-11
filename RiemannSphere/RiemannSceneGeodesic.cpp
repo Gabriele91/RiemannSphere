@@ -172,7 +172,7 @@ void RiemannSceneGeodesic::onRun(float dt){
     }
     else{
         //draw grid
-        //drawGridHack();
+        drawGridHack();
     }
     //draw sphere
     sphere->draw(this,level);

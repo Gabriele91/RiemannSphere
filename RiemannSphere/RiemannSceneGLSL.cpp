@@ -221,7 +221,7 @@ void RiemannSceneGLSL::onRun(float dt){
 	
 	
 	//draw text
-	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
+	//setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
     setTextureState(TextureState(TextureState::TEXTURE2D));
     //aharoni.text(Vec2(10,10),"Level:"+String::toString(level+1)+"\n");
 	//infinity point
