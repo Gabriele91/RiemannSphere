@@ -83,7 +83,8 @@ class RiemannApp : public Game,
             //set position
             newscene->setCameraPositionInfo(cpi);
         }
-        
+        if(key==Key::ESCAPE)
+            Application::instance()->exit();
 	}
 
     void onEnd(){
