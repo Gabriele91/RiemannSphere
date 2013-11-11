@@ -17,7 +17,7 @@ namespace RiemannSphere {
         
         //is infinite
         DFORCEINLINE bool isinf(const std::complex<T>& a) const{
-            return std::isinf(a.real())||std::isinf(a.imag());
+			return Easy3D::Math::isinf(a.real())||Easy3D::Math::isinf(a.imag());
 		}
 
 		//distance

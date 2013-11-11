@@ -189,9 +189,6 @@
     <ClInclude Include="include\Texture.h">
       <Filter>File di intestazione\Easy3D</Filter>
     </ClInclude>
-    <ClInclude Include="RiemannSphere\VirtualOctree.h">
-      <Filter>RiemannSphere</Filter>
-    </ClInclude>
     <ClInclude Include="src\Image\Image.h">
       <Filter>File di origine\Easy3D\image</Filter>
     </ClInclude>
@@ -229,6 +226,33 @@
       <Filter>RiemannSphere\Fractals</Filter>
     </ClInclude>
     <ClInclude Include="RiemannSphere\Schroeder4Fractal.h">
+      <Filter>RiemannSphere\Fractals</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\GeodesicMesh.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\GeodesicNode.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\GeodesicSphere.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\GeodesicTree.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\GeodesicTri.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\GridMesh.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\RiemannSceneGeodesic.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\VirtualTree.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannSphere\GenericFractal.h">
       <Filter>RiemannSphere\Fractals</Filter>
     </ClInclude>
   </ItemGroup>
@@ -353,9 +377,6 @@
     <ClCompile Include="src\Texture.cpp">
       <Filter>File di origine\Easy3D</Filter>
     </ClCompile>
-    <ClCompile Include="RiemannSphere\VirtualOctree.cpp">
-      <Filter>RiemannSphere</Filter>
-    </ClCompile>
     <ClCompile Include="src\Image\lodepng.cpp">
       <Filter>File di origine\Easy3D\image</Filter>
     </ClCompile>
@@ -372,6 +393,30 @@
       <Filter>File di origine\Easy3D</Filter>
     </ClCompile>
     <ClCompile Include="RiemannSphere\DrawSymbols.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\GeodesicMesh.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\GeodesicNode.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\GeodesicSphere.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\GeodesicTree.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\GeodesicTri.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\GridMesh.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\RiemannSceneGeodesic.cpp">
+      <Filter>RiemannSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannSphere\VirtualTree.cpp">
       <Filter>RiemannSphere</Filter>
     </ClCompile>
   </ItemGroup>

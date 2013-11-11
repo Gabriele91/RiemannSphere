@@ -24,7 +24,7 @@ class RiemannApp : public Game,
     public:
     
     
-		RiemannApp():Game("RiemannSphere",1280,720,32,30,false,Screen::MSAAx4){}
+		RiemannApp():Game("RiemannSphere",1280,720,32,30,true,Screen::MSAAx4){}
     
     enum SCENE{
         RIEMANN_SCENE_GEODESIC=0,

@@ -845,6 +845,24 @@ namespace Easy3D{
 			 x = std::move(y);
 			 y = std::move(temp);
 		}
+		//infinite
+		template<typename T>
+		static DFORCEINLINE bool isinf(T x){
+			#ifdef COMPILER_VISUAL_STUDIO
+				return _finite(x);
+			#else
+				return std::isinf(x);
+			#endif
+		}
+		//nan
+		template<typename T>
+		static DFORCEINLINE bool isnan(T x){
+			#ifdef COMPILER_VISUAL_STUDIO
+				return _isnan(x);
+			#else
+				return std::isnan(x);
+			#endif
+		}
 		//min
 		template<typename T,typename ...A>
 		static DFORCEINLINE T min(T x,A... a){

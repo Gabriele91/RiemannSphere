@@ -11,15 +11,15 @@
 	*/
 	
 
-//	iterations=250
-//	method="z"
+	iterations=250
+	method="n"
 	//constants="(5-i)x^5-x^2-2x-1"
 	//constants="x^5-1"
 	//rootsColors={ (1 0 0) (0 1 0) (0 0 1)  (0 1 1) (1 0 1) (1 1 0) }
 	//method="s4"
 	//constants="x^8-1"
 	//constants="x^3-2x+2" // Smale's example - Newton has region of convergence to stable cycles
-	//constants="x^50+8x^5-26.667x^4+20x^3-2x+1" // example from the paper of Sutherland et al.
+	constants="x^50+8x^5-26.667x^4+20x^3-2x+1" // example from the paper of Sutherland et al.
 //	constants="x^50+8x^5-26.667x^4+20x^3-2x+1"
 	//subconstants="2x+1"
 	//method="n"
@@ -46,13 +46,13 @@
 	infiniteColor=(1 1 1)
 	method="g"
 */
-
+/*
 	iterations=70
 	constants="x^2+0.75"
 	subconstants="1.6"
 	infiniteColor=(1 1 0)
 	method="g"
-
+*/
 	/*
 	constants="x^3-1"
 	//subconstants="x^5+x^2-2x+1"
