@@ -99,7 +99,10 @@ void RiemannSceneGLSL::onStart(){
     
     //build grid
     grid.build(20,20);
-    grid.setScale(Vec3(2,1,2));
+    grid.setScale(Vec3(10,1,10));
+    //build mesh
+    gfSphere.build(5, 0.5);
+    gfSphere.setScale(Vec3::ONE*5.0f);
     
     //init
     onResume();
@@ -121,6 +124,8 @@ void RiemannSceneGLSL::onResume(){
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
     //save info
     sceneInfo=ON_RESUME;
+	//clear and draw
+    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 }
 
 
@@ -200,30 +205,19 @@ void RiemannSceneGLSL::onRun(float dt){
         cameraManager->setVelocity(Vec3(0.025,0.025,.000000001));
         level=15;
     }
-
-    //change state
-    auto mState=getMatrixsState();
-    auto newMState=mState;
-    //set model matrix info
-    Object obj;
-	obj.setPosition(Vec3::ZERO);
-	obj.setScale(Vec3::ONE*5.0f);
-    //draw
-    newMState.modelview=newMState.modelview.mul(obj.getGlobalMatrix());
-    setMatrixsState(newMState);
+    
 	//draw sfere
-	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
-	//draw grid
-    grid.draw(this,Color(0,0,0,255));
     //draw sphere
 	fractal.bind();
     //draw
-	drawSphere(300,100);
+	gfSphere.draw(this);
     //unbind
 	fractal.unbind();
+	//draw grid
+    grid.draw(this,Color(0,0,0,255));
     //reset state
-    setMatrixsState(mState);
+    //setMatrixsState(mState);
 	
 	
 	//draw text

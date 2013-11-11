@@ -56,6 +56,7 @@
 		E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3817BD4A0D00EB25FD /* Game.cpp */; };
 		E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08B1A3D17BD4EA100EB25FD /* Render.cpp */; };
 		E08BDD74180197BD003AA295 /* Rays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08BDD72180197BD003AA295 /* Rays.cpp */; };
+		E0939BCC1830CA730063351E /* GeodesicMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0939BCA1830CA730063351E /* GeodesicMesh.cpp */; };
 		E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC1FD17BF9D8D0060E4CD /* RiemannScene.cpp */; };
 		E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0DCC20117BFAC9B0060E4CD /* CameraManager.cpp */; };
 		E0EA4B6B1827C3D7004DB92E /* GridMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0EA4B691827C3D7004DB92E /* GridMesh.cpp */; };
@@ -193,6 +194,8 @@
 		E08B1A3D17BD4EA100EB25FD /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
 		E08BDD72180197BD003AA295 /* Rays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rays.cpp; sourceTree = "<group>"; };
 		E08BDD73180197BD003AA295 /* Rays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rays.h; sourceTree = "<group>"; };
+		E0939BCA1830CA730063351E /* GeodesicMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeodesicMesh.cpp; sourceTree = "<group>"; };
+		E0939BCB1830CA730063351E /* GeodesicMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeodesicMesh.h; sourceTree = "<group>"; };
 		E0961FF61820FCB8007B773F /* GenericFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericFractal.h; sourceTree = "<group>"; };
 		E0961FF7182109EF007B773F /* generic.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = generic.ps.glsl; path = assets/generic.ps.glsl; sourceTree = "<group>"; };
 		E0B46556180FD057002909A2 /* Halley4Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Halley4Fractal.h; sourceTree = "<group>"; };
@@ -412,6 +415,8 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E0939BCA1830CA730063351E /* GeodesicMesh.cpp */,
+				E0939BCB1830CA730063351E /* GeodesicMesh.h */,
 				E0EA4B691827C3D7004DB92E /* GridMesh.cpp */,
 				E0EA4B6A1827C3D7004DB92E /* GridMesh.h */,
 				E01FF8B51826BEC6007AF239 /* GeodesicNode.cpp */,
@@ -520,6 +525,7 @@
 				E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */,
 				E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */,
 				E01FF8BC1826BEC6007AF239 /* GeodesicTree.cpp in Sources */,
+				E0939BCC1830CA730063351E /* GeodesicMesh.cpp in Sources */,
 				E00BDDCD17FADBF200EB1A39 /* VirtualTree.cpp in Sources */,
 				E01FF8B1182639EA007AF239 /* RiemannSceneGeodesic.cpp in Sources */,
 				E089188B17F96C1F0085A933 /* BMFontLoader.cpp in Sources */,

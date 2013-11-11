@@ -5,6 +5,7 @@
 #include <Polynomial.h>
 #include <CameraManager.h>
 #include <GridMesh.h>
+#include <GeodesicMesh.h>
 #include <DrawSymbols.h>
 
 namespace RiemannSphere {
@@ -15,7 +16,6 @@ namespace RiemannSphere {
                                 Easy3D::Input::MouseHandler
     {
         
-		Sphere  sphere;
         Easy3D::Table polynomialConfig;
         Polynomial<double> poly;
         CameraManager  *cameraManager;
@@ -30,6 +30,8 @@ namespace RiemannSphere {
 		Easy3D::Shader genericShader;
 		DrawSymbols drawSymbols;
         GridMesh grid;
+		Sphere  sphere;
+        GeodesicMesh gfSphere;
 
 		struct FractalShader{
 			Easy3D::Shader *sheder;
