@@ -849,7 +849,7 @@ namespace Easy3D{
 		template<typename T>
 		static DFORCEINLINE bool isinf(T x){
 			#ifdef COMPILER_VISUAL_STUDIO
-				return _finite(x);
+				return _finite(x)==0;
 			#else
 				return std::isinf(x);
 			#endif
