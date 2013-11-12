@@ -1,0 +1,29 @@
+{
+	size=(50 50)
+	maxSize=(70 70)
+	velocity=(80 80)
+	padding=(20 20)
+	type="horizontal"
+
+	
+	buttons={
+		exit={
+			normal="exit.png"
+			overed="exit.png"
+			active="exit.png"
+			id=1
+		}
+		reload={
+			normal="reload.png"
+			overed="reload.png"
+			active="reload.png"
+			id=2
+		}
+		print={
+			normal="reload.png"
+			overed="reload.png"
+			active="reload.png"
+			id=3
+		}
+
+}

@@ -1,11 +1,14 @@
 #define _CRT_NONSTDC_NO_WARNINGS
 #define _CRT_SECURE_NO_DEPRECATE
-
+#include <stdafx.h>
 #include <stdio.h>
 #include <string.h>
+#include <memory.h>
 #include "Image.h"
 #define LODEPNG_COMPILE_DECODER
 #include "lodepng.h"
+//using name space
+using namespace Easy3D;
 
 //safe copy
 #ifdef _MSC_VER
@@ -542,9 +545,9 @@ void Image::convert16to24bit(bool freebuffer){
 }
 void Image::swapRandBbits(){
 	for(unsigned int  i = 0; i < width * height ; ++i){
+        BYTE tmp=bytes[i * channels + 0];
 		bytes[i * channels + 0] = bytes[i * channels + 2];
-		bytes[i * channels + 1] = bytes[i * channels + 1];
-		bytes[i * channels + 2] = bytes[i * channels + 0];
+		bytes[i * channels + 2] = tmp;
 	}
 }
 void Image::decoderRLE(bool freebuffer){
@@ -685,7 +688,7 @@ Image* Image::getImageFromScreen(int width,int height){
 	out_img->height=height;
     out_img->channels=4;
     out_img->type=TYPE_RGBA;
-    out_img->bytes=(BYTE*)malloc(width * height * 4);  ;
+    out_img->bytes=(BYTE*)malloc(width * height * 4);  
 	#ifdef IMAGE_LOADER_OPENGL
 		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, out_img->bytes);
 	#endif

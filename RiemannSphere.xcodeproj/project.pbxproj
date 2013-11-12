@@ -16,6 +16,9 @@
 		E01FF8BB1826BEC6007AF239 /* GeodesicNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01FF8B51826BEC6007AF239 /* GeodesicNode.cpp */; };
 		E01FF8BC1826BEC6007AF239 /* GeodesicTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01FF8B71826BEC6007AF239 /* GeodesicTree.cpp */; };
 		E01FF8BD1826BEC6007AF239 /* GeodesicTri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01FF8B91826BEC6007AF239 /* GeodesicTri.cpp */; };
+		E03832FD18324E6000C70CF3 /* RiemannButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E03832F918324E6000C70CF3 /* RiemannButton.cpp */; };
+		E03832FE18324E6000C70CF3 /* RiemannMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E03832FB18324E6000C70CF3 /* RiemannMenu.cpp */; };
+		E03832FF1832C4BD00C70CF3 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08918F617F96E460085A933 /* Image.cpp */; };
 		E04A6B0D180E746A00B5F2E2 /* DrawSymbols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04A6B0B180E746A00B5F2E2 /* DrawSymbols.cpp */; };
 		E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FC817BBBFB100041D45 /* Application.cpp */; };
 		E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FCA17BBBFB100041D45 /* CocoaApp.mm */; };
@@ -101,6 +104,10 @@
 		E0229965180BC93100299313 /* game.font.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = game.font.e2d; path = assets/game.font.e2d; sourceTree = "<group>"; };
 		E0229966180BC93100299313 /* newton.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = newton.ps.glsl; path = assets/newton.ps.glsl; sourceTree = "<group>"; };
 		E0229967180BC93100299313 /* base.vs.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = base.vs.glsl; path = assets/base.vs.glsl; sourceTree = "<group>"; };
+		E03832F918324E6000C70CF3 /* RiemannButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannButton.cpp; sourceTree = "<group>"; };
+		E03832FA18324E6000C70CF3 /* RiemannButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannButton.h; sourceTree = "<group>"; };
+		E03832FB18324E6000C70CF3 /* RiemannMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannMenu.cpp; sourceTree = "<group>"; };
+		E03832FC18324E6000C70CF3 /* RiemannMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannMenu.h; sourceTree = "<group>"; };
 		E04A6B0B180E746A00B5F2E2 /* DrawSymbols.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawSymbols.cpp; sourceTree = "<group>"; };
 		E04A6B0C180E746A00B5F2E2 /* DrawSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawSymbols.h; sourceTree = "<group>"; };
 		E04A6B0E180E75AE00B5F2E2 /* Schroeder4Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Schroeder4Fractal.h; sourceTree = "<group>"; };
@@ -186,7 +193,7 @@
 		E08918F117F96DDA0085A933 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		E08918F217F96DEC0085A933 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		E08918F517F96E460085A933 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
-		E08918F617F96E460085A933 /* Image.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Image.inl; sourceTree = "<group>"; };
+		E08918F617F96E460085A933 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		E08918F717F96E460085A933 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		E08918F817F96E460085A933 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		E08B1A3817BD4A0D00EB25FD /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
@@ -248,9 +255,21 @@
 			name = assets;
 			sourceTree = "<group>";
 		};
+		E03832F818324E6000C70CF3 /* RiemannGui */ = {
+			isa = PBXGroup;
+			children = (
+				E03832F918324E6000C70CF3 /* RiemannButton.cpp */,
+				E03832FA18324E6000C70CF3 /* RiemannButton.h */,
+				E03832FB18324E6000C70CF3 /* RiemannMenu.cpp */,
+				E03832FC18324E6000C70CF3 /* RiemannMenu.h */,
+			);
+			path = RiemannGui;
+			sourceTree = "<group>";
+		};
 		E04F6F8C17BBBF8700041D45 = {
 			isa = PBXGroup;
 			children = (
+				E03832F818324E6000C70CF3 /* RiemannGui */,
 				E084F4C6181A75EF005B60B4 /* function.test.e2d */,
 				E0229962180BC91F00299313 /* assets */,
 				E08918EE17F96CA60085A933 /* lib */,
@@ -405,7 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				E08918F517F96E460085A933 /* Image.h */,
-				E08918F617F96E460085A933 /* Image.inl */,
+				E08918F617F96E460085A933 /* Image.cpp */,
 				E08918F717F96E460085A933 /* lodepng.cpp */,
 				E08918F817F96E460085A933 /* lodepng.h */,
 			);
@@ -548,10 +567,12 @@
 				E04F700817BBC84C00041D45 /* State.cpp in Sources */,
 				E04F700917BBC84C00041D45 /* Timer.cpp in Sources */,
 				E04F700A17BBC84C00041D45 /* Utility.cpp in Sources */,
+				E03832FD18324E6000C70CF3 /* RiemannButton.cpp in Sources */,
 				E04F701017BBC94200041D45 /* Math3D_SSE2.cpp in Sources */,
 				E04F701117BBC94200041D45 /* Math3D.cpp in Sources */,
 				E04F701B17BBD07700041D45 /* main.cpp in Sources */,
 				E04F701E17BBD24000041D45 /* Memory.cpp in Sources */,
+				E03832FF1832C4BD00C70CF3 /* Image.cpp in Sources */,
 				E01FF8BB1826BEC6007AF239 /* GeodesicNode.cpp in Sources */,
 				E04F702117BC2FEB00041D45 /* Object.cpp in Sources */,
 				E04F702417BC346400041D45 /* Camera.cpp in Sources */,
@@ -561,6 +582,7 @@
 				E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */,
 				E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */,
 				E00EF2C817C153280032B058 /* SphereMesh.cpp in Sources */,
+				E03832FE18324E6000C70CF3 /* RiemannMenu.cpp in Sources */,
 				E00EF2CB17C153650032B058 /* Sphere.cpp in Sources */,
 				E0FA9AC6180AD12700D63274 /* PolynomialRoots.cpp in Sources */,
 				E01049AE17C3922700EF760D /* SpheresManager.cpp in Sources */,
@@ -611,6 +633,8 @@
 					include/cocoa/,
 					include/thread,
 					RiemannSphere/,
+					RiemannGui/,
+					src/image/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
@@ -652,6 +676,8 @@
 					include/cocoa/,
 					include/thread,
 					RiemannSphere/,
+					RiemannGui/,
+					src/image/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (

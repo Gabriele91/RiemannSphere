@@ -104,16 +104,16 @@ namespace Easy3D {
             _onStartResume();
         }
         virtual void run(float dt){
-            //update logic 
-            _onRunLogic(dt);
             //update logic child
             if(active.size())
                 scenes[active.top()].child->_onRunLogic(dt);
+            //update logic
+            _onRunLogic(dt);
             //draw all
-            _onRunDraw();
+            //_onRunDraw();
             //draw child
-            if(active.size())
-                scenes[active.top()].child->_onRunDraw();
+            //if(active.size())
+                //scenes[active.top()].child->_onRunDraw();
         }
         virtual void end(){
             //call onEnd for all child activated

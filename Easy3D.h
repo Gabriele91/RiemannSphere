@@ -32,6 +32,7 @@
 
 #include <Color.h>
 #include <Font.h>
+#include <Image.h>
 #include <Texture.h>
 #include <Shader.h>
 

@@ -3,7 +3,7 @@
 #include <Debug.h>
 #include <Application.h>
 #define IMAGE_LOADER_OPENGL
-#include "Image/Image.h"
+#include <Image.h>
 
 using namespace Easy3D;
 
@@ -108,8 +108,8 @@ bool Texture::load(){
 	//build
 	bind();
 	//save width end height
-	width=image.width;
-	height=image.height;
+	width=(uint)image.width;
+	height=(uint)image.height;
 	//resize
 	GLuint typeInternal=image.type;
 #ifndef OPENGL_ES
