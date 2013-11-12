@@ -20,9 +20,9 @@
 			id=2
 		}
 		print={
-			normal="reload.png"
-			overed="reload.png"
-			active="reload.png"
+			normal="print.png"
+			overed="print.png"
+			active="print.png"
 			id=3
 		}
 
