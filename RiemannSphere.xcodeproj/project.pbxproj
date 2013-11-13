@@ -201,6 +201,7 @@
 		E08B1A3D17BD4EA100EB25FD /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
 		E08BDD72180197BD003AA295 /* Rays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rays.cpp; sourceTree = "<group>"; };
 		E08BDD73180197BD003AA295 /* Rays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rays.h; sourceTree = "<group>"; };
+		E093579C1833C63F00AA7416 /* RiemannInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannInterface.h; sourceTree = "<group>"; };
 		E0939BCA1830CA730063351E /* GeodesicMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeodesicMesh.cpp; sourceTree = "<group>"; };
 		E0939BCB1830CA730063351E /* GeodesicMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeodesicMesh.h; sourceTree = "<group>"; };
 		E0961FF61820FCB8007B773F /* GenericFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericFractal.h; sourceTree = "<group>"; };
@@ -434,6 +435,7 @@
 		E0DCC1FC17BF9D8D0060E4CD /* RiemannSphere */ = {
 			isa = PBXGroup;
 			children = (
+				E093579C1833C63F00AA7416 /* RiemannInterface.h */,
 				E0939BCA1830CA730063351E /* GeodesicMesh.cpp */,
 				E0939BCB1830CA730063351E /* GeodesicMesh.h */,
 				E0EA4B691827C3D7004DB92E /* GridMesh.cpp */,

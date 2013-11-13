@@ -3,27 +3,47 @@
 	maxSize=(70 70)
 	velocity=(80 80)
 	padding=(20 20)
-	type="horizontal"
+	//type="horizontal"
 
 	
 	buttons={
 		exit={
-			normal="exit.png"
-			overed="exit.png"
-			active="exit.png"
+			single={
+				normal="exit.png"
+				//overed="exit.png"
+				//active="exit.png"
+			}
 			id=1
 		}
 		reload={
-			normal="reload.png"
-			overed="reload.png"
-			active="reload.png"
+			single={
+				normal="reload_new.png"
+			}
 			id=2
 		}
 		print={
-			normal="print.png"
-			overed="print.png"
-			active="print.png"
+			single={
+				normal="print.png"
+			}
 			id=3
+		}
+		grid={
+			single={
+				normal="grid.png"
+			}
+			double={
+				normal="notgrid.png"
+			}
+			id=4
+		}
+		roots={
+			single={
+				normal="points.png"
+			}
+			double={
+				normal="pointsdisable.png"
+			}
+			id=5
 		}
 
 }

@@ -6,7 +6,8 @@ using namespace Easy3D;
 using namespace RiemannSphere;
 
 RiemannSceneGLSL::RiemannSceneGLSL()
-    :cameraManager(NULL)
+    :RiemannInterface()
+    ,cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
     ,polynomialConfig("function.test.e2d")
     ,poly(polynomialConfig)
@@ -215,20 +216,15 @@ void RiemannSceneGLSL::onRun(float dt){
     //unbind
 	fractal.unbind();
 	//draw grid
-    grid.draw(this,Color(0,0,0,255));
-    //reset state
-    //setMatrixsState(mState);
-	
-	
-	//draw text
-	//setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
-    setTextureState(TextureState(TextureState::TEXTURE2D));
-    //aharoni.text(Vec2(10,10),"Level:"+String::toString(level+1)+"\n");
-	//infinity point
-	drawSymbols.drawInfinity(Vec3(0,sphere.radius,0),Vec2(20,10),0.38,1.00);
-	drawSymbols.drawZero(Vec3(0,-sphere.radius,0),Vec2(10,20),0.38,1.00);
+    if(dGrid) grid.draw(this,Color(0,0,0,255));
     
-    for(size_t i=0;i<poly.roots.size();++i){
+	//draw text
+    setTextureState(TextureState(TextureState::TEXTURE2D));
+    
+	if(dInfinite) drawSymbols.drawInfinity(Vec3(0,sphere.radius,0),Vec2(20,10),0.38,1.00);
+	if(dZero) drawSymbols.drawZero(Vec3(0,-sphere.radius,0),Vec2(10,20),0.38,1.00);
+    
+    if(dRoots) for(size_t i=0;i<poly.roots.size();++i){
         Vec3 pos=poly.planeToSphere(poly.roots[i]).to<'x','y','z'>()*(sphere.radius);
         drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly.rootsColor[i]);
     }

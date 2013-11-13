@@ -7,7 +7,8 @@ using namespace Easy3D;
 ///////////////////////
 //#define _HD_
 RiemannSceneGeodesic::RiemannSceneGeodesic()
-    :cameraManager(NULL)
+    :RiemannInterface()
+    ,cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
     ,polynomialConfig("function.test.e2d")
     ,poly(polynomialConfig)
@@ -162,32 +163,19 @@ void RiemannSceneGeodesic::onRun(float dt){
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     setTextureState(TextureState(TextureState::NONE));
 
+    //draw grid
+    if(dGrid) drawGridHack();
     
-    if(getInput()->getKeyDown(Key::Q)){
-        Camera cam2;
-        cam2.setPerspective(Math::torad(25.0f), 1.0, 200.0);
-        cam2.setPosition(Vec3(0,0,40),true);
-        cam2.update();
-        setMatrixsState(MatrixsState(cam2));
-    }
-    else{
-        //draw grid
-        drawGridHack();
-    }
     //draw sphere
     sphere->draw(this,level);
-    //sphere->drawNodes(this);
-    //sphere->draw();
-	//fustrum
-	//cameraManager->drawFrustum(this);
     
 	//draw text
-	setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
     setTextureState(TextureState(TextureState::TEXTURE2D));
-   	drawSymbols.drawInfinity(Vec3(0,camera_sphere.radius,0),Vec2(20,10),0.38,1.00);
-	drawSymbols.drawZero(Vec3(0,-camera_sphere.radius,0),Vec2(10,20),0.38,1.00);
     
-    for(size_t i=0;i<poly.roots.size();++i){
+   	if(dInfinite) drawSymbols.drawInfinity(Vec3(0,camera_sphere.radius,0),Vec2(20,10),0.38,1.00);
+	if(dZero)     drawSymbols.drawZero(Vec3(0,-camera_sphere.radius,0),Vec2(10,20),0.38,1.00);
+    
+    if(dRoots) for(size_t i=0;i<poly.roots.size();++i){
         Vec3 pos=poly.planeToSphere(poly.roots[i])*(camera_sphere.radius);
         drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly.rootsColor[i]);
     }

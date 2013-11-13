@@ -11,6 +11,7 @@
 #include <Application.h>
 #include <Game.h>
 #include <RiemannScene.h>
+#include <RiemannInterface.h>
 #include <RiemannSceneGeodesic.h>
 #include <RiemannSceneGLSL.h>
 #include <RiemannMenu.h>
@@ -18,6 +19,7 @@
 //last exemple http://pastebin.com/RGFiAuBs
 
 using namespace Easy3D;
+using namespace RiemannSphere;
 
 class RiemannApp : public Game,
                    public Easy3D::Input::KeyboardHandler {
@@ -30,7 +32,13 @@ class RiemannApp : public Game,
     
     
     RiemannApp()
-    :Game("RiemannSphere",1280,720,32,30,false,Screen::MSAAx4)
+    :Game("RiemannSphere",
+          1280,
+          720,
+          32,
+          30,
+          false,
+          Screen::MSAAx8)
     ,menu(Table("assets/menu.e2d")){}
     
     enum SCENE{
@@ -54,15 +62,28 @@ class RiemannApp : public Game,
         //addScene(RIEMANN_SCENE, new RiemannSphere::RiemannScene());
         addScene(RIEMANN_GLSL_SCENE, new RiemannSphere::RiemannSceneGLSL());
         //exit key
-        menu.addOnClick("exit", [this](){
+        menu.addOnClick("exit", [this](bool){
             onKeyDown(Key::ESCAPE);
         });
-        menu.addOnClick("reload", [this](){
+        menu.addOnClick("reload", [this](bool){
             onKeyDown(Key::R);
         });
-        menu.addOnClick("print", [this](){
+        menu.addOnClick("print", [this](bool){
             setCurrentState(GUI_PRINT);
         });
+        menu.addOnClick("grid", [this](bool deactive){
+            currentRiemann()->drawGrid(!deactive);
+        });
+        menu.addOnClick("roots", [this](bool deactive){
+            currentRiemann()->drawRoots(!deactive);
+        });
+        menu.addOnClick("infinite", [this](bool deactive){
+            currentRiemann()->drawInfinite(!deactive);
+        });
+        menu.addOnClick("zero", [this](bool deactive){
+            currentRiemann()->drawZero(!deactive);
+        });
+        
         addState(GUI_DRAW,new Easy3D::StateLambda([this](float dt){
             //update ui
             menu.update(dt);
@@ -90,18 +111,20 @@ class RiemannApp : public Game,
     
     void onRun(float dt){
     }
+                       
+    RiemannInterface *currentRiemann(){
+        if( sceneActive()==RIEMANN_SCENE_GEODESIC)
+            return (RiemannInterface*)((RiemannSceneGeodesic*)getScene(RIEMANN_SCENE_GEODESIC));
+        else if( sceneActive()==RIEMANN_GLSL_SCENE)
+            return (RiemannInterface*)((RiemannSceneGLSL*)getScene(RIEMANN_GLSL_SCENE));
+        return NULL;
+    }
 
     virtual void onKeyDown(Easy3D::Key::Keyboard key){
         //if(key==Key::V) activeScene(RIEMANN_SCENE);
         if(key==Key::C) activeScene(RIEMANN_SCENE_GEODESIC);
 		if(key==Key::G) activeScene(RIEMANN_GLSL_SCENE);
         
-        /*
-         if(key==Key::R && sceneActive()==RIEMANN_SCENE) {
-         auto scene=eraseScene(RIEMANN_SCENE);
-         delete scene;
-         addSceneAndActive(RIEMANN_SCENE, new RiemannSphere::RiemannScene());
-         }*/
 		if(key==Key::R && sceneActive()==RIEMANN_SCENE_GEODESIC) {
             //scene
             auto scene=eraseScene(RIEMANN_SCENE_GEODESIC);

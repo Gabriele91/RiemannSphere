@@ -54,6 +54,11 @@ namespace Easy3D {
         int sceneActive(){
             return active.top();
         }
+        Scene* getScene(int uid){
+            if(sceneExist(uid))
+                return scenes[uid].child;
+            return NULL;
+        }
         //add sub scene
         void addScene(int uid,Scene* scene,bool destructible=true){
             scenes[uid]=SubScene(scene,destructible);

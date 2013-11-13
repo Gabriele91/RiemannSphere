@@ -25,7 +25,7 @@ namespace RiemannGui {
 		
 		RiemannMenu(const Easy3D::Table& config);
 		virtual ~RiemannMenu();
-		bool addOnClick(const Easy3D::String& name,const std::function<void()>& onClick);
+		bool addOnClick(const Easy3D::String& name,const std::function<void(bool)>& onClick);
 		void draw(Easy3D::Render* render);
 		void update(float dt);
         void lock();

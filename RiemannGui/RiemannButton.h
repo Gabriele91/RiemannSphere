@@ -14,14 +14,20 @@ namespace RiemannGui {
 		enum StateBotton{
 			NORMAL=0,
 			OVERED,
-			ACTIVE
+			ACTIVE,
+            OVERED_ACTIVE,
 		};
-
-                                     
+        
+        enum ModeBottom{
+            SINGLE,
+            DOUBLE
+        };
+          
+        ModeBottom mode;
         StateBotton state;
         Easy3D::String name;
-        Easy3D::Texture *textures[3];
-		std::function<void()> onClick;
+        Easy3D::Texture *textures[2][3];
+		std::function<void(bool)> onClick;
         bool islocked;
 		int id;
 
@@ -41,12 +47,10 @@ namespace RiemannGui {
 		RiemannButton(const Easy3D::String& name,const Easy3D::Table& config);
 		virtual ~RiemannButton();
 		bool isCalled(const Easy3D::String& name);
-		void addOnClick(const std::function<void()>& onClick){
+		void addOnClick(const std::function<void(bool)>& onClick){
 			this->onClick=onClick;
 		}
-        Easy3D::Texture* getCurrentTexture(){
-			return textures[state];
-		}
+        Easy3D::Texture* getCurrentTexture();
 		int getID(){
 			return id;
 		}

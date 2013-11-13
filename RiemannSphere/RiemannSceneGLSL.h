@@ -7,13 +7,15 @@
 #include <GridMesh.h>
 #include <GeodesicMesh.h>
 #include <DrawSymbols.h>
+#include <RiemannInterface.h>
 
 namespace RiemannSphere {
 
 
 	class RiemannSceneGLSL: public Easy3D::Scene,
-                                Easy3D::Input::KeyboardHandler,
-                                Easy3D::Input::MouseHandler
+                            public RiemannInterface,
+                            Easy3D::Input::KeyboardHandler,
+                            Easy3D::Input::MouseHandler
     {
         
         Easy3D::Table polynomialConfig;

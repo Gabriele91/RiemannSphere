@@ -12,10 +12,12 @@
 #include <GenericFractal.h>
 #include <DrawSymbols.h>
 #include <GridMesh.h>
+#include <RiemannInterface.h>
 
 namespace RiemannSphere {
 
 	class RiemannSceneGeodesic : public Easy3D::Scene,
+                                 public RiemannInterface,
                                  Easy3D::Input::KeyboardHandler,
                                  Easy3D::Input::MouseHandler
     {

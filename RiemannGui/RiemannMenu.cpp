@@ -60,7 +60,7 @@ RiemannMenu::RiemannMenu(const Table& config){
 	Vec2 realsize=sizeBottons+paddingBottons;
 	Vec2 realsizeH=realsize*0.5;
 
-    if(type==VERTICAL){
+    if(type==HORIZONTA){
         //calc center
         Vec2 menucenter(Application::instance()->getScreen()->getWidth()*0.5,
                         realsize.y*0.5);
@@ -128,7 +128,7 @@ RiemannMenu::~RiemannMenu(){
 		delete button;
 }
 
-bool RiemannMenu::addOnClick(const String& name,const std::function<void()>& onClick){
+bool RiemannMenu::addOnClick(const String& name,const std::function<void(bool)>& onClick){
 	for(auto button:buttons){
 		if(button->isCalled(name)){
 			button->addOnClick(onClick);
