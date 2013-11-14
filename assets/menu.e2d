@@ -17,7 +17,7 @@
 		}
 		reload={
 			single={
-				normal="reload_new.png"
+				normal="reload.png"
 			}
 			id=2
 		}
@@ -44,6 +44,24 @@
 				normal="pointsdisable.png"
 			}
 			id=5
+		}
+		infinite={
+			single={
+				normal="infico1.png"
+			}
+			double={
+				normal="infico2.png"
+			}
+			id=6
+		}
+		zero={
+			single={
+				normal="zeroico1.png"
+			}
+			double={
+				normal="zeroico2.png"
+			}
+			id=7
 		}
 
 }
