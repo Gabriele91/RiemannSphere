@@ -12,9 +12,9 @@ using namespace Easy3D;
 
 //safe copy
 #ifdef _MSC_VER
-	#define IMG_STRNCPY(d,s,l) strcpy_s(d,l,s)
+	//#define IMG_STRNCPY(d,s,l) strcpy_s(d,l,s)
 #else
-	#define IMG_STRNCPY(d,s,l) strncpy(d,s,l)
+	//#define IMG_STRNCPY(d,s,l) strncpy(d,s,l)
 #endif
 
 
@@ -143,8 +143,11 @@ void Image::makeImage(int width,int height,int bits,bool set_default_color,const
 void Image::loadImage(const std::string& path){
     ////////////////////////////////////
 	//get ext
-    char tempstring[4] = {0};
-	IMG_STRNCPY(tempstring, path.c_str() + path.size()-3, 3);
+	char tempstring[4] = {0};
+	tempstring[0]=*(path.c_str() + path.size()-3);
+	tempstring[1]=*(path.c_str() + path.size()-2);
+	tempstring[2]=*(path.c_str() + path.size()-1);
+	tempstring[3]='\0';
 	//load from file
 	switch (getTypeFromExtetion(tempstring))
 	{
@@ -221,23 +224,17 @@ void Image::loadFromData(void *data,unsigned int size,ImageType type){
 }
 //salvo in un file TGA
 void Image::save(const std::string& path){
-
+	char tempstring[4] = {0};
+	tempstring[0]=*(path.c_str() + path.size()-3);
+	tempstring[1]=*(path.c_str() + path.size()-2);
+	tempstring[2]=*(path.c_str() + path.size()-1);
+	tempstring[3]='\0';
+	ImageType type=getTypeFromExtetion(tempstring);
     ////////////////////////////////////
-    char tempstring[5] = {0};
-	IMG_STRNCPY(tempstring, path.c_str() + path.size()-4, 4);
-    char c;
-    int i=0;
-    while (tempstring[i])
-    {
-     c=tempstring[i];
-     tempstring[i]=tolower(c);
-     i++;
-    }
-    ////////////////////////////////////
-	if(!strcmp(tempstring, ".bmp")){
+	if(type==Image::BMP){
 			save_BMP(this,path);
 	}else
-	 if(!strcmp(tempstring, ".tga")){
+	 if(type==Image::TGA){
 			save_TGA(this,path);
 	}
 

@@ -46,6 +46,9 @@
     <Filter Include="File di risorse\assets">
       <UniqueIdentifier>{0daa2446-0e71-484e-b9b6-5feb609b516a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RiemannGui">
+      <UniqueIdentifier>{9d99b87a-606a-48f3-8dbe-6ed9e686ec07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
@@ -255,6 +258,15 @@
     <ClInclude Include="RiemannSphere\GenericFractal.h">
       <Filter>RiemannSphere\Fractals</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannSphere\RiemannInterface.h">
+      <Filter>RiemannSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannGui\RiemannButton.h">
+      <Filter>RiemannGui</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannGui\RiemannMenu.h">
+      <Filter>RiemannGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -419,13 +431,19 @@
     <ClCompile Include="RiemannSphere\VirtualTree.cpp">
       <Filter>RiemannSphere</Filter>
     </ClCompile>
+    <ClCompile Include="RiemannGui\RiemannButton.cpp">
+      <Filter>RiemannGui</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannGui\RiemannMenu.cpp">
+      <Filter>RiemannGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Image\Image.cpp">
+      <Filter>File di origine\Easy3D\image</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="function.test.e2d">
       <Filter>File di risorse</Filter>
-    </None>
-    <None Include="src\Image\Image.inl">
-      <Filter>File di origine\Easy3D\image</Filter>
     </None>
     <None Include="assets\Aharoni40.fnt">
       <Filter>File di risorse\assets</Filter>
