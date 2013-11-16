@@ -91,6 +91,20 @@ void RiemannFormula::recalcTextOffset(){
     else
         textOffest.x=0;
 }
+void RiemannFormula::recalcPointerTextOffset(){
+    //offset
+    if( textSize.x>mbox.x ){
+        Vec2 pointerPos=font->endChar(text, textid);
+        //left
+        if((pointerPos.x+textOffest.x) < 0)
+            textOffest.x+=font->size()*4;
+        //right
+        if((pointerPos.x+textOffest.x) > mbox.x)
+            textOffest.x-=font->size()*4;
+    }
+    //recalc
+    recalcTextOffset();
+}
 //keyboard
 void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
     if(!showpointer) return;
@@ -105,6 +119,7 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
         //offset
         if( textSize.x>mbox.x ){
             Vec2 pointerPos=font->endChar(text, textid);
+            //left
             if((pointerPos.x+textOffest.x) < 0){
                 textOffest.x+=font->size()*4;
                 recalcTextOffset();
@@ -122,6 +137,7 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
         //offset
         if( textSize.x>mbox.x ){
             Vec2 pointerPos=font->endChar(text, textid);
+            //right
             if((pointerPos.x+textOffest.x) > mbox.x){
                 textOffest.x-=font->size()*4;
                 recalcTextOffset();
@@ -137,7 +153,7 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
         Application::instance()->getInput()->copyString(text.substr(minselect,maxselect-minselect));
         //recalc text size and offset
         calcTextSize();
-        recalcTextOffset();
+        recalcPointerTextOffset();
         //NO FIX POINT
         return;
     }
@@ -159,7 +175,7 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
         }
         //recalc text size and offset
         calcTextSize();
-        recalcTextOffset();
+        recalcPointerTextOffset();
     }
     //insert a key or delete a key
     else if(Key::BACKSPACE==key||filter(Application::instance()->getInput()->getInputString()[0])){
@@ -185,7 +201,7 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
         }
         //recalc text size and offset
         calcTextSize();
-        recalcTextOffset();
+        recalcPointerTextOffset();
     }
     //NO EVENT
     else return;

@@ -22,6 +22,7 @@ namespace RiemannGui {
         //utility
         void calcTextSize();
         void recalcTextOffset();
+        void recalcPointerTextOffset();
         //types
         enum VerticalType{
             TOP,
