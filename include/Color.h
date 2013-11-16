@@ -2,6 +2,7 @@
 #define COLOR_H
 
 #include <Config.h>
+#include <Math3D.h>
 #include <Types.h>
 
 namespace Easy3D {
@@ -21,6 +22,12 @@ namespace Easy3D {
         ,g((uchar)(color[1]*255))
         ,b((uchar)(color[2]*255))
         ,a((uchar)(color[3]*255)){}
+        
+        Color(const Vec4& color)
+        :r((uchar)(color.x*255))
+        ,g((uchar)(color.y*255))
+        ,b((uchar)(color.z*255))
+        ,a((uchar)(color.w*255)){}
         
         Color(uchar *color)
         :r(color[0])

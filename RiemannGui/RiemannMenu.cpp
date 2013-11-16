@@ -142,33 +142,37 @@ void RiemannMenu::update(float dt){
 		button->update(this,dt);
 }
 void RiemannMenu::draw(Easy3D::Render* render){
-	//save state
+	///////////////////////////////////////////////////////////////
+    //save states
 	//save view port
-    Vec4 globalViewport;
-	glGetFloatv(GL_VIEWPORT,&globalViewport.x);
+    Render::ViewportState globalViewport=render->getViewportState();
     //save blend
 	Render::BlendState blendState;
 	blendState=render->getBlendState();
     //save matrix
 	Render::MatrixsState matrixsState;
 	render->getMatrixsState(matrixsState);
-    //disable z buffer
-	render->setZBufferState(false);
+    //save zbuffer mode
+    Render::ZBufferState zbufferState=render->getZBufferState();
     //save client state
     Render::ClientState clientState=render->getClientState();
-    //reset
+	///////////////////////////////////////////////////////////////
+    //disable z buffer
+	render->setZBufferState(false);
 	//query
 	Screen *screen=Application::instance()->getScreen();
 	Vec2 windowSize(screen->getWidth(),screen->getHeight());
+	///////////////////////////////////////////////////////////////
+    //2D MODE
 	//disable shader
     glUseProgram(0);
-	//ortogonal mode (2d)
-    glViewport(0,0,windowSize.x,windowSize.y);
+	//mode (2d)
+    render->setViewportState(Vec4(0,0,windowSize.x,windowSize.y));
+    //ortogonal
 	Matrix4x4 projection;
 	projection.setOrtho(0,windowSize.x,0,windowSize.y,0.0,1.0);
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(projection);
-	glMatrixMode(GL_MODELVIEW);
+    render->setMatrixsState(Render::MatrixsState(projection,Matrix4x4()));
+	///////////////////////////////////////////////////////////////
     //set client
     render->setClientState(Render::ClientState::VERTEX|Render::ClientState::UVMAP);
     //enable texture
@@ -185,8 +189,6 @@ void RiemannMenu::draw(Easy3D::Render* render){
 	//disable vbo
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-    glDisableClientState(GL_NORMAL_ARRAY);
-
 	for(auto button:buttons){
 		//matrix button
 		glLoadMatrixf(button->getGlobalMatrix());
@@ -199,14 +201,11 @@ void RiemannMenu::draw(Easy3D::Render* render){
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	}
 	//restore state
-	render->setZBufferState(true);
+	render->setZBufferState(zbufferState);
 	render->setBlendState(blendState);
 	render->setMatrixsState(matrixsState);
     render->setClientState(clientState);
-    glViewport(globalViewport.x,
-			   globalViewport.y,
-			   globalViewport.z,
-			   globalViewport.w);
+    render->setViewportState(globalViewport);
 
 
 }

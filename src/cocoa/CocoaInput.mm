@@ -11,6 +11,8 @@
 #import <AppKit/NSOpenGLView.h>
 #import <AppKit/NSWindow.h>
 #import <AppKit/NSScreen.h>
+#import <AppKit/NSPasteboard.h>
+#import <string>
 using namespace Easy3D;
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
@@ -358,6 +360,23 @@ CocoaInput::~CocoaInput(){
     [listener release];    
 }
     
+    
+/**
+ * copy a string
+ */
+void CocoaInput::copyString(const String& paste){
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:[NSArray arrayWithObjects:NSStringPboardType, nil] owner:nil];
+    [pasteBoard setString: @(paste.c_str()) forType:NSStringPboardType];
+}
+/**
+ * paste a string
+ */
+String CocoaInput::pasteString(){
+    NSPasteboard*  myPasteboard  = [NSPasteboard generalPasteboard];
+    NSString* myString = [myPasteboard  stringForType:NSPasteboardTypeString];
+    return [myString UTF8String];
+}
 void CocoaInput::__updateCocoaEvent(){
     
 #define keyDownEvent(key) \
@@ -375,14 +394,22 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
 }
     //get events
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    //flag key status
+    static unsigned int oldFlags = 0;
     
 	for ( ; ; ) {
-		NSEvent *event = [NSApp nextEventMatchingMask:NSAnyEventMask untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES ];
+		NSEvent *event = [NSApp nextEventMatchingMask:NSAnyEventMask
+                                untilDate:[NSDate distantPast]
+                                inMode:NSDefaultRunLoopMode dequeue:YES ];
 		if ( event == nil ) {
 			break;
 		}
+        //flags
+        unsigned int flags = (unsigned int)[event modifierFlags];
+        //get char input
 		switch ([event type]) {
 			case NSKeyDown:
+                inputString = [[event charactersIgnoringModifiers] UTF8String];
                 keyDownEvent(event.keyCode);
             break;
 			case NSKeyUp:
@@ -391,9 +418,51 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
 				if (([event modifierFlags] & NSCommandKeyMask) || [event type] == NSFlagsChanged)
 					[NSApp sendEvent: event];
             break;
+            case NSFlagsChanged:
+                //reset
+                inputString="";
+                //special chars
+                if ((flags & NSControlKeyMask) != (oldFlags & NSControlKeyMask)){
+                    if(flags & NSControlKeyMask){
+                        ekeyboard.__keyboardDown(Key::RCTRL);
+                        __callOnKeyPress(Key::RCTRL);
+                    }else{
+                        ekeyboard.__keyboardUp(Key::RCTRL);
+                        __callOnKeyRelease(Key::RCTRL);
+                    }
+                }
+                if ((flags & NSCommandKeyMask) != (oldFlags & NSCommandKeyMask)){
+                    if(flags & NSCommandKeyMask){
+                        ekeyboard.__keyboardDown(Key::RCTRL);
+                        __callOnKeyPress(Key::RCTRL);
+                    }else{
+                        ekeyboard.__keyboardUp(Key::RCTRL);
+                        __callOnKeyRelease(Key::RCTRL);
+                    }
+                }
+                if ((flags & NSAlternateKeyMask) != (oldFlags & NSAlternateKeyMask)){
+                    if(flags & NSAlternateKeyMask){
+                        ekeyboard.__keyboardDown(Key::RALT);
+                        __callOnKeyPress(Key::RALT);
+                    }else{
+                        ekeyboard.__keyboardUp(Key::RALT);
+                        __callOnKeyRelease(Key::RALT);
+                    }
+                }
+                if ((flags & NSShiftKeyMask) != (oldFlags & NSShiftKeyMask)){
+                    if(flags & NSShiftKeyMask){
+                        ekeyboard.__keyboardDown(Key::RSHIFT);
+                        __callOnKeyPress(Key::RSHIFT);
+                    }else{
+                        ekeyboard.__keyboardUp(Key::RSHIFT);
+                        __callOnKeyRelease(Key::RSHIFT);
+                    }
+                }
+                oldFlags = flags;
+            break;
 			default:
 				[NSApp sendEvent:event];
-				break;
+            break;
 		}
 	}
     

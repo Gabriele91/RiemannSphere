@@ -175,6 +175,14 @@ namespace Easy3D {
         virtual Vec2 getResizeValues() const{
             return ewindow.windowResize;
         }
+        /**
+         * copy a string
+         */
+        virtual void copyString(const String& paste);
+        /**
+         * paste a string
+         */
+        virtual String pasteString();
         
     #ifdef ___PUBLIC_FOR_COCOA_CLASS
         public:

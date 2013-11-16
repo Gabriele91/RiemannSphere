@@ -108,8 +108,12 @@ namespace Easy3D {
 			      const Color& color=Color(255,255,255,255));
 		void text(const String& textDraw,
 			      const Color& color=Color(255,255,255,255));
-		Vec2 sizeText( const String& textDraw);
-        
+        //utility
+        int pointChar(const String& text,
+                      const Vec2& pos);
+        //Vec3 pointPosChar(const String& text, const Vec2& pos);
+        Vec2 sizeText( const String& textDraw);
+        Vec2 endChar(const String& text,int i);
         //get if is loaded
         DFORCEINLINE bool isLoaded(){
             return loaded;

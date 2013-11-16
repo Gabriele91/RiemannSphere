@@ -408,45 +408,32 @@ namespace Easy3D {
 					}
 				}
 			}
-
+            /**
+             * get last input string
+             */
+            const String& getInputString(){
+                return inputString;
+            }
+            /**
+             * copy a string
+             */
+            virtual void copyString(const String& paste){
+                //void
+            }
+            /**
+             * paste a string
+             */
+            virtual String pasteString(){
+               return "";
+            }
+            
 			protected:
 
 				std::vector<KeyboardHandler*> vkeyboardh;
 				std::vector<FingersHandler*> vfingersh;
 				std::vector<AccelerometerHandler*> vaccelerometerh;
 				std::vector<MouseHandler*> vmouseh;
-				/*
-				//window
-				struct EventWindow{
-					bool focus,
-						 minimized,
-						 maximized,
-						 resize,
-						 close;
-					Vec2 windowResize;
-				}ewindow;
-				//mouse
-				struct EventMouse{
-					int nPress;
-					short scroll;
-					Vec2 pos;
-					bool status[Key::KEYBOARDMAX];
-					Key::Keyboard hit[10];
-				}emouse;
-				//fingers
-				struct EventFinges{
-					int nPress;
-					Vec2 pos[Key::FINGERMAX];
-					bool status[Key::FINGERMAX];//[2];
-					Key::Finger hit[Key::FINGERMAX];
-				}efingers;
-				//keyboard
-				struct EventKeyboard{
-					int nPress;
-					Key::Keyboard hit[10];
-					bool status[Key::KEYBOARDMAX];//[2];
-				}ekeyboard;
-				*/
+                String inputString;
 
 	};
 

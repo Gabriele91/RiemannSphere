@@ -1,0 +1,11 @@
+{
+	font="game.font.e2d"
+	textColor=(0 0 0 1)
+	selectColor=(0 0 0.5 0.5)
+	box={
+		image="base.png"
+		mbox=(400 40)
+		sbox=(8 8)//bug (8 60)
+		offset=(0 10)
+	}
+}

@@ -128,6 +128,19 @@ void Render::setCullFaceState(const CullFaceState& cf){
     }
 }
 
+
+
+Render::ViewportState Render::getViewportState(){
+    Render::ViewportState vs;
+    //get viewport
+	glGetFloatv(GL_VIEWPORT,&vs.viewport.x);
+    //return
+    return vs;
+}
+void Render::setViewportState(const ViewportState& vs){
+    glViewport(vs.viewport.x,vs.viewport.y,vs.viewport.z,vs.viewport.w);
+}
+
 Render::BlendState Render::getBlendState() const{
 	Render::BlendState bs;
 	//save blend

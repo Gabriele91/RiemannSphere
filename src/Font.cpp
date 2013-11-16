@@ -56,7 +56,7 @@ bool Font::load(){
 
 	Utility::Path pathFont(rpath.getDirectory()+"/"+fontInfo.getString("font"));
 
-	if(isBMFont=(pathFont.getExtension()=="fnt"))
+	if((isBMFont=(pathFont.getExtension()=="fnt")))
 		BMFontLoader::load(*this,pathFont);
 	else
 		FreeTypeFontLoader::load(*this,fontInfo,pathFont);
@@ -185,7 +185,6 @@ void Font::text(const String& textDraw,
 	//vector sprites
 	std::vector<float> xyUV(textDraw.size()*24,0);
 	//temp vars
-	int oldPage=0;
 	int countCharPage=0;
 	Character* chr=NULL;
 	Character* nextChr=getCharacter(textDraw[0]);
@@ -263,10 +262,8 @@ Vec2 Font::sizeText( const String& textDraw){
 	Vec2 outSize;
 	Vec2 cursor;
 	//temp vars
-	int countCharPage=0;
 	Character* chr=NULL;
 	Character* nextChr=getCharacter(textDraw[0]);
-	int pageLast=0;
     
 	for(int i=0;i<textDraw.length();++i){
 		//string's char
@@ -281,25 +278,160 @@ Vec2 Font::sizeText( const String& textDraw){
 		if(charFunction)
             charFunction(fontSize,cursor);
 		else if(chr){
-			//page
-			pageLast=chr->page;
-			//
-			Vec2 sizePage(pages[chr->page]->getWidth(),
-                          pages[chr->page]->getHeight());
-            
 			//opengl uv flipped error on y axis
 			float yerror=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
 			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
 			//get max
 			outSize.x=Math::max(outSize.x,posChr.x+chr->srcW);
 			outSize.y=Math::min(outSize.y,posChr.y-chr->srcH);
-			//count this char
-			++countCharPage;
 			//next pos
 			cursor.x+=chr->xAdv;
 		}
 	}
 	return outSize;
+}
+
+int Font::pointChar(const String& text,const Vec2& pos){
+    if(text.size()==0) return 0;
+	Vec2 outSize; Vec2 cursor;
+	//temp vars
+	Character* chr=NULL;
+	Character* nextChr=getCharacter(text[0]);
+    //points
+    Vec2 spoint,epoint;
+    
+    
+	for(int i=0;i<text.length();++i){
+        //set start point
+        spoint=epoint;
+		//string's char
+		char c=text[i];
+		char nextC=text[i+1];
+		//image's char
+		chr=nextChr;
+		//next char
+		nextChr=getCharacter(nextC);
+		//is special?
+		lambdaChar charFunction=isASpecialChar(c);
+		if(charFunction){
+            //jump
+            charFunction(fontSize,cursor);
+            //next point
+            epoint.x=cursor.x;
+            epoint.y=cursor.y-fontSize;
+        }
+		else if(chr){
+			//opengl uv flipped error on y axis
+			float yerror=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
+			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
+			//next pos
+			cursor.x+=chr->xAdv;
+            //next point
+            epoint.x=cursor.x;
+            epoint.y=cursor.y-fontSize;
+		}
+        if(pos.x>spoint.x && pos.x<epoint.x){
+            if(pos.y<(spoint.y+fontSize) && pos.y>epoint.y){
+                //mid
+                float midx=(epoint.x-spoint.x)*0.5+spoint.x;
+                //left char
+                if(midx<pos.x)
+                  return i+1;
+                else
+                  return i;
+            }
+        }
+	}
+	return -1;
+}
+/*
+Vec3 Font::pointPosChar(const String& text,const Vec2& pos){
+    if(text.size()==0) return Vec3::ZERO;
+	Vec2 outSize; Vec2 cursor;
+	//temp vars
+	Character* chr=NULL;
+	Character* nextChr=getCharacter(text[0]);
+    //points
+    Vec2 spoint,epoint;
+    
+    
+	for(int i=0;i<text.length();++i){
+        //set start point
+        spoint=epoint;
+		//string's char
+		char c=text[i];
+		char nextC=text[i+1];
+		//image's char
+		chr=nextChr;
+		//next char
+		nextChr=getCharacter(nextC);
+		//is special?
+		lambdaChar charFunction=isASpecialChar(c);
+		if(charFunction){
+            //jump
+            charFunction(fontSize,cursor);
+            //next point
+            epoint.x=cursor.x;
+            epoint.y=cursor.y-fontSize;
+        }
+		else if(chr){
+			//opengl uv flipped error on y axis
+			float yerror=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
+			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
+			//next pos
+			cursor.x+=chr->xAdv;
+            //next point
+            epoint.x=cursor.x;
+            epoint.y=cursor.y-fontSize;
+		}
+        if(pos.x>spoint.x && pos.x<epoint.x)
+            if(pos.y<(spoint.y+fontSize) && pos.y>epoint.y)
+                return Vec3(spoint.x,spoint.y+fontSize,i);
+	}
+	return Vec3(Vec2::ZERO,-1.0);
+}
+*/
+Vec2 Font::endChar(const String& text,int crI){
+    if(text.size()==0||crI==0||text.size()<crI) return Vec2::ZERO;
+	Vec2 outSize; Vec2 cursor;
+	//temp vars
+	Character* chr=NULL;
+	Character* nextChr=getCharacter(text[0]);
+    //points
+    Vec2 spoint,epoint;
+    
+    
+	for(int i=0;i<crI;++i){
+        //set start point
+        spoint=epoint;
+		//string's char
+		char c=text[i];
+		char nextC=text[i+1];
+		//image's char
+		chr=nextChr;
+		//next char
+		nextChr=getCharacter(nextC);
+		//is special?
+		lambdaChar charFunction=isASpecialChar(c);
+		if(charFunction){
+            //jump
+            charFunction(fontSize,cursor);
+            //next point
+            epoint.x=cursor.x;
+            epoint.y=cursor.y-fontSize;
+        }
+		else if(chr){
+			//opengl uv flipped error on y axis
+			float yerror=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
+			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
+			//next pos
+			cursor.x+=chr->xAdv;
+            //next point
+            epoint.x=cursor.x;
+            epoint.y=cursor.y-fontSize;
+		}
+	}
+	return  Vec2(epoint.x,epoint.y+fontSize);
 }
 
 /*

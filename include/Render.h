@@ -26,6 +26,22 @@ namespace Easy3D {
             DISABLE=0
         };
         
+        struct ViewportState{
+        
+            Vec4 viewport;
+            //costructors
+            ViewportState(){}
+            ViewportState(const Vec4& vp):viewport(vp){}
+            //operators
+			bool operator==(const ViewportState& vs) const {
+				return viewport==vs.viewport;
+			}
+			bool operator!=(const ViewportState& vs) const {
+				return viewport!=vs.viewport;
+			}
+            
+        };
+        
 		struct BlendState{
 			int src,dst,enable;
             //constructor
@@ -296,6 +312,9 @@ namespace Easy3D {
         
         CullFaceState getCullFaceState();
         void setCullFaceState(const CullFaceState& cf);
+        
+        ViewportState getViewportState();
+        void setViewportState(const ViewportState& vs);
         
 		BlendState getBlendState() const;
 		void setBlendState(const BlendState& bs);

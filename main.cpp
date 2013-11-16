@@ -15,6 +15,7 @@
 #include <RiemannSceneGeodesic.h>
 #include <RiemannSceneGLSL.h>
 #include <RiemannMenu.h>
+#include <RiemannFormula.h>
 
 //last exemple http://pastebin.com/RGFiAuBs
 
@@ -27,6 +28,9 @@ class RiemannApp : public Game,
                        
     //UI
     RiemannGui::RiemannMenu menu;
+    RiemannGui::RiemannFormula formula;
+    //font style
+    Easy3D::Font fprint;    //font
                        
     public:
     
@@ -39,7 +43,8 @@ class RiemannApp : public Game,
           30,
           false,
           Screen::MSAAx8)
-    ,menu(Table("assets/menu.e2d")){}
+         ,menu(Table("assets/menu.e2d"))
+         ,formula(Table("assets/formula.e2d")){}
     
     enum SCENE{
         RIEMANN_SCENE_GEODESIC=0,
@@ -55,6 +60,8 @@ class RiemannApp : public Game,
     
                        
     void onStart(){
+        //load font
+        fprint.load("assets/game.font.e2d");
         //add input keyboard
         getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
 		//scenes
@@ -89,6 +96,7 @@ class RiemannApp : public Game,
             menu.update(dt);
             //draw ui
             menu.draw(this);
+            formula.draw(this);
         }));
         addState(GUI_PRINT,new Easy3D::StateLambda([this](float dt){
             //save
@@ -109,7 +117,17 @@ class RiemannApp : public Game,
         setCurrentState(GUI_DRAW);
     }
     
-    void onRun(float dt){
+   void onRun(float dt){	//draw text
+       /*
+       setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
+       setTextureState(TextureState(TextureState::TEXTURE2D));
+       String testString="123456\n789";
+       fprint.text(Vec2::ZERO, testString,Vec2::ONE,Color(0,0,0,255));
+       Vec2 mouse=getInput()->getMouse();
+       mouse.y=-mouse.y;
+       fprint.text(Vec2(200,0), String::toString(fprint.pointChar(testString, mouse)+1),Vec2::ONE,Color(0,0,0,255));
+       fprint.text(Vec2(200,30), mouse.toString(),Vec2::ONE,Color(0,0,0,255));
+        */
     }
                        
     RiemannInterface *currentRiemann(){
