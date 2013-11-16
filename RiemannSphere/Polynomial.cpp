@@ -3,8 +3,7 @@
 #define pi M_PI
 
 template < class T>
-void HSVtoRGB( T *r, T *g, T *b, T h, T s, T v )
-{
+void HSVtoRGB( T *r, T *g, T *b, T h, T s, T v ){
 	int i;
 	T f, p, q, t;
 	if( s == 0 ) {

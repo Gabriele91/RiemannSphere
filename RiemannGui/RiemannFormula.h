@@ -13,13 +13,15 @@ namespace RiemannGui {
         Easy3D::String text;
         bool showpointer;
         int textid,textidselect;
-        Easy3D::Vec2 textSize;
-        Easy3D::Vec2 textPos;
+        Easy3D::Vec2  textSize;
+        Easy3D::Vec2  textPos;
         Easy3D::Color textColor;
         Easy3D::Color selectColor;
         Easy3D::Vec2  lastPointSelect;
+        Easy3D::Vec2  textOffest;
         //utility
         void calcTextSize();
+        void recalcTextOffset();
         //types
         enum VerticalType{
             TOP,
