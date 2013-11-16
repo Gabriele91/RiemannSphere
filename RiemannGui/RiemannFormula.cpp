@@ -26,6 +26,19 @@ RiemannFormula::RiemannFormula(const Easy3D::Table& config){
     mbox=boxConfig.getVector2D("mbox");
     sbox=boxConfig.getVector2D("sbox");
     offset=boxConfig.getVector2D("offset");
+    /////////////////////////////////////////////////////////////////////////////////////
+    //set vertical
+    vertical=boxConfig.getString("vertical","bottom")=="top" ? TOP : BOTTOM;
+    //set vertical
+    horizontal=CENTER; //default
+    String infohorizontal=boxConfig.getString("horizontal","center");
+    //get left
+    if(infohorizontal=="left")
+        horizontal=LEFT;
+    //else is right
+    else if(infohorizontal=="right")
+        horizontal=RIGHT;
+    /////////////////////////////////////////////////////////////////////////////////////
     //set input
     Application::instance()->getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
     Application::instance()->getInput()->addHandler((Easy3D::Input::MouseHandler*)this);
@@ -231,7 +244,21 @@ void RiemannFormula::draw(Easy3D::Render* render){
 	projection.setOrtho(0,windowSize.x,0,windowSize.y,0.0,1.0);
     //set pos
     Mat4 model;
-    Vec3 pos(windowSize.x*0.5-sizebox.x*0.5,0,0);
+    Vec3 pos;
+    //////////////////////////
+    //vertical
+    if(vertical==TOP)
+        pos.y=windowSize.y-sizebox.y;
+    else if(vertical==BOTTOM)
+        pos.y=0;
+    //horizontal
+    if(horizontal==CENTER)
+        pos.x=windowSize.x*0.5-sizebox.x*0.5;
+    else if(horizontal==LEFT)
+        pos.x=0;
+    else if(horizontal==RIGHT)
+        pos.x=windowSize.x-sizebox.x;
+    //////////////////////////
     model.setTranslation(pos);
     //set matrixs
     render->setMatrixsState(Render::MatrixsState(projection,model));

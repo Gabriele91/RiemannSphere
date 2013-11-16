@@ -18,9 +18,22 @@ namespace RiemannGui {
         Easy3D::Color textColor;
         Easy3D::Color selectColor;
         Easy3D::Vec2  lastPointSelect;
-        //utility methos
+        //utility
         void calcTextSize();
-                               
+        //types
+        enum VerticalType{
+            TOP,
+            BOTTOM
+        };
+        enum HorizontalType{
+            LEFT,
+            CENTER,
+            RIGHT
+        };
+        //
+        VerticalType vertical;
+        HorizontalType horizontal;
+        //
         //keyboard
         virtual void onKeyPress(Easy3D::Key::Keyboard key);
         virtual void onKeyRelease(Easy3D::Key::Keyboard key);

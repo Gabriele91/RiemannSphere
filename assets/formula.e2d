@@ -7,5 +7,7 @@
 		mbox=(400 40)
 		sbox=(8 8)
 		offset=(0 15)
+		vertical="bottom"
+		horizontal="center"
 	}
 }
