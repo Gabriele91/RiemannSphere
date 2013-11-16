@@ -15,8 +15,10 @@ namespace RiemannGui {
 		Easy3D::Vec2 pixelPerSecond;
         //menu type
         enum MType{
-            HORIZONTA,
-            VERTICAL
+            LEFT,
+            RIGHT,
+            TOP,
+            BOTTOM
         };
         //value type
         MType type;

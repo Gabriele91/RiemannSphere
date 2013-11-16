@@ -3,7 +3,7 @@
 	maxSize=(70 70)
 	velocity=(80 80)
 	padding=(20 20)
-	//type="horizontal"
+	type="left"
 
 	
 	buttons={

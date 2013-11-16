@@ -49,7 +49,15 @@ RiemannMenu::RiemannMenu(const Table& config){
     
     //set vertical or horizontal
     //n.b. default is vertical
-    type=config.getString("type","vertical").toLower()=="horizontal" ? HORIZONTA : VERTICAL;
+    String configtype=config.getString("type","bottom").toLower();
+    if(configtype=="bottom")
+        type=BOTTOM;
+    else if(configtype=="top")
+        type=TOP;
+    else if(configtype=="left")
+        type=LEFT;
+    else if(configtype=="right")
+        type=RIGHT;
     //
     
 	//sort
@@ -59,11 +67,14 @@ RiemannMenu::RiemannMenu(const Table& config){
 	//set position
 	Vec2 realsize=sizeBottons+paddingBottons;
 	Vec2 realsizeH=realsize*0.5;
+    //size screen
+    Vec2 sizeScreen(Application::instance()->getScreen()->getWidth(),
+                    Application::instance()->getScreen()->getHeight());
 
-    if(type==HORIZONTA){
+    if(type==BOTTOM||type==TOP){
         //calc center
-        Vec2 menucenter(Application::instance()->getScreen()->getWidth()*0.5,
-                        realsize.y*0.5);
+        Vec2 menucenter(sizeScreen.x*0.5,
+                        type==BOTTOM ? realsize.y*0.5 : sizeScreen.y-realsize.y*0.5);
         //pos buttons
         Vec2 leftPointer(menucenter);
         Vec2 rightPointer(menucenter);
@@ -91,10 +102,10 @@ RiemannMenu::RiemannMenu(const Table& config){
             rightPointer.x+=realsize.x;
         }
     }
-    else{
+    else if(type==LEFT||type==RIGHT){
         //calc center
-        Vec2 menucenter(realsize.x*0.5,
-                        Application::instance()->getScreen()->getHeight()*0.5);
+        Vec2 menucenter(type==LEFT ? realsize.x*0.5 : sizeScreen.x-realsize.x*0.5,
+                        sizeScreen.y*0.5);
         //pos buttons
         Vec2 topPointer(menucenter);
         Vec2 bottomPointer(menucenter);

@@ -86,7 +86,7 @@ bool isspace(const char* c){
 	return (*c)==' '|(*c)=='\r'|(*c)=='\t';
 }
 bool isvariable(const char* c){
-	return (*c)=='x';
+	return (*c)=='z';
 }
 bool isinteger(const char* c){
 	return  (*c)=='0'|(*c)=='1'|(*c)=='2'|
