@@ -5,7 +5,7 @@
 	box={
 		image="base.png"
 		mbox=(400 40)
-		sbox=(8 8)//bug (8 60)
-		offset=(0 10)
+		sbox=(8 8)
+		offset=(0 15)
 	}
 }

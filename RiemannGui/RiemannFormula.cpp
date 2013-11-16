@@ -7,12 +7,6 @@ using namespace RiemannGui;
 ///////////////////////
 
 RiemannFormula::RiemannFormula(const Easy3D::Table& config){
-    //setup logic
-    text="z^3-1";
-    textid=0;
-    showpointer=false;
-    textid=0;
-    textidselect=0;
     //font table
     Easy3D::String fontpath=config.getTablePath().getDirectory()+"/"+config.getString("font");
     font=new Easy3D::Font(fontpath);
@@ -50,6 +44,13 @@ RiemannFormula::RiemannFormula(const Easy3D::Table& config){
          cin==')'||
          cin=='i';
     };
+    //setup logic
+    text="z^3-1";
+    textid=0;
+    showpointer=false;
+    textid=0;
+    textidselect=0;
+    calcTextSize();
 }
 
 
@@ -61,7 +62,12 @@ RiemannFormula::~RiemannFormula(){
     delete font;
 }
 
+void RiemannFormula::calcTextSize(){
+    textSize=font->sizeText(text)*Vec2(1.0,-0.5);
+}
+
 void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
+    if(!showpointer) return;
     //pointer to left
     if(key==Easy3D::Key::LEFT){
         if(textid==textidselect)
@@ -87,6 +93,8 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
         int maxselect= textidselect<textid? textid: textidselect;
         //
         Application::instance()->getInput()->copyString(text.substr(minselect,maxselect-minselect));
+        //recalc text size
+        calcTextSize();
         //NO FIX POINT
         return;
     }
@@ -106,6 +114,8 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
                 ++textid;
             }
         }
+        //recalc text size
+        calcTextSize();
     }
     //insert a key or delete a key
     else if(Key::BACKSPACE==key||filter(Application::instance()->getInput()->getInputString()[0])){
@@ -129,6 +139,8 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
             --textid;
             text.erase(textid,1);
         }
+        //recalc text size
+        calcTextSize();
     }
     //NO EVENT
     else return;
@@ -149,9 +161,12 @@ void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse
         if(selectid>-1){
             textid=selectid;
             showpointer=true;
+            lastPointSelect=mousePosition;
         }
-        else
+        else{
             showpointer=false;
+        }
+        //reset slection
         textidselect=textid;
     }
 }
@@ -160,22 +175,21 @@ void RiemannFormula::onMouseDown(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse 
         //mpos
         Vec2 mposition( mousePosition.x-textPos.x,
                        -mousePosition.y+textPos.y);
-        //box
-        Vec2 p1=textPos;
-        Vec2 p2=p1+font->sizeText(text)*Vec2(1.0,-0.5);
+        //end point
+        Vec2 textP2=textPos+textSize;
         //select
         int selectid=font->pointChar(text, mposition);
         if(selectid>-1){
                 textidselect=selectid;
         }
-        else if(!(p1.x<mousePosition.x &&
-                  p2.x>mousePosition.x &&
-                  p1.y<mousePosition.y &&
-                  p2.y>mousePosition.y)
+        else if(!(textPos.x<mousePosition.x &&
+                  textP2.x >mousePosition.x &&
+                  textPos.y<mousePosition.y &&
+                  textP2.y >mousePosition.y)
                 ){
-            if(textidselect<textid)
+            if(lastPointSelect.x>mousePosition.x)
                 textidselect=0;
-            else if(textidselect>textid)
+            else if(lastPointSelect.x<mousePosition.x)
                 textidselect=(int)text.size();
         }
         
@@ -244,7 +258,7 @@ void RiemannFormula::draw(Easy3D::Render* render){
         //set pos
         Vec2 scalePointer(1,font->size()*0.5);
         Vec2 posPointer=font->endChar(text, textid);
-        Vec2 offsetPointer(-scalePointer.x*0.5,mbox.y-sbox.y-scalePointer.y*0.5);
+        Vec2 offsetPointer(-scalePointer.x*0.5,mbox.y-scalePointer.y);
         //first point
         //calc final pos
         Vec3 posFinalPointer(posPointer.x+offsetPointer.x,
