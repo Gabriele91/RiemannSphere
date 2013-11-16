@@ -226,6 +226,33 @@ void WindowsInput::update(){
 	
 }
 
+/**
+ * copy a string
+ */
+void WindowsInput::copyString(const String& paste){
+	OpenClipboard(GetDesktopWindow());
+	EmptyClipboard();
+	HGLOBAL hg=GlobalAlloc(GMEM_MOVEABLE,paste.size()+1);
+	if (!hg){
+		CloseClipboard();
+		return;
+	}
+	memcpy(GlobalLock(hg),paste.c_str(),paste.size()+1);
+	GlobalUnlock(hg);
+	SetClipboardData(CF_TEXT,hg);
+	CloseClipboard();
+	GlobalFree(hg);
+}
+/**
+ * paste a string
+ */
+String WindowsInput::pasteString(){
+    OpenClipboard(NULL);
+    HANDLE pText = GetClipboardData(CF_TEXT);
+    CloseClipboard();
+    LPVOID text = GlobalLock(pText);
+    return String(text);
+}
 
 //calls
 void WindowsInput::__callOnKeyPress(Key::Keyboard key) {
