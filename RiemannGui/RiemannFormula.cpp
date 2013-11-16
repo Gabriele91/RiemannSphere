@@ -99,6 +99,14 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
             textidselect=textid;
         else if(textid>textidselect)
             textid=textidselect;
+        //offset
+        if( textSize.x>mbox.x ){
+            Vec2 pointerPos=font->endChar(text, textid);
+            if((pointerPos.x+textOffest.x) < 0){
+                textOffest.x+=font->size()*4;
+                recalcTextOffset();
+            }
+        }
     }
     //pointer to right
     else if(key==Easy3D::Key::RIGHT){
@@ -108,6 +116,14 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
             textidselect=textid;
         else if(textid<textidselect)
             textid=textidselect;
+        //offset
+        if( textSize.x>mbox.x ){
+            Vec2 pointerPos=font->endChar(text, textid);
+            if((pointerPos.x+textOffest.x) > mbox.x){
+                textOffest.x-=font->size()*4;
+                recalcTextOffset();
+            }
+        }
     }
     //copy
     else if(Key::C==key&&Application::instance()->getInput()->getKeyDown(Key::RCTRL)){
