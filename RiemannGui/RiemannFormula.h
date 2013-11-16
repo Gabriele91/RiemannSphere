@@ -60,7 +60,10 @@ namespace RiemannGui {
         ~RiemannFormula();
         void setFilter(std::function<bool(char c)>& filter);
         void draw(Easy3D::Render* render);
-		void update(float dt);
+        const Easy3D::String& getText() const{
+            return text;
+        }
+        void setText(const Easy3D::String& text);
 
 	};
 

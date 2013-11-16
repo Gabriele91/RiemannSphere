@@ -58,7 +58,7 @@ RiemannFormula::RiemannFormula(const Easy3D::Table& config){
          cin=='i';
     };
     //setup logic
-    text="z^3-1";
+    text="";
     textid=0;
     showpointer=false;
     textid=0;
@@ -66,15 +66,18 @@ RiemannFormula::RiemannFormula(const Easy3D::Table& config){
     calcTextSize();
 }
 
-
 void RiemannFormula::setFilter(std::function<bool(char c)>& filter){
     this->filter=filter;
 }
 
 RiemannFormula::~RiemannFormula(){
+    //delete input
+    Application::instance()->getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)this);
+    Application::instance()->getInput()->removeHandler((Easy3D::Input::MouseHandler*)this);
+    //delete font
     delete font;
 }
-
+//utility
 void RiemannFormula::calcTextSize(){
     textSize=font->sizeText(text)*Vec2(1.0,-0.5);
 }
@@ -88,7 +91,7 @@ void RiemannFormula::recalcTextOffset(){
     else
         textOffest.x=0;
 }
-
+//keyboard
 void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
     if(!showpointer) return;
     //pointer to left
@@ -192,8 +195,6 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
 }
 void RiemannFormula::onKeyRelease(Easy3D::Key::Keyboard key) {}
 void RiemannFormula::onKeyDown(Easy3D::Key::Keyboard key) {}
-
-
 //mouse
 void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse button) {
     if(Easy3D::Key::BUTTON_LEFT==button){
@@ -255,7 +256,18 @@ void RiemannFormula::onMouseDown(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse 
 void RiemannFormula::onMouseRelease(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse button) {
     
 }
-
+//text
+void RiemannFormula::setText(const Easy3D::String& text){
+    this->text=text;
+    //reset
+    textidselect=textid=0;
+    showpointer=false;
+    offset=Vec2::ZERO;
+    //recalc text size and offset
+    calcTextSize();
+    //recalcTextOffset();
+}
+//to draw
 void RiemannFormula::draw(Easy3D::Render* render){
     ///////////////////////////////////////////////////////////////
     //save states
@@ -388,7 +400,4 @@ void RiemannFormula::draw(Easy3D::Render* render){
 	render->setMatrixsState(matrixsState);
     render->setClientState(clientState);
     render->setViewportState(globalViewport);
-}
-void RiemannFormula::update(float dt){
-
 }

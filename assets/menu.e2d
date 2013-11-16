@@ -11,19 +11,21 @@
 			single={
 				normal="exit.png"
 				//overed="exit.png"
-				//active="exit.png"
+				active="exitClose.png"
 			}
 			id=1
 		}
 		reload={
 			single={
 				normal="reload.png"
+				active="reloadTurn.png"
 			}
 			id=2
 		}
 		print={
 			single={
 				normal="print.png"
+                active="printAction.png"
 			}
 			id=3
 		}
