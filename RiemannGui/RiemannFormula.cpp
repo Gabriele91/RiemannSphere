@@ -257,12 +257,18 @@ void RiemannFormula::onMouseRelease(Easy3D::Vec2 mousePosition, Easy3D::Key::Mou
     
 }
 //text
-void RiemannFormula::setText(const Easy3D::String& text){
-    this->text=text;
+void RiemannFormula::setText(const Easy3D::String& intext){
+    //text=void
+    text="";
+    //add chars
+    for(auto cin:intext){
+        if(filter(cin))
+            text+=cin;
+    }
     //reset
     textidselect=textid=0;
     showpointer=false;
-    offset=Vec2::ZERO;
+    textOffest=Vec2::ZERO;
     //recalc text size and offset
     calcTextSize();
     //recalcTextOffset();

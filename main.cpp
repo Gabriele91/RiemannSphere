@@ -62,6 +62,7 @@ class RiemannApp : public Game,
     void onStart(){
         //load font
         fprint.load("assets/game.font.e2d");
+        formula.setText("z^3-1");
         //add input keyboard
         getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
 		//scenes
@@ -118,16 +119,7 @@ class RiemannApp : public Game,
     }
     
    void onRun(float dt){	//draw text
-       /*
-       setClientState(ClientState(ClientState::VERTEX|ClientState::UVMAP));
-       setTextureState(TextureState(TextureState::TEXTURE2D));
-       String testString="123456\n789";
-       fprint.text(Vec2::ZERO, testString,Vec2::ONE,Color(0,0,0,255));
-       Vec2 mouse=getInput()->getMouse();
-       mouse.y=-mouse.y;
-       fprint.text(Vec2(200,0), String::toString(fprint.pointChar(testString, mouse)+1),Vec2::ONE,Color(0,0,0,255));
-       fprint.text(Vec2(200,30), mouse.toString(),Vec2::ONE,Color(0,0,0,255));
-        */
+
     }
                        
     RiemannInterface *currentRiemann(){
