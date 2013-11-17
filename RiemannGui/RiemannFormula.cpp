@@ -390,13 +390,18 @@ void RiemannFormula::draw(Easy3D::Render* render){
             Vec3 posFinal(posPointer.x+offsetPointer.x,
                           posPointer.y+offsetPointer.y,
                           0.0);
-            //vertexs
-            float vertices[]={
-                 posFinalPointer.x,       -scalePointer.y+posFinal.y,
-                 posFinalPointer.x,        scalePointer.y+posFinal.y,
-                 posFinal.x,              -scalePointer.y+posFinal.y,
-                 posFinal.x,               scalePointer.y+posFinal.y
+            //vertexs default left
+            float vertices[8]={
+                posFinalPointer.x,       -scalePointer.y+posFinal.y,
+                posFinalPointer.x,        scalePointer.y+posFinal.y,
+                posFinal.x,              -scalePointer.y+posFinal.y,
+                posFinal.x,               scalePointer.y+posFinal.y
             };
+            //vertexs right
+            if(textidselect>textid){
+                Math::swap(vertices[2], vertices[4]);
+                Math::swap(vertices[3], vertices[5]);
+            }
             //client state
             render->setClientState(Render::ClientState::VERTEX);
             //save color

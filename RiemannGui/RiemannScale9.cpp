@@ -18,7 +18,7 @@ void RiemannScale9::bindVBO(const Easy3D::Vec2& mbox,
     //set pointers
     GLfloat *vptr=&vtx[0];
     #define vertex(py,px,u,v) (*vptr)=px+pos.x; ++vptr; (*vptr)=py+pos.y; ++vptr; (*vptr)=u; ++vptr; (*vptr)=v; ++vptr;
-    #define toquad(p1,p2,p3,p4) p1 p2 p3 p2 p3 p4
+    #define toquad(p1,p2,p3,p4) p1 p2 p3 p2 p4 p3
     //first quad
     toquad(
            vertex(   0.0,   0.0,0.0 ,0.0 ),
