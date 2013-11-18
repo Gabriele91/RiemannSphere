@@ -7,8 +7,7 @@ namespace RiemannSphere {
 
     template <class T>
 	class Schroeder4Fractal : public Fractal {
-		//pass
-		int npass;
+        
         
 		//function pointer
 		Polynomial<T>* fun;
@@ -22,7 +21,7 @@ namespace RiemannSphere {
         
 		//  ( f(x)*f'(x) ) / ( (f'(x)^2) - ( (f''(x)^2)/4 ) )
 		//  x function argument
-		DFORCEINLINE std::complex<T> fxOnDx(const std::complex<T>& x) const{
+		DFORCEINLINE std::complex<T> horner(const std::complex<T>& x) const{
             
             //exit condiction
 			if(fun->constants.size()==0) return 0;
@@ -60,13 +59,13 @@ namespace RiemannSphere {
 		// xk+1=xk-f(x)/f'(x)
 		// e=error max
 		// n=max iteration
-		DFORCEINLINE std::complex<T> schroeder(const std::complex<T>& x,T e,int& n) const{
+		DFORCEINLINE std::complex<T> schroeder4(const std::complex<T>& x,T e,int& n) const{
 			//var dec
 			std::complex<T> kx1;
 			std::complex<T> xk=x;
 			//loop
 			while(n--){
-				kx1=xk-fxOnDx(xk);
+				kx1=xk-horner(xk);
 				//tolleranza
 				if(complexDist(xk,kx1,e)){
 					xk=kx1;
@@ -102,19 +101,19 @@ namespace RiemannSphere {
             ,intensity(intensity){}
 		};
         
-		Schroeder4Fractal(Polynomial<T>* fun,int npass=100):fun(fun),npass(npass){}
+		Schroeder4Fractal(Polynomial<T>* fun,int npass=100):fun(fun){}
 		DFORCEINLINE Values calc(const std::complex<T>& xk) const{
 			//vars dec
-			int xkpass=npass;
+			int xkpass=fun->iterations;
 			std::complex<T> tmp;
 			//calc direction
 			//1E-37f
-			tmp=schroeder(xk,0.000000001f,xkpass);
+			tmp=schroeder4(xk,0.000000001f,xkpass);
 			//if found
 			if(xkpass>0)
 				//return id root
 				//todo calc minimal distance
-				return Values(nearRoots(tmp,0.0001f),((T)xkpass)/npass);
+				return Values(nearRoots(tmp,0.0001f),((T)xkpass)/fun->iterations);
 			//return 0
 			return Values();
 		}

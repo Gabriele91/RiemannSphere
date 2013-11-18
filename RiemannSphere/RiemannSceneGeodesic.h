@@ -25,8 +25,7 @@ namespace RiemannSphere {
         Easy3D::Camera camera;
         Easy3D::Object obj;
         CameraManager  *cameraManager;
-        Easy3D::Table polynomialConfig;
-        Polynomial<double> poly;
+        Polynomial<double> *poly;
         NewtonFractal<double> newton;
         HalleyFractal<double> halley;
         Halley4Fractal<double> halley4;
@@ -48,7 +47,7 @@ namespace RiemannSphere {
 
 	public:
 		
-        RiemannSceneGeodesic();
+        RiemannSceneGeodesic(Polynomial<double> *poly);
         ~RiemannSceneGeodesic();
         
         virtual void onPause();

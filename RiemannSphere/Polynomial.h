@@ -62,6 +62,18 @@ namespace RiemannSphere {
         
 	public:
 
+        enum Methos{
+            NEWTON=0,
+            HALLEY,
+            HALLEY4,
+            SCHROEDER,
+            SCHROEDER4,
+            GENERIC,
+            FRACTMAX
+        };
+        
+        Methos method;
+        int iterations;
         
 		std::vector< std::complex<T> > constants;
 		std::vector< std::complex<T> > subconstants;
@@ -90,9 +102,9 @@ namespace RiemannSphere {
             }
             else if(table.existsAsType("constants",Easy3D::Table::STRING)){
                 Easy3D::String errors;
-                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("constants"),
-                                                               constants,errors),errors,__FILE__,__LINE__);
+                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("constants"),constants,errors),errors,__FILE__,__LINE__);
             }
+            
             if(table.existsAsType("subconstants",Easy3D::Table::TABLE)){
                 const Easy3D::Table& tconstants=table.getConstTable("subconstants");
                 for(auto cns:tconstants){
@@ -108,9 +120,9 @@ namespace RiemannSphere {
             }
             else if(table.existsAsType("subconstants",Easy3D::Table::STRING)){
                 Easy3D::String errors;
-                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("subconstants"),
-                                                               subconstants,errors),errors,__FILE__,__LINE__);
+                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("subconstants"), subconstants,errors),errors,__FILE__,__LINE__);
             }
+            
             if(table.existsAsType("roots",Easy3D::Table::TABLE)){
                 const Easy3D::Table& troots=table.getConstTable("roots");
                 for(auto rt:troots){
@@ -121,26 +133,8 @@ namespace RiemannSphere {
                     roots.push_back(root);
                 }
             }
-			else{
-                size_t size=std::max(constants.size(),subconstants.size()+1);
+			else calcRoots();
                 
-                std::vector< std::complex<T> > pzq(size,0)
-                                              ,p1(size,0)
-                                              ,q1(size,0);
-                //q1
-                size_t size_q1=size-subconstants.size()-1;
-                for(size_t i=size_q1;i!=size-1;++i)
-                        q1[i]=subconstants[i-size_q1];
-                //p1
-                size_t size_p1=size-constants.size();
-                for(size_t i=size_p1;i!=size;++i)
-                    p1[i]=constants[i-size_p1];
-                //p-zq
-                for(size_t i=0;i!=size;++i)
-                    pzq[i]=p1[i]-q1[i];
-                
-				getPolynomialRoots(pzq,roots);
-			}
             if(table.existsAsType("rootsColors",Easy3D::Table::TABLE)){
                 const Easy3D::Table& troots=table.getConstTable("rootsColors");
                 for(auto rt:troots){
@@ -150,12 +144,77 @@ namespace RiemannSphere {
                         rt.second->get<Easy3D::Vec3>().z});
                 }
             }
-            else{
-                PolynomialColor::colors((int)roots.size(),rootsColor);
-            }
+            else PolynomialColor::colors((int)roots.size(),rootsColor);
+            
             //infinite root color
             infiniteColor=table.getVector3D("infiniteColor",Easy3D::Vec3::ONE);
             
+            //default newton
+            method=NEWTON;
+            //read from table
+            Easy3D::String strmethod=table.getString("method","newton").toLower();
+            if(strmethod=="newton"||strmethod=="n") method=NEWTON;
+            else if(strmethod=="halley"||strmethod=="h") method=HALLEY;
+            else if(strmethod=="halley4"||strmethod=="h4") method=HALLEY4;
+            else if(strmethod=="schroeder"||strmethod=="s") method=SCHROEDER;
+            else if(strmethod=="schroeder4"||strmethod=="s4") method=SCHROEDER4;
+            else if(strmethod=="generic"||strmethod=="g") method=GENERIC;
+            
+            //get iterations
+            iterations=table.getFloat("iterations",50);
+            
+        }
+        void calcRoots(){
+            if(subconstants.size()){
+                size_t size=std::max(constants.size(),subconstants.size()+1);
+                std::vector< std::complex<T> > pzq(size,0)
+                ,p1(size,0)
+                ,q1(size,0);
+                //q1
+                size_t size_q1=size-subconstants.size()-1;
+                for(size_t i=size_q1;i!=size-1;++i)
+                    q1[i]=subconstants[i-size_q1];
+                //p1
+                size_t size_p1=size-constants.size();
+                for(size_t i=size_p1;i!=size;++i)
+                    p1[i]=constants[i-size_p1];
+                //p-zq
+                for(size_t i=0;i!=size;++i)
+                    pzq[i]=p1[i]-q1[i];
+                
+                getPolynomialRoots(pzq,roots);
+            }
+            else{
+                getPolynomialRoots(constants,roots);
+            }
+        }
+        
+        void recalcPolynomial(const Easy3D::String& poly){
+            //parse poly
+            Easy3D::String errors;
+            Easy3D::Debug::doassert(PolynomialParse::parse(poly,constants,errors),errors,__FILE__,__LINE__);
+            //clear subs
+            subconstants.clear();
+            //recalc roots
+            roots.clear();
+            calcRoots();
+            //recalc colors
+            rootsColor.clear();
+            PolynomialColor::colors((int)roots.size(),rootsColor);
+        }
+        void recalcPolynomial(const Easy3D::String& poly,const Easy3D::String& subpoly){
+            //get errors
+            Easy3D::String errors;
+            //parse poly
+            Easy3D::Debug::doassert(PolynomialParse::parse(poly,constants,errors),errors,__FILE__,__LINE__);
+            //clear subpoly
+            Easy3D::Debug::doassert(PolynomialParse::parse(subpoly,subconstants,errors),errors,__FILE__,__LINE__);
+            //recalc roots
+            roots.clear();
+            calcRoots();
+            //recalc colors
+            rootsColor.clear();
+            PolynomialColor::colors((int)roots.size(),rootsColor);
         }
         
         static Easy3D::Vec3 planeToSphere(std::complex<T>& root){

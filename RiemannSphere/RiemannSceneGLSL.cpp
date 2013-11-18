@@ -5,13 +5,12 @@
 using namespace Easy3D;
 using namespace RiemannSphere;
 
-RiemannSceneGLSL::RiemannSceneGLSL()
+RiemannSceneGLSL::RiemannSceneGLSL(Polynomial<double> *poly)
     :RiemannInterface()
     ,cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,polynomialConfig("function.test.e2d")
-    ,poly(polynomialConfig)
-	,fractal(poly)
+    ,poly(poly)
+	,fractal(*poly)
 	,drawSymbols(&camera,this,
 				"assets/infinity.tga",
 				"assets/zero.tga",
@@ -73,9 +72,9 @@ void RiemannSceneGLSL::onStart(){
     aharoni.load("assets/game.font.e2d");
 	//shader
 	//load sheders
-	String definePolySize=("POLYSIZE "+String::toString(poly.constants.size()));
-	String defineSubPolySize=("SUBPOLYSIZE "+String::toString(Math::max(poly.subconstants.size(),(size_t)1)));
-	String defineItPoly=("NUMIT "+String::toString(polynomialConfig.getFloat("iterations",50)));
+	String definePolySize=("POLYSIZE "+String::toString(poly->constants.size()));
+	String defineSubPolySize=("SUBPOLYSIZE "+String::toString(Math::max(poly->subconstants.size(),(size_t)1)));
+	String defineItPoly=("NUMIT "+String::toString(poly->iterations));
     const char *defines[4]={NULL,NULL,NULL,0};
     defines[0]=&definePolySize[0];
     defines[1]=&defineSubPolySize[0];
@@ -90,13 +89,12 @@ void RiemannSceneGLSL::onStart(){
     //default newton
     fractal.fselected=NEWTON;
     //read from table
-    String method=polynomialConfig.getString("method","newton").toLower();
-    if(method=="newton"||method=="n") fractal.fselected=NEWTON;
-    else if(method=="halley"||method=="h") fractal.fselected=HALLEY;
-    else if(method=="halley4"||method=="h4") fractal.fselected=HALLEY4;
-    else if(method=="schroeder"||method=="s") fractal.fselected=SCHROEDER;
-    else if(method=="schroeder4"||method=="s4") fractal.fselected=SCHROEDER4;
-    else if(method=="generic"||method=="g") fractal.fselected=GENERIC;
+    if(poly->method==Polynomial<double>::NEWTON) fractal.fselected=NEWTON;
+    else if(poly->method==Polynomial<double>::HALLEY) fractal.fselected=HALLEY;
+    else if(poly->method==Polynomial<double>::HALLEY4) fractal.fselected=HALLEY4;
+    else if(poly->method==Polynomial<double>::SCHROEDER) fractal.fselected=SCHROEDER;
+    else if(poly->method==Polynomial<double>::SCHROEDER4) fractal.fselected=SCHROEDER4;
+    else if(poly->method==Polynomial<double>::GENERIC) fractal.fselected=GENERIC;
     
     //build grid
     grid.build(20,20);
@@ -223,9 +221,9 @@ void RiemannSceneGLSL::onRun(float dt){
 	if(dInfinite) drawSymbols.drawInfinity(Vec3(0,sphere.radius,0),Vec2(20,10),0.38,1.00);
 	if(dZero) drawSymbols.drawZero(Vec3(0,-sphere.radius,0),Vec2(10,20),0.38,1.00);
     
-    if(dRoots) for(size_t i=0;i<poly.roots.size();++i){
-        Vec3 pos=poly.planeToSphere(poly.roots[i]).to<'x','y','z'>()*(sphere.radius);
-        drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly.rootsColor[i]);
+    if(dRoots) for(size_t i=0;i<poly->roots.size();++i){
+        Vec3 pos=poly->planeToSphere(poly->roots[i]).to<'x','y','z'>()*(sphere.radius);
+        drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly->rootsColor[i]);
     }
 	
 }

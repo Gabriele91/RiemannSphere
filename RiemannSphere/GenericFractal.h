@@ -9,8 +9,6 @@ namespace RiemannSphere {
 
 	template <class T>
 	class GenericFractal : public Fractal {
-		//pass
-		int npass;
 
 		//function pointer
 		Polynomial<T>* fun;
@@ -89,10 +87,10 @@ namespace RiemannSphere {
 				  ,intensity(intensity){}
 		};
 
-		GenericFractal(Polynomial<T>* fun,int npass=50):fun(fun),npass(npass){}
+		GenericFractal(Polynomial<T>* fun):fun(fun){}
 		DFORCEINLINE Values calc(const std::complex<T>& xk) const{
 			//vars dec
-			int xkpass=npass;
+			int xkpass=fun->iterations;
 			std::complex<T> tmp;
 			//calc direction
 			//1E-37f
@@ -100,10 +98,10 @@ namespace RiemannSphere {
 			//if found 
 			if(xkpass>0){
                 //infinite color
-                if(isinf(tmp)) return Values(-2,((T)xkpass)/(npass+1));
+                if(isinf(tmp)) return Values(-2,((T)xkpass)/(fun->iterations+1));
 				//return id root
 				//todo calc minimal distance
-				return Values(nearRoots(tmp,0.0001f),((T)xkpass)/(npass+1));
+				return Values(nearRoots(tmp,0.0001f),((T)xkpass)/(fun->iterations+1));
             }
 			//return 0
 			return Values();

@@ -82,7 +82,8 @@ void RiemannFormula::calcTextSize(){
     textSize=font->sizeText(text)*Vec2(1.0,-0.5);
 }
 void RiemannFormula::recalcTextOffset(){
-    if( textSize.x>mbox.x ){
+    if( textSize.x>mbox.x )
+    {
         //min is 0
         textOffest.x=textOffest.x > 0 ? 0:textOffest.x;
         //max is text size(- size box)
@@ -144,18 +145,23 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
             }
         }
     }
-    //copy
-    else if(Key::C==key&&Application::instance()->getInput()->getKeyDown(Key::RCTRL)){
+    //copy or cut
+    else if(Key::list(key, Key::C, Key::X)&&Application::instance()->getInput()->getKeyDown(Key::RCTRL)){
         //delete substring
         int minselect= textidselect>textid? textid: textidselect;
         int maxselect= textidselect<textid? textid: textidselect;
         //
         Application::instance()->getInput()->copyString(text.substr(minselect,maxselect-minselect));
-        //recalc text size and offset
-        calcTextSize();
-        recalcPointerTextOffset();
-        //NO FIX POINT
-        return;
+        //is a cut command
+        if(key==Key::X){
+            //delete substring
+            text.erase(minselect, maxselect-minselect);
+            //recalc text size and offset
+            calcTextSize();
+            recalcPointerTextOffset();
+        }
+        else //NO FIX POINT (no change, only copy)
+            return;
     }
     //past
     else if(Key::V==key&&Application::instance()->getInput()->getKeyDown(Key::RCTRL)){

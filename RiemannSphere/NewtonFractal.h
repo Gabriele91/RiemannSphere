@@ -9,8 +9,7 @@ namespace RiemannSphere {
 
 	template <class T>
 	class NewtonFractal : public Fractal {
-		//pass
-		int npass;
+        
 
 		//function pointer
 		Polynomial<T>* fun;
@@ -25,7 +24,7 @@ namespace RiemannSphere {
 
 		//  f(x)/f'(x)
 		//  x function argument
-		DFORCEINLINE std::complex<T> fxOnDx(const std::complex<T>& x) const{
+		DFORCEINLINE std::complex<T> horner(const std::complex<T>& x) const{
 
             //exit condiction
 			if(fun->constants.size()==0) return 0;
@@ -55,7 +54,7 @@ namespace RiemannSphere {
 			std::complex<T> xk=x;
 			//loop
 			while(n--){
-				xk1=xk-fxOnDx(xk);
+				xk1=xk-horner(xk);
 				//tolleranza
 				if(complexDist(xk,xk1,e)){
 					xk=xk1;
@@ -92,10 +91,10 @@ namespace RiemannSphere {
 				  ,intensity(intensity){}
 		};
 
-		NewtonFractal(Polynomial<T>* fun,int npass=50):fun(fun),npass(npass){}
+		NewtonFractal(Polynomial<T>* fun,int npass=50):fun(fun){}
 		DFORCEINLINE Values calc(const std::complex<T>& xk) const{
 			//vars dec
-			int xkpass=npass;
+			int xkpass=fun->iterations;
 			std::complex<T> tmp;
 			//calc direction
 			//1E-37f
@@ -104,7 +103,7 @@ namespace RiemannSphere {
 			if(xkpass>0)
 				//return id root
 				//todo calc minimal distance
-				return Values(nearRoots(tmp,0.00000001f),((T)xkpass)/npass);
+				return Values(nearRoots(tmp,0.00000001f),((T)xkpass)/fun->iterations);
 			//return 0
 			return Values();
 		}

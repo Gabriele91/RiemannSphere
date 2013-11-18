@@ -18,8 +18,7 @@ namespace RiemannSphere {
                             Easy3D::Input::MouseHandler
     {
         
-        Easy3D::Table polynomialConfig;
-        Polynomial<double> poly;
+        Polynomial<double> *poly;
         CameraManager  *cameraManager;
         Easy3D::Camera camera;
         Easy3D::Object obj;
@@ -49,10 +48,7 @@ namespace RiemannSphere {
 			std::vector<Easy3D::Vec4> colors;
 			Easy3D::Vec4 infiniteColor;
 			FractalShader(Polynomial<double>& poly);
-            virtual ~FractalShader()
-            {
-                
-            }
+            virtual ~FractalShader(){}
 		}fractal;
         
         void shaderbind();
@@ -67,7 +63,7 @@ namespace RiemannSphere {
 
 	public:
 		
-        RiemannSceneGLSL();
+        RiemannSceneGLSL(Polynomial<double> *poly);
         ~RiemannSceneGLSL();
         
         virtual void onPause();

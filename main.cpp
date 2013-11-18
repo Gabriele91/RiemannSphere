@@ -30,6 +30,8 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     RiemannGui::RiemannFormula formula;
     //font style
     Easy3D::Font fprint;    //font
+    //polynomail
+    Polynomial<double> *poly;
                        
     public:
     
@@ -59,12 +61,15 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     
                        
     void onStart(){
+        //parse a poly
+        Table startTable("function.test.e2d");
+        poly=new RiemannSphere::Polynomial<double>(startTable);
+        formula.setText(startTable.getString("constants"));
         //load font
         fprint.load("assets/game.font.e2d");
-        formula.setText("z^3-1");
 		//scenes
-        addSceneAndActive(RIEMANN_SCENE_GEODESIC, fixSceneCast(new RiemannSphere::RiemannSceneGeodesic()));
-        addScene(RIEMANN_GLSL_SCENE, fixSceneCast(new RiemannSphere::RiemannSceneGLSL()));
+        addSceneAndActive(RIEMANN_SCENE_GEODESIC, fixSceneCast(new RiemannSphere::RiemannSceneGeodesic(poly)));
+        addScene(RIEMANN_GLSL_SCENE, fixSceneCast(new RiemannSphere::RiemannSceneGLSL(poly)));
         //add input keyboard
         getInput()->addHandler(dynamic_cast<Easy3D::Input::KeyboardHandler *>(this));
         //exit key
@@ -72,6 +77,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             onKeyDown(Key::ESCAPE);
         });
         menu.addOnClick("reload", [this](bool){
+            poly->recalcPolynomial(formula.getText());
             onKeyDown(Key::R);
         });
         menu.addOnClick("print", [this](bool){
@@ -171,7 +177,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             //delete scene
             delete scene;
             //new scene
-            auto newscene=fixSceneCast(new RiemannSphere::RiemannSceneGeodesic());
+            auto newscene=fixSceneCast(new RiemannSphere::RiemannSceneGeodesic(poly));
             //active
             addSceneAndActive(RIEMANN_SCENE_GEODESIC, newscene);
             //set options draw
@@ -188,7 +194,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             //delete scene
             delete scene;
             //new scene
-            auto newscene=fixSceneCast(new RiemannSphere::RiemannSceneGLSL());
+            auto newscene=fixSceneCast(new RiemannSphere::RiemannSceneGLSL(poly));
             //active
             addSceneAndActive(RIEMANN_GLSL_SCENE, newscene);
             //set options draw

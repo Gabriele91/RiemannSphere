@@ -6,37 +6,29 @@ using namespace RiemannSphere;
 using namespace Easy3D;
 ///////////////////////
 //#define _HD_
-RiemannSceneGeodesic::RiemannSceneGeodesic()
+RiemannSceneGeodesic::RiemannSceneGeodesic(Polynomial<double> *poly)
     :RiemannInterface()
     ,cameraManager(NULL)
     ,sceneInfo(ON_PAUSE)
-    ,polynomialConfig("function.test.e2d")
-    ,poly(polynomialConfig)
-    ,newton(&poly,polynomialConfig.getFloat("iterations",50))
-    ,halley(&poly,polynomialConfig.getFloat("iterations",50))
-    ,halley4(&poly,polynomialConfig.getFloat("iterations",50))
-    ,schroeder(&poly,polynomialConfig.getFloat("iterations",50))
-    ,schroeder4(&poly,polynomialConfig.getFloat("iterations",50))
-    ,genericfractal(&poly,polynomialConfig.getFloat("iterations",50))
-	,drawSymbols(&camera,this,
-				"assets/infinity.tga",
-				"assets/zero.tga",
-				"assets/point.tga")
+    ,poly(poly)
+    ,newton(poly)
+    ,halley(poly)
+    ,halley4(poly)
+    ,schroeder(poly)
+    ,schroeder4(poly)
+    ,genericfractal(poly)
+	,drawSymbols(&camera,this,"assets/infinity.tga","assets/zero.tga","assets/point.tga")
 {
     Fractal *select=NULL;
-    String method=polynomialConfig.getString("method","newton").toLower();
-    if(method=="newton"||method=="n") select=&newton;
-    else if(method=="halley"||method=="h") select=&halley;
-    else if(method=="halley4"||method=="h4") select=&halley4;
-    else if(method=="schroeder"||method=="s") select=&schroeder;
-    else if(method=="schroeder4"||method=="s4") select=&schroeder4;
-    else if(method=="generic"||method=="g") select=&genericfractal;
-    DEBUG_ASSERT_MSG(select, "Must to be selected a valid method");
-    sphere=new GeodesicSphere(&camera,
-                              select,
-                              3.0,
-                              (size_t)(536870912*0.1),
-                              (size_t)(536870912*3));
+    
+    if(poly->method==Polynomial<double>::NEWTON) select=&newton;
+    else if(poly->method==Polynomial<double>::HALLEY) select=&halley;
+    else if(poly->method==Polynomial<double>::HALLEY4) select=&halley4;
+    else if(poly->method==Polynomial<double>::SCHROEDER) select=&schroeder;
+    else if(poly->method==Polynomial<double>::SCHROEDER4) select=&schroeder4;
+    else if(poly->method==Polynomial<double>::GENERIC) select=&genericfractal;
+    
+    sphere=new GeodesicSphere(&camera,select,3.0,(size_t)(536870912*0.1), (size_t)(536870912*3));
     //build grid
     grid.build(20,20);
     grid.setScale(Vec3(10,1,10));
@@ -175,9 +167,9 @@ void RiemannSceneGeodesic::onRun(float dt){
    	if(dInfinite) drawSymbols.drawInfinity(Vec3(0,camera_sphere.radius,0),Vec2(20,10),0.38,1.00);
 	if(dZero)     drawSymbols.drawZero(Vec3(0,-camera_sphere.radius,0),Vec2(10,20),0.38,1.00);
     
-    if(dRoots) for(size_t i=0;i<poly.roots.size();++i){
-        Vec3 pos=poly.planeToSphere(poly.roots[i])*(camera_sphere.radius);
-        drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly.rootsColor[i]);
+    if(dRoots) for(size_t i=0;i<poly->roots.size();++i){
+        Vec3 pos=poly->planeToSphere(poly->roots[i])*(camera_sphere.radius);
+        drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly->rootsColor[i]);
     }
 }
 
