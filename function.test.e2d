@@ -11,7 +11,7 @@
 	*/
 	
 
-	iterations=50
+	iterations=100
 	method="n"
 	//constants="(5-i)z^5-z^2-2z-1"
 	//constants="z^50-z^20-28z^7-1"

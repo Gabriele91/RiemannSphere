@@ -28,6 +28,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     //UI
     RiemannGui::RiemannMenu menu;
     RiemannGui::RiemannFormula formula;
+    RiemannGui::RiemannFormula iterations;
     //font style
     Easy3D::Font fprint;    //font
     //polynomail
@@ -44,8 +45,9 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
           30,
           false,
           Screen::MSAAx8)
-         ,menu(Table("assets/menu.e2d"))
-         ,formula(Table("assets/formula.e2d")){}
+        ,menu(Table("assets/menu.e2d"))
+        ,formula(Table("assets/formula.e2d"))
+        ,iterations(Table("assets/iterations.e2d")){}
     
     enum SCENE{
         RIEMANN_SCENE_GEODESIC=0,
@@ -65,6 +67,11 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         Table startTable("function.test.e2d");
         poly=new RiemannSphere::Polynomial<double>(startTable);
         formula.setText(startTable.getString("constants"));
+        //set filters
+        iterations.setFilter([](char cin)->bool{
+            return ( 0<=(cin-'0') && (cin-'0')<10 ) ;//numbers
+        });
+        iterations.setText(String::toString(poly->iterations));
         //load font
         fprint.load("assets/game.font.e2d");
 		//scenes
@@ -78,6 +85,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         });
         menu.addOnClick("reload", [this](bool){
             poly->recalcPolynomial(formula.getText());
+            poly->iterations=iterations.getText().toInt();
             onKeyDown(Key::R);
         });
         menu.addOnClick("print", [this](bool){
@@ -102,6 +110,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             //draw ui
             menu.draw(this);
             formula.draw(this);
+            iterations.draw(this);
         }));
         addState(GUI_PRINT,new Easy3D::StateLambda([this](float dt){
             //save

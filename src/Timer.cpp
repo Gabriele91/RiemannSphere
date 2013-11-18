@@ -7,6 +7,10 @@ void Timer::start(){
 	started=true;
 	sTime=GetTime();
 }
+void Timer::start(double stime){
+	started=true;
+	sTime=stime;
+}
 double Timer::getGetCounter(){
 	return started ? GetTime()-sTime : 0;
 }

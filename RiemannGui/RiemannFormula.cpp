@@ -63,10 +63,11 @@ RiemannFormula::RiemannFormula(const Easy3D::Table& config){
     showpointer=false;
     textid=0;
     textidselect=0;
+    dbclick.start();
     calcTextSize();
 }
 
-void RiemannFormula::setFilter(std::function<bool(char c)>& filter){
+void RiemannFormula::setFilter(std::function<bool(char c)> filter){
     this->filter=filter;
 }
 
@@ -220,23 +221,57 @@ void RiemannFormula::onKeyDown(Easy3D::Key::Keyboard key) {}
 //mouse
 void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse button) {
     if(Easy3D::Key::BUTTON_LEFT==button){
-        Vec2 mposition(mousePosition.x-textPos.x,
+        //disable all text selection
+        alltext=false;
+        //disable visiable pointer
+        showpointer=false;
+        //calc end point
+        Vec2 textAreaEndPoint=textPos+mbox;
+        //in text area box
+        bool inTextAreaBox=(textPos.x          <mousePosition.x &&
+                            textAreaEndPoint.x >mousePosition.x &&
+                            textPos.y          <mousePosition.y &&
+                            textAreaEndPoint.y >mousePosition.y);
+        
+        
+        if(!inTextAreaBox){
+            showpointer=false;
+            //reset slection
+            textidselect=textid;
+            return;
+        }
+        
+        //double click?
+        if(dbclick.getGetCounter()<400){
+            textid=0;
+            textidselect=(int)text.size();
+            showpointer=true;
+            alltext=true;
+            lastPointSelect=mousePosition;
+            dbclick.reset();
+            return;
+        }
+        else{
+            //reset
+            dbclick.reset();
+        }
+        
+        //single click
+        Vec2 mposition( mousePosition.x-textPos.x,
                        -mousePosition.y+textPos.y);
+        
         int selectid=font->pointChar(text, mposition-textOffest);
         if(selectid>-1){
             textid=selectid;
             showpointer=true;
             lastPointSelect=mousePosition;
         }
-        else{
-            showpointer=false;
-        }
         //reset slection
         textidselect=textid;
     }
 }
 void RiemannFormula::onMouseDown(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse button) {
-    if(Easy3D::Key::BUTTON_LEFT==button && showpointer){
+    if(Easy3D::Key::BUTTON_LEFT==button && showpointer && !alltext){
         //mpos
         Vec2 mposition( mousePosition.x-textPos.x,
                        -mousePosition.y+textPos.y);
@@ -356,8 +391,8 @@ void RiemannFormula::draw(Easy3D::Render* render){
     ////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////
     //draw formula
-    textPos=Vec2(pos.x+sbox.x,windowSize.y-(pos.y+mbox.y+sbox.y+offset.y)); //no viewport
-    render->setViewportState(Vec4(pos.x+sbox.x,pos.y+sbox.y+offset.y,mbox.x,mbox.y)); //viewport
+    textPos=Vec2(pos.x+sbox.x+offset.x,windowSize.y-(pos.y+mbox.y+sbox.y+offset.y)); //no viewport
+    render->setViewportState(Vec4(pos.x+sbox.x+offset.x,pos.y+sbox.y+offset.y,mbox.x,mbox.y)); //viewport
     //set matrix
 	projection.setOrtho(0,mbox.x,0,mbox.y,0.0,1.0);
     model.setTranslation(Vec2(textOffest.x,textOffest.y+mbox.y));

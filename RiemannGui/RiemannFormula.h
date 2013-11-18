@@ -19,6 +19,9 @@ namespace RiemannGui {
         Easy3D::Color selectColor;
         Easy3D::Vec2  lastPointSelect;
         Easy3D::Vec2  textOffest;
+        //double click timer
+        bool          alltext;
+        Easy3D::Timer dbclick;
         //utility
         void calcTextSize();
         void recalcTextOffset();
@@ -59,7 +62,7 @@ namespace RiemannGui {
 
 		RiemannFormula(const Easy3D::Table& config);
         ~RiemannFormula();
-        void setFilter(std::function<bool(char c)>& filter);
+        void setFilter(std::function<bool(char c)> filter);
         void draw(Easy3D::Render* render);
         const Easy3D::String& getText() const{
             return text;

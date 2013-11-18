@@ -16,6 +16,7 @@ namespace Easy3D {
 
 		Timer():started(false),sTime(0.0){}
 		void start();
+		void start(double stime);
 		double getGetCounter();
 		void reset();
 		void end();
