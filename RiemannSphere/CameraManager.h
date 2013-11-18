@@ -8,7 +8,8 @@
 namespace RiemannSphere {
     
     struct CameraPositionInfo{
-        float angle,n,f;
+        float angle;
+        float n,f;
         Easy3D::Vec3 pos;
         Easy3D::Quaternion rot;
     };

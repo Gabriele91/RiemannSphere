@@ -26,7 +26,7 @@ using namespace Easy3D;
     
 -(id) init;
     
--(void) listen:(CocoaInput *) datainput:(NSWindow*) datawindow;
+-(void) listen:(CocoaInput *)datainput :(NSWindow*) datawindow;
 -(void) close;
     
 /* Window delegate functionality */
@@ -73,7 +73,7 @@ using namespace Easy3D;
     return self;
 }
     
-- (void)listen:(CocoaInput *) datainput:(NSWindow*) datawindow
+- (void)listen:(CocoaInput *)datainput :(NSWindow*) datawindow
 {
     Easy3Dinput = datainput;
     Easy3Dwindow=datawindow;

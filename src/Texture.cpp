@@ -98,7 +98,7 @@ bool Texture::load(){
 	Application::instance()->loadData(rpath,data,len);
 	//load image
 	Image image;
-	image.loadFromData(data,len,Image::getTypeFromExtetion(rpath.getExtension()));
+	image.loadFromData(data,(uint)len,Image::getTypeFromExtetion(rpath.getExtension()));
 	//free raw file
 	free(data);
 	/////////////////////////////////////////////////////////////////////

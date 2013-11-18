@@ -87,8 +87,8 @@ void RiemannSceneGeodesic::onResume(){
 	//set client state
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add input
-    getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
-    getInput()->addHandler((Easy3D::Input::MouseHandler*)this);
+    getInput()->addHandler(dynamic_cast<Easy3D::Input::KeyboardHandler*>(this));
+    getInput()->addHandler(dynamic_cast<Easy3D::Input::MouseHandler*>(this));
     //set state
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
     //save info
@@ -188,8 +188,8 @@ void RiemannSceneGeodesic::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3
 
 void RiemannSceneGeodesic::onPause(){
     //remove input
-    getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)this);
-    getInput()->removeHandler((Easy3D::Input::MouseHandler*)this);
+    getInput()->removeHandler(dynamic_cast<Easy3D::Input::KeyboardHandler*>(this));
+    getInput()->removeHandler(dynamic_cast<Easy3D::Input::MouseHandler*>(this));
     //set state
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_DISABLE);
     //save info
@@ -208,9 +208,4 @@ void RiemannSceneGeodesic::setCameraPositionInfo(const CameraPositionInfo& cpi){
 }
 
 void RiemannSceneGeodesic::onKeyDown(Key::Keyboard key){}
-void RiemannSceneGeodesic::onMouseDown(Vec2 mousePosition, Key::Mouse button){
-    // if(button==Key::BUTTON_LEFT)
-    //    obj.setTranslation(Vec3(0,0,-0.1f));
-    // else if(button==Key::BUTTON_RIGHT)
-    //      obj.setTranslation(Vec3(0,0,0.1f));
-}
+void RiemannSceneGeodesic::onMouseDown(Vec2 mousePosition, Key::Mouse button){}

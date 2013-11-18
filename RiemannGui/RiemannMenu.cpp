@@ -189,7 +189,7 @@ void RiemannMenu::draw(Easy3D::Render* render){
     //enable texture
     render->setTextureState(Render::TextureState::TEXTURE2D);
 	//draw
-	static const float
+	static const float //back face culling
 	xyUV[]={
              0.5,-0.5,1.0,1.0,
              0.5, 0.5,1.0,0.0,

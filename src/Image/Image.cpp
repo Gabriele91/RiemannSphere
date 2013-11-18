@@ -636,7 +636,7 @@ void Image::scaleLine(BYTE *source,
 void Image::scale(unsigned int newWidth,unsigned int newHeight){
 
 	BYTE *newbytes=NULL;
-	if(newbytes=(BYTE *)malloc(channels*newWidth*newHeight)){
+	if((newbytes=(BYTE *)malloc(channels*newWidth*newHeight))){
 
 		  int numPixels = newHeight;
 		  int part = (height / newHeight) * newWidth * channels;

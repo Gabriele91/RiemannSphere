@@ -26,6 +26,18 @@ namespace RiemannSphere {
         void drawRoots(bool dr){ dRoots=dr; }
         void drawInfinite(bool di){ dInfinite=di; }
         void drawZero(bool dz){ dZero=dz; }
+        RiemannInterface getDrawOptions(){
+            return *this;
+        }
+        void setDrawOptions(const RiemannInterface& opts){
+           (*this)=opts;
+        }
+        virtual CameraPositionInfo getCameraPositionInfo(){
+            return CameraPositionInfo();
+        }
+        virtual void setCameraPositionInfo(const CameraPositionInfo& cpi){
+            //pass
+        }
         
 	};
 

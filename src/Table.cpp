@@ -194,7 +194,7 @@ DFORCEINLINE bool parseCString(int& countln,const char* in,String& out,const cha
         return false;
 }
 DFORCEINLINE bool parseName(const char* in,String& out,const char** cout=NULL){
-        if (!isStartName(*in)) false;
+        if (!isStartName(*in)) return false;
 		out+=*in; ++in;
 		while(isCharName(*in)){ out+=*in; ++in; }
 		(*cout)=in;
@@ -232,7 +232,7 @@ DFORCEINLINE void skeepSpaceAndComment(int& cntN,const char** inout){
 }
 
 DFORCEINLINE bool parseInclude(int& countln,const char* in,String& out,const char** cout=NULL){
-        if (!isIncludeStart(*in)) false;
+        if (!isIncludeStart(*in)) return false;
 		++in;//jmp <
 		skeepSpaceAndComment(countln,&in);//jump space
 		while(!isIncludeEnd(*in)&&(*in)!='\0'&&(*in)!=EOF){
@@ -342,7 +342,7 @@ int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stl
 			case TK_TABLE_END:
 				++prtC; //jmp }
 				if(lenRead)
-					(*lenRead)=prtC-intextfile.c_str();
+					(*lenRead)=(int)(prtC-intextfile.c_str());
 				return cntEL;
 				/* end parse */
 				break;

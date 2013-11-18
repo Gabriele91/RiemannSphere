@@ -368,9 +368,10 @@ namespace Easy3D {
 				for(auto it=vkeyboardh.begin();it!=vkeyboardh.end();++it) {
 					if(*it==handler) {
 						vkeyboardh.erase(it);
-						break;
+						return;
 					}
 				}
+                DEBUG_ASSERT(0);
 			}
 			/**
 			* Removes an input fingers handler from the callback list
@@ -380,9 +381,10 @@ namespace Easy3D {
 				for(auto it=vfingersh.begin();it!=vfingersh.end();++it) {
 					if(*it==handler) {
 						vfingersh.erase(it);
-						break;
+						return;
 					}
 				}
+                DEBUG_ASSERT(0);
 			}
 			/**
 			* Removes an input accelerometer handler from the callback list
@@ -392,9 +394,10 @@ namespace Easy3D {
 				for(auto it=vaccelerometerh.begin();it!=vaccelerometerh.end();++it) {
 					if(*it==handler) {
 						vaccelerometerh.erase(it);
-						break;
+						return;
 					}
 				}
+                DEBUG_ASSERT(0);
 			}
 			/**
 			* Removes an input mouse handler from the callback list
@@ -404,9 +407,10 @@ namespace Easy3D {
 				for(auto it=vmouseh.begin();it!=vmouseh.end();++it) {
 					if(*it==handler) {
 						vmouseh.erase(it);
-						break;
+						return;
 					}
 				}
+                DEBUG_ASSERT(0);
 			}
             /**
              * get last input string

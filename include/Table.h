@@ -409,7 +409,7 @@ namespace Easy3D{
 				errors+=String::toString(line)+":"+c+":"+error+"\n";
 			}
 			void clear(){
-				errors;
+				errors.clear();
 			}
 			const String& toString() const{
 				return errors;

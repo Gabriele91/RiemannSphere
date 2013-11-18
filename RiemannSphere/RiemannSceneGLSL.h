@@ -24,29 +24,39 @@ namespace RiemannSphere {
         Easy3D::Camera camera;
         Easy3D::Object obj;
         Easy3D::Font aharoni;
-		Easy3D::Shader newtonShader;
-		Easy3D::Shader halleyShader;
-		Easy3D::Shader schroederShader;
-		Easy3D::Shader halley4Shader;
-		Easy3D::Shader schroeder4Shader;
-		Easy3D::Shader genericShader;
+        
+        enum TypeFractals{
+            NEWTON=0,
+            HALLEY,
+            HALLEY4,
+            SCHROEDER,
+            SCHROEDER4,
+            GENERIC,
+            FRACTMAX
+        };
+        
+        Easy3D::Shader shader[FRACTMAX];
 		DrawSymbols drawSymbols;
         GridMesh grid;
 		Sphere  sphere;
         GeodesicMesh gfSphere;
 
 		struct FractalShader{
-			Easy3D::Shader *sheder;
+			TypeFractals fselected;
 			std::vector<Easy3D::Vec2> constants;
 			std::vector<Easy3D::Vec2> subconstants;
 			std::vector<Easy3D::Vec2> roots;
 			std::vector<Easy3D::Vec4> colors;
 			Easy3D::Vec4 infiniteColor;
 			FractalShader(Polynomial<double>& poly);
-			void bind();
-			void unbind();
+            virtual ~FractalShader()
+            {
+                
+            }
 		}fractal;
-
+        
+        void shaderbind();
+        void shaderunbind();
         
         enum SceneInfo{
             ON_RESUME,
@@ -71,8 +81,8 @@ namespace RiemannSphere {
         virtual void onEnd();
         
         //camera info
-        CameraPositionInfo getCameraPositionInfo();
-        void setCameraPositionInfo(const CameraPositionInfo& cpi);
+        virtual CameraPositionInfo getCameraPositionInfo();
+        virtual void setCameraPositionInfo(const CameraPositionInfo& cpi);
 
         virtual void onKeyDown(Easy3D::Key::Keyboard key);
 

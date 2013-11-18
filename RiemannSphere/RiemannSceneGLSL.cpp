@@ -24,7 +24,7 @@ RiemannSceneGLSL::~RiemannSceneGLSL(){
 
 
 
-RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly){
+RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly):fselected(NEWTON){
     for(auto c:poly.constants)
 		constants.push_back(Vec2(c.real(),c.imag()));
     for(auto c:poly.subconstants)
@@ -39,31 +39,31 @@ RiemannSceneGLSL::FractalShader::FractalShader(Polynomial<double>& poly){
     infiniteColor.b=(float)poly.infiniteColor.b;
     infiniteColor.a=(float)1.0f;
 }
-void RiemannSceneGLSL::FractalShader::bind(){
-	sheder->bind();
-	sheder->uniformFloat("radius",1.0f);
+void RiemannSceneGLSL::shaderbind(){
+	shader[fractal.fselected].bind();
+	shader[fractal.fselected].uniformFloat("radius",6.0f);
     //uniform polygon
-    sheder->uniformVec2Array("poly",&constants[0],(int)constants.size());
+    shader[fractal.fselected].uniformVec2Array("poly",&fractal.constants[0],(int)fractal.constants.size());
     //uniform subpolygon if is supportated
-    GLint idsubpoly=sheder->getUniformID("subpoly");
+    GLint idsubpoly=shader[fractal.fselected].getUniformID("subpoly");
     if(idsubpoly!=-1)
-		sheder->uniformVec2Array(idsubpoly,&subconstants[0],(int)subconstants.size());
+		shader[fractal.fselected].uniformVec2Array(idsubpoly,&fractal.subconstants[0],(int)fractal.subconstants.size());
     //uniform infinitecolor if is supportated
-    GLint infcolor=sheder->getUniformID("infcolor");
+    GLint infcolor=shader[fractal.fselected].getUniformID("infcolor");
     if(idsubpoly!=-1)
-		sheder->uniformVector4D(infcolor,infiniteColor);
+		shader[fractal.fselected].uniformVector4D(infcolor,fractal.infiniteColor);
 	//uniform roots
-    sheder->uniformVec2Array("roots",&roots[0],(int)roots.size());
+    shader[fractal.fselected].uniformVec2Array("roots",&fractal.roots[0],(int)fractal.roots.size());
 	//uniform colors
-    sheder->uniformVec4Array("colors",&colors[0],(int)colors.size());
+    shader[fractal.fselected].uniformVec4Array("colors",&fractal.colors[0],(int)fractal.colors.size());
 }
-void RiemannSceneGLSL::FractalShader::unbind(){
-	sheder->unbind();
+void RiemannSceneGLSL::shaderunbind(){
+	shader[fractal.fselected].unbind();
 }
 
 void RiemannSceneGLSL::onStart(){
     //add camera manage
-	sphere.radius=2.5;
+	sphere.radius=3;
 	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,&sphere));
     cameraManager->setVelocity(Vec3(10,10,0.08));
     cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 100);
@@ -80,30 +80,29 @@ void RiemannSceneGLSL::onStart(){
     defines[0]=&definePolySize[0];
     defines[1]=&defineSubPolySize[0];
     defines[2]=&defineItPoly[0];
-	schroederShader.loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
-	schroeder4Shader.loadShader("assets/base.vs.glsl","assets/schroeder4.ps.glsl",defines);
-    halleyShader.loadShader("assets/base.vs.glsl","assets/halley.ps.glsl",defines);
-    halley4Shader.loadShader("assets/base.vs.glsl","assets/halley4.ps.glsl",defines);
-    newtonShader.loadShader("assets/base.vs.glsl","assets/newton.ps.glsl",defines);
-    genericShader.loadShader("assets/base.vs.glsl","assets/generic.ps.glsl",defines);
+	shader[SCHROEDER].loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
+	shader[SCHROEDER4].loadShader("assets/base.vs.glsl","assets/schroeder4.ps.glsl",defines);
+    shader[HALLEY].loadShader("assets/base.vs.glsl","assets/halley.ps.glsl",defines);
+    shader[HALLEY4].loadShader("assets/base.vs.glsl","assets/halley4.ps.glsl",defines);
+    shader[NEWTON].loadShader("assets/base.vs.glsl","assets/newton.ps.glsl",defines);
+    shader[GENERIC].loadShader("assets/base.vs.glsl","assets/generic.ps.glsl",defines);
     
     //default newton
-    fractal.sheder=&newtonShader;
+    fractal.fselected=NEWTON;
     //read from table
     String method=polynomialConfig.getString("method","newton").toLower();
-    if(method=="newton"||method=="n") fractal.sheder=&newtonShader;
-    else if(method=="halley"||method=="h") fractal.sheder=&halleyShader;
-    else if(method=="halley4"||method=="h4") fractal.sheder=&halley4Shader;
-    else if(method=="schroeder"||method=="s") fractal.sheder=&schroederShader;
-    else if(method=="schroeder4"||method=="s4") fractal.sheder=&schroeder4Shader;
-    else if(method=="generic"||method=="g") fractal.sheder=&genericShader;
+    if(method=="newton"||method=="n") fractal.fselected=NEWTON;
+    else if(method=="halley"||method=="h") fractal.fselected=HALLEY;
+    else if(method=="halley4"||method=="h4") fractal.fselected=HALLEY4;
+    else if(method=="schroeder"||method=="s") fractal.fselected=SCHROEDER;
+    else if(method=="schroeder4"||method=="s4") fractal.fselected=SCHROEDER4;
+    else if(method=="generic"||method=="g") fractal.fselected=GENERIC;
     
     //build grid
     grid.build(20,20);
     grid.setScale(Vec3(10,1,10));
     //build mesh
-    gfSphere.build(5, 0.5);
-    gfSphere.setScale(Vec3::ONE*5.0f);
+    gfSphere.build(5, 3.0);
     
     //init
     onResume();
@@ -119,8 +118,8 @@ void RiemannSceneGLSL::onResume(){
 	//set client state
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add input
-    getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
-    getInput()->addHandler((Easy3D::Input::MouseHandler*)this);
+    getInput()->addHandler(dynamic_cast<Easy3D::Input::KeyboardHandler*>(this));
+    getInput()->addHandler(dynamic_cast<Easy3D::Input::MouseHandler*>(this));
     //set state
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
     //save info
@@ -210,11 +209,11 @@ void RiemannSceneGLSL::onRun(float dt){
 	//draw sfere
     setTextureState(TextureState(TextureState::NONE));
     //draw sphere
-	fractal.bind();
+	shaderbind();
     //draw
 	gfSphere.draw(this);
     //unbind
-	fractal.unbind();
+	shaderunbind();
 	//draw grid
     if(dGrid) grid.draw(this,Color(0,0,0,255));
     
@@ -238,12 +237,13 @@ void RiemannSceneGLSL::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::S
 
 void RiemannSceneGLSL::onPause(){
     //remove input
-    getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)this);
-    getInput()->removeHandler((Easy3D::Input::MouseHandler*)this);
+    getInput()->removeHandler(dynamic_cast<Easy3D::Input::KeyboardHandler*>(this));
+    getInput()->removeHandler(dynamic_cast<Easy3D::Input::MouseHandler*>(this));
     //set state
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_DISABLE);
     //save info
     sceneInfo=ON_PAUSE;
+    
 }
 
 void RiemannSceneGLSL::onEnd(){
@@ -258,13 +258,13 @@ void RiemannSceneGLSL::setCameraPositionInfo(const CameraPositionInfo& cpi){
 }
 
 void RiemannSceneGLSL::onKeyDown(Key::Keyboard key){
-	if(key==Key::N) fractal.sheder=&newtonShader;
-    else if(key==Key::H) fractal.sheder=&halleyShader;
-    else if(key==Key::S) fractal.sheder=&schroederShader;
-    else if(key==Key::G) fractal.sheder=&genericShader;
+	if(key==Key::N) fractal.fselected=NEWTON;
+    else if(key==Key::H) fractal.fselected=HALLEY;
+    else if(key==Key::S) fractal.fselected=SCHROEDER;
+    else if(key==Key::F) fractal.fselected=GENERIC;
     else if(key==Key::N4) {
-        if(fractal.sheder==&schroederShader) fractal.sheder=&schroeder4Shader;;
-        if(fractal.sheder==&halleyShader) fractal.sheder=&halley4Shader;;
+        if(fractal.fselected==HALLEY) fractal.fselected=HALLEY4;
+        if(fractal.fselected==SCHROEDER) fractal.fselected=SCHROEDER;
     }
 }
 void RiemannSceneGLSL::onMouseDown(Vec2 mousePosition, Key::Mouse button){

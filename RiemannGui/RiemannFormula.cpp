@@ -314,7 +314,7 @@ void RiemannFormula::draw(Easy3D::Render* render){
 	///////////////////////////////////////////////////////////////
     //2D MODE
 	//disable shader
-    glUseProgram(0);
+    //glUseProgram(0);
 	//mode (2d)
     render->setViewportState(Vec4(0,0,windowSize.x,windowSize.y));
     //ortogonal
@@ -397,7 +397,7 @@ void RiemannFormula::draw(Easy3D::Render* render){
                 posFinal.x,              -scalePointer.y+posFinal.y,
                 posFinal.x,               scalePointer.y+posFinal.y
             };
-            //vertexs right
+            //vertexs right //back face culling
             if(textidselect>textid){
                 Math::swap(vertices[2], vertices[4]);
                 Math::swap(vertices[3], vertices[5]);
