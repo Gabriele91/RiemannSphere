@@ -21,12 +21,12 @@ RiemannSceneGeodesic::RiemannSceneGeodesic(Polynomial<double> *poly)
 {
     Fractal *select=NULL;
     
-    if(poly->method==Polynomial<double>::NEWTON) select=&newton;
-    else if(poly->method==Polynomial<double>::HALLEY) select=&halley;
-    else if(poly->method==Polynomial<double>::HALLEY4) select=&halley4;
-    else if(poly->method==Polynomial<double>::SCHROEDER) select=&schroeder;
-    else if(poly->method==Polynomial<double>::SCHROEDER4) select=&schroeder4;
-    else if(poly->method==Polynomial<double>::GENERIC) select=&genericfractal;
+    if(poly->method==Iterations::NEWTON) select=&newton;
+    else if(poly->method==Iterations::HALLEY) select=&halley;
+    else if(poly->method==Iterations::HALLEY4) select=&halley4;
+    else if(poly->method==Iterations::SCHROEDER) select=&schroeder;
+    else if(poly->method==Iterations::SCHROEDER4) select=&schroeder4;
+    else if(poly->method==Iterations::GENERIC) select=&genericfractal;
     
     sphere=new GeodesicSphere(&camera,select,3.0,(size_t)(536870912*0.1), (size_t)(536870912*3));
     //build grid

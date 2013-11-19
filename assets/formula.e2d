@@ -4,9 +4,9 @@
 	selectColor=(0.05 0.20 0.9 0.35)
 	box={
 		image="base.png"
-		mbox=(450 40)
+		mbox=(425 40)
 		sbox=(8 8)
-		offset=(0 15)
+		offset=(0 68)
 		vertical="bottom"
 		horizontal="center"
 	}

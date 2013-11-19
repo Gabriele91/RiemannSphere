@@ -23,25 +23,14 @@ namespace RiemannSphere {
         Easy3D::Camera camera;
         Easy3D::Object obj;
         Easy3D::Font aharoni;
-        
-        enum TypeFractals{
-            NEWTON=0,
-            HALLEY,
-            HALLEY4,
-            SCHROEDER,
-            SCHROEDER4,
-            GENERIC,
-            FRACTMAX
-        };
-        
-        Easy3D::Shader shader[FRACTMAX];
+        Easy3D::Shader shader[Iterations::FRACTMAX];
 		DrawSymbols drawSymbols;
         GridMesh grid;
 		Sphere  sphere;
         GeodesicMesh gfSphere;
 
 		struct FractalShader{
-			TypeFractals fselected;
+            Easy3D::Shader* shader;
 			std::vector<Easy3D::Vec2> constants;
 			std::vector<Easy3D::Vec2> subconstants;
 			std::vector<Easy3D::Vec2> roots;

@@ -22,12 +22,21 @@ namespace RiemannGui {
         };
         //value type
         MType type;
+        //menu mode
+        enum MMode{
+          RADIOBUTTOMS,
+          GROUPBUTTOMS
+        };
+        MMode mode;
+        RiemannButton* radioSelected;
 
 	public:
 		
 		RiemannMenu(const Easy3D::Table& config);
 		virtual ~RiemannMenu();
 		bool addOnClick(const Easy3D::String& name,const std::function<void(bool)>& onClick);
+		void addRadioEvent(const std::function<void(const Easy3D::String&)> event);
+        bool crackAButton(const Easy3D::String& name);
 		void draw(Easy3D::Render* render);
 		void update(float dt);
         void lock();

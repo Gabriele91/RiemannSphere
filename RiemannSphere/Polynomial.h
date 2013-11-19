@@ -55,13 +55,7 @@ namespace RiemannSphere {
     
     };
     
-	template <class T>
-	class Polynomial {
-		
-
-        
-	public:
-
+    namespace Iterations{
         enum Methos{
             NEWTON=0,
             HALLEY,
@@ -71,8 +65,27 @@ namespace RiemannSphere {
             GENERIC,
             FRACTMAX
         };
+        static Easy3D::String Names[FRACTMAX+1]={
+            "newton",
+            "halley",
+            "halley4",
+            "schroeder",
+            "schroeder4",
+            "generic",
+            "fractmax"
+        };
+
+    }
+
+	template <class T>
+	class Polynomial {
+		
+
         
-        Methos method;
+	public:
+
+        
+        Iterations::Methos method;
         int iterations;
         
 		std::vector< std::complex<T> > constants;
@@ -150,15 +163,15 @@ namespace RiemannSphere {
             infiniteColor=table.getVector3D("infiniteColor",Easy3D::Vec3::ONE);
             
             //default newton
-            method=NEWTON;
+            method=Iterations::NEWTON;
             //read from table
             Easy3D::String strmethod=table.getString("method","newton").toLower();
-            if(strmethod=="newton"||strmethod=="n") method=NEWTON;
-            else if(strmethod=="halley"||strmethod=="h") method=HALLEY;
-            else if(strmethod=="halley4"||strmethod=="h4") method=HALLEY4;
-            else if(strmethod=="schroeder"||strmethod=="s") method=SCHROEDER;
-            else if(strmethod=="schroeder4"||strmethod=="s4") method=SCHROEDER4;
-            else if(strmethod=="generic"||strmethod=="g") method=GENERIC;
+            if(strmethod=="newton"||strmethod=="n") method=Iterations::NEWTON;
+            else if(strmethod=="halley"||strmethod=="h") method=Iterations::HALLEY;
+            else if(strmethod=="halley4"||strmethod=="h4") method=Iterations::HALLEY4;
+            else if(strmethod=="schroeder"||strmethod=="s") method=Iterations::SCHROEDER;
+            else if(strmethod=="schroeder4"||strmethod=="s4") method=Iterations::SCHROEDER4;
+            else if(strmethod=="generic"||strmethod=="g") method=Iterations::GENERIC;
             
             //get iterations
             iterations=table.getFloat("iterations",50);

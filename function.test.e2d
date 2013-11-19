@@ -13,6 +13,7 @@
 
 	iterations=100
 	method="n"
+	constants="z^3+1"
 	//constants="(5-i)z^5-z^2-2z-1"
 	//constants="z^50-z^20-28z^7-1"
 	//rootsColors={ (1 0 0) (0 1 0) (0 0 1)  (0 1 1) (1 0 1) (1 1 0) }
@@ -24,7 +25,7 @@
 	//subconstants="2z+1"
 	//method="n"
 	//constants="-5iz^4-(5-4i)z^9-z^5"
-	constants="z^5+z^7+6z^3+iz^2-(1.2+0.15i)"
+	//constants="z^5+z^7+6z^3+iz^2-(1.2+0.15i)"
 	//constants="z^4-3"
 	//constants="z^3+1"
 	//subconstants="6z^3+(.35+0.55i)"

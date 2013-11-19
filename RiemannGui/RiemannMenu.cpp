@@ -13,6 +13,17 @@ void RiemannMenu::lock(){
 }
 void RiemannMenu::unlock(){
     for(auto button:buttons) button->unlock();
+    if(mode==RADIOBUTTOMS) if(radioSelected) radioSelected->lock();
+}
+
+bool RiemannMenu::crackAButton(const String& name){
+	for(auto button:buttons){
+		if(button->isCalled(name)){
+			button->crack();
+			return true;
+		}
+	}
+	return false;
 }
 
 RiemannMenu::RiemannMenu(const Table& config){
@@ -70,6 +81,9 @@ RiemannMenu::RiemannMenu(const Table& config){
     //size screen
     Vec2 sizeScreen(Application::instance()->getScreen()->getWidth(),
                     Application::instance()->getScreen()->getHeight());
+    
+    //get offset
+    Vec2 offset=config.getVector2D("offset");
 
     if(type==BOTTOM||type==TOP){
         //calc center
@@ -82,7 +96,7 @@ RiemannMenu::RiemannMenu(const Table& config){
         int rightS=int(buttons.size()/2);
         //center
         if(buttons.size()%2){
-            buttons[rightS]->setPosition(Vec3(menucenter,0.0));
+            buttons[rightS]->setPosition(Vec3(menucenter+offset,0.0));
             leftPointer.x-=realsize.x;
             rightPointer.x+=realsize.x;
             ++rightS;
@@ -93,12 +107,12 @@ RiemannMenu::RiemannMenu(const Table& config){
         }
         //left
         for(int x1=leftS;x1>=0;--x1){
-            buttons[x1]->setPosition(Vec3(leftPointer,0.0));
+            buttons[x1]->setPosition(Vec3(leftPointer+offset,0.0));
             leftPointer.x-=realsize.x;
         }
         //right
         for(int x2=rightS;x2<buttons.size();++x2){
-            buttons[x2]->setPosition(Vec3(rightPointer,0.0));
+            buttons[x2]->setPosition(Vec3(rightPointer+offset,0.0));
             rightPointer.x+=realsize.x;
         }
     }
@@ -113,7 +127,7 @@ RiemannMenu::RiemannMenu(const Table& config){
         int bottomS=int(buttons.size()/2);
         //cernter
         if(buttons.size()%2){
-            buttons[bottomS]->setPosition(Vec3(menucenter,0.0));
+            buttons[bottomS]->setPosition(Vec3(menucenter+offset,0.0));
             topPointer.y+=realsize.y;
             bottomPointer.y-=realsize.y;
             ++bottomS;
@@ -124,13 +138,23 @@ RiemannMenu::RiemannMenu(const Table& config){
         }
         //top
         for(int y1=topS;y1>=0;--y1){
-            buttons[y1]->setPosition(Vec3(topPointer,0.0));
+            buttons[y1]->setPosition(Vec3(topPointer+offset,0.0));
             topPointer.y+=realsize.y;
         }
         //bottom
         for(int y2=bottomS;y2<buttons.size();++y2){
-            buttons[y2]->setPosition(Vec3(bottomPointer,0.0));
+            buttons[y2]->setPosition(Vec3(bottomPointer+offset,0.0));
             bottomPointer.y-=realsize.y;
+        }
+    }
+    
+    //radio mode (default GROUPBUTTOMS)
+    mode=(config.getString("mode").toLower() == "radio" ? RADIOBUTTOMS : GROUPBUTTOMS);
+    radioSelected=NULL;
+    if(mode==RADIOBUTTOMS){
+        for(auto button:buttons){
+            DEBUG_ASSERT_MSG(button->isDoubleMode(),"RiemannMenu.buttons error : "
+                                                    "radio buttoms must to be a 'double' buttoms");
         }
     }
 }
@@ -140,6 +164,7 @@ RiemannMenu::~RiemannMenu(){
 }
 
 bool RiemannMenu::addOnClick(const String& name,const std::function<void(bool)>& onClick){
+    DEBUG_ASSERT(mode==GROUPBUTTOMS); //can use this mathos only if is a gruop buttoms
 	for(auto button:buttons){
 		if(button->isCalled(name)){
 			button->addOnClick(onClick);
@@ -148,6 +173,28 @@ bool RiemannMenu::addOnClick(const String& name,const std::function<void(bool)>&
 	}
 	return false;
 }
+void RiemannMenu::addRadioEvent(const std::function<void(const Easy3D::String&)> event){
+    DEBUG_ASSERT(mode==RADIOBUTTOMS); //can use this mathos only if is a radio buttoms
+    for(auto button:buttons){
+        button->addOnClick([this,button,event](bool ev){
+            //if true
+            if(ev && radioSelected!=button){
+                //disable old selection
+                if(radioSelected){
+                    radioSelected->crack();
+                    radioSelected->unlock();
+                }
+                //send event
+                event(button->getName());
+                //new slection
+                radioSelected=button;
+                button->lock();
+                
+            }
+        });
+	}
+}
+
 void RiemannMenu::update(float dt){
 	for(auto button:buttons)
 		button->update(this,dt);

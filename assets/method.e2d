@@ -1,0 +1,63 @@
+{
+	size=(50 50)
+	maxSize=(50 50)
+	velocity=(0 0)
+	padding=(16 10)
+	type="bottom"
+	mode="radio"
+	offset=(-62 0)
+
+	
+	buttons={
+
+		newton={
+			single={
+				normal="newtonOff.png"
+			}
+			double={
+				normal="newtonOn.png"
+			}
+			id=0
+		}
+		
+		halley={
+			single={
+				normal="halleyOff.png"
+			}
+			double={
+				normal="halleyOn.png"
+			}
+			id=1
+		}
+		
+		halley4={
+			single={
+				normal="halley4Off.png"
+			}
+			double={
+				normal="halley4On.png"
+			}
+			id=1
+		}
+
+		schroeder={
+			single={
+				normal="schroederOff.png"
+			}
+			double={
+				normal="schroederOn.png"
+			}
+			id=2
+		}
+
+		schroeder4={
+			single={
+				normal="schroeder4Off.png"
+			}
+			double={
+				normal="schroeder4On.png"
+			}
+			id=2
+		}
+
+}

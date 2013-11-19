@@ -112,22 +112,35 @@ void RiemannButton::onMouseDown(Vec2 mousePosition, Key::Mouse button) {
 void RiemannButton::onMousePress(Vec2 mousePosition, Key::Mouse button) {
     if(state==OVERED) state=ACTIVE;
 }
+
+void RiemannButton::crack(){
+    if(textures[DOUBLE][0]){
+        if(mode==SINGLE){
+            mode=DOUBLE;
+            onClick(true);
+        }
+        else if(mode==DOUBLE){
+            mode=SINGLE;
+            onClick(false);
+        }
+    }else
+        onClick(false);
+    //double to single and viceversa
+    //new state
+    state=OVERED;
+}
+void RiemannButton::changeMode(){
+    if(textures[DOUBLE][0]){
+        if(mode==SINGLE)
+            mode=DOUBLE;
+        else if(mode==DOUBLE)
+            mode=SINGLE;
+    }
+}
+
 void RiemannButton::onMouseRelease(Vec2 mousePosition, Key::Mouse button) {
     if(state==ACTIVE){
-        if(textures[DOUBLE][0]){
-            if(mode==SINGLE){
-                mode=DOUBLE;
-                onClick(true);
-            }
-            else if(mode==DOUBLE){
-                mode=SINGLE;
-                onClick(false);
-            }
-        }else
-            onClick(false);
-        //double to single and viceversa
-        //new state
-        state=OVERED;
+        crack();
     }
 }
 void RiemannButton::onMouseScroll(short scrollDelta) {}
@@ -162,6 +175,6 @@ void RiemannButton::update(RiemannMenu *menu,float dt){
     }
 }
 
-bool RiemannButton::isCalled(const String& name){
+bool RiemannButton::isCalled(const String& name) const{
 		return this->name==name;
 }

@@ -46,10 +46,18 @@ namespace RiemannGui {
 
 		RiemannButton(const Easy3D::String& name,const Easy3D::Table& config);
 		virtual ~RiemannButton();
-		bool isCalled(const Easy3D::String& name);
+		bool isCalled(const Easy3D::String& name) const;
+        const Easy3D::String& getName() const{
+         return name;
+        }
 		void addOnClick(const std::function<void(bool)>& onClick){
 			this->onClick=onClick;
 		}
+        void crack();
+        void changeMode();
+        bool isDoubleMode(){
+            return textures[DOUBLE][0]!=NULL;
+        }
         Easy3D::Texture* getCurrentTexture();
 		int getID(){
 			return id;

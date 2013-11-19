@@ -66,6 +66,8 @@ void RiemannSphere::PolynomialColor::colors(int n,std::vector< RootColor<float> 
     for(int i=1;i<=n;++i)
         HSVtoRGB<float>(&vout[i-1].r,&vout[i-1].g,&vout[i-1].b,color_delta*i,1,1);
 }
+
+
 ///////////////////////
 using namespace Easy3D;
 using namespace RiemannSphere;
