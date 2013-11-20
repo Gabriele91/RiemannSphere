@@ -202,7 +202,7 @@ namespace RiemannSphere {
             }
         }
         
-        void recalcPolynomial(const Easy3D::String& poly){
+        bool recalcPolynomial(const Easy3D::String& poly){
             //parse poly
             Easy3D::String errors;
             Easy3D::Debug::doassert(PolynomialParse::parse(poly,constants,errors),errors,__FILE__,__LINE__);
@@ -214,8 +214,10 @@ namespace RiemannSphere {
             //recalc colors
             rootsColor.clear();
             PolynomialColor::colors((int)roots.size(),rootsColor);
+			//default return true
+			return true;
         }
-        void recalcPolynomial(const Easy3D::String& poly,const Easy3D::String& subpoly){
+        bool recalcPolynomial(const Easy3D::String& poly,const Easy3D::String& subpoly){
             //get errors
             Easy3D::String errors;
             //parse poly
@@ -228,6 +230,8 @@ namespace RiemannSphere {
             //recalc colors
             rootsColor.clear();
             PolynomialColor::colors((int)roots.size(),rootsColor);
+			//default return true
+			return true;
         }
         
         static Easy3D::Vec3 planeToSphere(std::complex<T>& root){

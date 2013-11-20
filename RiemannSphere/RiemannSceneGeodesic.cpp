@@ -191,9 +191,22 @@ void RiemannSceneGeodesic::onPause(){
     sceneInfo=ON_PAUSE;
 }
 
+
+void RiemannSceneGeodesic::lock(){
+    //set state
+    cameraManager->setCurrentState(CameraManager::EVENTS::ON_DISABLE);
+}
+void RiemannSceneGeodesic::unlock(){
+    //set state
+	cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
+}
+
 void RiemannSceneGeodesic::onEnd(){
     if(sceneInfo==ON_RESUME) onPause();
-	if(sphere) delete sphere;
+	if(sphere){
+		delete sphere;
+		sphere=NULL;
+	}
 }
 
 CameraPositionInfo RiemannSceneGeodesic::getCameraPositionInfo(){

@@ -239,6 +239,15 @@ void RiemannSceneGLSL::onEnd(){
     if(sceneInfo==ON_RESUME) onPause();
 }
 
+void RiemannSceneGLSL::lock(){
+    //set state
+    cameraManager->setCurrentState(CameraManager::EVENTS::ON_DISABLE);
+}
+void RiemannSceneGLSL::unlock(){
+    //set state
+	cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
+}
+
 CameraPositionInfo RiemannSceneGLSL::getCameraPositionInfo(){
     return cameraManager->getCameraPositionInfo();
 }

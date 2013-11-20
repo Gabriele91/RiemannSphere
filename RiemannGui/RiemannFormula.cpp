@@ -42,7 +42,18 @@ RiemannFormula::RiemannFormula(const Easy3D::Table& config){
     //set input
     Application::instance()->getInput()->addHandler((Easy3D::Input::KeyboardHandler*)this);
     Application::instance()->getInput()->addHandler((Easy3D::Input::MouseHandler*)this);
-    //set default filter
+
+    //setup logic
+    text="";
+    textid=0;
+    showpointer=false;
+    textid=0;
+    textidselect=0;
+    dbclick.start();
+    calcTextSize();
+	//default focus event
+	focus=[](bool){};
+	//set default filter
     filter=[](char cin)->bool{
         return
          ( 0<=(cin-'0') && (cin-'0')<10 ) ||//numbers
@@ -57,18 +68,12 @@ RiemannFormula::RiemannFormula(const Easy3D::Table& config){
          cin==')'||
          cin=='i';
     };
-    //setup logic
-    text="";
-    textid=0;
-    showpointer=false;
-    textid=0;
-    textidselect=0;
-    dbclick.start();
-    calcTextSize();
 }
-
 void RiemannFormula::setFilter(std::function<bool(char c)> filter){
     this->filter=filter;
+}
+void RiemannFormula::setFocus(std::function<void(bool c)> focus){
+    this->focus=focus;
 }
 
 RiemannFormula::~RiemannFormula(){
@@ -106,6 +111,18 @@ void RiemannFormula::recalcPointerTextOffset(){
     }
     //recalc
     recalcTextOffset();
+}
+void RiemannFormula::showPointer(){
+	if(!showpointer){
+		showpointer= true;
+		focus(true);
+	}
+}
+void  RiemannFormula::hidePointer(){
+	if(showpointer){
+		showpointer=false;
+		focus(false);
+	}
 }
 //keyboard
 void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
@@ -226,8 +243,6 @@ void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse
     if(Easy3D::Key::BUTTON_LEFT==button){
         //disable all text selection
         alltext=false;
-        //disable visiable pointer
-        showpointer=false;
         //calc end point
         Vec2 textAreaEndPoint=textPos+mbox;
         //in text area box
@@ -238,17 +253,20 @@ void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse
         
         
         if(!inTextAreaBox){
-            showpointer=false;
+			//disable visiable pointer
+			hidePointer();
             //reset slection
             textidselect=textid;
             return;
         }
+		else 
+			//enable visiable pointer
+			showPointer();
         
         //double click?
         if(dbclick.getGetCounter()<400){
             textid=0;
             textidselect=(int)text.size();
-            showpointer=true;
             alltext=true;
             lastPointSelect=mousePosition;
             dbclick.reset();
@@ -266,10 +284,12 @@ void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse
         int selectid=font->pointChar(text, mposition-textOffest);
         if(selectid>-1){
             textid=selectid;
-            showpointer=true;
             lastPointSelect=mousePosition;
         }
-        //reset slection
+		else{
+			textid=text.size();
+		}
+        //reset selection area
         textidselect=textid;
     }
 }

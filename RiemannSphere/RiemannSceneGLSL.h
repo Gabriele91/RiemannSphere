@@ -65,6 +65,8 @@ namespace RiemannSphere {
         
         virtual void onEnd();
         
+		virtual void lock();
+		virtual void unlock();
         //camera info
         virtual CameraPositionInfo getCameraPositionInfo();
         virtual void setCameraPositionInfo(const CameraPositionInfo& cpi);

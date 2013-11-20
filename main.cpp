@@ -82,6 +82,16 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             return ( 0<=(cin-'0') && (cin-'0')<10 ) ;//numbers
         });
         iterations.setText(String::toString(poly->iterations));
+		//focus events
+		auto focusEvent=[this](bool diable){
+			if(diable)
+				currentRiemann()->lock();
+			else 
+				currentRiemann()->unlock();
+		};
+		//set focus events
+		iterations.setFocus(focusEvent);
+		formula.setFocus(focusEvent);
         ////////////////////////////////////////////////////////
         menu.addOnClick("exit", [this](bool){
             onKeyDown(Key::ESCAPE);
@@ -176,7 +186,28 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 	Easy3D::Scene *fixSceneCast(RiemannSceneGLSL *rmgls){
 		return (Easy3D::Scene*)((RiemannSceneGLSL*)rmgls);
 	}
-    
+	Easy3D::Scene *reloadScene(int uid){
+		if(uid==RIEMANN_SCENE_GEODESIC)
+			return fixSceneCast(new RiemannSphere::RiemannSceneGeodesic(poly));
+		else if(uid==RIEMANN_GLSL_SCENE)
+			return fixSceneCast(new RiemannSphere::RiemannSceneGLSL(poly));
+		return NULL;
+	}
+	void selectScene(int uid){
+		if(sceneActive()!=uid){
+			//get options draw
+			auto dpi=currentRiemann()->getDrawOptions();
+			auto cpi=currentRiemann()->getCameraPositionInfo();
+			//
+			popScene();
+			activeScene(uid);
+			//
+			//set options draw
+			currentRiemann()->setDrawOptions(dpi);
+			currentRiemann()->setCameraPositionInfo(cpi);
+		}
+	}
+
 	virtual void onKeyPress(Easy3D::Key::Keyboard key){
 		if(Key::F5==key && getCurrentStateID()==CLEAN_DRAW)
 			setCurrentState(GUI_DRAW);
@@ -184,62 +215,25 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 			setCurrentState(CLEAN_DRAW);
 	}
 	virtual void onKeyDown(Easy3D::Key::Keyboard key){
-		//if(key==Key::V) activeScene(RIEMANN_SCENE); else
-		if(key==Key::C && sceneActive()!=RIEMANN_SCENE_GEODESIC){
-			//get options draw
-			auto dpi=currentRiemann()->getDrawOptions();
-			auto cpi=currentRiemann()->getCameraPositionInfo();
-			//
-			popScene();
-			activeScene(RIEMANN_SCENE_GEODESIC);
-			//
-			//set options draw
-			currentRiemann()->setDrawOptions(dpi);
-			currentRiemann()->setCameraPositionInfo(cpi);
-		}
+		if(key==Key::C)
+			selectScene(RIEMANN_SCENE_GEODESIC);
 		else
-		if(key==Key::G && sceneActive()!=RIEMANN_GLSL_SCENE){
-			//get options draw
-			auto dpi=currentRiemann()->getDrawOptions();
-			auto cpi=currentRiemann()->getCameraPositionInfo();
-			//
-			popScene();
-			activeScene(RIEMANN_GLSL_SCENE);
-			//
-			//set options draw
-			currentRiemann()->setDrawOptions(dpi);
-			currentRiemann()->setCameraPositionInfo(cpi);
-		}
+		if(key==Key::G)
+			selectScene(RIEMANN_GLSL_SCENE);
 		else
-		if(key==Key::R && sceneActive()==RIEMANN_SCENE_GEODESIC) {
+		if(key==Key::R) {
+			//get scene id
+			int uid=sceneActive();
 			//get options draw
 			auto dpi=currentRiemann()->getDrawOptions();
 			auto cpi=currentRiemann()->getCameraPositionInfo();
 			//scene
-			auto scene=eraseScene(RIEMANN_SCENE_GEODESIC);
+			auto scene=eraseScene(uid);
+			scene->onEnd();
 			//delete scene
 			delete scene;
-			//new scene
-			auto newscene=fixSceneCast(new RiemannSphere::RiemannSceneGeodesic(poly));
 			//active
-			addSceneAndActive(RIEMANN_SCENE_GEODESIC, newscene);
-			//set options draw
-			currentRiemann()->setDrawOptions(dpi);
-			currentRiemann()->setCameraPositionInfo(cpi);
-		}
-		else
-		if(key==Key::R && sceneActive()==RIEMANN_GLSL_SCENE) {
-			//get options draw
-			auto dpi=currentRiemann()->getDrawOptions();
-			auto cpi=currentRiemann()->getCameraPositionInfo();
-			//scene
-			auto scene=eraseScene(RIEMANN_GLSL_SCENE);
-			//delete scene
-			delete scene;
-			//new scene
-			auto newscene=fixSceneCast(new RiemannSphere::RiemannSceneGLSL(poly));
-			//active
-			addSceneAndActive(RIEMANN_GLSL_SCENE, newscene);
+			addSceneAndActive(uid, reloadScene(uid));
 			//set options draw
 			currentRiemann()->setDrawOptions(dpi);
 			currentRiemann()->setCameraPositionInfo(cpi);
