@@ -199,9 +199,13 @@ void WindowsInput::update(){
 	emouse.__clearHit();
 	//update windows message
 	MSG		msg;
+	MSG		charMsg;
     //take message and send it...
     while (PeekMessage(&msg,NULL,0,0,PM_REMOVE)){
-		    TranslateMessage(&msg);			
+		    TranslateMessage(&msg);	
+			if(PeekMessage(&charMsg,NULL,WM_CHAR,WM_CHAR,PM_REMOVE)){
+				DispatchMessage(&charMsg);
+			}
 			DispatchMessage(&msg);
 	}
 	///////////////////////////LOOP EVENT

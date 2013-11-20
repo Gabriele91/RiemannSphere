@@ -32,25 +32,25 @@ RiemannScene::RiemannScene()
     else if(method=="generic"||method=="g") select=&genericfractal;
     DEBUG_ASSERT_MSG(select, "Must to be selected a valid method");
     
-sphere=new SpheresManager
-          (&camera,
-           select,
-#ifdef _HD_
-           1000000*20, 1000000*2*20,//8000,8000,
-           12,//livels
-           3.0f,//sphere radius
-           2.85//detail per livels
-#else
-           1000000, 1000000*2,//8000,8000,
-           10,//livels
-           3.0f,//sphere radius
-           2.41//detail per livels
-#endif
-           );
+	sphere=new SpheresManager
+			  (&camera,
+			   select,
+	#ifdef _HD_
+			   1000000*20, 1000000*2*20,//8000,8000,
+			   12,//livels
+			   3.0f,//sphere radius
+			   2.85//detail per livels
+	#else
+			   1000000, 1000000*2,//8000,8000,
+			   10,//livels
+			   3.0f,//sphere radius
+			   2.41//detail per livels
+	#endif
+			   );
 }
 
 RiemannScene::~RiemannScene(){
-	delete sphere;
+	if(sphere) delete sphere;
 }
 
 void RiemannScene::onStart(){
@@ -191,6 +191,7 @@ void RiemannScene::onPause(){
 void RiemannScene::onEnd(){
     if(sceneInfo==ON_RESUME) onPause();
 }
+
 CameraPositionInfo RiemannScene::getCameraPositionInfo(){
     return cameraManager->getCameraPositionInfo();
 }

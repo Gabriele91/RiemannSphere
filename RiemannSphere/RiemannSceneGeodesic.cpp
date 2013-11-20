@@ -9,6 +9,7 @@ using namespace Easy3D;
 RiemannSceneGeodesic::RiemannSceneGeodesic(Polynomial<double> *poly)
     :RiemannInterface()
     ,cameraManager(NULL)
+	,sphere(NULL)
     ,sceneInfo(ON_PAUSE)
     ,poly(poly)
     ,newton(poly)
@@ -19,24 +20,12 @@ RiemannSceneGeodesic::RiemannSceneGeodesic(Polynomial<double> *poly)
     ,genericfractal(poly)
 	,drawSymbols(&camera,this,"assets/infinity.tga","assets/zero.tga","assets/point.tga")
 {
-    Fractal *select=NULL;
-    
-    if(poly->method==Iterations::NEWTON) select=&newton;
-    else if(poly->method==Iterations::HALLEY) select=&halley;
-    else if(poly->method==Iterations::HALLEY4) select=&halley4;
-    else if(poly->method==Iterations::SCHROEDER) select=&schroeder;
-    else if(poly->method==Iterations::SCHROEDER4) select=&schroeder4;
-    else if(poly->method==Iterations::GENERIC) select=&genericfractal;
-    
-    sphere=new GeodesicSphere(&camera,select,3.0,(size_t)(536870912*0.1), (size_t)(536870912*3));
     //build grid
     grid.build(20,20);
     grid.setScale(Vec3(10,1,10));
 }
 
-RiemannSceneGeodesic::~RiemannSceneGeodesic(){
-	delete sphere;
-}
+RiemannSceneGeodesic::~RiemannSceneGeodesic(){}
 
 void RiemannSceneGeodesic::drawGridHack(){
     //draw grid
@@ -59,11 +48,25 @@ void RiemannSceneGeodesic::drawGridHack(){
 void RiemannSceneGeodesic::onStart(){
     //add camera manage
     camera_sphere.radius=3.0;
-	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,&camera_sphere));
+	addChild(cameraManager=new CameraManager(&camera,Vec3::ZERO,&camera_sphere));//automatic deletation
     cameraManager->setVelocity(Vec3(10,10,0.08));
     cameraManager->setProjectionInfo(Math::torad(10.0f), 20.0, 49);
     camera.setPosition(Vec3(0,0,50),true);
-    setMatrixsState(MatrixsState(camera));
+    setMatrixsState(MatrixsState(camera));   
+	//fractal select
+	Fractal *select=NULL;
+    if(poly->method==Iterations::NEWTON) select=&newton;
+    else if(poly->method==Iterations::HALLEY) select=&halley;
+    else if(poly->method==Iterations::HALLEY4) select=&halley4;
+    else if(poly->method==Iterations::SCHROEDER) select=&schroeder;
+    else if(poly->method==Iterations::SCHROEDER4) select=&schroeder4;
+    else if(poly->method==Iterations::GENERIC) select=&genericfractal;
+	//new sphere
+	sphere=new GeodesicSphere(&camera,
+							  select,
+							  3.0,
+							  (size_t)(536870912*0.1),
+							  (size_t)(536870912*3));
     //font
     aharoni.load("assets/game.font.e2d");
     //init
@@ -190,6 +193,7 @@ void RiemannSceneGeodesic::onPause(){
 
 void RiemannSceneGeodesic::onEnd(){
     if(sceneInfo==ON_RESUME) onPause();
+	if(sphere) delete sphere;
 }
 
 CameraPositionInfo RiemannSceneGeodesic::getCameraPositionInfo(){

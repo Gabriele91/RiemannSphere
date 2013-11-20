@@ -145,6 +145,8 @@ namespace Easy3D {
             for(auto scene:scenes)
                 if(scene.second.destructible)
                     delete scene.second.child;
+			//clear all scenes
+			scenes.clear();
         }
         //utility methos
         Screen* getScreen();
