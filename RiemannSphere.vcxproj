@@ -118,7 +118,9 @@
     <ClInclude Include="include\window\WindowsInput.h" />
     <ClInclude Include="include\window\WindowsScreen.h" />
     <ClInclude Include="RiemannGui\RiemannButton.h" />
+    <ClInclude Include="RiemannGui\RiemannFormula.h" />
     <ClInclude Include="RiemannGui\RiemannMenu.h" />
+    <ClInclude Include="RiemannGui\RiemannScale9.h" />
     <ClInclude Include="RiemannSphere\CameraManager.h" />
     <ClInclude Include="RiemannSphere\DrawSymbols.h" />
     <ClInclude Include="RiemannSphere\Fractal.h" />
@@ -156,7 +158,9 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RiemannGui\RiemannButton.cpp" />
+    <ClCompile Include="RiemannGui\RiemannFormula.cpp" />
     <ClCompile Include="RiemannGui\RiemannMenu.cpp" />
+    <ClCompile Include="RiemannGui\RiemannScale9.cpp" />
     <ClCompile Include="RiemannSphere\CameraManager.cpp" />
     <ClCompile Include="RiemannSphere\DrawSymbols.cpp" />
     <ClCompile Include="RiemannSphere\GeodesicMesh.cpp" />

@@ -247,11 +247,27 @@ void WindowsInput::copyString(const String& paste){
  * paste a string
  */
 String WindowsInput::pasteString(){
-    OpenClipboard(NULL);
-    HANDLE pText = GetClipboardData(CF_TEXT);
-    CloseClipboard();
-    LPVOID text = GlobalLock(pText);
-    return String(text);
+  // Try opening the clipboard
+  if (! OpenClipboard(nullptr)) return "";
+
+  // Get handle of clipboard object for ANSI text
+  HANDLE hData = GetClipboardData(CF_TEXT);
+  if (hData == nullptr) return "";
+
+  // Lock the handle to get the actual text pointer
+  char * pszText = static_cast<char*>( GlobalLock(hData) );
+  if (pszText == nullptr) return "";
+
+  // Save text in a string class instance
+  std::string text( pszText );
+
+  // Release the lock
+  GlobalUnlock( hData );
+
+  // Release the clipboard
+  CloseClipboard();
+
+  return text;
 }
 
 //calls
@@ -342,6 +358,13 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
 
 			// KEYBOAR EVENT //
 			case WM_KEYDOWN:
+				//{
+					//char buffer[512] = {};
+					//GetKeyNameText((LONG)lparam, buffer, 512);
+					// winput->inputString = "";
+					//	winput->inputString +=MapVirtualKey(wparam, MAPVK_VK_TO_CHAR);;
+					//	Debug::message()<<winput->inputString<<"\n ...\n";
+				//}
 				if((HIWORD(lparam) & KF_REPEAT) == 0){
 					if(wparam==VK_MENU){ //alt
 						winput->ekeyboard.__keyboardDown(lparam&(1<<24) ? Key::RALT : Key::LALT);
@@ -361,8 +384,28 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
 					}
 				}
 			break;
+			case WM_CHAR:
+			switch (wparam) 
+			{ 
+				// First, handle non-displayable characters by beeping.
+				case 0x08:  // backspace.
+				case 0x09:  // tab.
+				case 0x0A:  // linefeed.
+				case 0x0D:  // carriage return.
+				case 0x1B:  // escape.
+				case 0x20:  // space.
+					winput->inputString ="";
+					//MessageBeep((UINT) -1); 
+				break;
 
-			case WM_KEYUP:				
+				// Next, handle displayable characters by appending them to our string.
+				default:
+					winput->inputString = "";
+					winput->inputString += (wchar_t) wparam;
+				break;
+			} 
+			break;
+			case WM_KEYUP:	
 				if(wparam==VK_MENU){ //alt
 					winput->ekeyboard.__keyboardUp(lparam&(1<<24) ? Key::RALT : Key::LALT);
 					winput->__callOnKeyRelease(lparam&(1<<24) ? Key::RALT : Key::LALT);

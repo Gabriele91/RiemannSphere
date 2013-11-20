@@ -176,7 +176,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
        return (Easy3D::Scene*)((RiemannSceneGLSL*)rmgls);
    }
     
-    virtual void onKeyPress(Easy3D::Key::Keyboard key){
+   virtual void onKeyPress(Easy3D::Key::Keyboard key){
         if(Key::F5==key && getCurrentStateID()==CLEAN_DRAW)
             setCurrentState(GUI_DRAW);
         else if(Key::F5==key)
@@ -249,7 +249,8 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 	}
 
     void onEnd(){
-        getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)this);    
+        getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)this);   
+		delete poly;
     }
     
     

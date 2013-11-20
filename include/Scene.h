@@ -92,7 +92,7 @@ namespace Easy3D {
             auto it=scenes.find(uid);
             Scene *temp=it->second.child;
             //if olready active
-            while(active.top()==uid&&active.size())
+            while(active.size() && active.top()==uid)
                 popScene();
             //disable activation
             while(active.contains(uid))

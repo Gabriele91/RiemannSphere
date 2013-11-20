@@ -79,8 +79,8 @@ void RiemannSceneGeodesic::onResume(){
 	//set client state
 	setClientState(ClientState(ClientState::VERTEX|ClientState::COLOR));
     //add input
-    getInput()->addHandler(dynamic_cast<Easy3D::Input::KeyboardHandler*>(this));
-    getInput()->addHandler(dynamic_cast<Easy3D::Input::MouseHandler*>(this));
+    getInput()->addHandler((Easy3D::Input::KeyboardHandler*)(this));
+    getInput()->addHandler((Easy3D::Input::MouseHandler*)(this));
     //set state
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_ENABLE);
     //save info
@@ -180,8 +180,8 @@ void RiemannSceneGeodesic::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3
 
 void RiemannSceneGeodesic::onPause(){
     //remove input
-    getInput()->removeHandler(dynamic_cast<Easy3D::Input::KeyboardHandler*>(this));
-    getInput()->removeHandler(dynamic_cast<Easy3D::Input::MouseHandler*>(this));
+    getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)(this));
+    getInput()->removeHandler((Easy3D::Input::MouseHandler*)(this));
     //set state
     cameraManager->setCurrentState(CameraManager::EVENTS::ON_DISABLE);
     //save info

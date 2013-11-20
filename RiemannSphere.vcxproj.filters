@@ -267,6 +267,12 @@
     <ClInclude Include="RiemannGui\RiemannMenu.h">
       <Filter>RiemannGui</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannGui\RiemannFormula.h">
+      <Filter>RiemannGui</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannGui\RiemannScale9.h">
+      <Filter>RiemannGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -439,6 +445,12 @@
     </ClCompile>
     <ClCompile Include="src\Image\Image.cpp">
       <Filter>File di origine\Easy3D\image</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannGui\RiemannFormula.cpp">
+      <Filter>RiemannGui</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannGui\RiemannScale9.cpp">
+      <Filter>RiemannGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

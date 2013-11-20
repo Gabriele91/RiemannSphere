@@ -109,6 +109,9 @@ void RiemannFormula::recalcPointerTextOffset(){
 }
 //keyboard
 void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
+#define CTRL_LEFT_OR_RIGHT\
+	(Application::instance()->getInput()->getKeyDown(Key::RCTRL) ||\
+	 Application::instance()->getInput()->getKeyDown(Key::LCTRL)) 
     if(!showpointer) return;
     //pointer to left
     if(key==Easy3D::Key::LEFT){
@@ -147,7 +150,7 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
         }
     }
     //copy or cut
-    else if(Key::list(key, Key::C, Key::X)&&Application::instance()->getInput()->getKeyDown(Key::RCTRL)){
+    else if(Key::list(key, Key::C, Key::X)&&CTRL_LEFT_OR_RIGHT){
         //delete substring
         int minselect= textidselect>textid? textid: textidselect;
         int maxselect= textidselect<textid? textid: textidselect;
@@ -165,7 +168,7 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
             return;
     }
     //past
-    else if(Key::V==key&&Application::instance()->getInput()->getKeyDown(Key::RCTRL)){
+    else if(Key::V==key&&CTRL_LEFT_OR_RIGHT){
         //get input string
         String input=Application::instance()->getInput()->pasteString();
         //delete substring

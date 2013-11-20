@@ -108,7 +108,8 @@ std::vector< std::complex<T> > getRoots(std::vector< std::complex<T> > fx){
     //for (size_t i = 0; i != fx.size(); i++)
     //        fx[i] /=leading;
     
-    const T offset=1.134678;
+    //const T offset=1.134678;
+    const T offset=1.144678;
     //start values
     //root of unity
     for (size_t i = 0; i != xk.size(); ++i){
