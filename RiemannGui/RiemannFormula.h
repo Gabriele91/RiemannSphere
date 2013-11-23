@@ -67,7 +67,10 @@ namespace RiemannGui {
 		RiemannFormula(const Easy3D::Table& config);
         ~RiemannFormula();
         void setFilter(std::function<bool(char c)> filter);
-        void setFocus(std::function<void(bool f)> focus);
+        void setFocusEvent(std::function<void(bool f)> focus);
+        bool hasFocus(){
+            return showpointer;
+        }
         void draw(Easy3D::Render* render);
         const Easy3D::String& getText() const{
             return text;

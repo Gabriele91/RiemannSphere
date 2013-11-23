@@ -90,16 +90,14 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 				currentRiemann()->unlock();
 		};
 		//set focus events
-		iterations.setFocus(focusEvent);
-		formula.setFocus(focusEvent);
+		iterations.setFocusEvent(focusEvent);
+		formula.setFocusEvent(focusEvent);
         ////////////////////////////////////////////////////////
         menu.addOnClick("exit", [this](bool){
             onKeyDown(Key::ESCAPE);
         });
         menu.addOnClick("reload", [this](bool){
-            poly->recalcPolynomial(formula.getText());
-            poly->iterations=iterations.getText().toInt();
-            onKeyDown(Key::R);
+            onKeyDown(Key::RETURN);
         });
         menu.addOnClick("print", [this](bool){
             setCurrentState(GUI_PRINT);
@@ -215,6 +213,12 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 			setCurrentState(CLEAN_DRAW);
 	}
 	virtual void onKeyDown(Easy3D::Key::Keyboard key){
+        if(key==Key::RETURN && formula.hasFocus()){
+            poly->recalcPolynomial(formula.getText());
+            poly->iterations=iterations.getText().toInt();
+            onKeyDown(Key::R);
+        }
+        else
 		if(key==Key::C)
 			selectScene(RIEMANN_SCENE_GEODESIC);
 		else

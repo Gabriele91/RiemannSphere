@@ -72,7 +72,7 @@ RiemannFormula::RiemannFormula(const Easy3D::Table& config){
 void RiemannFormula::setFilter(std::function<bool(char c)> filter){
     this->filter=filter;
 }
-void RiemannFormula::setFocus(std::function<void(bool c)> focus){
+void RiemannFormula::setFocusEvent(std::function<void(bool c)> focus){
     this->focus=focus;
 }
 
@@ -287,7 +287,7 @@ void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse
             lastPointSelect=mousePosition;
         }
 		else{
-			textid=text.size();
+			textid=(int)text.size();
 		}
         //reset selection area
         textidselect=textid;
@@ -415,7 +415,8 @@ void RiemannFormula::draw(Easy3D::Render* render){
     ////////////////////////////////////////////////////////////////
     //draw formula
     textPos=Vec2(pos.x+sbox.x+offset.x,windowSize.y-(pos.y+mbox.y+sbox.y+offset.y)); //no viewport
-    render->setViewportState(Vec4(pos.x+sbox.x+offset.x,pos.y+sbox.y+offset.y,mbox.x,mbox.y)); //viewport
+    Vec4 viewportText(pos.x+sbox.x+offset.x,pos.y+sbox.y+offset.y,mbox.x,mbox.y);
+    render->setViewportState(viewportText); //viewport
     //set matrix
 	projection.setOrtho(0,mbox.x,0,mbox.y,0.0,1.0);
     model.setTranslation(Vec2(textOffest.x,textOffest.y+mbox.y));
@@ -428,27 +429,37 @@ void RiemannFormula::draw(Easy3D::Render* render){
         Vec2 scalePointer(1,font->size()*0.5);
         Vec2 posPointer=font->endChar(text, textid)+textOffest;
         Vec2 offsetPointer(-scalePointer.x*0.5,mbox.y-scalePointer.y);
-        //first point
-        //calc final pos
-        Vec3 posFinalPointer(posPointer.x+offsetPointer.x,
-                             posPointer.y+offsetPointer.y,
-                             0.0);
         //set client
         render->setClientState(Render::ClientState::VERTEX);
         //disable texture
         render->setTextureState(Render::TextureState::NONE);
-        
         //draw pointer
         if(textidselect==textid){
+            //reset viewport and projection
+            //ortogonal
+            Mat4 projection;
+            projection.setOrtho(0,windowSize.x,0,windowSize.y,0.0,1.0);
+            //set viewport
+            render->setViewportState(Vec4(0,0,windowSize.x,windowSize.y));
+            //calc pos
+            Vec2 realPosPointer(viewportText.x+posPointer.x+offsetPointer.x,
+                                viewportText.y+posPointer.y+offsetPointer.y);
             //update model
-            model.setTranslation(posFinalPointer);
+            model.setTranslation(realPosPointer);
             model.addScale(scalePointer);
-            glLoadMatrixf(model);
+            //set matrixs
+            render->setMatrixsState(Render::MatrixsState(projection,model));
+            //render
             render->drawColorSprite(textColor);
         }
         //or selection
         else
         {
+            //calc first pos
+            Vec3 posFinalPointer(posPointer.x+offsetPointer.x,
+                                 posPointer.y+offsetPointer.y,
+                                 0.0);
+            //pos pointer in the text
             Vec2 posPointer=font->endChar(text, textidselect)+textOffest;;
             //calc final pos
             Vec3 posFinal(posPointer.x+offsetPointer.x,
