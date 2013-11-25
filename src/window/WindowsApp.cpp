@@ -137,7 +137,7 @@ bool  WindowsApp::openSaveDialog(const String& title,
 	}
 
 	saveDialog.lStructSize= sizeof(OPENFILENAME);
-	saveDialog.hwndOwner = NULL;
+	saveDialog.hwndOwner = ((WindowsScreen*)getScreen())->hWind;
 	saveDialog.lpstrFilter = TEXT(typesList.c_str());
 	saveDialog.lpstrTitle  = TEXT(title.c_str());
 	saveDialog.lpstrFile = szFileName;
@@ -147,10 +147,22 @@ bool  WindowsApp::openSaveDialog(const String& title,
 					   OFN_HIDEREADONLY | 
 					   OFN_OVERWRITEPROMPT;
 
+     bool isfullscreen=getScreen()->isFullscreen();
+     bool success=false;
+    
+     if(isfullscreen){
+        getScreen()->setFullscreen(false);
+		//update draw (driver bug...)
+		getScreen()->swap();
+	 }
+
 	if(GetSaveFileName(&saveDialog)){
 		out=szFileName;
-		return true;
+		success=true;
 	}
 
-	return false;
+    if(isfullscreen)
+        getScreen()->setFullscreen(true);
+
+	return success;
 }
