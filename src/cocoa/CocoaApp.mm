@@ -289,10 +289,18 @@ bool CocoaApp::openSaveDialog(const String& title,
         [fileTypes addObject:@(types[i].c_str())];
     }
     //set types
+    [savePanel setExtensionHidden:YES];
     [savePanel setAllowsOtherFileTypes:NO];
     [savePanel setAllowedFileTypes: fileTypes];
-    //[savePanel allowsOtherFileTypes :YES];
-    //open dialog
+    //level on window
+    [savePanel setLevel:CGShieldingWindowLevel()];
+    
+    bool isfullscreen=getScreen()->isFullscreen();
+    bool success=false;
+    
+    if(isfullscreen)
+        getScreen()->setFullscreen(false);
+    
     NSInteger result = [savePanel runModal];
     
     if (result == NSOKButton)
@@ -301,15 +309,15 @@ bool CocoaApp::openSaveDialog(const String& title,
         NSString *selectedFile = [[savePanel URL] path];
         //save out
         out=[selectedFile UTF8String];
-        //dealloc
-        [fileTypes release];
-        return true;
+        //success
+        success=true;
     }
+    
+    if(isfullscreen)
+        getScreen()->setFullscreen(true);
     
     //dealloc
     [fileTypes release];
     
-    
-    
-    return false;
+    return success;
 }

@@ -44,7 +44,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
           720,
           32,
           10,
-          false,
+          true,
           Screen::MSAAx4)
          ,menu(Table("assets/menu.e2d"))
          ,method(Table("assets/method.e2d"))
