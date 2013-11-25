@@ -203,6 +203,16 @@ void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
         //recalc text size and offset
         calcTextSize();
         recalcPointerTextOffset();
+        //recalc pos pointer
+        if( textSize.x>mbox.x ){
+            //get pos pinter into the text
+            Vec2 pointerPos=font->endChar(text, textid);
+            //right offset recalc
+            if((pointerPos.x+textOffest.x) > mbox.x){
+                textOffest.x=-textSize.x;
+                recalcTextOffset();
+            }
+        }
     }
     //insert a key or delete a key
     else if(Key::BACKSPACE==key||filter(Application::instance()->getInput()->getInputString()[0])){

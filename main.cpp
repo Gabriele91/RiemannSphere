@@ -43,9 +43,9 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
           1280,
           720,
           32,
-          30,
+          20,
           false,
-          Screen::MSAAx8)
+          Screen::MSAAx4)
          ,menu(Table("assets/menu.e2d"))
          ,method(Table("assets/method.e2d"))
          ,formula(Table("assets/formula.e2d"))
@@ -97,7 +97,9 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             onKeyDown(Key::ESCAPE);
         });
         menu.addOnClick("reload", [this](bool){
-            onKeyDown(Key::RETURN);
+            poly->recalcPolynomial(formula.getText());
+            poly->iterations=iterations.getText().toInt();
+            onKeyDown(Key::R);
         });
         menu.addOnClick("print", [this](bool){
             setCurrentState(GUI_PRINT);
@@ -213,7 +215,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 			setCurrentState(CLEAN_DRAW);
 	}
 	virtual void onKeyDown(Easy3D::Key::Keyboard key){
-        if(key==Key::RETURN && formula.hasFocus()){
+        if(key==Key::RETURN && (formula.hasFocus() || iterations.hasFocus())){
             poly->recalcPolynomial(formula.getText());
             poly->iterations=iterations.getText().toInt();
             onKeyDown(Key::R);
