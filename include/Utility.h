@@ -58,6 +58,7 @@ namespace Easy3D {
 			DFORCEINLINE const String& getFilename() const { return file; }
 			DFORCEINLINE const String& getFilebasename() const { return filebasename; }
 			DFORCEINLINE const String& getExtension() const { return ext; }
+			DFORCEINLINE const bool isAbsolute() const { return isabs; }
 			//
 			bool existsFile();
 			bool existsDirectory();
@@ -84,7 +85,7 @@ namespace Easy3D {
 			String file;
 			String filebasename;
 			String ext;
-
+			bool   isabs;
 		};
 	
 	};

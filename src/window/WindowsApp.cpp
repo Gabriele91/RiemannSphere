@@ -121,7 +121,7 @@ bool  WindowsApp::openSaveDialog(const String& title,
 								 const std::vector<String>& types,
 								 Utility::Path& out){
 	//
-	DEBUG_ASSERT(types.size()%2);
+	DEBUG_ASSERT(types.size()%2==0);
 	//open dialog
 	OPENFILENAME saveDialog;
 	char szFileName[MAX_PATH] = "";

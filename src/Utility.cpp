@@ -147,7 +147,7 @@ Path::Path(const char* _path){
 void Path::costructor(const String& _path){
 	//to canonical path
 	path=_path;
-	convertToCanonicalPath(path);
+	isabs=convertToCanonicalPath(path);
 	//get directory:
 	int flash=path.rfind("/");
 	if(flash>=0){
@@ -314,13 +314,21 @@ bool Path::convertToCanonicalPath(String& path){
         if(path[i]!=' ') break;
     }
 #elif defined(PLATFORM_WINDOW)
-    int rootfind=path.lfind(":");
+	int rootfind=path.find(":");
     String root;
     if(rootfind>0){
         absolute=true;
         std::vector<String> rootAndPath;
         path.split(":",rootAndPath);
-        root=rootAndPath[0]+':';
+        root=" "+rootAndPath[0]+":/";
+		//delete left space
+		for(size_t i=0;i!=root.size();++i){
+			if(root[i]!=' '){
+				root=root.substr(i,path.size());
+				break;
+			}
+		}
+		//
         path=rootAndPath[1];
     }
 #endif
