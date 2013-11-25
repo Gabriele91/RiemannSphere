@@ -4,6 +4,7 @@
 #include <Config.h>
 #include <Screen.h>
 #include <Input.h>
+#include <Utility.h>
 #include <EString.h>
 
 namespace Easy3D {
@@ -101,6 +102,13 @@ namespace Easy3D {
 		Input* getInput(){
 			return input;
 		}
+		/**
+		* open save dialog
+		*/
+		virtual bool openSaveDialog(const String& title,
+									const String& path,
+									const std::vector<String>& types,
+									Utility::Path& out)=0;
 		/**
 		* save a resourcesGroup
 		*/

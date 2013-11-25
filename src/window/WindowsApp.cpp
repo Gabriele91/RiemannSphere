@@ -115,3 +115,42 @@ void WindowsApp::update(float dt){
 bool WindowsApp::onlyPO2(){
 	return true;
 }
+
+bool  WindowsApp::openSaveDialog(const String& title,
+								 const String& path,
+								 const std::vector<String>& types,
+								 Utility::Path& out){
+	//
+	DEBUG_ASSERT(types.size()%2);
+	//open dialog
+	OPENFILENAME saveDialog;
+	char szFileName[MAX_PATH] = "";
+	ZeroMemory(&saveDialog, sizeof(OPENFILENAME));
+	String typesList;
+
+	for(size_t i=0;i!=types.size();++i){
+		if((i+1)&0x1)
+			typesList+=types[i]+'\0';
+		else
+			typesList+="*."+types[i]+'\0';
+
+	}
+
+	saveDialog.lStructSize= sizeof(OPENFILENAME);
+	saveDialog.hwndOwner = NULL;
+	saveDialog.lpstrFilter = TEXT(typesList.c_str());
+	saveDialog.lpstrTitle  = TEXT(title.c_str());
+	saveDialog.lpstrFile = szFileName;
+	saveDialog.nMaxFile = MAX_PATH;
+	saveDialog.Flags = OFN_EXPLORER | 
+					   OFN_PATHMUSTEXIST | 
+					   OFN_HIDEREADONLY | 
+					   OFN_OVERWRITEPROMPT;
+
+	if(GetSaveFileName(&saveDialog)){
+		out=szFileName;
+		return true;
+	}
+
+	return false;
+}

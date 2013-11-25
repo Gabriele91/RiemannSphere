@@ -43,7 +43,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
           1280,
           720,
           32,
-          20,
+          10,
           false,
           Screen::MSAAx4)
          ,menu(Table("assets/menu.e2d"))
@@ -145,11 +145,17 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             //save
             Image *screenImage=Image::getImageFromScreen(getScreen()->getWidth(),getScreen()->getHeight());
             int i=0; while(1){
-                Utility::Path imgPath("image"+String::toString(i)+".tga");
-                if(!imgPath.existsFile()){
-                    screenImage->save(imgPath);
+
+				Utility::Path savepath(".");
+				std::vector<String> types;
+				types.push_back(String("image (*.tga)"));
+				types.push_back(String("tga"));
+
+                if(Application::instance()->openSaveDialog("Save image","",types,savepath)){
+                    screenImage->save(savepath);
                     break;
                 }
+
                 ++i;
             };
             
@@ -261,6 +267,9 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 int main(int argc,const char *args[]){
     
     Application::create();
+	
+
+
     Application::instance()->exec(new RiemannApp());
     delete Application::instance()->getGame();
     return 0;
