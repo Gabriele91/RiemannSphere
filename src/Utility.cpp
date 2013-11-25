@@ -285,7 +285,7 @@ String Path::getCanonicalPath(const String& path){
 	convertToCanonicalPath(outPath);
 	return outPath;
 }
-void Path::convertToCanonicalPath(String& path){
+bool Path::convertToCanonicalPath(String& path){
 	//get real path
 	//char buffer[FILENAME_MAX];
 	//realpath(path,buffer);
@@ -300,9 +300,33 @@ void Path::convertToCanonicalPath(String& path){
 		else
 			break;
 	path=path.substr(0,path.size()-space_len);
+    //start is absolute?
+    bool absolute=false;
+#ifdef  PLATFORM_UNIX
+    String root="/";
+    for(size_t i=0;i!=path.size();++i){
+        if(path[i]=='/'){
+            path=path.substr(i,path.size());
+            absolute=true;//is a absolute
+            break;
+        }
+        else
+        if(path[i]!=' ') break;
+    }
+#elif defined(PLATFORM_WINDOW)
+    int rootfind=path.lfind(":");
+    String root;
+    if(rootfind>0){
+        absolute=true;
+        std::vector<String> rootAndPath;
+        path.split(":",rootAndPath);
+        root=rootAndPath[0]+':';
+        path=rootAndPath[1];
+    }
+#endif
 	//replace "void path"
 	path.replace("//","");
-	if(path.size()==0||path=="."||path=="./"){ path="./"; return; }
+	if(path.size()==0||path=="."||path=="./"){ path="./"; return false; }
 	//replace ../
 	std::vector<String> dirs;
 	path.split("/",dirs);
@@ -323,7 +347,14 @@ void Path::convertToCanonicalPath(String& path){
 	else
 		path=dirs[0];
 	//replace is made a void path..
-	if(path.size()==0){ path="./"; return; }
+	if(path.size()==0){
+        //is an absolute path
+        if(absolute)
+            path=root+path;
+        else //is relative
+            path="./";
+        return absolute;
+    }
 	//directory?
 	int point=path.rfind(".");
 	int flash=path.rfind("/");
@@ -332,5 +363,9 @@ void Path::convertToCanonicalPath(String& path){
 		//if directory not have end part
 		if(path[path.size()-1]!='/') path+='/';
 	}
-	//
+	//is an absolute path
+    if(absolute)
+        path=root+path;
+    //
+    return absolute;
 }

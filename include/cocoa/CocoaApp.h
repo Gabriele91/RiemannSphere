@@ -66,6 +66,13 @@ namespace Easy3D {
          * return true if device supports only power of two texture
          */
 		virtual bool onlyPO2();
+		/**
+         * open save dialog
+         */
+		virtual bool openSaveDialog(const String& title,
+									const String& path,
+									const std::vector<String>& types,
+									Utility::Path& out);
         
 	protected:
         //exit loop?

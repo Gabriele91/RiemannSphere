@@ -66,7 +66,7 @@ namespace Easy3D {
 			std::vector<String> getSubDirs() const;
 			//
 			static String getCanonicalPath(const String& path);
-			static void convertToCanonicalPath(String& path);
+			static bool convertToCanonicalPath(String& path);
 			//
 			//cast
 			operator const String& () const{

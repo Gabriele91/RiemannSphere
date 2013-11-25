@@ -1,3 +1,4 @@
+
 //
 //  CocoaApp.cpp
 //  Easy3D
@@ -265,5 +266,50 @@ void CocoaApp::update(float dt){
  * return true if device supports only power of two texture
  */
 bool CocoaApp::onlyPO2(){
+    return false;
+}
+
+/**
+ * open save dialog
+ */
+bool CocoaApp::openSaveDialog(const String& title,
+                              const String& path,
+                              const std::vector<String>& types,
+                              Utility::Path& out){
+    DEBUG_ASSERT(types.size()%2==0);
+    //create a save panel
+    NSSavePanel * savePanel = [NSSavePanel savePanel];
+    savePanel.title=@(title.c_str());
+    savePanel.canCreateDirectories=YES;
+    savePanel.showsToolbarButton=YES;
+    savePanel.canSelectHiddenExtension=YES;
+    //type arrays alloc
+    NSMutableArray *fileTypes = [[NSMutableArray alloc] init];
+    for(size_t i=1;i<types.size();i+=2){
+        [fileTypes addObject:@(types[i].c_str())];
+    }
+    //set types
+    [savePanel setAllowsOtherFileTypes:NO];
+    [savePanel setAllowedFileTypes: fileTypes];
+    //[savePanel allowsOtherFileTypes :YES];
+    //open dialog
+    NSInteger result = [savePanel runModal];
+    
+    if (result == NSOKButton)
+    {
+        //get relative path
+        NSString *selectedFile = [[savePanel URL] path];
+        //save out
+        out=[selectedFile UTF8String];
+        //dealloc
+        [fileTypes release];
+        return true;
+    }
+    
+    //dealloc
+    [fileTypes release];
+    
+    
+    
     return false;
 }
