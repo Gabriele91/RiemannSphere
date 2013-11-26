@@ -34,7 +34,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     Easy3D::Font fprint;    //font
     //polynomail
     Polynomial<double> *poly;
-                       
+    
     public:
     
     
@@ -69,6 +69,23 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     
                        
     void onStart(){
+        ////////////////////////////////////////////////////////
+        //get fullscreen
+        Utility::Path dirtable(Application::instance()->appDataDirectory()+"/fullscreen.e2d");
+        Table fullscreen;
+        //read file
+        if(dirtable.existsFile())
+            fullscreen.loadFromFile(dirtable);
+        else
+            fullscreen.set("fullscreen", getScreen()->isFullscreen()? "true" : "false");
+        //enable o disable full screen mode
+        bool bScreenMode=fullscreen.getString("fullscreen", getScreen()->isFullscreen()? "true" : "false")=="true";
+        //set mode
+        if(getScreen()->isFullscreen()!=bScreenMode)
+            getScreen()->setFullscreen(bScreenMode);
+        //set ico menu
+        if(bScreenMode)
+            menu.crackAButton("fullscreen");
         ////////////////////////////////////////////////////////
         //default poly
         Table startTable(Application::instance()->appResourcesDirectory()+'/'+"function.test.e2d");
@@ -116,6 +133,9 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         menu.addOnClick("zero", [this](bool deactive){
             currentRiemann()->drawZero(!deactive);
         });
+        menu.addOnClick("fullscreen", [this](bool deactive){
+            getScreen()->setFullscreen(deactive);
+        });
         ////////////////////////////////////////////////////////
         method.addRadioEvent([this](const Easy3D::String& name){
             if(name=="newton")
@@ -144,20 +164,14 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         addState(GUI_PRINT,new Easy3D::StateLambda([this](float dt){
             //save
             Image *screenImage=Image::getImageFromScreen(getScreen()->getWidth(),getScreen()->getHeight());
-            int i=0; while(1){
 
-				Utility::Path savepath(".");
-				std::vector<String> types;
-				types.push_back(String("image (*.tga)"));
-				types.push_back(String("tga"));
+            Utility::Path savepath(".");
+            std::vector<String> types;
+            types.push_back(String("image (*.tga)"));
+            types.push_back(String("tga"));
 
-                if(Application::instance()->openSaveDialog("Save image","",types,savepath)){
-                    screenImage->save(savepath);
-                    break;
-                }
-
-                ++i;
-            };
+            if(Application::instance()->openSaveDialog("Save image","",types,savepath))
+                screenImage->save(savepath);
             
             delete screenImage;
             setCurrentState(GUI_DRAW);
@@ -256,6 +270,18 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 	}
 
 	void onEnd(){
+        //serialize full screen mode
+        Table fullscreen;
+        fullscreen.set("fullscreen", getScreen()->isFullscreen()? "true" : "false");
+        String fullscreenString=fullscreen.serialize();
+        //save seralize data
+        Utility::Path dirtable(Application::instance()->appDataDirectory()+"/fullscreen.e2d");
+        std::FILE *file=std::fopen(dirtable, "wb");
+        if(file){
+            std::fwrite(fullscreenString.c_str(), fullscreenString.size(), 1, file);
+            std::fclose(file);
+        }
+        //remove data
 		getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)this);
 		if(poly) delete poly;   
 	}

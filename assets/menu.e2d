@@ -65,5 +65,14 @@
 			}
 			id=7
 		}
+		fullscreen={
+			single={
+				normal="toFull.png"
+			}
+			double={
+				normal="toLow.png"
+			}
+			id=8
+		}
 
 }
