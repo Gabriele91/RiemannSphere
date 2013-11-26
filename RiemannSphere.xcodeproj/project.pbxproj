@@ -178,6 +178,40 @@
 		E053C07E17F1E01D00BDCE94 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
 		E0645F8B180BF98700E3ADE9 /* halley.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = halley.ps.glsl; path = assets/halley.ps.glsl; sourceTree = "<group>"; };
 		E0645F8C180BFCC600E3ADE9 /* schroeder.ps.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = schroeder.ps.glsl; path = assets/schroeder.ps.glsl; sourceTree = "<group>"; };
+		E076E99E1844A66F00953E5B /* base.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = base.png; path = assets/base.png; sourceTree = "<group>"; };
+		E076E99F1844A66F00953E5B /* exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = exit.png; path = assets/exit.png; sourceTree = "<group>"; };
+		E076E9A01844A66F00953E5B /* exitClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = exitClose.png; path = assets/exitClose.png; sourceTree = "<group>"; };
+		E076E9A11844A66F00953E5B /* grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grid.png; path = assets/grid.png; sourceTree = "<group>"; };
+		E076E9A21844A66F00953E5B /* halley4Off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = halley4Off.png; path = assets/halley4Off.png; sourceTree = "<group>"; };
+		E076E9A31844A66F00953E5B /* halley4On.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = halley4On.png; path = assets/halley4On.png; sourceTree = "<group>"; };
+		E076E9A41844A66F00953E5B /* halleyOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = halleyOff.png; path = assets/halleyOff.png; sourceTree = "<group>"; };
+		E076E9A51844A66F00953E5B /* halleyOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = halleyOn.png; path = assets/halleyOn.png; sourceTree = "<group>"; };
+		E076E9A61844A66F00953E5B /* menu.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = menu.e2d; path = assets/menu.e2d; sourceTree = "<group>"; };
+		E076E9A71844A66F00953E5B /* method.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = method.e2d; path = assets/method.e2d; sourceTree = "<group>"; };
+		E076E9A81844A66F00953E5B /* newtonOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newtonOff.png; path = assets/newtonOff.png; sourceTree = "<group>"; };
+		E076E9A91844A66F00953E5B /* newtonOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newtonOn.png; path = assets/newtonOn.png; sourceTree = "<group>"; };
+		E076E9AA1844A66F00953E5B /* notgrid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = notgrid.png; path = assets/notgrid.png; sourceTree = "<group>"; };
+		E076E9AB1844A66F00953E5B /* point.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = point.tga; path = assets/point.tga; sourceTree = "<group>"; };
+		E076E9AC1844A66F00953E5B /* points.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = points.png; path = assets/points.png; sourceTree = "<group>"; };
+		E076E9AD1844A66F00953E5B /* pointsdisable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pointsdisable.png; path = assets/pointsdisable.png; sourceTree = "<group>"; };
+		E076E9AE1844A66F00953E5B /* print.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = print.png; path = assets/print.png; sourceTree = "<group>"; };
+		E076E9AF1844A66F00953E5B /* printAction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = printAction.png; path = assets/printAction.png; sourceTree = "<group>"; };
+		E076E9B01844A66F00953E5B /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reload.png; path = assets/reload.png; sourceTree = "<group>"; };
+		E076E9B11844A66F00953E5B /* reloadTurn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reloadTurn.png; path = assets/reloadTurn.png; sourceTree = "<group>"; };
+		E076E9B21844A66F00953E5B /* schroeder4Off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = schroeder4Off.png; path = assets/schroeder4Off.png; sourceTree = "<group>"; };
+		E076E9B31844A66F00953E5B /* schroeder4On.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = schroeder4On.png; path = assets/schroeder4On.png; sourceTree = "<group>"; };
+		E076E9B41844A66F00953E5B /* schroederOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = schroederOff.png; path = assets/schroederOff.png; sourceTree = "<group>"; };
+		E076E9B51844A66F00953E5B /* schroederOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = schroederOn.png; path = assets/schroederOn.png; sourceTree = "<group>"; };
+		E076E9B61844A66F00953E5B /* Verdana40_0.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = Verdana40_0.tga; path = assets/Verdana40_0.tga; sourceTree = "<group>"; };
+		E076E9B71844A66F00953E5B /* Verdana40.fnt */ = {isa = PBXFileReference; lastKnownFileType = file; name = Verdana40.fnt; path = assets/Verdana40.fnt; sourceTree = "<group>"; };
+		E076E9B81844A66F00953E5B /* zero.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = zero.tga; path = assets/zero.tga; sourceTree = "<group>"; };
+		E076E9B91844A66F00953E5B /* zeroico1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = zeroico1.png; path = assets/zeroico1.png; sourceTree = "<group>"; };
+		E076E9BA1844A66F00953E5B /* zeroico2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = zeroico2.png; path = assets/zeroico2.png; sourceTree = "<group>"; };
+		E076E9BB1844A69300953E5B /* formula.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = formula.e2d; path = assets/formula.e2d; sourceTree = "<group>"; };
+		E076E9BC1844A69300953E5B /* infico1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = infico1.png; path = assets/infico1.png; sourceTree = "<group>"; };
+		E076E9BD1844A69300953E5B /* infico2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = infico2.png; path = assets/infico2.png; sourceTree = "<group>"; };
+		E076E9BE1844A69300953E5B /* infinity.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = infinity.tga; path = assets/infinity.tga; sourceTree = "<group>"; };
+		E076E9BF1844A69300953E5B /* iterations.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = iterations.e2d; path = assets/iterations.e2d; sourceTree = "<group>"; };
 		E084F4C6181A75EF005B60B4 /* function.test.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = function.test.e2d; sourceTree = "<group>"; };
 		E08570581806991700BD4106 /* Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fractal.h; sourceTree = "<group>"; };
 		E085705D1806A44700BD4106 /* HalleyFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalleyFractal.h; sourceTree = "<group>"; };
@@ -248,6 +282,40 @@
 		E0229962180BC91F00299313 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				E076E9BB1844A69300953E5B /* formula.e2d */,
+				E076E9BC1844A69300953E5B /* infico1.png */,
+				E076E9BD1844A69300953E5B /* infico2.png */,
+				E076E9BE1844A69300953E5B /* infinity.tga */,
+				E076E9BF1844A69300953E5B /* iterations.e2d */,
+				E076E99E1844A66F00953E5B /* base.png */,
+				E076E99F1844A66F00953E5B /* exit.png */,
+				E076E9A01844A66F00953E5B /* exitClose.png */,
+				E076E9A11844A66F00953E5B /* grid.png */,
+				E076E9A21844A66F00953E5B /* halley4Off.png */,
+				E076E9A31844A66F00953E5B /* halley4On.png */,
+				E076E9A41844A66F00953E5B /* halleyOff.png */,
+				E076E9A51844A66F00953E5B /* halleyOn.png */,
+				E076E9A61844A66F00953E5B /* menu.e2d */,
+				E076E9A71844A66F00953E5B /* method.e2d */,
+				E076E9A81844A66F00953E5B /* newtonOff.png */,
+				E076E9A91844A66F00953E5B /* newtonOn.png */,
+				E076E9AA1844A66F00953E5B /* notgrid.png */,
+				E076E9AB1844A66F00953E5B /* point.tga */,
+				E076E9AC1844A66F00953E5B /* points.png */,
+				E076E9AD1844A66F00953E5B /* pointsdisable.png */,
+				E076E9AE1844A66F00953E5B /* print.png */,
+				E076E9AF1844A66F00953E5B /* printAction.png */,
+				E076E9B01844A66F00953E5B /* reload.png */,
+				E076E9B11844A66F00953E5B /* reloadTurn.png */,
+				E076E9B21844A66F00953E5B /* schroeder4Off.png */,
+				E076E9B31844A66F00953E5B /* schroeder4On.png */,
+				E076E9B41844A66F00953E5B /* schroederOff.png */,
+				E076E9B51844A66F00953E5B /* schroederOn.png */,
+				E076E9B61844A66F00953E5B /* Verdana40_0.tga */,
+				E076E9B71844A66F00953E5B /* Verdana40.fnt */,
+				E076E9B81844A66F00953E5B /* zero.tga */,
+				E076E9B91844A66F00953E5B /* zeroico1.png */,
+				E076E9BA1844A66F00953E5B /* zeroico2.png */,
 				E0961FF7182109EF007B773F /* generic.ps.glsl */,
 				E0B46557180FD5E2002909A2 /* halley4.ps.glsl */,
 				E085CA7A180EE0CD00ADFF6C /* schroeder4.ps.glsl */,

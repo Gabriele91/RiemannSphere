@@ -115,8 +115,7 @@ CocoaApp::CocoaApp(){
         CocoaInput* input= (CocoaInput*)Application::instance()->getInput();
         input->__closeCocoaListener();
     };
-    
-	//not exit form loop
+    //not exit form loop
 	doexit=false;
 }
 
@@ -170,7 +169,7 @@ bool CocoaApp::loadData(const String& path,void*& ptr,size_t &len){
  * @return path
  */
 String CocoaApp::appDataDirectory(){
-    return "";
+    return dataPath;
 }
 /**
  * application root (read only)
@@ -188,7 +187,7 @@ String CocoaApp::appWorkingDirectory(){
  * @return path
  */
 String CocoaApp::appResourcesDirectory(){
-    return "";
+    return [[[NSBundle mainBundle] resourcePath] UTF8String];
 }
 /**
  * application exit method
@@ -241,7 +240,18 @@ void CocoaApp::loop(){
 void CocoaApp::exec(Game *game){
 	mainInstance=game;
     
-	mainInstance->start();
+    /**************/
+    //create path
+    NSArray* nspaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	dataPath = [[nspaths objectAtIndex:0] UTF8String];
+    dataPath += "/" + getScreen()->getTitle();
+    //create directory
+    NSString *filePath=@(dataPath.c_str());
+    [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil];
+    [filePath release];
+    /************/
+    
+    mainInstance->start();
     
     COCOAAPP
     
@@ -251,7 +261,6 @@ void CocoaApp::exec(Game *game){
                             withObject:nil
                             waitUntilDone:YES];
 	}
-    
     
 	mainInstance->end();
 }

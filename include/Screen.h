@@ -152,6 +152,10 @@ namespace Easy3D {
 		* virtual destructor
 		*/
 		virtual ~Screen(){};
+        /**
+        * get application title
+        */
+        virtual String getTitle(){ return ""; };
 
 	protected:
 		/**

@@ -533,6 +533,7 @@ void CocoaScreen::createWindow(const char* appname,
                           uint freamPerSecond,
                           bool fullscreen,
                           AntiAliasing dfAA){
+    this->title=appname;
     this->fullscreen=fullscreen;
     this->cocoaGLContext=NULL;
     this->cocoaWindow=NULL;

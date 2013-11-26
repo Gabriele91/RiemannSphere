@@ -79,6 +79,8 @@ namespace Easy3D {
         bool doexit;
         //cocoa app pointer
         void *cocoaApp;
+        //file data path
+        String dataPath;
         //
 		CocoaApp();
 		friend class Application;

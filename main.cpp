@@ -44,7 +44,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
           720,
           32,
           24,
-          true,
+          false,
           Screen::MSAAx4)
          ,menu(Table("assets/menu.e2d"))
          ,method(Table("assets/method.e2d"))
@@ -69,6 +69,9 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     
                        
     void onStart(){
+        Debug::message() << Application::instance()->appDataDirectory()<< '\n';
+        Debug::message() << Application::instance()->appResourcesDirectory()<< '\n';
+        Debug::message() << Application::instance()->appWorkingDirectory() << '\n';
         ////////////////////////////////////////////////////////
         //default poly
         Table startTable("function.test.e2d");
