@@ -3,6 +3,7 @@
 
 
 #include <Config.h>
+#include <string>
 #include <EString.h>
 
 namespace Easy3D {
@@ -53,6 +54,7 @@ namespace Easy3D {
 			
 			Path(const char* path);
 			Path(const String& path);
+			Path(const std::string& path);
 			DFORCEINLINE const String& getPath() const { return path; }
 			DFORCEINLINE const String& getDirectory() const { return directory; }
 			DFORCEINLINE const String& getFilename() const { return file; }

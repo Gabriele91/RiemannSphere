@@ -141,6 +141,9 @@ using namespace Easy3D::Utility;
 Path::Path(const String& _path){
 	costructor(_path);
 }
+Path::Path(const std::string& path){
+	costructor(String(path));
+}
 Path::Path(const char* _path){
 	costructor(String(_path));
 }

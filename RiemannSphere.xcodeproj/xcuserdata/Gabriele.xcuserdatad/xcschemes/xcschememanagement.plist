@@ -14,10 +14,30 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>RiemannSphereApp.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>E04F6F9417BBBF8700041D45</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E0D7774E1844AB3800794BF9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E0D777711844AB3800794BF9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E0D777831844AB3800794BF9</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -46,10 +46,10 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
           24,
           false,
           Screen::MSAAx4)
-         ,menu(Table("assets/menu.e2d"))
-         ,method(Table("assets/method.e2d"))
-         ,formula(Table("assets/formula.e2d"))
-         ,iterations(Table("assets/iterations.e2d"))
+         ,menu(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/menu.e2d"))
+         ,method(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/method.e2d"))
+         ,formula(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/formula.e2d"))
+         ,iterations(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/iterations.e2d"))
 	     ,poly(NULL){}
     
 	virtual ~RiemannApp(){}
@@ -69,12 +69,9 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     
                        
     void onStart(){
-        Debug::message() << Application::instance()->appDataDirectory()<< '\n';
-        Debug::message() << Application::instance()->appResourcesDirectory()<< '\n';
-        Debug::message() << Application::instance()->appWorkingDirectory() << '\n';
         ////////////////////////////////////////////////////////
         //default poly
-        Table startTable("function.test.e2d");
+        Table startTable(Application::instance()->appResourcesDirectory()+'/'+"function.test.e2d");
         poly=new RiemannSphere::Polynomial<double>(startTable);
         ////////////////////////////////////////////////////////
         //GUI
@@ -172,7 +169,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         //SCENES
         ////////////////////////////////////////////////////////
         //load font
-        fprint.load("assets/game.font.e2d");
+        fprint.load(Application::instance()->appResourcesDirectory()+'/'+"assets/game.font.e2d");
 		//scenes
         addSceneAndActive(RIEMANN_SCENE_GEODESIC, fixSceneCast(new RiemannSphere::RiemannSceneGeodesic(poly)));
         addScene(RIEMANN_GLSL_SCENE, fixSceneCast(new RiemannSphere::RiemannSceneGLSL(poly)));
@@ -270,9 +267,6 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 int main(int argc,const char *args[]){
     
     Application::create();
-	
-
-
     Application::instance()->exec(new RiemannApp());
     delete Application::instance()->getGame();
     return 0;

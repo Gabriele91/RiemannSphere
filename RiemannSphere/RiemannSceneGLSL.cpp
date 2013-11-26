@@ -12,9 +12,9 @@ RiemannSceneGLSL::RiemannSceneGLSL(Polynomial<double> *poly)
     ,poly(poly)
 	,fractal(*poly)
 	,drawSymbols(&camera,this,
-				"assets/infinity.tga",
-				"assets/zero.tga",
-				"assets/point.tga")
+				Application::instance()->appResourcesDirectory()+'/'+"assets/infinity.tga",
+				Application::instance()->appResourcesDirectory()+'/'+"assets/zero.tga",
+				Application::instance()->appResourcesDirectory()+'/'+"assets/point.tga")
 {
 }
 
@@ -68,8 +68,6 @@ void RiemannSceneGLSL::onStart(){
     cameraManager->setProjectionInfo(Math::torad(10.0f), 1.0, 100);
     camera.setPosition(Vec3(0,0,50),true);
     setMatrixsState(MatrixsState(camera));
-    //font
-    aharoni.load("assets/game.font.e2d");
 	//shader
 	//load sheders
 	String definePolySize=("POLYSIZE "+String::toString(poly->constants.size()));
@@ -79,12 +77,17 @@ void RiemannSceneGLSL::onStart(){
     defines[0]=&definePolySize[0];
     defines[1]=&defineSubPolySize[0];
     defines[2]=&defineItPoly[0];
-	shader[Iterations::SCHROEDER].loadShader("assets/base.vs.glsl","assets/schroeder.ps.glsl",defines);
-	shader[Iterations::SCHROEDER4].loadShader("assets/base.vs.glsl","assets/schroeder4.ps.glsl",defines);
-    shader[Iterations::HALLEY].loadShader("assets/base.vs.glsl","assets/halley.ps.glsl",defines);
-    shader[Iterations::HALLEY4].loadShader("assets/base.vs.glsl","assets/halley4.ps.glsl",defines);
-    shader[Iterations::NEWTON].loadShader("assets/base.vs.glsl","assets/newton.ps.glsl",defines);
-    shader[Iterations::GENERIC].loadShader("assets/base.vs.glsl","assets/generic.ps.glsl",defines);
+    //resouce path
+    String resourcePath=Application::instance()->appResourcesDirectory()+'/';
+    //vertex shader path
+    String pathVS=resourcePath+"assets/base.vs.glsl";
+    //load shaders
+	shader[Iterations::SCHROEDER].loadShader(pathVS,resourcePath+"assets/schroeder.ps.glsl",defines);
+	shader[Iterations::SCHROEDER4].loadShader(pathVS,resourcePath+"assets/schroeder4.ps.glsl",defines);
+    shader[Iterations::HALLEY].loadShader(pathVS,resourcePath+"assets/halley.ps.glsl",defines);
+    shader[Iterations::HALLEY4].loadShader(pathVS,resourcePath+"assets/halley4.ps.glsl",defines);
+    shader[Iterations::NEWTON].loadShader(pathVS,resourcePath+"assets/newton.ps.glsl",defines);
+    shader[Iterations::GENERIC].loadShader(pathVS,resourcePath+"assets/generic.ps.glsl",defines);
     //select shader
     fractal.shader=&shader[poly->method];
     //build grid
@@ -218,11 +221,11 @@ void RiemannSceneGLSL::onRun(float dt){
     }
 	
 }
-
+/*
 void RiemannSceneGLSL::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::String& text,const Easy3D::Vec2& scale,const Easy3D::Color& color){
 	Vec2 offset=aharoni.sizeText(text)*Vec2(-0.5,0.25)*scale;
 	aharoni.text(camera.getScreenPointFrom3DSpace(pos)+offset,text,scale,color);
-}
+}*/
 
 void RiemannSceneGLSL::onPause(){
     //remove input

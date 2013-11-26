@@ -18,7 +18,10 @@ RiemannSceneGeodesic::RiemannSceneGeodesic(Polynomial<double> *poly)
     ,schroeder(poly)
     ,schroeder4(poly)
     ,genericfractal(poly)
-	,drawSymbols(&camera,this,"assets/infinity.tga","assets/zero.tga","assets/point.tga")
+	,drawSymbols(&camera,this,
+                 Application::instance()->appResourcesDirectory()+'/'+"assets/infinity.tga",
+                 Application::instance()->appResourcesDirectory()+'/'+"assets/zero.tga",
+                 Application::instance()->appResourcesDirectory()+'/'+"assets/point.tga")
 {
     //build grid
     grid.build(20,20);
@@ -68,7 +71,7 @@ void RiemannSceneGeodesic::onStart(){
 							  (size_t)(536870912*0.1),
 							  (size_t)(536870912*3));
     //font
-    aharoni.load("assets/game.font.e2d");
+    //aharoni.load("assets/game.font.e2d");
     //init
     onResume();
 }
@@ -175,11 +178,12 @@ void RiemannSceneGeodesic::onRun(float dt){
         drawSymbols.drawPoint(pos,Vec2(10,10),0.38,1.00,poly->rootsColor[i]);
     }
 }
-
+/*
 void RiemannSceneGeodesic::drawFontIn3DScene(const Easy3D::Vec3& pos,const Easy3D::String& text,const Easy3D::Vec2& scale){
 	Vec2 offset=aharoni.sizeText(text)*Vec2(-0.5,0.25)*scale;
 	aharoni.text(camera.getScreenPointFrom3DSpace(pos)+offset,text,scale);
 }
+*/
 
 void RiemannSceneGeodesic::onPause(){
     //remove input

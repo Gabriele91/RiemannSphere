@@ -22,7 +22,6 @@ namespace RiemannSphere {
         CameraManager  *cameraManager;
         Easy3D::Camera camera;
         Easy3D::Object obj;
-        Easy3D::Font aharoni;
         Easy3D::Shader shader[Iterations::FRACTMAX];
 		DrawSymbols drawSymbols;
         GridMesh grid;
@@ -77,12 +76,6 @@ namespace RiemannSphere {
                                  Easy3D::Key::Mouse button);
         
         
-		void drawFontIn3DScene(const Easy3D::Vec3& pos,
-							   const Easy3D::String& text,
-							   const Easy3D::Vec2& scale,
-							   const Easy3D::Color& color=Easy3D::Color());
-		
-		
 	};
 };
 
