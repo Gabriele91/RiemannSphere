@@ -71,7 +71,10 @@ namespace Easy3D {
 		//local vars
 		int doexit;
 		//protected constructor
-		WindowsApp();
+		WindowsApp();       
+		//file data path
+        String dataPath;
+
 
 		friend class Application;
 

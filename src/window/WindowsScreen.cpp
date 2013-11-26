@@ -282,7 +282,8 @@ void WindowsScreen::createWindow(const char* appname,
 	DEBUG_ASSERT(appname);
 	DEBUG_ASSERT(bites);
 	DEBUG_MESSAGE( "createWindow Easy2D Win32" );
-
+	//save title
+	title=appname;
 	//set values
 	screenWidth=Math::min(nativeWidth,width);
 	screenHeight=Math::min(nativeHeight,height);

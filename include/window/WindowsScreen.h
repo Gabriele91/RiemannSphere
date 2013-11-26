@@ -75,6 +75,10 @@ namespace Easy3D {
 		* return if fullscreen is enable return true
 		*/
 		virtual bool isFullscreen();
+		/**
+         * get application title
+         */
+        virtual String getTitle(){ return title; };
 
 	protected:
 		
@@ -116,6 +120,7 @@ namespace Easy3D {
 		uint freamPerSecond;
 		bool fullscreen;
 		bool showmouse;
+		String title;
 		//friends class
 		friend class WindowsApp;
 		friend class WindowsInput;

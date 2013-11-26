@@ -6,6 +6,7 @@
 #include <Debug.h>
 //window
 #include <direct.h>
+#include <shlobj.h>
 //
 ///////////////////////
 using namespace Easy3D;
@@ -46,7 +47,7 @@ bool WindowsApp::loadData(const String& path,void*& ptr,size_t &len){
 }
 
 String WindowsApp::appDataDirectory(){
-	return "";
+	return dataPath;
 }
 
 String WindowsApp::appWorkingDirectory(){
@@ -102,6 +103,23 @@ void WindowsApp::loop(){
 
 void WindowsApp::exec(Game *ptrMainInstance){
 	mainInstance=ptrMainInstance;
+	/////////////////////////////////////
+	//create appdirectory
+	//init appdata folder
+	TCHAR szPath[MAX_PATH];
+	SHGetFolderPathA(((WindowsScreen*)getScreen())->hWind,
+					  CSIDL_APPDATA|CSIDL_FLAG_CREATE, 
+					  NULL, 
+					  0, 
+					  szPath);
+	dataPath = String(szPath) + '/' + getScreen()->getTitle();
+	//create directory
+	CreateDirectory(dataPath.c_str(),0);
+	//get errors
+	DWORD error=GetLastError();
+	DEBUG_ASSERT(error != ERROR_PATH_NOT_FOUND);
+	//DEBUG_ASSERT(error != ERROR_ALREADY_EXISTS);
+	/////////////////////////////////////
 	mainInstance->start();
 	loop();
 	mainInstance->end();
