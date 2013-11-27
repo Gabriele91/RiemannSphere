@@ -55,16 +55,17 @@ void RiemannSphere::PolynomialColor::colors(int n,std::vector< RootColor<double>
 
     double color_delta=360/(n);
     vout.resize(n);
+    double val=120;
     for(int i=1;i<=n;++i)
-        HSVtoRGB<double>(&vout[i-1].r,&vout[i-1].g,&vout[i-1].b,color_delta*i,1,1);
-    
+        HSVtoRGB<double>(&vout[i-1].r,&vout[i-1].g,&vout[i-1].b,std::fmod((color_delta*i)+val,360),1,1);
     
 }
 void RiemannSphere::PolynomialColor::colors(int n,std::vector< RootColor<float> >& vout){
     float color_delta=360/(n);
     vout.resize(n);
+    float val=120;
     for(int i=1;i<=n;++i)
-        HSVtoRGB<float>(&vout[i-1].r,&vout[i-1].g,&vout[i-1].b,color_delta*i,1,1);
+        HSVtoRGB<float> (&vout[i-1].r,&vout[i-1].g,&vout[i-1].b,std::fmodf((color_delta*i)+val,360),1,1);
 }
 
 

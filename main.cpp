@@ -32,6 +32,8 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     RiemannGui::RiemannFormula iterations;
     //font style
     Easy3D::Font fprint;    //font
+    //bool is reloded
+    bool isreloded;
     //polynomail
     Polynomial<double> *poly;
     
@@ -69,6 +71,8 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     
                        
     void onStart(){
+        //init is reloded
+        isreloded=true;
         ////////////////////////////////////////////////////////
         //get fullscreen
         Utility::Path dirtable(Application::instance()->appDataDirectory()+"/fullscreen.e2d");
@@ -90,6 +94,16 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         //default poly
         Table startTable(Application::instance()->appResourcesDirectory()+'/'+"function.test.e2d");
         poly=new RiemannSphere::Polynomial<double>(startTable);
+        ////////////////////////////////////////////////////////
+        //SCENES
+        ////////////////////////////////////////////////////////
+        //load font
+        fprint.load(Application::instance()->appResourcesDirectory()+'/'+"assets/game.font.e2d");
+		//scenes
+        addSceneAndActive(RIEMANN_SCENE_GEODESIC, fixSceneCast(new RiemannSphere::RiemannSceneGeodesic(poly)));
+        addScene(RIEMANN_GLSL_SCENE, fixSceneCast(new RiemannSphere::RiemannSceneGLSL(poly)));
+        //add input keyboard
+        getInput()->addHandler(dynamic_cast<Easy3D::Input::KeyboardHandler *>(this));
         ////////////////////////////////////////////////////////
         //GUI
         ////////////////////////////////////////////////////////
@@ -148,8 +162,11 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
                 poly->method=Iterations::SCHROEDER;
             else if(name=="schroeder4")
                 poly->method=Iterations::SCHROEDER4;
+            onKeyDown(Key::R);
         });
+        ////////////////////////////////////////////////////////
         method.crackAButton(Iterations::Names[poly->method]);
+        menu.crackAButton("grid");
         ////////////////////////////////////////////////////////
         addState(GUI_DRAW,new Easy3D::StateLambda([this](float dt){
             //update ui
@@ -179,16 +196,6 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         addState(CLEAN_DRAW,new Easy3D::StateLambda([this](float dt){}));
         //enable draw
         setCurrentState(GUI_DRAW);
-        ////////////////////////////////////////////////////////
-        //SCENES
-        ////////////////////////////////////////////////////////
-        //load font
-        fprint.load(Application::instance()->appResourcesDirectory()+'/'+"assets/game.font.e2d");
-		//scenes
-        addSceneAndActive(RIEMANN_SCENE_GEODESIC, fixSceneCast(new RiemannSphere::RiemannSceneGeodesic(poly)));
-        addScene(RIEMANN_GLSL_SCENE, fixSceneCast(new RiemannSphere::RiemannSceneGLSL(poly)));
-        //add input keyboard
-        getInput()->addHandler(dynamic_cast<Easy3D::Input::KeyboardHandler *>(this));
 
     }
     void onRun(float dt){}       
@@ -225,6 +232,11 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 			//set options draw
 			currentRiemann()->setDrawOptions(dpi);
 			currentRiemann()->setCameraPositionInfo(cpi);
+            //reload
+            if(isreloded){
+                onKeyDown(Key::R);
+                isreloded=false;
+            }
 		}
 	}
 
@@ -248,6 +260,8 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
 			selectScene(RIEMANN_GLSL_SCENE);
 		else
 		if(key==Key::R) {
+            //is reloded
+            isreloded=true;
 			//get scene id
 			int uid=sceneActive();
 			//get options draw
