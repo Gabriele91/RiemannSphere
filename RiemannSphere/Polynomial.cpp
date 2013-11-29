@@ -264,6 +264,9 @@ powValue<T> grade(bool first,const char*& c,int& nc) {
         next
         //number
         vout.pow=parseInt(c,nc);
+		//
+		if(vout.pow<0)
+		  throw  ParseError("invalid power number",nc);
     }
     else
         vout.pow=0;
@@ -304,7 +307,7 @@ std::vector< std::complex<T> > poly(const char*& c,int& nc){
     return  valueout;
 }
 
-bool RiemannSphere::PolynomialParse::parse(const std::string& text,
+int  RiemannSphere::PolynomialParse::parse(const std::string& text,
                                            std::vector< std::complex<double> >& out,
                                            std::string& errors){
     int nc=1;
@@ -313,11 +316,11 @@ bool RiemannSphere::PolynomialParse::parse(const std::string& text,
         out=poly<double>(c,nc);
     }catch (ParseError e){
         errors += e.error + ":" + std::to_string( e.nc)+"\n";
-        return false;
+        return  e.nc-1;
     }
-    return true;
+    return -1;
 }
-bool RiemannSphere::PolynomialParse::parse(const std::string& text,
+int RiemannSphere::PolynomialParse::parse(const std::string& text,
                                            std::vector< std::complex<float> >& out,
                                            std::string& errors){
     int nc=1;
@@ -326,7 +329,7 @@ bool RiemannSphere::PolynomialParse::parse(const std::string& text,
         out=poly<float>(c,nc);
     }catch (ParseError e){
         errors += e.error + ":" + std::to_string( e.nc)+"\n";
-        return false;
+        return  e.nc-1;
     }
-    return true;
+    return -1;
 }

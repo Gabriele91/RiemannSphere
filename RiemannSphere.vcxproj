@@ -118,6 +118,7 @@
     <ClInclude Include="include\window\WindowsInput.h" />
     <ClInclude Include="include\window\WindowsScreen.h" />
     <ClInclude Include="RiemannGui\RiemannButton.h" />
+    <ClInclude Include="RiemannGui\RiemannDialog.h" />
     <ClInclude Include="RiemannGui\RiemannFormula.h" />
     <ClInclude Include="RiemannGui\RiemannMenu.h" />
     <ClInclude Include="RiemannGui\RiemannScale9.h" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RiemannGui\RiemannButton.cpp" />
+    <ClCompile Include="RiemannGui\RiemannDialog.cpp" />
     <ClCompile Include="RiemannGui\RiemannFormula.cpp" />
     <ClCompile Include="RiemannGui\RiemannMenu.cpp" />
     <ClCompile Include="RiemannGui\RiemannScale9.cpp" />

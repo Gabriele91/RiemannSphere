@@ -273,6 +273,9 @@
     <ClInclude Include="RiemannGui\RiemannScale9.h">
       <Filter>RiemannGui</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannGui\RiemannDialog.h">
+      <Filter>RiemannGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -450,6 +453,9 @@
       <Filter>RiemannGui</Filter>
     </ClCompile>
     <ClCompile Include="RiemannGui\RiemannScale9.cpp">
+      <Filter>RiemannGui</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannGui\RiemannDialog.cpp">
       <Filter>RiemannGui</Filter>
     </ClCompile>
   </ItemGroup>

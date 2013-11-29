@@ -120,6 +120,16 @@ void RiemannScale9::build(const Easy3D::Utility::Path& path,
     //bind vbo
     bindVBO(mbox,sbox,pos);
 }
+void RiemannScale9::rebuild(const Easy3D::Vec2& mbox,
+                            const Easy3D::Vec2& sbox,
+                            const Easy3D::Vec2& pos){
+	//delete vbo			
+    if(vbo)
+        glDeleteBuffers(1, &vbo);
+	vbo=0;
+    //bind vbo
+    bindVBO(mbox,sbox,pos);
+}
 
 RiemannScale9::~RiemannScale9(){
     if(vbo)

@@ -45,11 +45,11 @@ namespace RiemannSphere {
     
     class PolynomialParse{
     public:
-        static bool parse(const std::string& text,
+        static int parse(const std::string& text,
                           std::vector< std::complex<double> >& vout,
                           std::string& errors);
         
-        static bool parse(const std::string& text,
+        static int parse(const std::string& text,
                           std::vector< std::complex<float> >& vout,
                           std::string& errors);
     
@@ -115,7 +115,7 @@ namespace RiemannSphere {
             }
             else if(table.existsAsType("constants",Easy3D::Table::STRING)){
                 Easy3D::String errors;
-                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("constants"),constants,errors),errors,__FILE__,__LINE__);
+                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("constants"),constants,errors)==-1,errors,__FILE__,__LINE__);
             }
             
             if(table.existsAsType("subconstants",Easy3D::Table::TABLE)){
@@ -133,7 +133,7 @@ namespace RiemannSphere {
             }
             else if(table.existsAsType("subconstants",Easy3D::Table::STRING)){
                 Easy3D::String errors;
-                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("subconstants"), subconstants,errors),errors,__FILE__,__LINE__);
+                Easy3D::Debug::doassert(PolynomialParse::parse(table.getString("subconstants"), subconstants,errors)==-1,errors,__FILE__,__LINE__);
             }
             
             if(table.existsAsType("roots",Easy3D::Table::TABLE)){
@@ -202,10 +202,25 @@ namespace RiemannSphere {
             }
         }
         
-        bool recalcPolynomial(const Easy3D::String& poly){
+        bool recalcPolynomial(const Easy3D::String& poly,Easy3D::String& outerrors){
             //parse poly
-            Easy3D::String errors;
-            Easy3D::Debug::doassert(PolynomialParse::parse(poly,constants,errors),errors,__FILE__,__LINE__);
+			std::vector< std::complex<T> > tempConstants;
+			//parsing
+			Easy3D::String errors;
+			int error=PolynomialParse::parse(poly,tempConstants,errors);
+			//get errors
+			if(error>=0){
+				int start=Math::max((int)(error-3),(int)(0));
+				int maxLen=Math::max(Math::min((int)(poly.size()-start),6),0);
+				outerrors="Invalid expression: "+poly.substr(start,maxLen);
+				return false;
+			}
+			else if(tempConstants.size()<2){
+				outerrors="The polynomial mast to be at least of first degree";
+				return false;
+			}
+			//save new constants
+			constants=tempConstants;
             //clear subs
             subconstants.clear();
             //recalc roots

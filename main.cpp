@@ -16,13 +16,16 @@
 #include <RiemannSceneGLSL.h>
 #include <RiemannMenu.h>
 #include <RiemannFormula.h>
+#include <RiemannDialog.h>
 
 //last exemple http://pastebin.com/RGFiAuBs
 
 using namespace Easy3D;
 using namespace RiemannSphere;
 
-class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
+class RiemannApp : public Game, 
+				   public Easy3D::Input::KeyboardHandler, 
+				   public Easy3D::Input::MouseHandler {
     
                        
     //UI
@@ -30,6 +33,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
     RiemannGui::RiemannMenu method;
     RiemannGui::RiemannFormula formula;
     RiemannGui::RiemannFormula iterations;
+    RiemannGui::RiemannDialog dialog;
     //font style
     Easy3D::Font fprint;    //font
     //bool is reloded
@@ -52,6 +56,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
          ,method(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/method.e2d"))
          ,formula(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/formula.e2d"))
          ,iterations(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/iterations.e2d"))
+	     ,dialog(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/dialog.e2d"))
 	     ,poly(NULL){}
     
 	virtual ~RiemannApp(){}
@@ -103,7 +108,8 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         addSceneAndActive(RIEMANN_SCENE_GEODESIC, fixSceneCast(new RiemannSphere::RiemannSceneGeodesic(poly)));
         addScene(RIEMANN_GLSL_SCENE, fixSceneCast(new RiemannSphere::RiemannSceneGLSL(poly)));
         //add input keyboard
-        getInput()->addHandler(dynamic_cast<Easy3D::Input::KeyboardHandler *>(this));
+        getInput()->addHandler((Easy3D::Input::KeyboardHandler *)(this));
+		getInput()->addHandler((Easy3D::Input::MouseHandler *)(this));
         ////////////////////////////////////////////////////////
         //GUI
         ////////////////////////////////////////////////////////
@@ -128,9 +134,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             onKeyDown(Key::ESCAPE);
         });
         menu.addOnClick("reload", [this](bool){
-            poly->recalcPolynomial(formula.getText());
-            poly->iterations=iterations.getText().toInt();
-            onKeyDown(Key::R);
+			reloadPoly();
         });
         menu.addOnClick("print", [this](bool){
             setCurrentState(GUI_PRINT);
@@ -168,6 +172,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         method.crackAButton(Iterations::Names[poly->method]);
         menu.crackAButton("grid");
         ////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////
         addState(GUI_DRAW,new Easy3D::StateLambda([this](float dt){
             //update ui
             menu.update(dt);
@@ -177,6 +182,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             method.draw(this);
             formula.draw(this);
             iterations.draw(this);
+            dialog.draw(this);
         }));
         addState(GUI_PRINT,new Easy3D::StateLambda([this](float dt){
             //save
@@ -196,7 +202,6 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         addState(CLEAN_DRAW,new Easy3D::StateLambda([this](float dt){}));
         //enable draw
         setCurrentState(GUI_DRAW);
-
     }
     void onRun(float dt){}       
 
@@ -239,19 +244,36 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
             }
 		}
 	}
+	void reloadPoly(){
+		Easy3D::String errors;
+		if(poly->recalcPolynomial(formula.getText(),errors)){
+			poly->iterations=iterations.getText().toInt();
+			onKeyDown(Key::R);
+		}
+		else{
+			dialog.setText(errors);
+			dialog.show();
+		}
+	}
 
-	virtual void onKeyPress(Easy3D::Key::Keyboard key){
+	virtual void onMousePress(Easy3D::Vec2 pos,Easy3D::Key::Mouse buttom){
+		//hide dialog
+		dialog.hide();
+	}
+	virtual void onKeyPress(Easy3D::Key::Keyboard key){		
+		//hide dialog
+		dialog.hide();
+		//disable/enable gui
 		if(Key::F5==key && getCurrentStateID()==CLEAN_DRAW)
 			setCurrentState(GUI_DRAW);
 		else if(Key::F5==key)
 			setCurrentState(CLEAN_DRAW);
 	}
 	virtual void onKeyDown(Easy3D::Key::Keyboard key){
-        if(key==Key::RETURN && (formula.hasFocus() || iterations.hasFocus())){
-            poly->recalcPolynomial(formula.getText());
-            poly->iterations=iterations.getText().toInt();
-            onKeyDown(Key::R);
-        }
+
+		//key events
+        if(key==Key::RETURN && (formula.hasFocus() || iterations.hasFocus()))
+			reloadPoly();
         else
 		if(key==Key::C)
 			selectScene(RIEMANN_SCENE_GEODESIC);
@@ -297,6 +319,7 @@ class RiemannApp : public Game, public Easy3D::Input::KeyboardHandler {
         }
         //remove data
 		getInput()->removeHandler((Easy3D::Input::KeyboardHandler*)this);
+		getInput()->removeHandler((Easy3D::Input::MouseHandler*)this);
 		if(poly) delete poly;   
 	}
     

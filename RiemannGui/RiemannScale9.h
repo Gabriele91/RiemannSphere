@@ -26,6 +26,9 @@ namespace RiemannGui {
                    const Easy3D::Vec2& mbox,
                    const Easy3D::Vec2& sbox,
                    const Easy3D::Vec2& pos);
+		void rebuild(const Easy3D::Vec2& mbox,
+                     const Easy3D::Vec2& sbox,
+                     const Easy3D::Vec2& pos);
         void draw();
         
 
