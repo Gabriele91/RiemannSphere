@@ -15,6 +15,11 @@ namespace RiemannSphere {
 
 		PoolThread(Easy3D::uint nworkers=1);
 
+		void claerAllTask(){
+			mlist.lock();
+				tasks.clear();
+			mlist.unlock();
+		}
 		void addTaskBack(const DFUNCTION< void (void) >& task){
 			mlist.lock();
 				tasks.push_back(task);
