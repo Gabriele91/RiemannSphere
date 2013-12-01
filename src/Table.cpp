@@ -20,6 +20,17 @@ Table::Table(const Utility::Path& pathfile):index(0),pathTable("")
 	loadFromFile(pathfile);
 }
 
+/* overload */
+Table& Table::operator=(const Table& cptable){
+    index=cptable.index;
+    pathTable=cptable.pathTable;
+    //copy values
+    for(auto value:cptable){
+        Value *newvalue=(value.second)->clone();
+        this->table[value.first]=newvalue;
+    }
+    return (*this);
+}
 
 bool Table::loadFromFile(const Utility::Path& pathfile){
 		//clear memory

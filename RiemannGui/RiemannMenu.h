@@ -8,6 +8,7 @@ namespace RiemannGui {
 
 	class RiemannMenu {
 
+        Easy3D::Table config;
 		std::vector< RiemannButton* > buttons;
         Easy3D::Vec2 sizeBottons;
 		Easy3D::Vec2 maxSizeBottons;
@@ -33,6 +34,7 @@ namespace RiemannGui {
 	public:
 		
 		RiemannMenu(const Easy3D::Table& config);
+        void reset();
 		virtual ~RiemannMenu();
 		bool addOnClick(const Easy3D::String& name,const std::function<void(bool)>& onClick);
 		void addRadioEvent(const std::function<void(const Easy3D::String&)> event);

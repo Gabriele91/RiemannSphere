@@ -129,9 +129,11 @@ class RiemannApp : public Game,
 		//set focus events
 		iterations.setFocusEvent(focusEvent);
 		formula.setFocusEvent(focusEvent);
+        menu.reset();
+        method.reset();
         ////////////////////////////////////////////////////////
         menu.addOnClick("exit", [this](bool){
-            onKeyDown(Key::ESCAPE);
+            onKeyPress(Key::ESCAPE);
         });
         menu.addOnClick("reload", [this](bool){
 			reloadPoly();
@@ -153,6 +155,8 @@ class RiemannApp : public Game,
         });
         menu.addOnClick("fullscreen", [this](bool deactive){
             getScreen()->setFullscreen(deactive);
+            menu.reset();
+            method.reset();
         });
         ////////////////////////////////////////////////////////
         method.addRadioEvent([this](const Easy3D::String& name){
@@ -260,14 +264,16 @@ class RiemannApp : public Game,
 		//hide dialog
 		dialog.hide();
 	}
-	virtual void onKeyPress(Easy3D::Key::Keyboard key){		
-		//hide dialog
-		dialog.hide();
+	virtual void onKeyPress(Easy3D::Key::Keyboard key){
 		//disable/enable gui
 		if(Key::F5==key && getCurrentStateID()==CLEAN_DRAW)
 			setCurrentState(GUI_DRAW);
 		else if(Key::F5==key)
 			setCurrentState(CLEAN_DRAW);
+        else if(key==Key::ESCAPE && dialog.isHide())
+            Application::instance()->exit();
+		//hide dialog
+		dialog.hide();
 	}
 	virtual void onKeyDown(Easy3D::Key::Keyboard key){
 
@@ -300,9 +306,6 @@ class RiemannApp : public Game,
 			currentRiemann()->setDrawOptions(dpi);
 			currentRiemann()->setCameraPositionInfo(cpi);
 		}
-		else
-		if(key==Key::ESCAPE)
-			Application::instance()->exit();
 	}
 
 	void onEnd(){

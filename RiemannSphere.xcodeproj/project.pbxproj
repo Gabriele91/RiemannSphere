@@ -19,6 +19,8 @@
 		E03832FD18324E6000C70CF3 /* RiemannButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E03832F918324E6000C70CF3 /* RiemannButton.cpp */; };
 		E03832FE18324E6000C70CF3 /* RiemannMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E03832FB18324E6000C70CF3 /* RiemannMenu.cpp */; };
 		E03832FF1832C4BD00C70CF3 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08918F617F96E460085A933 /* Image.cpp */; };
+		E03B15E5184B83D100393081 /* RiemannDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E03B15E3184B83D100393081 /* RiemannDialog.cpp */; };
+		E03B15E6184B841600393081 /* RiemannDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E03B15E3184B83D100393081 /* RiemannDialog.cpp */; };
 		E04A6B0D180E746A00B5F2E2 /* DrawSymbols.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04A6B0B180E746A00B5F2E2 /* DrawSymbols.cpp */; };
 		E04F6FE617BBBFB100041D45 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FC817BBBFB100041D45 /* Application.cpp */; };
 		E04F6FE717BBBFB100041D45 /* CocoaApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = E04F6FCA17BBBFB100041D45 /* CocoaApp.mm */; };
@@ -174,6 +176,8 @@
 		E03832FA18324E6000C70CF3 /* RiemannButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannButton.h; sourceTree = "<group>"; };
 		E03832FB18324E6000C70CF3 /* RiemannMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannMenu.cpp; sourceTree = "<group>"; };
 		E03832FC18324E6000C70CF3 /* RiemannMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannMenu.h; sourceTree = "<group>"; };
+		E03B15E3184B83D100393081 /* RiemannDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannDialog.cpp; sourceTree = "<group>"; };
+		E03B15E4184B83D100393081 /* RiemannDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannDialog.h; sourceTree = "<group>"; };
 		E04A6B0B180E746A00B5F2E2 /* DrawSymbols.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawSymbols.cpp; sourceTree = "<group>"; };
 		E04A6B0C180E746A00B5F2E2 /* DrawSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawSymbols.h; sourceTree = "<group>"; };
 		E04A6B0E180E75AE00B5F2E2 /* Schroeder4Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Schroeder4Fractal.h; sourceTree = "<group>"; };
@@ -328,6 +332,8 @@
 		E03832F818324E6000C70CF3 /* RiemannGui */ = {
 			isa = PBXGroup;
 			children = (
+				E03B15E3184B83D100393081 /* RiemannDialog.cpp */,
+				E03B15E4184B83D100393081 /* RiemannDialog.h */,
 				E093493B1835604600094BA5 /* RiemannScale9.cpp */,
 				E093493C1835604600094BA5 /* RiemannScale9.h */,
 				E0EAECCF1834EC6200B0C033 /* RiemannFormula.cpp */,
@@ -707,6 +713,7 @@
 				E04F702417BC346400041D45 /* Camera.cpp in Sources */,
 				E08B1A3917BD4A0D00EB25FD /* Game.cpp in Sources */,
 				E08B1A3E17BD4EA100EB25FD /* Render.cpp in Sources */,
+				E03B15E5184B83D100393081 /* RiemannDialog.cpp in Sources */,
 				E0FA9AC7180AD12700D63274 /* RiemannSceneGLSL.cpp in Sources */,
 				E0DCC1FF17BF9D8D0060E4CD /* RiemannScene.cpp in Sources */,
 				E0DCC20317BFAC9B0060E4CD /* CameraManager.cpp in Sources */,
@@ -771,6 +778,7 @@
 				E0D778101844AFE000794BF9 /* lodepng.cpp in Sources */,
 				E0D777BE1844ABB200794BF9 /* ETime.cpp in Sources */,
 				E0D777C21844ABB900794BF9 /* CocoaApp.mm in Sources */,
+				E03B15E6184B841600393081 /* RiemannDialog.cpp in Sources */,
 				E0D777D51844AC8300794BF9 /* Sphere.cpp in Sources */,
 				E0D777C11844ABB200794BF9 /* Memory.cpp in Sources */,
 				E0D777A81844AB9100794BF9 /* Shader.cpp in Sources */,

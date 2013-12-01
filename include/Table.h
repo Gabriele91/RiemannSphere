@@ -137,6 +137,8 @@ namespace Easy3D{
 		Table();
 		Table(const Table& cptable);
 		Table(const Utility::Path& pathfile);
+        /* overload */
+        Table& operator=(const Table& table);
 		/* load table from file */
 		bool loadFromFile(const Utility::Path& pathfile);
 		/* destructor */

@@ -210,8 +210,8 @@ namespace RiemannSphere {
 			int error=PolynomialParse::parse(poly,tempConstants,errors);
 			//get errors
 			if(error>=0){
-				int start=Math::max((int)(error-3),(int)(0));
-				int maxLen=Math::max(Math::min((int)(poly.size()-start),6),0);
+				int start=Easy3D::Math::max((int)(error-3),(int)(0));
+				int maxLen=Easy3D::Math::max(Easy3D::Math::min((int)(poly.size()-start),6),0);
 				outerrors="Invalid expression: "+poly.substr(start,maxLen);
 				return false;
 			}
