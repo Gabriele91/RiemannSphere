@@ -253,8 +253,14 @@ class RiemannApp : public Game,
 		if(poly->recalcPolynomial(formula.getText(),errors)){
 			poly->iterations=iterations.getText().toInt();
 			onKeyDown(Key::R);
+            //warning
+            if(errors.size()){
+                dialog.setText(errors);
+                dialog.show();
+            }
 		}
 		else{
+            //errors
 			dialog.setText(errors);
 			dialog.show();
 		}

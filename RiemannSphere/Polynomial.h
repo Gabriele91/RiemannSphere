@@ -202,6 +202,16 @@ namespace RiemannSphere {
             }
         }
         
+        bool eqRoots(){
+            for(size_t i=0;i!=roots.size();++i){
+                for(size_t j=0;j!=roots.size();++j){
+                   if( i!=j && std::abs(roots[i]-roots[j]) < 0.0001f )
+                       return true;
+                }
+            }
+            return false;
+        }
+        
         bool recalcPolynomial(const Easy3D::String& poly,Easy3D::String& outerrors){
             //parse poly
 			std::vector< std::complex<T> > tempConstants;
@@ -210,8 +220,8 @@ namespace RiemannSphere {
 			int error=PolynomialParse::parse(poly,tempConstants,errors);
 			//get errors
 			if(error>=0){
-				int start=Easy3D::Math::max((int)(error-3),(int)(0));
-				int maxLen=Easy3D::Math::max(Easy3D::Math::min((int)(poly.size()-start),6),0);
+				int start=Easy3D::Math::max((int)(error-4),(int)(0));
+				int maxLen=Easy3D::Math::max(Easy3D::Math::min((int)(poly.size()-start),8),0);
 				outerrors="Invalid expression: "+poly.substr(start,maxLen);
 				return false;
 			}
@@ -229,6 +239,9 @@ namespace RiemannSphere {
             //recalc colors
             rootsColor.clear();
             PolynomialColor::colors((int)roots.size(),rootsColor);
+            //equivalent roots
+            if(eqRoots())
+                outerrors="warning: there are some equals roots";
 			//default return true
 			return true;
         }
