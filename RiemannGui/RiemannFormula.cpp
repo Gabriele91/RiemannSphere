@@ -7,13 +7,22 @@ using namespace RiemannGui;
 ///////////////////////
 
 RiemannFormula::RiemannFormula(const Easy3D::Table& config){
+    //debug asserts
+    DEBUG_ASSERT_MGS_REPLACE(config.existsAsType("font",Table::STRING),"RiemannFormula, must to be set font path");
     //font table
     Easy3D::String fontpath=config.getTablePath().getDirectory()+"/"+config.getString("font");
     font=new Easy3D::Font(fontpath);
     textColor=config.getVector4D("textColor",Vec4(Vec3::ZERO,1.0f));
     selectColor=config.getVector4D("selectColor",Vec4(0.0f,0.0f,0.5f,0.5f));
+    //debug asserts
+    DEBUG_ASSERT_MGS_REPLACE(config.existsAsType("box",Table::TABLE),"RiemannFormula, must to be set box table");
     //get table
     auto boxConfig=config.getConstTable("box");
+    //debug assets
+    DEBUG_ASSERT_MGS_REPLACE(boxConfig.existsAsType("image",Table::STRING),"RiemannFormula, must to be set box.image string");
+    DEBUG_ASSERT_MGS_REPLACE(boxConfig.existsAsType("mbox",Table::VECTOR2D),"RiemannFormula, must to be set box.mbox 2D vector");
+    DEBUG_ASSERT_MGS_REPLACE(boxConfig.existsAsType("sbox",Table::VECTOR2D),"RiemannFormula, must to be set box.sbox 2D vector");
+    DEBUG_ASSERT_MGS_REPLACE(boxConfig.existsAsType("offset",Table::VECTOR2D),"RiemannFormula, must to be set box.offset 2D vector");
     //image path
     Easy3D::String imagepath=config.getTablePath().getDirectory()+"/"+boxConfig.getString("image");
     //build vbo and texture

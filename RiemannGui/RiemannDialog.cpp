@@ -6,14 +6,23 @@ using namespace Easy3D;
 using namespace RiemannGui;
 ///////////////////////
 RiemannDialog::RiemannDialog(const Easy3D::Table& config):isshow(false){
+    //debug asserts
+    DEBUG_ASSERT_MGS_REPLACE(config.existsAsType("font",Table::STRING),"RiemannFormula, must to be set font path");
     //font table
     Easy3D::String fontpath=config.getTablePath().getDirectory()+"/"+config.getString("font");
     font=new Easy3D::Font(fontpath);
     textColor=config.getVector4D("textColor",Vec4(Vec3::ZERO,1.0f));
+    //debug asserts
+    DEBUG_ASSERT_MGS_REPLACE(config.existsAsType("box",Table::TABLE),"RiemannFormula, must to be set box table");
     //get table
     auto boxConfig=config.getConstTable("box");
     //image path
     Easy3D::String imagepath=config.getTablePath().getDirectory()+"/"+boxConfig.getString("image");
+    //debug assets
+    DEBUG_ASSERT_MGS_REPLACE(boxConfig.existsAsType("image",Table::STRING),"RiemannFormula, must to be set box.image string");
+    DEBUG_ASSERT_MGS_REPLACE(boxConfig.existsAsType("mbox",Table::VECTOR2D),"RiemannFormula, must to be set box.mbox 2D vector");
+    DEBUG_ASSERT_MGS_REPLACE(boxConfig.existsAsType("sbox",Table::VECTOR2D),"RiemannFormula, must to be set box.sbox 2D vector");
+    DEBUG_ASSERT_MGS_REPLACE(boxConfig.existsAsType("offset",Table::VECTOR2D),"RiemannFormula, must to be set box.offset 2D vector");
     //build vbo and texture
     box.build(imagepath,
               boxConfig.getVector2D("mbox"),
@@ -24,6 +33,8 @@ RiemannDialog::RiemannDialog(const Easy3D::Table& config):isshow(false){
     mbox=boxConfig.getVector2D("mbox");
     sbox=boxConfig.getVector2D("sbox");
     offset=boxConfig.getVector2D("offset");
+    //backgound
+    backgoundColor=config.getVector4D("backgoundColor",Vec4(0,0,0,0.5));
     /////////////////////////////////////////////////////////////////////////////////////
 }
 void RiemannDialog::setText(const Easy3D::String& text){
@@ -87,7 +98,7 @@ void RiemannDialog::draw(Easy3D::Render* render){
 		//set matrixs
 		render->setMatrixsState(Render::MatrixsState(projection,model));
         //draw
-        render->setColorState(Color(0,0,0,128));
+        render->setColorState(backgoundColor);
         //unbind VBO
         glBindBuffer( GL_ARRAY_BUFFER, 0 );
         //pointer to vertexs

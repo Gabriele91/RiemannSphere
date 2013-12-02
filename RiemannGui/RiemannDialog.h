@@ -19,6 +19,7 @@ namespace RiemannGui {
          RiemannScale9 box;
          Easy3D::Vec2  mbox,sbox,offset;
          Easy3D::Vec2  sizebox;
+         Easy3D::Color backgoundColor;
 
 	public:
         
