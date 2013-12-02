@@ -56,6 +56,10 @@ namespace RiemannSphere {
                      GeodesicTree& tri,
                      int countlivel);
         
+        void allocTreeLivels(GeodesicNode *node,
+                             GeodesicTree& tri,
+                             int n);
+        
 	public:
 
 		GeodesicSphere(Easy3D::Camera *camera,

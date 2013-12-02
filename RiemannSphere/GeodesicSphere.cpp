@@ -136,6 +136,14 @@ void GeodesicSphere::doBuildsList(){
 	mutexBuildList.unlock();
 }
 
+void GeodesicSphere::allocTreeLivels(GeodesicNode *node,
+                                     GeodesicTree& tri,
+                                     int n){
+    if(n>0)
+        for(uchar c=0;c!=4;++c)
+                allocTreeLivels(tri.getChild(node,c),tri,n-1);
+    
+}
 
 bool GeodesicSphere::drawSub(GeodesicNode *node,
                              GeodesicTree& tri,
@@ -292,5 +300,8 @@ void GeodesicSphere::build(float radius,size_t sBufferNodes){
         if(!tris[i].getRoot()->lockTask())
             tris[i].getRoot()->forceBuildMesh(*this,fractal);
     }
-
+    //alloc top livels (windows is slower)
+    for(size_t i=0;i!=20;++i)
+        allocTreeLivels(tris[i].getRoot(),tris[i],6);
+    
 }

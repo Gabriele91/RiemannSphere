@@ -72,6 +72,7 @@ void CameraManager::onKeyDown(Key::Keyboard key){}
 void CameraManager::onMouseScroll(short scroll){
     angle+=scroll*velocity.z*Application::instance()->getLastDeltaTime();
 	angle= angle<velocity.z ? velocity.z : angle;
+    if(angle>Math::PI) angle=Math::PI;
 }
 void CameraManager::onMouseDown(Vec2 mousePosition, Key::Mouse button){
     if(Key::list(button, Key::BUTTON_LEFT, Key::BUTTON_RIGHT)){

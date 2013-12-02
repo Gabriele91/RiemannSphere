@@ -37,6 +37,15 @@ namespace Easy3D {
 		* @return succes
 		*/
 		virtual bool loadData(const String& path,void*& ptr,size_t &len)=0;
+		virtual bool loadFromResouce(const String& path,void*& ptr,size_t &len){
+            return loadData(appResourcesDirectory()+'/'+path, ptr, len);
+        }
+		virtual bool loadFromData(const String& path,void*& ptr,size_t &len){
+            return loadData(appDataDirectory()+'/'+path, ptr, len);
+        }
+		virtual bool loadFromWDir(const String& path,void*& ptr,size_t &len){
+            return loadData(appWorkingDirectory()+'/'+path, ptr, len);
+        }
 		/**
 		* where you can seve files data
 		* @return path
