@@ -1,0 +1,15 @@
+{
+	font="game.font.e2d"
+	textColor=(0 0 0 1)
+    backgoundColor=(0 0 0 0.65)
+    radius=512
+    scale=180
+	box={
+		image="base.png"
+		mbox=(180 180)
+		sbox=(25 25)
+		offset=(0 0)
+		vertical="bottom"
+		horizontal="center"
+	}
+}

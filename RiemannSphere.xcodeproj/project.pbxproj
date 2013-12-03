@@ -63,6 +63,8 @@
 		E08BDD74180197BD003AA295 /* Rays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08BDD72180197BD003AA295 /* Rays.cpp */; };
 		E093493D1835604600094BA5 /* RiemannScale9.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E093493B1835604600094BA5 /* RiemannScale9.cpp */; };
 		E0939BCC1830CA730063351E /* GeodesicMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0939BCA1830CA730063351E /* GeodesicMesh.cpp */; };
+		E099D71E184DD8F500E68709 /* RiemannColors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E099D71C184DD8F500E68709 /* RiemannColors.cpp */; };
+		E099D71F184DDDD400E68709 /* RiemannColors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E099D71C184DD8F500E68709 /* RiemannColors.cpp */; };
 		E0A3A66F1844BAEA006059D8 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = E0A3A66E1844BAEA006059D8 /* assets */; };
 		E0D7775C1844AB3800794BF9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E0D7775A1844AB3800794BF9 /* InfoPlist.strings */; };
 		E0D777621844AB3800794BF9 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E0D777601844AB3800794BF9 /* Credits.rtf */; };
@@ -274,6 +276,8 @@
 		E0939BCA1830CA730063351E /* GeodesicMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeodesicMesh.cpp; sourceTree = "<group>"; };
 		E0939BCB1830CA730063351E /* GeodesicMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeodesicMesh.h; sourceTree = "<group>"; };
 		E0961FF61820FCB8007B773F /* GenericFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericFractal.h; sourceTree = "<group>"; };
+		E099D71C184DD8F500E68709 /* RiemannColors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RiemannColors.cpp; sourceTree = "<group>"; };
+		E099D71D184DD8F500E68709 /* RiemannColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannColors.h; sourceTree = "<group>"; };
 		E0A3A66E1844BAEA006059D8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		E0A3A6701844C40D006059D8 /* RiemannAppSphere-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RiemannAppSphere-Prefix.pch"; sourceTree = "<group>"; };
 		E0B46556180FD057002909A2 /* Halley4Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Halley4Fractal.h; sourceTree = "<group>"; };
@@ -332,6 +336,8 @@
 		E03832F818324E6000C70CF3 /* RiemannGui */ = {
 			isa = PBXGroup;
 			children = (
+				E099D71C184DD8F500E68709 /* RiemannColors.cpp */,
+				E099D71D184DD8F500E68709 /* RiemannColors.h */,
 				E03B15E3184B83D100393081 /* RiemannDialog.cpp */,
 				E03B15E4184B83D100393081 /* RiemannDialog.h */,
 				E093493B1835604600094BA5 /* RiemannScale9.cpp */,
@@ -682,6 +688,7 @@
 				E01FF8B1182639EA007AF239 /* RiemannSceneGeodesic.cpp in Sources */,
 				E089188B17F96C1F0085A933 /* BMFontLoader.cpp in Sources */,
 				E04F6FE817BBBFB100041D45 /* CocoaInput.mm in Sources */,
+				E099D71E184DD8F500E68709 /* RiemannColors.cpp in Sources */,
 				E08BDD74180197BD003AA295 /* Rays.cpp in Sources */,
 				E087F8ED17F813E70093DF8B /* VirtualVBO.cpp in Sources */,
 				E04F6FE917BBBFB100041D45 /* CocoaScreen.mm in Sources */,
@@ -770,6 +777,7 @@
 				E0D777CD1844AC8300794BF9 /* DrawSymbols.cpp in Sources */,
 				E0D778121844B01800794BF9 /* main.cpp in Sources */,
 				E0D777DB1844AC9300794BF9 /* RiemannButton.cpp in Sources */,
+				E099D71F184DDDD400E68709 /* RiemannColors.cpp in Sources */,
 				E0D777D31844AC8300794BF9 /* PoolThread.cpp in Sources */,
 				E0D7780F1844AFE000794BF9 /* Image.cpp in Sources */,
 				E0D777C81844AC8300794BF9 /* GeodesicNode.cpp in Sources */,

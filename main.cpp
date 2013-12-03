@@ -17,6 +17,7 @@
 #include <RiemannMenu.h>
 #include <RiemannFormula.h>
 #include <RiemannDialog.h>
+#include <RiemannColors.h>
 
 //last exemple http://pastebin.com/RGFiAuBs
 
@@ -34,6 +35,7 @@ class RiemannApp : public Game,
     RiemannGui::RiemannFormula formula;
     RiemannGui::RiemannFormula iterations;
     RiemannGui::RiemannDialog dialog;
+    RiemannGui::RiemannColors dialogColors;
     //font style
     Easy3D::Font fprint;    //font
     //bool is reloded
@@ -57,6 +59,7 @@ class RiemannApp : public Game,
          ,formula(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/formula.e2d"))
          ,iterations(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/iterations.e2d"))
 	     ,dialog(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/dialog.e2d"))
+         ,dialogColors(Table(Application::instance()->appResourcesDirectory()+'/'+"assets/dcolors.e2d"))
 	     ,poly(NULL){}
     
 	virtual ~RiemannApp(){}
@@ -187,6 +190,7 @@ class RiemannApp : public Game,
             formula.draw(this);
             iterations.draw(this);
             dialog.draw(this);
+            dialogColors.draw(this);
         }));
         addState(GUI_PRINT,new Easy3D::StateLambda([this](float dt){
             //save
@@ -206,6 +210,8 @@ class RiemannApp : public Game,
         addState(CLEAN_DRAW,new Easy3D::StateLambda([this](float dt){}));
         //enable draw
         setCurrentState(GUI_DRAW);
+        //show dialog
+        //dialogColors.show();
     }
     void onRun(float dt){}       
 
@@ -338,7 +344,7 @@ class RiemannApp : public Game,
 
 int main(int argc,const char *args[]){
     
-    Application::create();
+    Application::create("RiemannSphere");
     Application::instance()->exec(new RiemannApp());
     delete Application::instance()->getGame();
     return 0;

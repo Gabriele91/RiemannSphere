@@ -11,10 +11,29 @@
 ///////////////////////
 using namespace Easy3D;
 
-WindowsApp::WindowsApp()
+WindowsApp::WindowsApp(const String& name)
 		   :Application(){
-	screen=(Screen*)new WindowsScreen();
-	input=(Input*)new WindowsInput();
+   screen=(Screen*)new WindowsScreen();
+   input=(Input*)new WindowsInput();
+   //savename
+   appname=name;
+   /////////////////////////////////////
+   //create appdirectory
+   //init appdata folder
+   TCHAR szPath[MAX_PATH];
+   SHGetFolderPathA(((WindowsScreen*)getScreen())->hWind,
+                    CSIDL_APPDATA|CSIDL_FLAG_CREATE,
+                    NULL,
+                    0,
+                    szPath);
+   dataPath = String(szPath) + '/' + appname;
+   //create directory
+   CreateDirectory(dataPath.c_str(),0);
+   //get errors
+   DWORD error=GetLastError();
+   DEBUG_ASSERT(error != ERROR_PATH_NOT_FOUND);
+   //DEBUG_ASSERT(error != ERROR_ALREADY_EXISTS);
+   /////////////////////////////////////
 	//not exit form loop
 	doexit=false;
 }
@@ -103,23 +122,6 @@ void WindowsApp::loop(){
 
 void WindowsApp::exec(Game *ptrMainInstance){
 	mainInstance=ptrMainInstance;
-	/////////////////////////////////////
-	//create appdirectory
-	//init appdata folder
-	TCHAR szPath[MAX_PATH];
-	SHGetFolderPathA(((WindowsScreen*)getScreen())->hWind,
-					  CSIDL_APPDATA|CSIDL_FLAG_CREATE, 
-					  NULL, 
-					  0, 
-					  szPath);
-	dataPath = String(szPath) + '/' + getScreen()->getTitle();
-	//create directory
-	CreateDirectory(dataPath.c_str(),0);
-	//get errors
-	DWORD error=GetLastError();
-	DEBUG_ASSERT(error != ERROR_PATH_NOT_FOUND);
-	//DEBUG_ASSERT(error != ERROR_ALREADY_EXISTS);
-	/////////////////////////////////////
 	mainInstance->start();
 	loop();
 	mainInstance->end();

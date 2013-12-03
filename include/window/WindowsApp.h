@@ -17,7 +17,7 @@ namespace Easy3D {
 		/**
 		* destroy an window application
 		*/
-		virtual ~WindowsApp();
+		virtual ~WindowsApp(const String& name);
 		/**
 		* load a binary file
 		* @return succes

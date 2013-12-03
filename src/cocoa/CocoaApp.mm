@@ -79,7 +79,7 @@ using namespace Easy3D;
 /**
  * cocoa app costructor
  */
-CocoaApp::CocoaApp(){
+CocoaApp::CocoaApp(const String& name){
     
     NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
     
@@ -117,6 +117,18 @@ CocoaApp::CocoaApp(){
     };
     //not exit form loop
 	doexit=false;
+    //save appname
+    appname  = name;
+    /**************/
+    //create path
+    NSArray* nspaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	dataPath = [[nspaths objectAtIndex:0] UTF8String];
+    dataPath+= "/" + appname;
+    //create directory
+    NSString *filePath=@(dataPath.c_str());
+    [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil];
+    [filePath release];
+    /************/
 }
 
 /**
@@ -239,17 +251,6 @@ void CocoaApp::loop(){
  */
 void CocoaApp::exec(Game *game){
 	mainInstance=game;
-    
-    /**************/
-    //create path
-    NSArray* nspaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-	dataPath = [[nspaths objectAtIndex:0] UTF8String];
-    dataPath += "/" + getScreen()->getTitle();
-    //create directory
-    NSString *filePath=@(dataPath.c_str());
-    [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil];
-    [filePath release];
-    /************/
     
     mainInstance->start();
     

@@ -7,6 +7,7 @@
 #include <Utility.h>
 #include <iostream>
 #include <Types.h>
+#include <Image.h>
 
 namespace Easy3D {
 
@@ -36,6 +37,7 @@ namespace Easy3D {
 								uint height,
 								uint format,
 								uint type);
+		bool loadFromImage(Easy3D::Image *image);
 		//settings
 		bool bilinear();
 		bool bilinear(bool value);

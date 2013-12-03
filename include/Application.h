@@ -23,7 +23,7 @@ namespace Easy3D {
 		/**
 		* create singleton (if already created raises an exception)
 		*/
-		static Application *create();
+		static Application *create(const String& name);
 		/**
 		* return singleton istance
 		*/
@@ -129,6 +129,7 @@ namespace Easy3D {
 
 	protected:
         
+        String appname;
         float lastDeltaTime;
 		Game *mainInstance;
 		Screen *screen;

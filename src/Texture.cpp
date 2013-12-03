@@ -208,3 +208,55 @@ bool Texture::loadFromBinaryData(std::vector<uchar>& bytes,
     return loaded;
 
 }
+
+bool Texture::loadFromImage(Easy3D::Image *image){
+	//error if olready loaded
+	DEBUG_ASSERT(!loaded);
+	/////////////////////////////////////////////////////////////////////
+	//gen gpu
+	//create an GPU texture
+	glGenTextures( 1, &gpuid );
+	//build
+	bind();
+	//save width end height
+	width=(uint)image->width;
+	height=(uint)image->height;
+	//resize
+	GLuint typeInternal=image->type;
+#ifndef OPENGL_ES
+	GLuint type= image->type==GL_ALPHA8 ? GL_ALPHA : image->type;
+#else
+	DEBUG_ASSERT_MSG(image.type!=GL_ALPHA8,"Texture: android not support alpha texture");
+	GLuint type= image.type;
+#endif
+	//create a gpu texture
+	glTexImage2D(
+                 GL_TEXTURE_2D,
+                 0,
+                 typeInternal,
+                 width,
+                 height,
+                 0,
+                 type,
+                 GL_UNSIGNED_BYTE,
+                 NULL );
+    
+#ifndef DISABLE_MIDMAP
+	//create mipmaps
+	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
+#endif
+    
+	//send to GPU
+    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,
+                    width,
+                    height,
+                    type,
+                    GL_UNSIGNED_BYTE,
+                    image->bytes );
+	
+    CHECK_GPU_ERRORS();
+	//is loaded
+	loaded=true;
+	//return
+    return loaded;
+}

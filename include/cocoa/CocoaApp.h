@@ -22,6 +22,10 @@ namespace Easy3D {
      */
 	class CocoaApp : Application{
 	public:
+        /**
+         * constructor
+         */
+        CocoaApp(const String& name);
 		/**
          * destroy an window application
          */

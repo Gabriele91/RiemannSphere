@@ -107,10 +107,14 @@ Easy3D::Texture* RiemannButton::getCurrentTexture(){
 }
 
 void RiemannButton::onMouseDown(Vec2 mousePosition, Key::Mouse button) {
-    onMousePress(mousePosition,button);
+        onMousePress(mousePosition,button);
 }
 void RiemannButton::onMousePress(Vec2 mousePosition, Key::Mouse button) {
-    if(state==OVERED) state=ACTIVE;
+    if(mouseInBox(mousePosition)){
+        if(state==OVERED) state=ACTIVE;
+    }
+    else
+        state=NORMAL;
 }
 
 void RiemannButton::crack(){
@@ -139,9 +143,12 @@ void RiemannButton::changeMode(){
 }
 
 void RiemannButton::onMouseRelease(Vec2 mousePosition, Key::Mouse button) {
-    if(state==ACTIVE){
-        crack();
+    if(mouseInBox(mousePosition)){
+        if(state==ACTIVE)
+            crack();
     }
+    else
+        state=NORMAL;
 }
 void RiemannButton::onMouseScroll(short scrollDelta) {}
 
