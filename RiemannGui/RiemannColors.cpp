@@ -48,11 +48,33 @@ template < class T> void HSVtoRGB( T *r, T *g, T *b, T h, T s, T v ){
 			break;
 	}
 }
+template < class T > void RGBtoHSV(T r,T g,T b,T *outh,T *outs,T *outv){
+
+        T maxv = std::max(std::max(r, g), b),
+          minv = std::min(std::min(r, g), b),
+          h = 0,
+          s = 0,
+          d = maxv - minv,
+          l = (maxv + minv) / 2;
+    
+        if (maxv != minv)
+        {
+            s = l > 0.5 ? d / (2 - maxv - minv) : d / (maxv + minv);
+            if (maxv == r) { h = (g - b) / d + (g < b ? 6 : 0); }
+            else if (maxv == g) { h = (b - r) / d + 2; }
+            else if (maxv == b) { h = (r - g) / d + 4; }
+            h /= 6;
+        }
+    
+        (*outh)=h;
+        (*outs)=s;
+        (*outv)=l;
+}
 ///////////////////////
 using namespace Easy3D;
 using namespace RiemannGui;
 ///////////////////////
-RiemannColors::RiemannColors(const Easy3D::Table& config):isshow(false){
+RiemannColors::RiemannColors(const Easy3D::Table& config):isshow(false),callback([](bool){}),idCS(-1){
     //debug asserts
     DEBUG_ASSERT_MGS_REPLACE(config.existsAsType("box",Table::TABLE),"RiemannFormula, must to be set box table");
     //get table
@@ -76,6 +98,13 @@ RiemannColors::RiemannColors(const Easy3D::Table& config):isshow(false){
     offset=boxConfig.getVector2D("offset");
     //backgound
     backgoundColor=config.getVector4D("backgoundColor",Vec4(0,0,0,0.5));
+    //debug assets
+    DEBUG_ASSERT_MGS_REPLACE(config.existsAsType("pointerImage",Table::STRING),"RiemannFormula, must to be set pointerImage string");
+    String pointerImage=config.getTablePath().getDirectory()+"/"+config.getString("pointerImage");
+    //load pointer
+    pointer.load(pointerImage);
+    //get scale
+    pointerScale=config.getVector2D("pointerScale",Easy3D::Vec2::ONE);
     /////////////////////////////////////////////////////////////////////////////////////
     radius=std::floor(config.getFloat("radius",64.0f));
     scale=config.getFloat("scale",64.0f)*0.5;
@@ -96,7 +125,6 @@ RiemannColors::RiemannColors(const Easy3D::Table& config):isshow(false){
                 if(leng<=1.0){
                     float deAngle=Easy3D::Math::todeg(std::atan2(point.y, point.x))-180;
                     float angle=deAngle < 0 ? deAngle+360 : deAngle;
-                    Debug::message()<<angle<<"\n";
                     float r,g,b;
                     HSVtoRGB(&r,&g,&b,angle,leng,255.0f);
                     Easy3D::Image::rgba rgba(r,g,b,255);
@@ -110,7 +138,76 @@ RiemannColors::RiemannColors(const Easy3D::Table& config):isshow(false){
         texture.loadFromImage(&radialImage);
     }
     /////////////////////////////////////////////////////////////////////////////////////
+	//add handler input
+	Application::instance()->getInput()->addHandler((Input::MouseHandler*)this);
 }
+
+
+
+RiemannColors::~RiemannColors(){
+	//add handler input
+	Application::instance()->getInput()->removeHandler((Input::MouseHandler*)this);
+}
+
+void RiemannColors::onMousePress(Easy3D::Vec2 mouse, Easy3D::Key::Mouse button){
+    if(isHide()) return;
+    
+    Screen *screen=Application::instance()->getScreen();
+    Vec2 windowSize(screen->getWidth(),screen->getHeight());
+    Vec2 vmouse(mouse.x,screen->getHeight()-mouse.y);
+    idCS=-1;
+    for(int i=0;i!=colors.size();++i){
+        //inverse
+        float h,s,v;
+        RGBtoHSV(colors[i].rNormalize(),
+                 colors[i].gNormalize(),
+                 colors[i].bNormalize(),
+                 &h,&s,&v);
+        Vec2 point(std::cos(h*Math::PI*2-Math::PI),
+                   std::sin(h*Math::PI*2-Math::PI));
+        point.normalize();
+        point=point*(1.0-v)*2.0*scale;
+        //points
+        Vec2 a(windowSize*0.5+point-pointerScale);
+        Vec2 b(windowSize*0.5+point+pointerScale);
+        bool bx= a.x<=vmouse.x && vmouse.x<=b.x;
+        bool by= a.y<=vmouse.y && vmouse.y<=b.y;
+        if(bx && by){
+            idCS=i; return;
+        }
+    }
+    
+}
+void RiemannColors::onMouseDown(Easy3D::Vec2 mouse, Easy3D::Key::Mouse button){
+    if(isHide()) return;
+    //is out box?
+    Screen *screen=Application::instance()->getScreen();
+    Vec2 windowSize(screen->getWidth(),screen->getHeight());
+    Vec2 vmouse(mouse.x,screen->getHeight()-mouse.y);
+	Vec2 a(windowSize*0.5-mbox*0.5-sbox);
+	Vec2 b(windowSize*0.5+mbox*0.5+sbox);
+	bool bx= a.x<=vmouse.x && vmouse.x<=b.x;
+	bool by= a.y<=vmouse.y && vmouse.y<=b.y;
+    //yes
+	if( !(bx && by) ){ hide(); return; }
+    
+    if(idCS>-1){
+        Vec2 dir=vmouse-windowSize*0.5; //from center
+        float leng=dir.length(); //len
+        dir/=leng; //normalize
+        leng/=(scale); //mag
+        if(leng<=1.0){
+            float deAngle=Easy3D::Math::todeg(std::atan2(dir.y, dir.x))-180;
+            float angle=deAngle < 0 ? deAngle+360 : deAngle;
+            Vec3 rgb;
+            HSVtoRGB(&rgb.r,&rgb.g,&rgb.b,angle,leng,1.0f);
+            colors[idCS]=Easy3D::Color(rgb);
+        }
+    }
+    
+}
+void RiemannColors::onMouseRelease(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse button){}
+
 
 void RiemannColors::draw(Easy3D::Render* render){
 	if(isshow){
@@ -194,6 +291,30 @@ void RiemannColors::draw(Easy3D::Render* render){
         model.addScale(Vec3(scale,scale,1));
         render->setMatrixsState(Render::MatrixsState(projection,model));
         render->drawColorUVSprite(Color(255,255,255,255));
+        //draw colors
+        pointer.bind();
+        //for all colors
+        for(auto& color : colors){
+            //inverse
+            float h,s,v;
+            RGBtoHSV(color.rNormalize(),
+                     color.gNormalize(),
+                     color.bNormalize(),
+                     &h,&s,&v);
+            Vec2 point(std::cos(h*Math::PI*2-Math::PI),
+                       std::sin(h*Math::PI*2-Math::PI));
+            point.normalize();
+            point=point*(1.0-v)*2.0*scale;
+            //model matrix
+            model.identity();
+            model.m00=pointerScale.x;
+            model.m11=pointerScale.y;
+            model.m30=windowSize.x*0.5+point.x;
+            model.m31=windowSize.y*0.5+point.y;
+            //draw
+            render->setMatrixsState(Render::MatrixsState(projection,model));
+            render->drawColorUVSprite(color);
+        }
 		////////////////////////////////////////////////////////////////
 		//restore state
 		render->setZBufferState(zbufferState);

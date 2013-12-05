@@ -23,6 +23,12 @@ namespace Easy3D {
         ,b((uchar)(color[2]*255))
         ,a((uchar)(color[3]*255)){}
         
+        Color(const Vec3& color)
+        :r((uchar)(color.x*255))
+        ,g((uchar)(color.y*255))
+        ,b((uchar)(color.z*255))
+        ,a((uchar)(255)){}
+        
         Color(const Vec4& color)
         :r((uchar)(color.x*255))
         ,g((uchar)(color.y*255))

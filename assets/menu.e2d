@@ -22,12 +22,18 @@
 			}
 			id=2
 		}
+		colors={
+			single={
+				normal="colorsShow.png"
+			}
+			id=3
+		}
 		print={
 			single={
 				normal="print.png"
                 active="printAction.png"
 			}
-			id=3
+			id=4
 		}
 		grid={
 			single={
@@ -36,7 +42,7 @@
 			double={
 				normal="notgrid.png"
 			}
-			id=4
+			id=5
 		}
 		roots={
 			single={
@@ -45,7 +51,7 @@
 			double={
 				normal="pointsdisable.png"
 			}
-			id=5
+			id=6
 		}
 		infinite={
 			single={
@@ -54,7 +60,7 @@
 			double={
 				normal="infico2.png"
 			}
-			id=6
+			id=7
 		}
 		zero={
 			single={
@@ -63,7 +69,7 @@
 			double={
 				normal="zeroico2.png"
 			}
-			id=7
+			id=8
 		}
 		fullscreen={
 			single={
@@ -72,7 +78,7 @@
 			double={
 				normal="toLow.png"
 			}
-			id=8
+			id=9
 		}
 
 }

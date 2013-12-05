@@ -13,7 +13,12 @@ namespace RiemannSphere {
 		RootColor():r(0.0f),g(0.0f),b(0.0f){}
 		RootColor(T r,T g,T b):r(r),g(g),b(b){}
 		RootColor(const Easy3D::Vec3& v):r(v.x),g(v.y),b(v.z){}
-        
+        /*
+		RootColor(const Easy3D::Color& c)
+        :r(c.rNormalize())
+        ,g(c.gNormalize())
+        ,b(c.bNormalize()){}
+        */
 		DFORCEINLINE const RootColor& operator*=(T v){
 			r*=v;g*=v;b*=v;
 			return (*this);
@@ -27,6 +32,12 @@ namespace RiemannSphere {
         }
         DFORCEINLINE operator RootColor<double>(){
             return RootColor<float>((double)r,(double)g,(double)b);
+        }
+        DFORCEINLINE RootColor<T>& setFromColor(const Easy3D::Color& c){
+            this->r=c.rNormalize();
+            this->g=c.gNormalize();
+            this->b=c.bNormalize();
+            return (*this);
         }
         DFORCEINLINE operator Easy3D::Color(){
             return Easy3D::Color((Easy3D::uchar)(r*255),

@@ -6,7 +6,7 @@ using namespace Easy3D;
 using namespace RiemannGui;
 ///////////////////////
 
-RiemannFormula::RiemannFormula(const Easy3D::Table& config){
+RiemannFormula::RiemannFormula(const Easy3D::Table& config):isunlock(true){
     //debug asserts
     DEBUG_ASSERT_MGS_REPLACE(config.existsAsType("font",Table::STRING),"RiemannFormula, must to be set font path");
     //font table
@@ -135,6 +135,7 @@ void  RiemannFormula::hidePointer(){
 }
 //keyboard
 void RiemannFormula::onKeyPress(Easy3D::Key::Keyboard key){
+    if(!isunlock) return;
 #define CTRL_LEFT_OR_RIGHT\
 	(Application::instance()->getInput()->getKeyDown(Key::RCTRL) ||\
 	 Application::instance()->getInput()->getKeyDown(Key::LCTRL)) 
@@ -259,6 +260,7 @@ void RiemannFormula::onKeyRelease(Easy3D::Key::Keyboard key) {}
 void RiemannFormula::onKeyDown(Easy3D::Key::Keyboard key) {}
 //mouse
 void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse button) {
+    if(!isunlock) return;
     if(Easy3D::Key::BUTTON_LEFT==button){
         //disable all text selection
         alltext=false;
@@ -313,6 +315,7 @@ void RiemannFormula::onMousePress(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse
     }
 }
 void RiemannFormula::onMouseDown(Easy3D::Vec2 mousePosition, Easy3D::Key::Mouse button) {
+    if(!isunlock) return;
     if(Easy3D::Key::BUTTON_LEFT==button && showpointer && !alltext){
         //mpos
         Vec2 mposition( mousePosition.x-textPos.x,

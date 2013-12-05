@@ -75,8 +75,19 @@ class RiemannApp : public Game,
         GUI_PRINT,
         CLEAN_DRAW
     };
-    
-    
+                       
+   void lockUI(){
+       //menu.lock();//bugs
+       //method.lock();//bugs
+       formula.lock();
+       iterations.lock();
+   }
+   void unlockUI(){
+       //menu.unlock();//bugs
+       //method.unlock();//bugs
+       formula.unlock();
+       iterations.unlock();
+   }
                        
     void onStart(){
         //init is reloded
@@ -141,6 +152,9 @@ class RiemannApp : public Game,
         menu.addOnClick("reload", [this](bool){
 			reloadPoly();
         });
+        menu.addOnClick("colors", [this](bool){
+			dialogColors.show();
+        });
         menu.addOnClick("print", [this](bool){
             setCurrentState(GUI_PRINT);
         });
@@ -179,6 +193,27 @@ class RiemannApp : public Game,
         method.crackAButton(Iterations::Names[poly->method]);
         menu.crackAButton("grid");
         ////////////////////////////////////////////////////////
+        //show dialog
+        dialogColors.setCallack([this](bool show){
+            if(show){
+                dialogColors.clearColors();
+                for(auto& color:poly->rootsColor){
+                    dialogColors.addColor(color);
+                };
+                currentRiemann()->lock();
+                lockUI();
+            }
+            else{
+                auto colors=dialogColors.getColors();
+                for(int i=0;i!=colors.size();++i){
+                    poly->rootsColor[i].setFromColor(colors[i]);
+                }
+                //reload
+                onKeyDown(Key::R);
+                currentRiemann()->unlock();
+                unlockUI();
+            }
+        });
         ////////////////////////////////////////////////////////
         addState(GUI_DRAW,new Easy3D::StateLambda([this](float dt){
             //update ui
@@ -210,10 +245,10 @@ class RiemannApp : public Game,
         addState(CLEAN_DRAW,new Easy3D::StateLambda([this](float dt){}));
         //enable draw
         setCurrentState(GUI_DRAW);
-        //show dialog
-        //dialogColors.show();
+
     }
-    void onRun(float dt){}       
+    void onRun(float dt){
+    }
 
 	RiemannInterface *currentRiemann(){
 		if( sceneActive()==RIEMANN_SCENE_GEODESIC)

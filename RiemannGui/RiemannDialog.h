@@ -19,19 +19,27 @@ namespace RiemannGui {
          RiemannScale9 box;
          Easy3D::Vec2  mbox,sbox,offset;
          Easy3D::Vec2  sizebox;
-         Easy3D::Color backgoundColor;
+        Easy3D::Color backgoundColor;
+        //
+        std::function<void(bool)> callback;
 
 	public:
         
 		RiemannDialog(const Easy3D::Table& config);
-
 		void setText(const Easy3D::String& text);
+        
+        void setCallack(std::function<void(bool)> callback){
+            this->callback=callback;
+        }
 		void show(){
 			isshow=true;
+            callback(true);
 		}
 		void hide(){
 			isshow=false;
+            callback(false);
 		}
+        
 		bool isShow(){
 			return isshow;
 		}

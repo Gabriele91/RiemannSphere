@@ -5,7 +5,7 @@
 using namespace Easy3D;
 using namespace RiemannGui;
 ///////////////////////
-RiemannDialog::RiemannDialog(const Easy3D::Table& config):isshow(false){
+RiemannDialog::RiemannDialog(const Easy3D::Table& config):isshow(false),callback([](bool){}){
     //debug asserts
     DEBUG_ASSERT_MGS_REPLACE(config.existsAsType("font",Table::STRING),"RiemannFormula, must to be set font path");
     //font table

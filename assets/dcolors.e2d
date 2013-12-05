@@ -4,6 +4,8 @@
     backgoundColor=(0 0 0 0.65)
     radius=512
     scale=180
+    pointerImage="point.tga"
+    pointerScale=(10 10)
 	box={
 		image="base.png"
 		mbox=(180 180)

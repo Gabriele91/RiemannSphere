@@ -22,6 +22,8 @@ namespace RiemannGui {
         //double click timer
         bool          alltext;
         Easy3D::Timer dbclick;
+        //lock
+        bool isunlock;
         //utility
         void calcTextSize();
         void recalcTextOffset();
@@ -76,7 +78,9 @@ namespace RiemannGui {
             return text;
         }
         void setText(const Easy3D::String& text);
-
+                               
+        void lock(){isunlock=false;}
+        void unlock(){isunlock=true;}
 	};
 
 };
