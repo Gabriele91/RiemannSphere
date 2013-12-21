@@ -156,7 +156,7 @@ void RiemannColors::onMousePress(Easy3D::Vec2 mouse, Easy3D::Key::Mouse button){
     Vec2 windowSize(screen->getWidth(),screen->getHeight());
     Vec2 vmouse(mouse.x,screen->getHeight()-mouse.y);
     idCS=-1;
-    for(int i=0;i!=colors.size();++i){
+    for(int i=(int)(colors.size()-1);i!=-1;--i){
         //inverse
         float h,s,v;
         RGBtoHSV(colors[i].rNormalize(),

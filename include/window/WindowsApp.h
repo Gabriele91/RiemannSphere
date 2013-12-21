@@ -1,4 +1,4 @@
-﻿#ifndef WINDOWSAPP_H
+#ifndef WINDOWSAPP_H
 #define WINDOWSAPP_H
 
 #include <Config.h>
@@ -17,7 +17,7 @@ namespace Easy3D {
 		/**
 		* destroy an window application
 		*/
-		virtual ~WindowsApp(const String& name);
+		virtual ~WindowsApp();
 		/**
 		* load a binary file
 		* @return succes
@@ -71,7 +71,7 @@ namespace Easy3D {
 		//local vars
 		int doexit;
 		//protected constructor
-		WindowsApp();       
+		WindowsApp(const String& name);
 		//file data path
         String dataPath;
 

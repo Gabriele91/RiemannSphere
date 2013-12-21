@@ -22,10 +22,7 @@ namespace Easy3D {
      */
 	class CocoaApp : Application{
 	public:
-        /**
-         * constructor
-         */
-        CocoaApp(const String& name);
+        
 		/**
          * destroy an window application
          */
@@ -86,7 +83,8 @@ namespace Easy3D {
         //file data path
         String dataPath;
         //
-		CocoaApp();
+		CocoaApp(const String& name);
+        //
 		friend class Application;
         
 	};
