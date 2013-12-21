@@ -2,12 +2,14 @@
 #define FRACTAL_H
 
 #include <Easy3D.h>
+#include <complex.h>
 #include <Polynomial.h>
+
 
 namespace RiemannSphere {
 
     class Fractal {
-
+        
 	public:
         
 		struct Values{
@@ -18,6 +20,22 @@ namespace RiemannSphere {
 		};
         
         virtual RootColor<float> calcColor(float real,float img) const=0;
+        
+        //is infinite
+        template <class T>
+        DFORCEINLINE bool isinf(const std::complex<T>& a) const{
+			return Easy3D::Math::isinf(a.real())||Easy3D::Math::isinf(a.imag());
+		}
+        
+		//distance
+        template <class T>
+		DFORCEINLINE bool complexDist(const std::complex<T>& a,
+									  const std::complex<T>& b,
+									  T e) const{
+            return std::abs(b-a)<e;
+		}
+        
+
         
         template <class T>
         void horner(const std::complex<T>& x,

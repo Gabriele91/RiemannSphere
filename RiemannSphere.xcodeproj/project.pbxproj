@@ -246,6 +246,7 @@
 		E053C07817F1DFF300BDCE94 /* PoolThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PoolThread.h; sourceTree = "<group>"; };
 		E053C07C17F1E01600BDCE94 /* Table.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Table.cpp; sourceTree = "<group>"; };
 		E053C07E17F1E01D00BDCE94 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
+		E05CD05F186598220047F032 /* TFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFractal.h; sourceTree = "<group>"; };
 		E084F4C6181A75EF005B60B4 /* function.test.e2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = function.test.e2d; sourceTree = "<group>"; };
 		E08570581806991700BD4106 /* Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fractal.h; sourceTree = "<group>"; };
 		E085705D1806A44700BD4106 /* HalleyFractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalleyFractal.h; sourceTree = "<group>"; };
@@ -490,6 +491,7 @@
 		E08570601806A8AE00BD4106 /* Fractals */ = {
 			isa = PBXGroup;
 			children = (
+				E05CD05F186598220047F032 /* TFractal.h */,
 				E0961FF61820FCB8007B773F /* GenericFractal.h */,
 				E0B46556180FD057002909A2 /* Halley4Fractal.h */,
 				E04A6B0E180E75AE00B5F2E2 /* Schroeder4Fractal.h */,
