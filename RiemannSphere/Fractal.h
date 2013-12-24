@@ -2,7 +2,7 @@
 #define FRACTAL_H
 
 #include <Easy3D.h>
-#include <complex.h>
+#include <complex>
 #include <Polynomial.h>
 
 

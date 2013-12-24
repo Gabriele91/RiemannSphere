@@ -121,6 +121,7 @@
     <ClInclude Include="include\window\WindowsInput.h" />
     <ClInclude Include="include\window\WindowsScreen.h" />
     <ClInclude Include="RiemannGui\RiemannButton.h" />
+    <ClInclude Include="RiemannGui\RiemannColors.h" />
     <ClInclude Include="RiemannGui\RiemannDialog.h" />
     <ClInclude Include="RiemannGui\RiemannFormula.h" />
     <ClInclude Include="RiemannGui\RiemannMenu.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="RiemannSphere\Sphere.h" />
     <ClInclude Include="RiemannSphere\SphereMesh.h" />
     <ClInclude Include="RiemannSphere\SpheresManager.h" />
+    <ClInclude Include="RiemannSphere\TFractal.h" />
     <ClInclude Include="RiemannSphere\VirtualTree.h" />
     <ClInclude Include="RiemannSphere\VirtualVBO.h" />
     <ClInclude Include="src\Image\Image.h" />
@@ -162,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RiemannGui\RiemannButton.cpp" />
+    <ClCompile Include="RiemannGui\RiemannColors.cpp" />
     <ClCompile Include="RiemannGui\RiemannDialog.cpp" />
     <ClCompile Include="RiemannGui\RiemannFormula.cpp" />
     <ClCompile Include="RiemannGui\RiemannMenu.cpp" />

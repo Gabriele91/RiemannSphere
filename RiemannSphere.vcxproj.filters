@@ -276,6 +276,12 @@
     <ClInclude Include="RiemannGui\RiemannDialog.h">
       <Filter>RiemannGui</Filter>
     </ClInclude>
+    <ClInclude Include="RiemannSphere\TFractal.h">
+      <Filter>RiemannSphere\Fractals</Filter>
+    </ClInclude>
+    <ClInclude Include="RiemannGui\RiemannColors.h">
+      <Filter>RiemannGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -456,6 +462,9 @@
       <Filter>RiemannGui</Filter>
     </ClCompile>
     <ClCompile Include="RiemannGui\RiemannDialog.cpp">
+      <Filter>RiemannGui</Filter>
+    </ClCompile>
+    <ClCompile Include="RiemannGui\RiemannColors.cpp">
       <Filter>RiemannGui</Filter>
     </ClCompile>
   </ItemGroup>
