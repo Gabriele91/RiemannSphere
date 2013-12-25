@@ -7,7 +7,7 @@
 ///////////////////////
 using namespace Easy3D;
 #define ERROR_BAD_LENGTH 20 //by google
-#define E2D_WINDOW_STYLE  (WS_BORDER | WS_SYSMENU | WS_THICKFRAME | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS)
+#define E2D_WINDOW_STYLE  ((WS_BORDER | WS_SYSMENU | WS_THICKFRAME | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS) ^ WS_THICKFRAME )
 //window methods
 void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfAA){
 
