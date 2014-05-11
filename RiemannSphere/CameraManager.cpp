@@ -205,6 +205,7 @@ void CameraManager::onStateRun(float dt){
     //update rotation
     if(getLastMessage()==DO_POINT){
 		if(onClick.collided&&onMove.collided){
+			/*
 				//start point
 				Vec3 vStart=(onClick.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
 				Quaternion rotStart=Quaternion::fromLookRotation(vStart,Vec3(0,1,0)).getNormalize();
@@ -215,6 +216,19 @@ void CameraManager::onStateRun(float dt){
 				cameraPointer.setRotation(
 					startPickRotation.getInverse().mul(rotEnd.mul(rotStart.getInverse()))
 					);
+			*/
+				//start point
+				Vec3 vStart=(onClick.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
+				//end point
+				Vec3 vEnd=(onMove.segment.t[0]-cameraPointer.getPosition(true)).getNormalize();
+				//CROSS
+				Vec3 cross=vStart.cross(vEnd);
+				//Epsilon
+				if(cross.length()> 0.5e-6){
+					Quaternion turn=Quaternion::fromAxisAngle(cross,asin(sqrt(cross.dot(cross))));
+					//update rotation
+					cameraPointer.setRotation(startPickRotation.getInverse().mul(turn));
+				}
 		}
 		sendMessage(NO_POINT);
     }
