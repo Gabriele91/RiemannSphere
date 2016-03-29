@@ -12,7 +12,7 @@ exemples*/
 temp/*.save
 
 #dependences
-dependencies-*/
+#dependencies**/
 
 #doxy ignore
 [Dd]oxygen*/
@@ -31,9 +31,9 @@ dependencies-*/
 *.dylib*
 
 # Compiled Static libraries
-*.lai
-*.la
-*.a
+#*.lai
+#*.la
+#*.a
 
 #codeblocks
 *.layout
@@ -50,14 +50,14 @@ dependencies-*/
 #AndroidProject/*.user
 
 #android new
-Android/ant.properties
-Android/debug.keystore
-Android/local.properties
-Android/libs*/
-Android/bin*/
-Android/Android*/
-Android/*.sdf
-Android/*.suo
+#Android/ant.properties
+#Android/debug.keystore
+#Android/local.properties
+#Android/libs*/
+#Android/bin*/
+#Android/Android*/
+#Android/*.sdf
+#Android/*.suo
 Android/*.user
 
 #Visual Studio files
@@ -77,7 +77,7 @@ Android/*.user
 *.[Cc]ache
 *.ilk
 *.log
-*.lib
+#*.lib
 *.sbr
 *.sdf
 *.opensdf
@@ -94,7 +94,7 @@ Ankh.NoLoad
 !xcode/*.pch
 
 #MAC OS X ignore files:
-.DS_Store
+*.DS_Store
 .Trashes
 *.swp
 *.lock

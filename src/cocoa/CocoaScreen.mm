@@ -455,7 +455,7 @@ void CocoaScreen::setPositionCursor(const Vec2& pos){
     CGEventRef event = CGEventCreateMouseEvent(NULL,
                                                kCGEventMouseMoved,
                                                cgpoint,
-                                               /*we don't care about this : */0);
+                                               kCGMouseButtonLeft);
     CGEventPost(kCGHIDEventTap, event);
     CFRelease(event);
     
