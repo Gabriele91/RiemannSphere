@@ -278,7 +278,6 @@
 		E099D71D184DD8F500E68709 /* RiemannColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiemannColors.h; sourceTree = "<group>"; };
 		E0A3A66E1844BAEA006059D8 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		E0B46556180FD057002909A2 /* Halley4Fractal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Halley4Fractal.h; sourceTree = "<group>"; };
-		E0B5D0051CAB32F5005ACA23 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		E0B5D00A1CAB32F5005ACA23 /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
 		E0B5D00B1CAB32F5005ACA23 /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
 		E0B5D00C1CAB32F5005ACA23 /* ftmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodule.h; sourceTree = "<group>"; };
@@ -603,7 +602,6 @@
 		E0B5D0041CAB32F5005ACA23 /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				E0B5D0051CAB32F5005ACA23 /* .gitignore */,
 				E0B5D0061CAB32F5005ACA23 /* osx64 */,
 			);
 			path = dependencies;
